@@ -1,0 +1,32 @@
+h3 {
+    text-align:center;
+    text-transform: uppercase;
+    font-size: large;
+    font-weight: 800;
+}
+
+h4 {
+    text-align:center;
+    text-transform: uppercase;
+    font-size: large;
+    font-weight: 400;
+}
+
+label, input {
+    font-size: small;
+}
+
+button {
+    font-size: medium;
+}
+
+.signup-block-signin {
+    height: 8vh;
+    font-size: medium;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 2vh;
+}

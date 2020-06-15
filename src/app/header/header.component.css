@@ -1,0 +1,66 @@
+.navbar-items {
+    min-width: 25vw;
+}
+
+.nav-item {
+    color: lightsteelblue;
+    margin-right: 1vw;
+}
+
+/*
+.nav-item:focus, .nav-item:hover{
+    border-bottom: gray solid 0.5vh;
+}
+*/
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: transparent !important;
+}
+
+.nav-li {
+    height: 90%;
+    min-width: 5vw;
+    text-align: center;
+
+    font-size: 0.7em;
+    font-weight: 500;
+}
+
+.nav-li a {
+    padding: 1vh;
+    height: 100%;
+    width: 100%;
+}
+
+.navbar-sign{
+    min-width: 25vw;
+}
+
+.nav-li-sign{
+    height: 8vh;
+    width: auto;
+    text-align: center;
+    text-transform: uppercase;
+    line-height : 8vh;
+
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.nav-li-sign a { 
+    display:inline-block;
+    vertical-align:middle;
+    line-height:normal;
+}
+
+.dropdown-item {
+    height: 10vh;
+
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+input {
+    font-size: medium;
+}

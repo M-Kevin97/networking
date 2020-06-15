@@ -1,0 +1,35 @@
+<div id="auth">
+  <div class="auth-section row mt-5 justify-content-center text-center">
+    <div class="col-1 text-left">
+      <!-- lien de retour vers la page "Accueil" -->
+      <a [routerLink]="" (click)="goBack()">
+        <i class="fa fa-arrow-left fa-2x"></i>
+      </a>
+    </div>
+   <div class="auth-body col-5">
+
+    <div class="auth-title mb-5">
+      <!-- À modifier (Image logo Nom de la plateforme)-->
+      <a routerLink='/home' routerLinkActive="router-link-active">
+        <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
+      </a>
+    </div>
+
+     <nav>
+       <div class="nav nav-tabs nav-fill" id="nav-tab" >
+         <a class="nav-item nav-link" [ngClass]="{'active':isSignUpRoute()}"
+                                      [routerLink]="['signup']"
+                                      routerLinkActive="router-link-active">
+            S'inscrire
+          </a>
+         <a class="nav-item nav-link" [ngClass]="{'active':isSignInRoute()}"
+                                      [routerLink]="['signin']"
+                                      routerLinkActive="router-link-active">
+            Se connecter
+        </a>
+       </div>
+     </nav>
+     <router-outlet></router-outlet>
+   </div>
+ </div>
+</div>

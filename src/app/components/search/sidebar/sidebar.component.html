@@ -1,0 +1,100 @@
+<nav id="sidebar" class="border border-warning">
+  <div class="sidebar-header">
+      <h3>Filtrer les résultats</h3>
+  </div>
+
+    <!-- Filtre Catégories -->
+    <label class="sidebar-label-header"  (click)="onCategoriesCollapsed()">
+      Catégories
+    </label>
+    <div id="categoriesCollapse" *ngIf="isCategoriesCollapsed">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="categoryCheck1">
+        <label class="custom-control-label" for="categoryCheck1">Développement personnel</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="categoryCheck2">
+        <label class="custom-control-label" for="categoryCheck2">Investissement</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="categoryCheck3">
+        <label class="custom-control-label" for="categoryCheck3">Entrepreneuriat</label>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Filtre Formateur -->
+    <label class="sidebar-label-header" (click)="onInstructorsCollapsed()">
+      Formateurs
+    </label>
+    <div id="InstructorsCollapse" *ngIf="isInstructorsCollapsed">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="instructorCheck1">
+        <label class="custom-control-label" for="instructorCheck1">Formateur 1</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="instructorCheck2">
+        <label class="custom-control-label" for="instructorCheck2">Formateur 2</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="instructorCheck3">
+        <label class="custom-control-label" for="instructorCheck3">Formateur 3</label>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Filtre Price -->
+    <label class="sidebar-label-header" (click)="onPricesCollapsed()">
+      Prix
+    </label>
+    <div id="pricesCollapse" *ngIf="isPricesCollapsed">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="priceCheck1">
+        <label class="custom-control-label" for="priceCheck1">Prix 1</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="priceCheck2">
+        <label class="custom-control-label" for="priceCheck2">Prix 2</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="priceCheck3">
+        <label class="custom-control-label" for="priceCheck3">Prix 3</label>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Filtre ratings -->
+    <label class="sidebar-label-header" (click)="onRatingsCollapsed()">
+      Notes
+    </label>
+    <div id="ratingsCollapsed" *ngIf="isRatingsCollapsed">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="ratingCheck1">
+        <label class="custom-control-label" for="ratingCheck1">Note 1</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="ratingCheck2">
+        <label class="custom-control-label" for="ratingCheck2">Note 2</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="ratingCheck3">
+        <label class="custom-control-label" for="ratingCheck3">Note 3</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="ratingCheck4">
+        <label class="custom-control-label" for="ratingCheck4">Note 4</label>
+      </div>
+    </div>
+</nav>

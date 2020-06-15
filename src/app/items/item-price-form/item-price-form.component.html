@@ -1,0 +1,36 @@
+<!-- Section Price -->
+<div class="tab-pane" role="tabpanel" id="step3">
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h3 class="course-form-heading">Quel est le prix de votre formation ?</h3>
+            <form [formGroup]="priceForm" role="form">
+                <div class="input-group">
+                    <input type="number" class="form-control form-control-lg" formControlName = "price"
+                                                    id="price" 
+                                                    onkeydown="return (event.keyCode !== 69 
+                                                                       && event.keyCode !== 187
+                                                                       && event.keyCode !== 189)"
+                                                    aria-label="Amount (to the nearest dollar)"
+                                                    placeholder="Saisissez le price de votre formation...">
+                    <div class="input-group-append">
+                        <span class="input-group-text">€</span>
+                    </div>
+                </div>
+            </form>
+            <ul class="list-inline pull-right mt-5">
+                <li>
+                    <button type="button" class="btn btn-default prev-step"
+                                          (click)="this.itemFormService.onBackWithoutSave()">Previous</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-primary next-step" 
+                    [disabled]="priceForm.invalid"
+                    (click)="onSetPrice()">
+                        Save and continue
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

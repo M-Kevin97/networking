@@ -1,0 +1,23 @@
+<div class="tab-pane" role="tabpanel" id="step1">
+  <!-- Section title -->
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h3 class="course-form-heading">Quel est le titre de votre formation ?</h3>
+      <form [formGroup]="titleForm" role="form">
+        <input type="text" class="form-control form-control-lg mt-5" 
+                           formControlName = "title"
+                           id="title"
+                           placeholder="Saisissez le titre de votre formation...">
+      </form>
+      <ul class="list-inline pull-right mt-5">
+        <li>
+          <button type="button" class="btn btn-primary next-step" 
+                                [disabled]="titleForm.invalid"
+                                (click)="onSetTitle()">
+              Save and continue
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
