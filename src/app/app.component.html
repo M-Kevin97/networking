@@ -1,23 +1,5 @@
 <app-header *ngIf="!isSignInRoute() && !isSignUpRoute() && !isNewItemRoute()"></app-header>
 
-<!-- Navbar à afficher pour le formulaire de création de cours -->
-<nav class="navbar navbar-light bg-light" *ngIf="isNewItemRoute()">
-    <!-- Logo de la plateform -->
-    <img src="assets/img/logo.png" width="90" height="46" class="d-inline-block" alt="">
-  
-    <ul class="nav navbar-nav justify-content-end my-auto border border-primary">
-      <!-- Home => Feed -->
-      <li class="nav-item nav-li border" routerLinkActive="router-link-active">
-        <a [routerLink]="['feed']" class="nav-link">
-          <div class="nav-icon">
-            <i class="fa fa-times fa-2x"></i>
-          </div>
-          Quitter
-        </a>
-      </li>
-    </ul>
-  </nav>
-
 <div class="container">
     <router-outlet></router-outlet>
 </div>

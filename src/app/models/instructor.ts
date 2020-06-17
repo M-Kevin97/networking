@@ -1,6 +1,8 @@
-import { User } from './user';
-import { Course } from './course';
-import { EventItem } from './event-item';
+import { User } from '../shared/users/user';
+import { Course } from '../search/modules/items/courses/shared/course';
+import { EventItem } from '../search/modules/items/events/shared/event-item';
+
+
 
 export class Instructor extends User {
 

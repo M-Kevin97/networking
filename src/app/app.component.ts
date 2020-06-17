@@ -10,6 +10,11 @@ import { Router } from '@angular/router';
 export class AppComponent {
   constructor(private router: Router){
 
+    this.firebaseConfiguration();
+  }
+
+  private firebaseConfiguration(){
+    
     // Web app's Firebase configuration
     var firebaseConfig = {
       apiKey: "AIzaSyDkDnIA6BAD2rW8NVBDXtSaA87OUDBUl7s",

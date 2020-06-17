@@ -1,4 +1,4 @@
-import { ItemsService } from '../../services/items.service';
+import { ItemService } from '../../shared/item/item.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class FeedComponent implements OnInit {
 
   constructor(private router:Router,
-              private itemService:ItemsService) { }
+              private itemService:ItemService) { }
 
   ngOnInit() {
   }
