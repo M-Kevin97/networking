@@ -9,7 +9,7 @@ import { EventItem } from 'src/app/search/modules/items/events/shared/event-item
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UserService {
 
   user: User;
 

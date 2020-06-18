@@ -1,43 +1,30 @@
 .row-home{
-    height: 82vh;
-}
+    height: 80vh;
 
-.section-platform-presentation {
-    text-transform: uppercase;
-    height: 40%;
-}
-
-.section-search-courses, .section-search-events{
-    margin-bottom: 5vh;
-
-}
-
-.section-search-courses, .section-search-events, .section-search-people {
-
-    width: 90%;
+    border:solid 1px red;
 }
 
 .section-search-title h3 {
-    font-size: 2.2em;
-    font-weight: 500;
-    width: 80%;
+    font-size: 1.3em;
+    font-weight: 400;
+    /*text-transform: uppercase;*/
+    width: 90%;
 }
 
-.btn-search{
-    width: 80%;
-    height: 6vh;
+.section-search {
 
+    width: 90%;
     cursor: pointer;
-
-    font-size: 1.24em;
-    font-weight: 700;
-    text-transform: uppercase;
 
     -webkit-box-shadow: 0.7px 0.7px 0.7px 0.7px rgba(166,166,166,1);
     -moz-box-shadow: 0.7px 0.7px 0.7px 0.7px rgba(166,166,166,1);
     box-shadow: 0.7px 0.7px 0.7px 0.7px rgba(166,166,166,1);
 }
 
-.btn-search:focus, .btn-search:hover{
+.section-search:focus, .btn-search:hover{
     background-color:rgba(224, 221, 221, 0.356);
+}
+
+.section-search-courses, .section-search-events{
+    margin-bottom: 5vh;
 }

@@ -5,7 +5,7 @@ import { SharedComponent } from './shared.component';
 import { ImageService } from './image/image.service';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { ItemService } from './item/item.service';
-import { UsersService } from './users/users.service';
+import { UserService } from './user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -37,7 +37,7 @@ export class SharedModule {
       providers: [
         ImageService,
         ItemService,
-        UsersService 
+        UserService 
       ]
     };
   }

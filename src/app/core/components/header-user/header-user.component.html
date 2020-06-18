@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- Ne pas afficher la barre de navigation pour les pages 'signin' et 'signup' -->  
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+  
+   <!-- Image Logo-->
+   <a (click)="goToHome()" class="navbar-brand my-auto">
+    <img src="assets/img/logo.png" width="90" height="46" class="d-inline-block" alt="">
+   </a>
+
+  <!-- Button toggle dev navbar -->
+  <button class="navbar-toggler" type="button" 
+                                  data-toggle="collapse" 
+                                  data-target="#navbarNav" 
+                                  aria-controls="navbarNav" 
+                                  aria-expanded="false" 
+                                  aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>  
+
+  <div class="navbar-collapse-nav collapse navbar-collapse justify-content-end border" id="navbarNav">
+
+    <ul class="navbar-sign nav navbar-nav my-auto ml-auto border border-primary">
+
+      <!-- Home => Feed -->
+      <li class="nav-item nav-li">
+        <a  class="nav-link">
+          <span class="iconify" data-inline="false" 
+                                data-icon="ant-design:home-filled" 
+                                style="font-size: 24px; color: red;">
+          </span>
+        </a>
+      </li>
+
+      <!-- Find courses -->
+      <li class="nav-item nav-li" routerLinkActive="router-link-active">
+        <a class="nav-link">
+          <div class="nav-icon">
+            <i class="fa fa-book fa-2x"></i>
+          </div>
+          Formations
+        </a>
+      </li>
+
+      <!-- Notifications -->
+      <li class="nav-item nav-li" routerLinkActive="router-link-active">
+        <a class="nav-link">
+          <div class="nav-icon">
+            <i class="fa fa-bell fa-2x"></i>
+          </div>
+          Notifications
+        </a>
+      </li>
+
+      <!-- Lien "My shopping cart" -->
+      <li class="nav-item nav-li" routerLinkActive="router-link-active">
+        <a class="nav-link" (click)="goToShoppingCart()">
+        <div class="nav-icon">
+          <i class="fa fa-shopping-cart fa-2x"></i>
+        </div>
+          Panier
+        </a>
+      </li>
+      
+      <li class="nav-item dropdown nav-li">
+        <a class="nav-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" 
+                                                                  id="dropdownMenuAccount"
+                                                                  aria-haspopup="true" 
+                                                                  aria-expanded="false">
+          <div class="nav-icon">
+            <i class="fa fa-user fa-2x"></i>
+          </div>
+            Mon compte
+          <span class="sr-only">Toggle Dropdown</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuAccount">
+          <a class="dropdown-item">Paramétrer mon compte</a>
+          <a routerLinkActive="active"  
+                                        class="dropdown-item" 
+                                        (click) = "onSignOut()"
+                                        style="cursor:pointer">
+                                        Déconnecter</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

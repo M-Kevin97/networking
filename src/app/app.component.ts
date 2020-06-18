@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { Component } from '@angular/core';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
@@ -8,7 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private router: Router){
+  constructor(private router: Router,
+              private authService:AuthService){
 
     this.firebaseConfiguration();
   }
@@ -29,19 +31,26 @@ export class AppComponent {
     firebase.initializeApp(firebaseConfig);
   }
 
-  isSignInRoute() {
-    return this.router.url === '/auth/signin';
+  private isSignRoute() {
+    return (this.router.url === '/auth/signin' || this.router.url === '/auth/signup'
+                                               || this.router.url === '/auth');
   }
 
-  isSignUpRoute() {
-    return this.router.url === '/auth/signup';
-  }
-
-  isNewItemRoute() {
+  private isNewItemRoute() {
     return (this.router.url === '/new/title' || this.router.url === '/new/category'
                                              || this.router.url === '/new/price'
                                              || this.router.url === '/new/media'
                                              || this.router.url === '/new/complete');
+  }
+
+  isRouteOK()
+  {
+    return (!this.isSignRoute() && !this.isNewItemRoute());
+  }
+
+  isAuth()
+  {
+    return this.authService.isAuth;
   }
 
   isNewEventRoute() {

@@ -1,5 +1,8 @@
-<app-header *ngIf="!isSignInRoute() && !isSignUpRoute() && !isNewItemRoute()"></app-header>
+<app-header-visitor *ngIf="isRouteOK() && !isAuth()"></app-header-visitor>
+<app-header-user *ngIf="isRouteOK() && isAuth()"></app-header-user>
 
 <div class="container">
     <router-outlet></router-outlet>
 </div>
+
+<app-footer *ngIf="isRouteOK()"></app-footer>

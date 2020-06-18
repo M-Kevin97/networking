@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { UsersService } from 'src/app/shared/users/users.service';
-import { User } from 'src/app/shared/users/user';
+import { User } from 'src/app/shared/user/user';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +17,6 @@ export class SignupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private userService:UsersService,
               private router: Router) { }
 
   ngOnInit(): void {

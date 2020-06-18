@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- Ne pas afficher la barre de navigation pour les pages 'signin' et 'signup' -->  
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+  
+   <!-- Image Logo-->
+   <a (click)="goToHome()" class="navbar-brand my-auto">
+    <img src="assets/img/logo.png" width="90" height="46" class="d-inline-block" alt="">
+   </a>
+
+  <!-- Button toggle dev navbar -->
+  <button class="navbar-toggler" type="button" 
+                                  data-toggle="collapse" 
+                                  data-target="#navbarNav" 
+                                  aria-controls="navbarNav" 
+                                  aria-expanded="false" 
+                                  aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>  
+
+  <div class="navbar-collapse-nav collapse navbar-collapse justify-content-end border" id="navbarNav">
+
+    <ul class="navbar-sign nav navbar-nav my-auto ml-auto border border-primary">
+
+      <!-- Instructor -->
+      <li class="nav-item nav-li" routerLinkActive="router-link-active">
+        <a class="nav-link">
+          <div class="nav-icon">
+            <i class="fa fa-calendar fa-2x"></i>
+          </div>
+          Instructor
+        </a>
+      </li>
+
+      <!-- Lien "My shopping cart" -->
+      <li class="nav-item nav-li" routerLinkActive="router-link-active">
+        <a class="nav-link" (click)="goToShoppingCart()">
+        <div class="nav-icon">
+          <i class="fa fa-shopping-cart fa-2x"></i>
+        </div>
+          Panier
+        </a>
+      </li>
+
+      <!-- Sign In -->
+      <li class="nav-li-sign"  routerLinkActive="active">
+        <button class="btn btn-outline-primary" (click)="onSignIn()">
+          Se connecter
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,7 +1,7 @@
-import { UsersService } from '../../shared/users/users.service';
+import { UserService } from '../../shared/user/user.service';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { User } from 'src/app/shared/users/user';
+import { User } from 'src/app/shared/user/user';
 
 
 @Injectable({
@@ -9,13 +9,23 @@ import { User } from 'src/app/shared/users/user';
 })
 export class AuthService {
 
-  // authUser est l'utilisateur identifé, connecté
-  authUser: User;
-  isAuth:boolean; 
+  // authUser est l'utilisateur identifé lors de la connexion
+  private _authUser: User;
 
-  constructor(private userService:UsersService) { 
+  public get authUser(): User {
+    return this._authUser;
+  }
+
+  private _isAuth: boolean; 
+
+  public get isAuth(): boolean {
+    return this._isAuth;
+  }
+
+
+  constructor(private userService:UserService) { 
     
-    this.authUser = new User(null
+    this._authUser = new User(null
                              ,null
                              ,null
                              ,null
@@ -51,16 +61,16 @@ export class AuthService {
       (resolve, reject) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           () => {
-            this.isAuth = true;
+            this._isAuth = true;
 
             const uid = firebase.auth().currentUser.uid;
 
             this.userService.getSingleUserFromDBWithId(uid).then(
               (user) => {
                 console.log('Auth USer',user);
-                this.authUser = User.fromJson(user);
-                this.authUser.id = uid;
-                console.log('Auth USer', this.authUser);
+                this._authUser = User.fromJson(user);
+                this._authUser.id = uid;
+                console.log('Auth USer', this._authUser);
                 resolve();
               }
             );
@@ -77,10 +87,10 @@ export class AuthService {
     firebase.auth().onAuthStateChanged(
       (user) => {
         if(user){
-          this.isAuth = true;
+          this._isAuth = true;
           console.log(user.email + 'est connecté');
         } else {
-          this.isAuth = false;
+          this._isAuth = false;
           console.log('est déconnecté');
         }
       }
@@ -122,7 +132,10 @@ export class AuthService {
   */
 
   signOutUser(){
-    firebase.auth().signOut();
-    this.isAuth = false;
+    firebase.auth().signOut().then(
+      () => {
+        this._isAuth = false;
+      }
+    );
   }
 }

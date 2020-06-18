@@ -12,17 +12,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminComponent } from './admin/admin.component';
 
-import { HeaderComponent } from './core/components/header/header.component';
-import { FooterComponent } from './core/components/footer/footer.component';
-
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
    declarations: [
       AppComponent,
-      HeaderComponent,
-      FooterComponent,
       AdminComponent,
       AdminComponent,
       HomeComponent

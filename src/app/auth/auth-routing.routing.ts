@@ -4,11 +4,11 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 
 const routes: Routes = [
- /* {path:'auth', component: AuthComponent, children: [
+  {path:'auth', component: AuthComponent, children: [
     {path: '', component:SignupComponent},
     {path: 'signup', component:SignupComponent},
     {path: 'signin', component:SigninComponent}
-  ]},*/
+  ]}
 ];
 
-export const AuthRoutingRoutes = RouterModule.forChild(routes);
+export const AuthRoutingRoutes = RouterModule.forRoot(routes);
