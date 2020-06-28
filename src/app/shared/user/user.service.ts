@@ -39,19 +39,6 @@ export class UserService {
 
         return true;
 
-       /* if(newUser.courses !== null && newUser.courses.length > 0){
-
-          if(ItemService.saveICoursesWithReference(ref,newUser.courses)){
-
-            if(newUser.events !== null && newUser.events.length > 0) {
-
-             return ItemService.saveIEventsWithReference(ref,newUser.courses)
-            }
-          }
-          else {
-            return false;
-          }
-        }*/
     }).catch((error)=>{
       console.log(error);
       return false;

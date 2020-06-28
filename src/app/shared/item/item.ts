@@ -7,6 +7,7 @@ export interface IItem {
     category:Category;
     authors:IUser[];
     imageLink:string;
+    published:boolean;
 }
 
 export class Item {

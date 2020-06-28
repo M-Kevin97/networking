@@ -52,7 +52,8 @@ export class ItemService {
       price: newCourse.price, 
       creationDate: newCourse.creationDate,
       imageLink: newCourse.imageLink,
-      videoLink: newCourse.videoLink
+      videoLink: newCourse.videoLink,
+      published:newCourse.published,
     }).then(
       () => {
         CategoryService.saveCategoryWithReference(ref, newCourse.category).then(
@@ -94,35 +95,32 @@ export class ItemService {
       price: newEvent.price, 
       creationDate: newEvent.creationDate,
       imageLink: newEvent.imageLink,
-      videoLink: newEvent.videoLink
+      videoLink: newEvent.videoLink,
+      published:newEvent.published,
     }).then(
       () => {
         CategoryService.saveCategoryWithReference(ref, newEvent.category).then(
           (bool) => {
-            // si la category a été sauvegardée
-            if(bool) {
-              if(UserService.saveAuthorsWithReference(ref, newEvent.authors)) {
-                  return true;
-              }
-              // si la les auteurs n'ont pas été sauvegardés
-              else {
+              // si la category a été sauvegardée
+              if(bool) {
+                // si la les auteurs n'ont pas été sauvegardés
+                if(!UserService.saveAuthorsWithReference(ref, newEvent.authors)) {
+                  return newEvent;
+                }
+              // si la category n'a pas été sauvegardée
+              } else {
                 return false;
               }
-            // si la category n'a pas été sauvegardée
-            } else {
-              return false;
-            }
-        }).catch(
-          (error)=>{
-            console.log(error);
-            return false;
           }
         );
+        return newEvent;
       }
-    ).catch((error)=>{
-      console.log(error);
-      return false;
-    });
+    ).catch(
+      (error)=>{
+        console.log(error);
+        return false;
+      }
+    );
   }
 
   private saveItemsToDB(){
@@ -219,24 +217,22 @@ export class ItemService {
     return ref.child(iEvent.id).set({
         title: iEvent.title, 
         imageLink :iEvent.imageLink,
+        published:iEvent.published,
     }).then(
       () => {
         CategoryService.saveCategoryWithReference(ref, iEvent.category).then(
           (bool) => {
-            // si la category a été sauvegardée
-            if(bool) {
-              if(UserService.saveAuthorsWithReference(ref, iEvent.authors)) {
-                  return true;
-              }
-              // si la les auteurs n'ont pas été sauvegardés
-              else {
-                return false;
-              }
-            // si la category n'a pas été sauvegardée
-            } else {
-              return false;
+            // si la category n'a pas été sauvegardée retourner false
+            if(!bool) {
+              return false
             }
-        });
+            // si la les auteurs n'ont pas été sauvegardés
+            if(!UserService.saveAuthorsWithReference(ref, iEvent.authors)) {
+                return false;
+            }
+            return true;
+          }
+        );
       }
     );
   }
@@ -265,30 +261,24 @@ export class ItemService {
     return ref.child(iCourse.id).set({
         title: iCourse.title, 
         imageLink :iCourse.imageLink,
+        published:iCourse.published,
     }).then(
       () => {
         CategoryService.saveCategoryWithReference(ref, iCourse.category).then(
           (bool) => {
 
-            // si la category a été sauvegardée
-            //return bool;
+         // si la category n'a pas été sauvegardée retourner false
+         if(!bool) {
+          return false
+        }
+        // si la les auteurs n'ont pas été sauvegardés
+        if(!UserService.saveAuthorsWithReference(ref, iCourse.authors)) {
+            return false;
+        }
 
-            // si la category a été sauvegardée
-            if(bool) {
-              if(UserService.saveAuthorsWithReference(ref, iCourse.authors)) {
-                  return true;
-             }
-              // si la les auteurs n'ont pas été sauvegardés
-              else {
-                return false;
-              }
-            // si la category n'a pas été sauvegardée
-           } else {
-              return false;
-            }
-        });
-      }
-    );
+        return true;
+      });
+    });
   }
 
   public static saveICoursesWithReference(ref:firebase.database.Reference, iCourses:ICourse[]){
@@ -325,7 +315,8 @@ export class ItemService {
         nbRatings:2,
         overallRating:5,
         authors: course.authors, 
-        imageLink: course.imageLink
+        imageLink: course.imageLink,
+        published: course.published,
       };
 
       course.authors.forEach(function (value) {
@@ -336,6 +327,7 @@ export class ItemService {
         ref.set({
           title: iCourse.title, 
           imageLink :iCourse.imageLink,
+          published:iCourse.published,
       }).then(
         () => {
           CategoryService.saveCategoryWithReference(ref, iCourse.category).then(
@@ -347,6 +339,60 @@ export class ItemService {
               // si la category a été sauvegardée
               if(bool) {
                 if(UserService.saveAuthorsWithReferenceAndAuthID(ref, iCourse.authors, idAuthorAuth)) {
+                    return true;
+               }
+                // si la les auteurs n'ont pas été sauvegardés
+                else {
+                  return false;
+                }
+              // si la category n'a pas été sauvegardée
+             } else {
+                return false;
+              }
+          });
+        }
+      );
+      });
+    }
+  }
+
+  public saveEventInAuthorsDB(event:EventItem, idAuthorAuth:string){
+
+    if(event) {
+      
+      console.log('saveCourseInAuthorsDB', event.authors);
+
+      var ref = firebase.database().ref(Database.USERS);
+
+      const iEvent:IEvent = {
+        id:event.id,
+        title:event.title,
+        category:event.category,
+        authors: event.authors, 
+        imageLink: event.imageLink,
+        published: event.published,
+      };
+
+      event.authors.forEach(function (value) {
+        console.log('saveCourseInAuthorsDB',value); 
+        
+        ref = ref.child(value.id).child(Database.COURSES).child(iEvent.id);
+
+        ref.set({
+          title: iEvent.title, 
+          imageLink :iEvent.imageLink,
+          published:iEvent.published,
+      }).then(
+        () => {
+          CategoryService.saveCategoryWithReference(ref, iEvent.category).then(
+            (bool) => {
+  
+              // si la category a été sauvegardée
+              //return bool;
+  
+              // si la category a été sauvegardée
+              if(bool) {
+                if(UserService.saveAuthorsWithReferenceAndAuthID(ref, iEvent.authors, idAuthorAuth)) {
                     return true;
                }
                 // si la les auteurs n'ont pas été sauvegardés

@@ -72,7 +72,7 @@ export class CourseFormComponent implements OnInit {
                               price,
                               authors,
                               creationDate,
-                              null,
+                              false,
                               null); 
 
     if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value) {

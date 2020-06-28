@@ -45,8 +45,9 @@ export class EventItem extends Item {
                 id: eventsIdIndex,
                 title: eventJson['title'],
                 category:Category.categoryFromJson(eventJson['categories']),
-                imageLink:eventJson['imageLink'],
+                imageLink: eventJson['imageLink'],
                 authors:this.getIAuthorsItemFromJson(eventJson['authors']),
+                published: eventJson['published'],
             };
             return event;
         });
@@ -58,11 +59,12 @@ export class EventItem extends Item {
         return new EventItem(
             json['id'],
             json['title'],
-            json['categories'],
+            Category.categoryFromJson(json['categories']),
             json['description'],
             json['price'],
             this.getIAuthorsItemFromJson(json['authors']),
             json['creationDate'],
+            json['published'],
             json['imageLink'],
             json['videoLink']
         );

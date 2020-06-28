@@ -58,6 +58,7 @@ export class Course extends Item {
                 nbRatings:courseJson['nbRatings'],
                 overallRating:courseJson['overallRating'],
                 authors:this.getAuthorsItemFromJson(courseJson['authors']),
+                published:courseJson['published'],
             };
             return course;
         });
