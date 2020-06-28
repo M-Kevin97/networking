@@ -1,32 +1,13 @@
-<div class="section-filter row">
-  <div class="col-md-1">
-    <button type="button" id="sidebarCollapse" 
-    class="btn-filter btn btn-primary btn-lg"  
-    (click)="onShowSideBarChange()">
-    <i class="fa fa-bars mr-3" aria-hidden="true"></i>
-    <span>Filtrer</span>
-  </button>
-  </div>
-  <div class="col-md-2">
-    <select class="custom-select custom-select-lg">
-      <option selected value="0">Les plus pertinents</option>
-      <option value="1">Les plus récents</option>
-      <option value="2">Les plus notés</option>
-      <option value="3">Les mieux notés</option>
-    </select>
-  </div>
-</div>
-
 <div class="row">
-  <div class="col-md-2" *ngIf="showHideSideBar">
+  <div class="col-md-3">
     <!-- Sidebar -->
     <app-sidebar></app-sidebar>
   </div>
 
   <!-- Page Content -->
-  <div class="section-content col-md-10">
+  <div class="section-content col-md-9">
 
-    <div class="list-items">
+    <div class="list-items border">
 
       <app-items-list></app-items-list>
     </div>

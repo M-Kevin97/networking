@@ -1,4 +1,17 @@
-<h2>Résultats ({{ items.length }})</h2>
+<div class="section-filter row">
+  <div class="col-md-4">
+    <select class="custom-select custom-select">
+      <option selected value="0">Les plus pertinents</option>
+      <option value="1">Les plus récents</option>
+      <option value="2">Les plus notés</option>
+      <option value="3">Les mieux notés</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <span>Résultats ({{ items.length }})</span>
+  </div>
+</div>
+
 <ul class="list-group">
   <li *ngFor="let item of items; let i = index" class="list-group-item mb-4">
     <div *ngIf="items[0].title" class="row">
@@ -16,12 +29,14 @@
         </div>
       <div class="col-md-3 border border-primary">
         <h5 *ngIf="item.price" class="item-price">{{ item.price }} €</h5>
-        <!-- Changer le texte du bouton en fonction du type de l'item-->
+        <!-- Changer le texte du bouton en fonction du type de l'item 
         <button type="button" class="btn btn-outline-secondary btn-lg"
                               (click) = "onViewItem(1)" 
                               *ngIf="item.type===0">Découvrir la formation</button>
         <button type="button" class="btn btn-outline-secondary btn-lg" 
                               *ngIf="item.type===1">Découvrir l'événement</button>
+
+        -->
       </div>
     </div>
   </li>  

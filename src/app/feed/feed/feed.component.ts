@@ -1,3 +1,4 @@
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { ItemService } from '../../shared/item/item.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,21 +10,20 @@ import { Router } from '@angular/router';
 })
 export class FeedComponent implements OnInit {
 
-  constructor(private router:Router,
-              private itemService:ItemService) { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
 
-  onNewItem(){
-    this.router.navigate(['/new']);
+  newCourse(){
+    this.router.navigate([RouteUrl.NEW_COURSE]);
   }
 
-  onNewCourse(){
-    this.router.navigate(['/newcourse']);
+  newEvent(){
+    this.router.navigate([RouteUrl.NEW_EVENT]);
   }
 
   goToAdmin(){
-    this.router.navigate(['/ad']);
+    this.router.navigate([RouteUrl.ADMIN]);
   }
 }

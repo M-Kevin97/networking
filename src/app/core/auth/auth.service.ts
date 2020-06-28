@@ -26,14 +26,18 @@ export class AuthService {
   constructor(private userService:UserService) { 
     
     this._authUser = new User(null
-                             ,null
-                             ,null
-                             ,null
-                             ,null
-                             ,null
-                             ,null
-                             ,null
-                             ,null);
+      ,null
+      ,null
+      ,null
+      ,null
+      ,null
+      ,null
+      ,null
+      ,null);
+  }
+
+  checkAuthUser(){
+    return 
   }
 
   signUpUser(user:User) {
@@ -62,18 +66,9 @@ export class AuthService {
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           () => {
             this._isAuth = true;
-
             const uid = firebase.auth().currentUser.uid;
-
-            this.userService.getSingleUserFromDBWithId(uid).then(
-              (user) => {
-                console.log('Auth USer',user);
-                this._authUser = User.fromJson(user);
-                this._authUser.id = uid;
-                console.log('Auth USer', this._authUser);
-                resolve();
-              }
-            );
+            this.getCurrentUserDataWithId(uid);
+            resolve();
           }, 
           (error) => {
             reject(error);
@@ -84,15 +79,34 @@ export class AuthService {
   }
 
   authStateChanged(){
-    firebase.auth().onAuthStateChanged(
+    return new Promise(
+      (resolve, reject) => {
+        firebase.auth().onAuthStateChanged(
+          (user) => {
+            if(user){
+              this.getCurrentUserDataWithId(user.uid);
+              this._isAuth = true;
+              
+              console.log(user.email + 'est connecté');
+              resolve(true);
+            } else {
+              this._isAuth = false;
+              console.log('est déconnecté');
+              reject();
+            }
+          }
+        );
+      }
+    );
+  }
+
+  getCurrentUserDataWithId(id:string) {
+    this.userService.getSingleUserFromDBWithId(id).then(
       (user) => {
-        if(user){
-          this._isAuth = true;
-          console.log(user.email + 'est connecté');
-        } else {
-          this._isAuth = false;
-          console.log('est déconnecté');
-        }
+        console.log('Auth USer',user);
+        this._authUser = User.userFromJson(user);
+        this._authUser.id = id;
+        console.log('Auth USer', this._authUser);
       }
     );
   }

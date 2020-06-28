@@ -1,9 +1,10 @@
+import { Database } from 'src/app/core/database/database.enum';
+import { ItemService } from 'src/app/shared/item/item.service';
 import { Subject } from 'rxjs/internal/Subject';
 import { Injectable } from '@angular/core';
-import { User } from './user';
+import { User, IUser } from './user';
 import * as firebase from 'firebase';
-import { Course } from 'src/app/search/modules/items/courses/shared/course';
-import { EventItem } from 'src/app/search/modules/items/events/shared/event-item';
+
 
 
 @Injectable({
@@ -24,8 +25,8 @@ export class UserService {
 
   private saveUserToDB(newUser:User){
 
-    var ref = firebase.database().ref('/users');
-    ref.child(newUser.id).set({
+    var ref = firebase.database().ref(Database.USERS);
+    return ref.child(newUser.id).set({
         firstname: newUser.firstname, 
         lastname: newUser.lastname, 
         mail: newUser.mail, 
@@ -35,32 +36,26 @@ export class UserService {
         description: newUser.description,
     }).then(
       () => {
-        if(newUser.courses !== null && newUser.courses.length > 0){
-          var coursesRef = ref.child(newUser.id).child('courses');
-          newUser.courses.forEach(
-            (element) => {
-               coursesRef.child(element.id).set({
-                 title: element.title,
-                 rating: element.rating
-               }
-              );
+
+        return true;
+
+       /* if(newUser.courses !== null && newUser.courses.length > 0){
+
+          if(ItemService.saveICoursesWithReference(ref,newUser.courses)){
+
+            if(newUser.events !== null && newUser.events.length > 0) {
+
+             return ItemService.saveIEventsWithReference(ref,newUser.courses)
             }
-          );
-        }
-    }).then(
-      () => {
-        if(newUser.events !== null && newUser.events.length > 0){
-        var eventsRef = ref.child(newUser.id).child('events');
-        newUser.events.forEach(
-          (element) => {
-             eventsRef.child(element.id).set({
-               title: element.title
-             });
-            }
-          );
-        }
-      }
-    );
+          }
+          else {
+            return false;
+          }
+        }*/
+    }).catch((error)=>{
+      console.log(error);
+      return false;
+    });
   }
 
   createNewUser(newUser:User){
@@ -68,7 +63,7 @@ export class UserService {
   }
 
   getUsersFromDB(){
-    firebase.database().ref('/users').on('value', 
+    firebase.database().ref(Database.USERS).on('value', 
       (data) => {
         this.users = data.val() ? data.val() : [];
         this.emitUsers();
@@ -80,7 +75,7 @@ export class UserService {
   getSingleUserFromDBWithMail(email:string){
     return new Promise(
       (resolve, reject) => {
-        firebase.database().ref('/users/'+email).once('value').then(
+        firebase.database().ref(Database.USERS+'/'+email).once('value').then(
           (user) => {
 
               resolve(user.val());
@@ -98,7 +93,7 @@ export class UserService {
 
     console.log('user id :', id);
 
-    return firebase.database().ref('/users/'+id).once('value').then(
+    return firebase.database().ref(Database.USERS+'/'+id).once('value').then(
       function(user) {
         console.log(user.val());
         return user.val();
@@ -106,25 +101,47 @@ export class UserService {
     );
   }
 
-  addCourseToUserInDB(uid:string, course:Course){
+  public static saveAuthorsWithReference(ref:firebase.database.Reference, iAuthors:IUser[]){
+    
+    var saved : boolean = true;
 
-    var ref = firebase.database().ref('/users').child(uid).child('courses');
-
-    ref.child(course.id).set({
-        title: course.title, 
-        rating: course.rating,
-    });
+    iAuthors.forEach(function (value) {
+      if(saved){
+        ref.child(Database.AUTHORS).child(value.id).set({
+          firstname: value.firstname,
+          lastname: value.lastname,
+        }).then(
+          function() {
+            saved = true;
+        }).catch(function(error) {
+          console.log(error);
+          saved = false;
+        });
+      }
+    }); 
+    return saved;
   }
 
-  addEventToUserInDB(uid:string, event:EventItem){
 
-    var ref = firebase.database().ref('/users').child(uid).child('events');
+  public static saveAuthorsWithReferenceAndAuthID(ref:firebase.database.Reference, iAuthors:IUser[], idAuthorAuth:string){
+    
+    var saved : boolean = true;
 
-    const eventId = ref.push().key;
-
-    ref.child(eventId).set({
-        title: event.title, 
-    });
-
+    iAuthors.forEach(function (value) {
+      if(saved && idAuthorAuth !== value.id){
+        ref.child(Database.AUTHORS).child(value.id).set({
+          firstname: value.firstname,
+          lastname: value.lastname,
+        }).then(
+          function() {
+            saved = true;
+        }).catch(function(error) {
+          console.log(error);
+          saved = false;
+        });
+      }
+    }); 
+    return saved;
   }
+
 }

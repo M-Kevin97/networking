@@ -24,21 +24,21 @@
 
       <!-- Home => Feed -->
       <li class="nav-item nav-li">
-        <a  class="nav-link">
+        <a  class="nav-link" (click)="goToHome()">
           <span class="iconify" data-inline="false" 
                                 data-icon="ant-design:home-filled" 
-                                style="font-size: 24px; color: red;">
+                                style="font-size: 30px; color: #3498db;">
           </span>
         </a>
       </li>
 
       <!-- Find courses -->
       <li class="nav-item nav-li" routerLinkActive="router-link-active">
-        <a class="nav-link">
-          <div class="nav-icon">
-            <i class="fa fa-book fa-2x"></i>
-          </div>
-          Formations
+        <a class="nav-link" (click)="goToInstructor()">
+          <span class="iconify" data-inline="false" 
+                                data-icon="vaadin:academy-cap" 
+                                style="font-size: 30px; color: #3498db;">
+          </span>
         </a>
       </li>
 

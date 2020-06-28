@@ -1,0 +1,11 @@
+<div class="item-created">
+  <h3>Félicitations !</h3>
+  <span class="item-created-text" *ngIf="isCourse()">
+    Votre formation à bien été créé, vous pourrez la consulter dans : 
+    <countdown [config]="{leftTime: 7, notify: [ 2, 5 ]}" (event)="handleEvent($event)"></countdown>
+  </span>
+  <span class="item-created-text" *ngIf="isCourse()">
+    Votre événement à bien été créé, vous pourrez le consulter dans : 
+  </span>
+  <img src="assets/img/ok-img.png" width="90" height="90" class="d-inline-block" alt="Item créé">
+</div>

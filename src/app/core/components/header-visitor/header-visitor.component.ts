@@ -1,3 +1,4 @@
+import { RouteUrl } from './../../router/route-url.enum';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
@@ -23,11 +24,11 @@ export class HeaderVisitorComponent implements OnInit {
   }
 
   onSearch(){
-  this.router.navigate(['/search/results']);
+  this.router.navigate([RouteUrl.SEARCH]);
   }
 
   goToFeed(){
-  this.router.navigate(['/feed']);
+  this.router.navigate([RouteUrl.FEED]);
   }
 
   goToShoppingCart(){

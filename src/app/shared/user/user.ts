@@ -1,17 +1,25 @@
-import { EventItem } from '../../search/modules/items/events/shared/event-item';
-import { Course } from '../../search/modules/items/courses/shared/course';
+import { ICourse } from './../item/course';
+import { Course } from 'src/app/shared/item/course';
+import { EventItem, IEvent } from '../item/event-item';
+
+export interface IUser {
+    id:string;
+    firstname:string;
+    lastname:string;
+}
 
 export class User {
-    public get events(): EventItem[] {
+    
+    public get events(): IEvent[] {
         return this._events;
     }
-    public set events(value: EventItem[]) {
+    public set events(value: IEvent[]) {
         this._events = value;
     }
-    public get courses(): Course[] {
+    public get courses(): ICourse[] {
         return this._courses;
     }
-    public set courses(value: Course[]) {
+    public set courses(value: ICourse[]) {
         this._courses = value;
     }
     public get id(): string {
@@ -71,12 +79,15 @@ export class User {
                 private _tel?: string, 
                 private _job?: string,
                 private _description?: string,
-                private _courses?: Course[],
-                private _events?: EventItem[]) {
+                private _courses?: ICourse[],
+                private _events?: IEvent[]) {
 
     }
 
-    public static fromJson(json: Object): User {
+    public static userFromJson(json: Object): User {
+
+        if(json === null && json === undefined) return null;
+
         return new User(null,
                         json['firstname'],
                         json['lastname'],
@@ -85,8 +96,25 @@ export class User {
                         json['tel'],
                         json['job'],
                         json['description'],
-                        json['courses'],
-                        json['events']   
+                        Course.getICoursesItemFromJson(json['courses']),
+                        EventItem.getIEventsItemFromJson(json['events'])   
         );
+    }
+
+    public static usersFromJson(json: Object): User[] {
+
+        if(json === null && json === undefined) return null;
+
+        var users = Object.keys(json).map(
+            function(usersIdIndex){
+            let userJson = json[usersIdIndex];
+
+            var user = User.userFromJson(userJson)
+            user.id = usersIdIndex;
+
+            return user;
+        });
+
+        return users;
     }
 }

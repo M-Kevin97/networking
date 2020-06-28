@@ -33,7 +33,7 @@ export class ItemsListComponent implements OnInit, OnDestroy{
       (data:Item[]) => {
         for(var _i = 0; _i < data.length; _i++) 
         {
-          this.items[_i] = Item.fromJson(data[_i]);
+          this.items[_i] = Item.itemFromJson(data[_i]);
           console.log('Titre '+this.items[_i].title);
         }
       },

@@ -14,11 +14,11 @@
     
 }
 
-/*
-.list-items {
 
+.list-items {
+    min-height: 80vh;
 }
-*/
+
 
 .section-filter{
     margin-bottom: 5vh;

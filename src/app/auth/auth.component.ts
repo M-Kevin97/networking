@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouterService } from '../core/router/router.service';
 
 @Component({
   selector: 'app-auth',
@@ -8,7 +9,8 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private routerService:RouterService) { }
 
   ngOnInit() {
   }
@@ -22,6 +24,20 @@ export class AuthComponent implements OnInit {
   }
 
   goBack() {
-    //this.location.back();
+    var i = 0;
+    const max = this.routerService.previousUrl.length;
+    var prevUrl = this.routerService.getPreviousUrlWithPosition(i);
+
+    console.log(prevUrl,i,max);
+
+    while(i < max && (prevUrl === '/auth/signin' 
+                  || prevUrl === '/auth/signup' 
+                  || prevUrl === '/auth')){
+
+      i++;
+      prevUrl = this.routerService.getPreviousUrlWithPosition(i);
+      console.log(prevUrl, i);
+    }
+    this.router.navigate([prevUrl]);
   }  
 }

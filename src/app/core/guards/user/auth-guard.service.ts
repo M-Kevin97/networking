@@ -1,3 +1,4 @@
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,10 +15,11 @@ export class AuthGuardService implements CanActivate{
     return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
+          console.log('auth guard :',user.uid);
           resolve(true);
         }
         else {
-          this.router.navigate(['/home']);
+          this.router.navigate([RouteUrl.FEED]);
           resolve(false);
         }
       });

@@ -1,3 +1,4 @@
+import { RouterService } from './core/router/router.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Component } from '@angular/core';
 import * as firebase from 'firebase';
@@ -10,9 +11,11 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   constructor(private router: Router,
-              private authService:AuthService){
+              private authService:AuthService,
+              private routerService:RouterService){
 
     this.firebaseConfiguration();
+    this.authService.authStateChanged();
   }
 
   private firebaseConfiguration(){

@@ -1,5 +1,6 @@
+import { SingleItemModule } from './single-item/single-item.module';
+
 import { AppRoutingRoutes } from './app-routing.routing';
-import { FeedComponent } from './feed/feed/feed.component';
 import { AuthModule } from './auth/auth.module';
 import { SearchModule } from './search/search.module';
 import { NgModule } from '@angular/core';
@@ -13,21 +14,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminComponent } from './admin/admin.component';
 
 import { HomeComponent } from './home/home.component';
+import { ItemFormModule } from './item-form/item-form.module';
 
 @NgModule({
    declarations: [
       AppComponent,
       AdminComponent,
-      AdminComponent,
       HomeComponent
    ],
    imports: [
       SharedModule,
+      BrowserAnimationsModule,
       AppRoutingRoutes,
       CoreModule,
       AuthModule,
-     // SearchModule,
-      BrowserAnimationsModule
+      SearchModule,
+      ItemFormModule,
+      SingleItemModule,
    ],
    providers: [],
    bootstrap: [

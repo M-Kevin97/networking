@@ -1,3 +1,4 @@
+import { RouterService } from './router/router.service';
 import { HeaderVisitorComponent } from './components/header-visitor/header-visitor.component';
 import { HeaderUserComponent } from './components/header-user/header-user.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -27,7 +28,8 @@ import { AuthGuardService } from './guards/user/auth-guard.service';
   providers: [
     AuthService,
     AuthGuardService,
-    AdminGuardService
+    AdminGuardService,
+    RouterService
   ]
 })
 export class CoreModule { }

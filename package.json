@@ -30,6 +30,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "ng2-img-max": "^2.2.4",
+    "ngx-countdown": "^9.0.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
     "rxjs-compat": "^6.5.5",

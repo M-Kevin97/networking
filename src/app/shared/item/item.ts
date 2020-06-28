@@ -1,7 +1,35 @@
-import { Category } from 'src/app/search/modules/items/shared/category/category';
+import { Category } from 'src/app/shared/item/category/category';
+import { IUser, User } from '../user/user';
 
+export interface IItem {
+    id:string;
+    title:string;
+    category:Category;
+    authors:IUser[];
+    imageLink:string;
+}
 
 export class Item {
+    public get published(): boolean {
+        return this._published;
+    }
+    public set published(value: boolean) {
+        this._published = value;
+    }
+ 
+    public get authors(): IUser[] {
+        return this._authors;
+    }
+    public set authors(value: IUser[]) {
+        this._authors = value;
+    }
+
+    public get creationDate(): string {
+        return this._creationDate;
+    }
+    public set creationDate(value: string) {
+        this._creationDate = value;
+    }
     public get category(): Category {
         return this._category;
     }
@@ -17,6 +45,7 @@ export class Item {
     public get id(): string {
         return this._id;
     }
+
     public set id(value: string) {
         this._id = value;
     }
@@ -32,24 +61,6 @@ export class Item {
     public set price(value: number) {
         this._price = value;
     }
-    public get idAuthor(): string {
-        return this._idAuthor;
-    }
-    public set idAuthor(value: string) {
-        this._idAuthor = value;
-    }
-    public get firstnameAuthor(): string {
-        return this._firstnameAuthor;
-    }
-    public set firstnameAuthor(value: string) {
-        this._firstnameAuthor = value;
-    }
-    public get lastnameAuthor(): string {
-        return this._lastnameAuthor;
-    }
-    public set lastnameAuthor(value: string) {
-        this._lastnameAuthor = value;
-    }
     public get imageLink(): string {
         return this._imageLink;
     }
@@ -62,32 +73,53 @@ export class Item {
     public set videoLink(value: string) {
         this._videoLink = value;
     }
-    
-    /**
-    *  Variable "type" -> 0 == Formation ou 1 == Événement 
-    */
 
    constructor( private _id: string,
                 private _title: string, 
                 private _category: Category,
                 private _description: string,
                 private _price: number,
-                private _idAuthor: string,
-                private _firstnameAuthor: string,
-                private _lastnameAuthor: string, 
+                private _authors: IUser[],
+                private _creationDate: string, 
+                private _published: boolean,
                 private _imageLink?: string,
                 private _videoLink?: string){
     }
 
-    public static fromJson(json: Object): Item {
+    protected static getIAuthorsItemFromJson(json: Object): IUser[] {
+
+        if(json === null && json === undefined) return null;
+
+        console.log(json);
+
+        var authors = Object.keys(json).map(
+            function(authorsIdIndex){
+            let userJson = json[authorsIdIndex];
+            console.log(userJson);
+            var author:IUser = {
+                id: authorsIdIndex,
+                firstname: userJson['firstname'],
+                lastname: userJson['lastname'],
+            };
+            return author;
+        });
+
+        return authors;
+    }
+
+    public static itemFromJson(json: Object): Item {
+
+        if(json === null && json === undefined) return null;
+
         return new Item(
             json['id'],
             json['title'],
+            Category.categoryFromJson(json['category']),
             json['description'],
             json['price'],
-            json['idAuthor'],
-            json['firstnameAuthor'],
-            json['lastnameAuthor'],
+            this.getIAuthorsItemFromJson(json['authors']),
+            json['creationDate'],
+            json['published'],
             json['imageLink'],
             json['videoLink']
         );

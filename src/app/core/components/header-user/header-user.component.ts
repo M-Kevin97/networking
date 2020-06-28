@@ -1,3 +1,4 @@
+import { RouteUrl } from './../../router/route-url.enum';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
@@ -24,6 +25,10 @@ export class HeaderUserComponent implements OnInit {
 
   onSearch(){
     this.router.navigate(['/search/results']);
+  }
+
+  goToInstructor() {
+    this.router.navigate([RouteUrl.INSTRUCTOR]);
   }
 
   goToFeed(){

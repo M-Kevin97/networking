@@ -21,7 +21,7 @@ export class ImageService {
 
   constructor(private ng2ImgMax: Ng2ImgMaxService) { }
 
-  // Methode servant à emettre les categories du service
+  // Methode servant à emettre les categories du service vers un component
   emitImage(){
     this.imageSubject.next(this.imagePreviewUrl);
   }

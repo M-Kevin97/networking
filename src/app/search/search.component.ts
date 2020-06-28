@@ -7,14 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  showHideSideBar = false;
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  onShowSideBarChange(){
-    this.showHideSideBar = !this.showHideSideBar;
   }
 }
