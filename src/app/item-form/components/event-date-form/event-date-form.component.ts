@@ -20,12 +20,15 @@ export class EventDateFormComponent implements OnInit {
   }
 
   datesForm: FormGroup;
+  endDateInf:boolean;
 
   constructor(private formBuilder: FormBuilder,
               private _itemFormService: ItemFormService) {}
 
 
   ngOnInit() {
+
+    this.endDateInf = false;
 
     this.datesForm = this.formBuilder.group({
       startDate: ['',[Validators.required]],
@@ -44,20 +47,43 @@ export class EventDateFormComponent implements OnInit {
     }
   }
 
+  getTodayDate(){
+    return new Date().toISOString().split("T")[0] + "T00:00";
+  }
+
+  getStartDate(){
+    return this.datesForm.get('startDate').value;
+  }
+
   onSetDates() {
 
-    const dates: DatesEvent = {
-      startDate: this.datesForm.get('startDate').value,
-      endDate: this.datesForm.get('endDate').value,
-    };
+    if(this.datesForm.get('endDate').value > this.datesForm.get('startDate').value){
 
-    this.itemFormService.setFormWithStepState(StepState.DATES, dates);
+      this.endDateInf = false;
+
+      const dates: DatesEvent = {
+        startDate: this.datesForm.get('startDate').value,
+        endDate: this.datesForm.get('endDate').value,
+      };
+  
+      console.log(dates);
+  
+      this.itemFormService.setFormWithStepState(StepState.DATES, dates);
+    }else {
+      this.endDateInf = true;
+    }
+
   }
 
   onRestoreDatesForm(value:DatesEvent){
 
     this.datesForm.patchValue({startDate:value.startDate});
     this.datesForm.patchValue({endDate:value.endDate});
+  }
+
+  onBack()
+  {
+    this.itemFormService.onBackWithoutSave();
   }
 
 }

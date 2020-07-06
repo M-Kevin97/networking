@@ -46,5 +46,9 @@ export class ItemTitleFormComponent implements OnInit {
 
     this.titleForm.patchValue({title:value});
   }
+
+  onCheckKeyInput($event: KeyboardEvent){
+    return this.itemFormService.checkKeyInput($event);
+  }
 }
 

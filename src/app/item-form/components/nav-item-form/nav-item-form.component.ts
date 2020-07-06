@@ -25,67 +25,138 @@ export class NavItemFormComponent implements OnInit {
     return this.router.url.substr(0,RouteUrl.NEW_COURSE.length) === RouteUrl.NEW_COURSE;
   }
 
-  isTitleFormRoute(){
-  return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_TITLE 
-        || this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_TITLE;
-  }
-
-  isCategoryFormRoute(){
-  return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_CATEGORY
-        || this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_CATEGORY;
-  }
-
-  isPriceFormRoute(){
-  return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_PRICE
-        || this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_PRICE;
-  }
-
-  isMediaFormRoute(){
-  return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_MEDIA
-        ||  this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_MEDIA;
-  }
-
-  isDatesFormRoute(){
-    return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_DATES
-            ||  this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_DATES;
-  }
-
-  isLocationFormRoute(){
-    return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_LOCATION
-            ||  this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_LOCATION;
+  isTitleOk()
+  {
+    if(this.isTitleCreated()){
+      return true;
     }
+    else if(this.itemFormService.isTitleFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
+  }
 
-  isCompleteFormRoute(){
-  return this.router.url === RouteUrl.NEW_COURSE + RouteUrl.NEW_COMPLETED
-          ||  this.router.url === RouteUrl.NEW_EVENT + RouteUrl.NEW_COMPLETED;
+
+  isCategoryOk()
+  {
+    if(this.isCategoryCreated()){
+      return true;
+    }
+    else if(this.itemFormService.isCategoryFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
+  }
+
+  isPriceOk()
+  {
+    if(this.isPriceCreated()){
+      return true;
+    }
+    else if(this.itemFormService.isPriceFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
+  }
+
+  isMediaOk()
+  {
+    if(this.isMediaCreated()){
+      return true;
+    }
+    else if(this.itemFormService.isMediaFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
+  }
+
+  isCompleteOk()
+  {
+    if(this.isCompleteCreated()){
+      return true;
+    }
+    else if(this.itemFormService.isCompleteFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
+  }
+
+  isLocationOk()
+  {
+    if(this.isLocationCreated()){
+      return true;
+    }
+    else if(this.itemFormService.isLocationFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
+  }
+
+  isDatesOk()
+  {
+    if(this.isDatesCreated()){
+      return true;
+    }
+    else if(this.itemFormService.isDatesFormRoute(this.router.url)){
+      return true;
+    }
+    return false;
   }
 
   isTitleCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.TITLE).status;
+
+    if(this.itemFormService.getStepFormWithStep(StepState.TITLE)){
+      return true
+    }
+    return false;
   }
 
   isCategoryCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.CATEGORY).status;
+
+    if(this.itemFormService.getStepFormWithStep(StepState.CATEGORY)){
+      return true
+    }
+    return false;
   }
 
   isPriceCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.PRICE).status;
+
+   if(this.itemFormService.getStepFormWithStep(StepState.PRICE)){
+      return true
+    }
+    return false;
   }
 
   isMediaCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.MEDIA).status;
+
+    if(this.itemFormService.getStepFormWithStep(StepState.MEDIA)){
+      return true
+    }
+    return false;
   }
 
   isDatesCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.DATES).status;
+
+    if(this.itemFormService.getStepFormWithStep(StepState.DATES)){
+      return true
+    }
+    return false;
   }
 
   isLocationCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.LOCATION).status;
+
+    if(this.itemFormService.getStepFormWithStep(StepState.LOCATION)){
+      return true
+    }
+    return false;
   }
 
   isCompleteCreated(){
-    return this.itemFormService.getStepFormWithStep(StepState.COMPLETE).status;
+
+    if(this.itemFormService.getStepFormWithStep(StepState.COMPLETE)){
+      return true
+    }
+    return false;
   }
 
   goToTitleForm(){

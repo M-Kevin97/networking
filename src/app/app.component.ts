@@ -1,3 +1,4 @@
+import { RouteUrl } from './core/router/route-url.enum';
 import { RouterService } from './core/router/router.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Component } from '@angular/core';
@@ -34,21 +35,13 @@ export class AppComponent {
     firebase.initializeApp(firebaseConfig);
   }
 
-  private isSignRoute() {
-    return (this.router.url === '/auth/signin' || this.router.url === '/auth/signup'
-                                               || this.router.url === '/auth');
+  private isAuthRoute() {
+    return this.router.url.startsWith(RouteUrl.AUTH);
   }
 
-  private isNewItemRoute() {
-    return (this.router.url === '/new/title' || this.router.url === '/new/category'
-                                             || this.router.url === '/new/price'
-                                             || this.router.url === '/new/media'
-                                             || this.router.url === '/new/complete');
-  }
-
-  isRouteOK()
+  displayHeader()
   {
-    return (!this.isSignRoute() && !this.isNewItemRoute());
+    return (!this.isAuthRoute() && !this.isNewItemRoute());
   }
 
   isAuth()
@@ -56,7 +49,7 @@ export class AppComponent {
     return this.authService.isAuth;
   }
 
-  isNewEventRoute() {
-    return this.router.url === '/new';
+  isNewItemRoute() {
+    return this.router.url.startsWith(RouteUrl.NEW);
   }
 }

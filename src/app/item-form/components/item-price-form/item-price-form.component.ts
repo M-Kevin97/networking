@@ -6,7 +6,7 @@ import { StepState } from '../../shared/state-step.enum';
 @Component({
   selector: 'app-item-price-form',
   templateUrl: './item-price-form.component.html',
-  styleUrls: ['./item-price-form.component.css']
+  styleUrls: ['./item-price-form.component.css'],
 })
 export class ItemPriceFormComponent implements OnInit {
 

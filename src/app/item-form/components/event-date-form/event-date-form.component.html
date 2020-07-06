@@ -3,15 +3,16 @@
 
   <div class="row justify-content-center">
       <div class="col-8">
-          <h3 class="course-form-heading">Quelle est la date de votre évènement ?</h3>
-          <form [formGroup]="datesForm" role="form">
+          <h3 class="head-item-form">Quelle est la date de votre évènement ?</h3>
+          <form [formGroup]="datesForm" role="form" class="form-item">
 
             <div class="form-group row">
               <label for="startDate" class="col-2 col-form-label">Du :</label>
               <div class="col-10">
                 <input class="form-control" type="datetime-local" 
                                             formControlName = "startDate"
-                                            value="2011-08-19T13:45:00" 
+                                            [min]="getTodayDate()"
+                                            [value]="getTodayDate()" 
                                             id="startDate">
               </div>
             </div>
@@ -21,26 +22,30 @@
               <div class="col-10">
                 <input class="form-control" type="datetime-local" 
                                             formControlName = "endDate"
-                                            value="2011-08-19T13:45:00" 
+                                            [min]="getStartDate()"
+                                            [value]="getStartDate()" 
                                             id="endDate">
               </div>
+              <span *ngIf="endDateInf">La date de fin est inférieur à la date de début</span>
             </div>
 
           </form>
-          <ul class="list-inline pull-right mt-5">
-              <li>
-                  <button type="button" class="btn btn-default prev-step"
-                                        (click)="this.itemFormService.onBackWithoutSave()">
-                                        Previous
-                  </button>
-              </li>
-              <li>
-                  <button type="button" class="btn btn-primary next-step" 
-                                        [disabled]="datesForm.invalid"
-                                        (click)="onSetDates()">
-                      Save and continue
-                  </button>
-              </li>
+
+          <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
+          <ul class="nav nav-item btns-item-form justify-content-between border mx-auto">
+            <li>
+              <button type="button" class="btn btn-default btn-prev" 
+                                    (click)="onBack()">
+                Précédent
+              </button>
+            </li>
+            <li>
+                <button type="button" id="continue" class="btn btn-default btn-next" 
+                                                    *ngIf="!datesForm.invalid"
+                                                    (click)="onSetDates()">
+                  Continuer
+                </button>
+            </li>
           </ul>
       </div>
   </div>

@@ -9,9 +9,14 @@ import { ItemCompleteFormComponent } from '../../components/item-complete-form/i
 import { AuthGuardService } from 'src/app/core/guards/user/auth-guard.service';
 import { EventFormComponent } from './event-form.component';
 import { EventLocationFormComponent } from '../../components/event-location-form/event-location-form.component';
+import { ItemFormComponent } from '../../item-form.component';
 
 const routes: Routes = [
-  {path:RouteUrl.NEW_EVENT.substr(1,RouteUrl.NEW_EVENT.length), 
+  {path:RouteUrl.NEW.substr(1,RouteUrl.NEW.length), 
+  component:ItemFormComponent,
+  children: 
+  [
+  {path:RouteUrl.EVENT.substr(1,RouteUrl.EVENT.length), 
     component:EventFormComponent,
     children: [
       {path:RouteUrl.NEW_TITLE.substr(1,RouteUrl.NEW_TITLE.length), 
@@ -36,7 +41,8 @@ const routes: Routes = [
         component:ItemCompleteFormComponent,
         canActivate: [AuthGuardService]},
       {path:'', redirectTo:RouteUrl.NEW_EVENT+RouteUrl.NEW_TITLE, pathMatch:'full'},
-    ]},
-    ];
+    ]}
+  ]}
+];
 
 export const EventFormRoutes = RouterModule.forChild(routes);

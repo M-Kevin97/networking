@@ -2,19 +2,31 @@
   <!-- Section title -->
   <div class="row justify-content-center">
     <div class="col-8">
-      <h3 class="course-form-heading">Quel est le titre de votre formation ?</h3>
-      <form [formGroup]="titleForm" role="form">
-        <input type="text" class="form-control form-control-lg mt-5" 
+      <h3 class="head-item-form ">Quel est le titre de votre formation ?</h3>
+      <form [formGroup]="titleForm" role="form" class="form-item">
+        <input type="text" class="form-control form-control-lg" 
                            formControlName = "title"
                            id="title"
+                           onkeydown="return (event.key !== '\''
+                                              && event.key !== ','
+                                              && event.key !== ';'
+                                              && event.key !== '='
+                                              && event.key !== '>'
+                                              && event.key !== '<'
+                                              && event.key !== '.'
+                                              && event.key !== ':'
+                                              && event.key !== '`'
+                                              && event.key !== '_'
+                                              && event.key !== '§')"
                            placeholder="Saisissez le titre de votre formation...">
       </form>
-      <ul class="list-inline pull-right mt-5">
+      <ul class="nav nav-item btns-item-form justify-content-end border mx-auto">
         <li>
-          <button type="button" class="btn btn-primary next-step" 
-                                [disabled]="titleForm.invalid"
+          <button type="button" id="continue" 
+                                class="btn btn-default btn-next" 
+                                *ngIf="!titleForm.invalid"
                                 (click)="onSetTitle()">
-              Save and continue
+            Continuer
           </button>
         </li>
       </ul>

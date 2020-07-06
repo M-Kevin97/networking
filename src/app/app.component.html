@@ -1,8 +1,8 @@
-<app-header-visitor *ngIf="isRouteOK() && !isAuth()"></app-header-visitor>
-<app-header-user *ngIf="isRouteOK() && isAuth()"></app-header-user>
+<app-header-visitor *ngIf="displayHeader() && !isAuth()"></app-header-visitor>
+<app-header-user *ngIf="displayHeader() && isAuth()"></app-header-user>
 
 <div class="container">
     <router-outlet></router-outlet>
 </div>
 
-<app-footer *ngIf="isRouteOK()"></app-footer>
+<app-footer *ngIf="displayHeader()"></app-footer>

@@ -1,0 +1,39 @@
+.head-item-form {
+    font-size: 1.4em;
+    font-weight: 450;
+}
+
+.form-item {
+    margin-top: 8vh;
+}
+
+.btns-item-form {
+    margin-top: 5vh;
+}
+
+.btn-next {
+    height: 6vh;
+    width: 15vw;
+
+    background-color: #2E7B9C;
+    color: white;
+}
+
+.btn-prev {
+    height: 6vh;
+    width: 10vw;
+
+    background-color: #f5f3f3;
+    color: black;
+    border: solid 1px #9A9A9A;
+
+}
+
+.btn-skip {
+    height: 6vh;
+    width: 8vw;
+
+    background-color: #e9e6e6;
+    color: black;
+    border: solid 1px #9A9A9A;
+}

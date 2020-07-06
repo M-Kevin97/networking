@@ -1,3 +1,63 @@
-<p>
-  event-location-form works!
-</p>
+<!-- Section Price -->
+<div class="tab-pane" role="tabpanel" id="step3">
+
+  <div class="row justify-content-center">
+      <div class="col-8">
+          <h3 class="head-item-form">Quelle est la date de votre évènement ?</h3>
+          <form [formGroup]="locationForm" role="form" class="form-item">
+
+            <input type="text" class="form-control" 
+                                id="inputLocation" 
+                                placeholder="Lieu"
+                                formControlName="location">
+
+            <input type="text" class="form-control mt-3" 
+                                id="inputAddress" 
+                                placeholder="Adresse"
+                                formControlName="address">
+
+            <div class="form-row mt-3">
+              <div class="form-group col-md-4">
+                <input type="number" class="form-control" 
+                                   id="inputZip" 
+                                   placeholder="Code postal"
+                                   onkeydown="return (event.keyCode !== 69 
+                                   && event.keyCode !== 187
+                                   && event.keyCode !== 189)"
+                                   formControlName="zip">
+              </div>
+              <div class="form-group col-md-4">
+                <input type="text" class="form-control" 
+                                   id="inputCity" 
+                                   placeholder="Ville"
+                                   formControlName="city">
+              </div>
+              <div class="form-group col-md-4">
+                <input type="text" class="form-control" 
+                                   id="inputCountry" 
+                                   placeholder="Pays"
+                                   formControlName="country">
+              </div>
+            </div>
+          </form>
+
+          <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
+          <ul class="nav nav-item btns-item-form justify-content-between border mx-auto mt-5">
+            <li>
+              <button type="button" class="btn btn-default btn-prev" 
+                                    (click)="onBack()">
+                Précédent
+              </button>
+            </li>
+            <li>
+              <button type="button" id="continue" 
+                                    class="btn btn-default btn-next" 
+                                    *ngIf="!locationForm.invalid"
+                                    (click)="onSetLocation()">
+                Continuer
+              </button>
+            </li>
+          </ul>
+      </div>
+  </div>
+</div>

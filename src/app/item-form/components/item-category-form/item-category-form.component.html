@@ -2,10 +2,10 @@
 <div class="tab-pane" role="tabpanel" id="step2">
     <div class="row justify-content-center">
         <div class="col-8">
-            <h3 class="course-form-heading">À quelle catégorie votre formation appartient-elle ?</h3>
-            <form [formGroup]="categoryForm" role="form">
+            <h3 class="head-item-form">À quelle catégorie votre formation appartient-elle ?</h3>
+            <form [formGroup]="categoryForm" role="form" class="form-item">
 
-                <select class="form-control form-control-lg" formControlName="category"  
+                <select class="form-control form-control-lg mt-5" formControlName="category"  
                                                              (change)="selectCategory($event.target.value)"
                                                              id="category" required>
                     <option disabled value="" [selected]="catRestored ? true : null">
@@ -17,16 +17,19 @@
                     </option>
                 </select>
             </form>
-            <ul class="list-inline pull-right mt-5">
+            <ul class="nav nav-item btns-item-form justify-content-between border mx-auto mt-5">
                 <li>
-                    <button type="button" class="btn btn-default prev-step"
-                                          (click)="onBack()">Previous</button>
+                    <button type="button" class="btn btn-default btn-prev" 
+                                          (click)="onBack()">
+                        Précédent
+                    </button>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-primary next-step" 
-                    (click)="onSetCategory()"
-                    [disabled]="categoryForm.invalid">
-                    Save and continue
+                    <button type="button" id="continue" 
+                                          class="btn btn-default btn-next" 
+                                          *ngIf="!categoryForm.invalid"
+                                          (click)="onSetCategory()">
+                        Continuer
                     </button>
                 </li>
             </ul>

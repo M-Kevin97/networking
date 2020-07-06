@@ -2,6 +2,14 @@ import { Item, IItem } from 'src/app/shared/item/item';
 import { Category } from 'src/app/shared/item/category/category';
 import { IUser, User } from '../user/user';
 
+export interface LocationEvent {
+    location: string;
+    address: string;
+    zip: number;
+    city: string;
+    country: string;
+  }
+
 export interface IEvent extends IItem {
     
 }   

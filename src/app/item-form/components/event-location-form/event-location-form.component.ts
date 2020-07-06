@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
+import { LocationEvent } from 'src/app/shared/item/event-item';
 
 @Component({
   selector: 'app-event-location-form',
@@ -23,13 +24,16 @@ export class EventLocationFormComponent implements OnInit {
   ngOnInit() {
 
     this.locationForm = this.formBuilder.group({
-      startDate: ['',[Validators.required]],
-      endDate: ['',[Validators.required]]
+      location: ['',[Validators.required]],
+      address: ['',[Validators.required]],
+      zip: ['',[Validators.required]],
+      city: ['',[Validators.required]],
+      country: ['',[Validators.required]]
     });
 
       // sinon si l'élément a été créé
     if(this.itemFormService.mapStepForms.has(StepState.DATES)){
-    if(this.itemFormService.getStepFormWithStep(StepState.DATES).status){
+      if(this.itemFormService.getStepFormWithStep(StepState.DATES).status){
         this.onRestoreDatesForm(this.itemFormService.getStepFormWithStep(StepState.DATES).value);
       }
     }
@@ -41,12 +45,27 @@ export class EventLocationFormComponent implements OnInit {
 
   onSetLocation() {
 
-    const location = this.locationForm.get('location').value;
+    const location: LocationEvent = {
+      location: this.locationForm.get('location').value,
+      address: this.locationForm.get('address').value,
+      zip: this.locationForm.get('zip').value,
+      city: this.locationForm.get('city').value,
+      country: this.locationForm.get('country').value,
+    };
+
     this.itemFormService.setFormWithStepState(StepState.LOCATION, location);
   }
 
-  onRestoreDatesForm(value:string){
+  onRestoreDatesForm(value:LocationEvent){
 
-    this.locationForm.patchValue({location:value});
+    this.locationForm.patchValue({location:value.location});
+    this.locationForm.patchValue({address:value.address});
+    this.locationForm.patchValue({zip:value.zip});
+    this.locationForm.patchValue({city:value.city});
+    this.locationForm.patchValue({country:value.country});
+  }
+
+  onBack(){
+    this.itemFormService.onBackWithoutSave();
   }
 }

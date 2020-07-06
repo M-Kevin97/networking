@@ -39,16 +39,19 @@
 
   </div>
 
-  <ul *ngIf="!isItemCreated()" class="list-inline pull-right mt-5">
+  <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
+  <ul class="nav nav-item justify-content-between border mx-auto mt-5">
     <li>
-        <button type="button" class="btn btn-default prev-step"
-                              (click)="onBack()">Précédent</button>
+      <button type="button" class="btn btn-default btn-prev" 
+                            (click)="onBack()">
+        Précédent
+      </button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary next-step" 
-                              (click)="onCreateItem()">
-                              Créer ma formation
-        </button>
+      <button type="button" class="btn btn-primary next-step" 
+                            (click)="onCreateItem()">
+        Créer ma formation
+      </button>
     </li>
   </ul>
 </div>

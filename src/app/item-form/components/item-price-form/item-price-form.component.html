@@ -3,10 +3,11 @@
 
     <div class="row justify-content-center">
         <div class="col-8">
-            <h3 class="course-form-heading">Quel est le prix de votre formation ?</h3>
-            <form [formGroup]="priceForm" role="form">
+            <h3 class="head-item-form">Quel est le prix de votre formation ?</h3>
+            <form [formGroup]="priceForm" role="form" class="form-item">
                 <div class="input-group">
                     <input type="number" class="form-control form-control-lg" formControlName = "price"
+                                                    min="10"
                                                     id="price" 
                                                     onkeydown="return (event.keyCode !== 69 
                                                                        && event.keyCode !== 187
@@ -18,16 +19,19 @@
                     </div>
                 </div>
             </form>
-            <ul class="list-inline pull-right mt-5">
+            <ul class="nav nav-item btns-item-form justify-content-between border mx-auto">
                 <li>
-                    <button type="button" class="btn btn-default prev-step"
-                                          (click)="this.itemFormService.onBackWithoutSave()">Previous</button>
+                    <button type="button" class="btn btn-default btn-prev" 
+                                          (click)="onBack()">
+                        Précédent
+                    </button>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-primary next-step" 
-                    [disabled]="priceForm.invalid"
-                    (click)="onSetPrice()">
-                        Save and continue
+                    <button type="button" id="continue" 
+                                          class="btn btn-default btn-next" 
+                                          *ngIf="!priceForm.invalid"
+                                          (click)="onSetPrice()">
+                        Continuer
                     </button>
                 </li>
             </ul>
