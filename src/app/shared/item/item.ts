@@ -4,6 +4,7 @@ import { IUser, User } from '../user/user';
 export interface IItem {
     id:string;
     title:string;
+    price:number;
     category:Category;
     authors:IUser[];
     imageLink:string;
@@ -11,6 +12,12 @@ export interface IItem {
 }
 
 export class Item {
+    public get catchPhrase(): string {
+        return this._catchPhrase;
+    }
+    public set catchPhrase(value: string) {
+        this._catchPhrase = value;
+    }
     public get published(): boolean {
         return this._published;
     }
@@ -78,6 +85,7 @@ export class Item {
    constructor( private _id: string,
                 private _title: string, 
                 private _category: Category,
+                private _catchPhrase: string,
                 private _description: string,
                 private _price: number,
                 private _authors: IUser[],
@@ -116,6 +124,7 @@ export class Item {
             json['id'],
             json['title'],
             Category.categoryFromJson(json['category']),
+            json['catchPhrase'],
             json['description'],
             json['price'],
             this.getIAuthorsItemFromJson(json['authors']),

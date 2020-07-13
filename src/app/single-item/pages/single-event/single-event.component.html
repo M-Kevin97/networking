@@ -1,3 +1,34 @@
-<p>
-  single-event works!
-</p>
+<!-- Si la formation existe  -->
+<div *ngIf ="event">
+  <div class="row">
+    <div>
+      <a (click)="onBack()">Retour aux résultats</a>
+    </div>
+    <div class="col-md-3">
+      <div>
+        Par :
+        <span *ngFor="let author of event.authors"> {{ author.firstname }} {{ author.lastname }}</span>
+        <button class="btn btn-lg btn-success">
+          Ajouter au panier
+        </button>
+        <button class="btn btn-lg btn-success">
+          Acheter la formation
+        </button>
+      </div>
+    </div>
+  
+    <div class="col-md-9">
+      <h4>  {{ event.title }} </h4>
+      <img [src]="event.imageLink" width="250" height="250" class="d-inline-block border border-secondary" alt="">
+      <p>
+        {{ event.description }} 
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Si la formation n'existe pas -->
+<div *ngIf ="!event">
+Cet événement n'existe pas
+</div>
+

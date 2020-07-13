@@ -69,10 +69,13 @@ export class CourseFormComponent implements OnInit {
                               title,
                               category,
                               null,
+                              null,
                               price,
                               authors,
                               creationDate,
                               false,
+                              null,
+                              null,
                               null); 
 
     if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value) {
@@ -97,8 +100,6 @@ export class CourseFormComponent implements OnInit {
       );
     }
     else {
-      newCourse.imageLink = null;
-      newCourse.videoLink = null;
 
       this.sendCourseToDB(newCourse);  
     }       
@@ -158,7 +159,7 @@ export class CourseFormComponent implements OnInit {
 
       case StepState.COMPLETED :
         {
-          this.router.navigate(['/course', this.itemService.lastItemSaved.id]);
+          this.router.navigate([RouteUrl.COURSE, this.itemService.lastItemSaved.id]);
           break;
         }
 

@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { AuthGuardService } from './core/guards/user/auth-guard.service';
 import { SingleCourseComponent } from './single-item/pages/single-course/single-course.component';
+import { SingleEventComponent } from './single-item/pages/single-event/single-event.component';
 
 const routes: Routes = [
   {path:RouteUrl.HOME.substr(1,RouteUrl.HOME.length),
@@ -17,6 +18,7 @@ const routes: Routes = [
     component:FeedComponent,
     canActivate: [AuthGuardService]},
   {path:'course/:id', component:SingleCourseComponent},
+  {path:'event/:id', component:SingleEventComponent},
   {path:'', redirectTo:'home', pathMatch:'full'},
   {path:'**', component:PageNotFoundComponent}
 ];

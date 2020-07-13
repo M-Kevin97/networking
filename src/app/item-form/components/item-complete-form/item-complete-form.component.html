@@ -9,38 +9,40 @@
       Votre événement à bien été créé, vous pourrez le consulter dans : 
     </span>
 
-    <countdown #countdown [config]="{leftTime: 10}" (event)="onTimerFinished($event)" >$!m!:$!s!</countdown>
+    <countdown #countdown [config]="{leftTime: 6}" (event)="onTimerFinished($event)" >$!m!:$!s!</countdown>
     <div>
       <img src="assets/img/ok-img.png" width="90" height="90" class="d-inline-block" alt="Item créé">
     </div>
   </div>
-  
-  <h3>Complete</h3>
-  <p>You have successfully completed all steps.</p>
 
-  <div>
-    <span>Titre : </span>
-    <span>{{ getTitleFormValue() }}</span>
+  <div  *ngIf="!isItemCreated()">
+    <h3>Complete</h3>
+    <p>You have successfully completed all steps.</p>
 
-    <br><hr>
+    <div>
+      <span>Titre : </span>
+      <span>{{ getTitleFormValue() }}</span>
 
-    <span>Categorie : </span>
-    <span>{{ getCategoryFormValue() }}</span>
+      <br><hr>
 
-    <br><hr>
+      <span>Categorie : </span>
+      <span>{{ getCategoryFormValue() }}</span>
 
-    <span>Prix : </span>
-    <span>{{ getPriceFormValue() }}</span>
+      <br><hr>
 
-    <br><hr>
+      <span>Prix : </span>
+      <span>{{ getPriceFormValue() }}</span>
 
-    <span>Image : </span>
-    <img class="border" style="max-width:400px" [src]="getImageFormValue()">
+      <br><hr>
 
+      <span>Image : </span>
+      <img class="border" style="max-width:400px" [src]="getImageFormValue()">
+
+    </div>
   </div>
 
   <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
-  <ul class="nav nav-item justify-content-between border mx-auto mt-5">
+  <ul class="nav nav-item justify-content-between border mx-auto mt-5" *ngIf="!isItemCreated()">
     <li>
       <button type="button" class="btn btn-default btn-prev" 
                             (click)="onBack()">
@@ -50,7 +52,8 @@
     <li>
       <button type="button" class="btn btn-primary next-step" 
                             (click)="onCreateItem()">
-        Créer ma formation
+        <span *ngIf="isCourse()">Créer ma formation</span>
+        <span *ngIf="isEvent()">Créer mon événement</span>
       </button>
     </li>
   </ul>

@@ -1,5 +1,4 @@
-import { EventItem } from 'src/app/shared/item/event-item';
-import { Course } from 'src/app/shared/item/course';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
@@ -15,7 +14,8 @@ export class ItemCompleteFormComponent implements OnInit {
     return this._itemFormService;
   }
 
-  constructor(private _itemFormService: ItemFormService) { }
+  constructor(private _itemFormService: ItemFormService,
+              private route:Router) { }
 
   ngOnInit() {
 
@@ -47,11 +47,13 @@ export class ItemCompleteFormComponent implements OnInit {
   }
 
   isEvent(){
-    return (this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value instanceof EventItem);
+    //return (this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value instanceof EventItem);
+    return this.itemFormService.isEventFormRoute(this.route.url)
   }
 
   isCourse(){
-    return (this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value instanceof Course);
+    //return (this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value instanceof Course);
+    return this.itemFormService.isCourseFormRoute(this.route.url)
   }
 
   goToItemPage(){

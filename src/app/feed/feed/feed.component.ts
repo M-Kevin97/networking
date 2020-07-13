@@ -1,5 +1,4 @@
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { ItemService } from '../../shared/item/item.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 

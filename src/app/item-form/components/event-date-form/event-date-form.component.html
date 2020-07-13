@@ -17,7 +17,7 @@
               </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row"  *ngIf="getStartDate()">
               <label for="endDate" class="col-2 col-form-label">Au :</label>
               <div class="col-10">
                 <input class="form-control" type="datetime-local" 
@@ -26,7 +26,7 @@
                                             [value]="getStartDate()" 
                                             id="endDate">
               </div>
-              <span *ngIf="endDateInf">La date de fin est inférieur à la date de début</span>
+              <span *ngIf="!checkDates()">La date de fin est inférieur à la date de début</span>
             </div>
 
           </form>
@@ -41,7 +41,7 @@
             </li>
             <li>
                 <button type="button" id="continue" class="btn btn-default btn-next" 
-                                                    *ngIf="!datesForm.invalid"
+                                                    *ngIf="!datesForm.invalid && checkDates()"
                                                     (click)="onSetDates()">
                   Continuer
                 </button>

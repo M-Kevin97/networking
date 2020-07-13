@@ -7,4 +7,5 @@ export enum Database {
     AUTHOR = '/author',
     CATEGORY = '/category',
     CATEGORIES = '/categories',
+    LOCATION = '/location'
 }

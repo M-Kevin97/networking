@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { CoreComponent } from './core.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './guards/user/auth-guard.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 

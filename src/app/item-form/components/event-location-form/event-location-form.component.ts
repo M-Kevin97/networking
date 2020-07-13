@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
-import { LocationEvent } from 'src/app/shared/item/event-item';
+import { ILocationEvent } from 'src/app/shared/item/event-item';
 
 @Component({
   selector: 'app-event-location-form',
@@ -45,7 +45,7 @@ export class EventLocationFormComponent implements OnInit {
 
   onSetLocation() {
 
-    const location: LocationEvent = {
+    const location: ILocationEvent = {
       location: this.locationForm.get('location').value,
       address: this.locationForm.get('address').value,
       zip: this.locationForm.get('zip').value,
@@ -56,7 +56,7 @@ export class EventLocationFormComponent implements OnInit {
     this.itemFormService.setFormWithStepState(StepState.LOCATION, location);
   }
 
-  onRestoreDatesForm(value:LocationEvent){
+  onRestoreDatesForm(value:ILocationEvent){
 
     this.locationForm.patchValue({location:value.location});
     this.locationForm.patchValue({address:value.address});

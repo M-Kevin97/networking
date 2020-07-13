@@ -15,6 +15,7 @@ import { AdminComponent } from './admin/admin.component';
 
 import { HomeComponent } from './home/home.component';
 import { ItemFormModule } from './item-form/item-form.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
    declarations: [
@@ -31,6 +32,7 @@ import { ItemFormModule } from './item-form/item-form.module';
       SearchModule,
       ItemFormModule,
       SingleItemModule,
+      NgbModule,
    ],
    providers: [],
    bootstrap: [

@@ -37,6 +37,7 @@ export class ItemFormService {
     if(this.mapStepForms.set(stepState, stepForm).has(stepState)){
       stepForm.status = true;
      this._stepFormSubject.next(stepState);
+     console.log('addStepForm',stepForm);
     }
   }
 
@@ -59,19 +60,33 @@ export class ItemFormService {
   }
 
   onBackWithoutSave(){
+
     this._stepFormSubject.next(StepState.BACK);
   }
 
   onStartToTheBeginning(){
+
     this._stepFormSubject.next(StepState.STARTING);
   }
 
   getValueStepForm(): Observable<StepState> {
+
     return this._stepFormSubject.asObservable();
   }
 
   isMediaFormSkip(bool: boolean){
+
     return bool;
+  }
+
+  isCourseFormRoute(routeUrl:string){
+
+    return routeUrl.startsWith(RouteUrl.NEW_COURSE);
+  }
+
+  isEventFormRoute(routeUrl:string){
+
+    return routeUrl.startsWith(RouteUrl.NEW_EVENT);
   }
 
   isTitleFormRoute(routeUrl:string){

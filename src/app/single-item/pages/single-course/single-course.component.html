@@ -1,34 +1,384 @@
-<!-- Si la formation existe  -->
-<div *ngIf ="course">
-  <div class="row">
-    <div>
-      <a (click)="onBack()">Retour aux résultats</a>
-    </div>
-    <div class="col-md-3">
-      <div>
-        Par :
-        <span *ngFor="let author of course.authors"> {{ author.firstname }} {{ author.lastname }}</span>
-        <button class="btn btn-lg btn-success">
-          Ajouter au panier
-        </button>
-        <button class="btn btn-lg btn-success">
-          Acheter la formation
-        </button>
-      </div>
-    </div>
+<!------------------------------------ Page Single Course ------------------------------------>
+  <div class="container">
+     <div class="row">
+   
+      <!-- Start Price Card -->
+      <div class="col-lg-3 offset-1"> 
+       <div class="sticky">
+          
+          <div>
+            <img class=img-responsive [src]="course.imageLink" style=width:100% class="card-img-top" >
+          </div>
+          
+          <div class="card-item-body">
+            <h5 class="card-item-title" id="card-item-title">
+              {{ course.price }} € 
+            </h5>
+
+            <span class="card-text" id="card-text">
+              <span class="iconify iconify-safety" data-inline="false" data-icon="ant-design:safety-outlined">
+              </span>
+              Satisfait ou remboursé 
+            </span>
+
+            <button class="btn btn-add-cart">
+              Ajouter au panier
+              <span class="iconify iconify-add-cart" data-inline="false" data-icon="ic:round-add-shopping-cart"></span>
+            </button>
+
+            <hr> <!-- separation line -->
+
+            <div class="save-item">
+              Enregistrer 
+              <i class="fas fa-server" ></i>
+            </div>
+          
+            <div class="share-item">
+              Partager
+              <i class="fas fa-share"></i>
+            </div>
+          </div>
+      </div>  <!-- End Price Card -->
+
+      <!-- Start page item Head -->
+      <div class="col-lg-7 offset-1">
+        <div class="col-12">
+          <h2 class="item-title">
+            {{ course.title }}
+          </h2>
+          <h3 class="item-subtitre">
+            {{ course.catchPhrase }}
+          </h3>
+          <p class="langue">
+            <span id="lg" > 
+              <i id="glob" class="fa fa-globe" aria-hidden="true"></i>
+              Français 
+            </span> 
+            <span class="experience">
+              <i id="diplome" class="fa fa-graduation-cap" aria-hidden="true"></i>
+              <b>Expérience requise :</b> 
+              Aucune 
+            </span>
+          </p>
+
+          <hr> <!-- separation line -->
+
+          <!-- Rating section -->
+          <div class="etoiles"> 
+            <a href="#5" title="Donner 5 étoiles">★</a>
+            <a href="#4" title="Donner 4 étoiles">★</a>
+            <a href="#3" title="Donner 3 étoiles">★</a>
+            <a href="#2" title="Donner 2 étoiles">★</a> 
+            <a href="#1" title="Donner 1 étoile">★</a>
+            <a href="#all" title="Rating"><b>5</b></a>
+          </div> 
+
+          <div>  
+            <span class="avis"> 80 avis</span>
+            <span class="mise-ajour">
+              <i id="info" class="fa fa-info-circle" aria-hidden="true"></i> 
+              <b>Dernière mise à jour :</b> Le 05/07/2020</span> 
+          </div>
+
+        </div><!-- End page item Head -->
+
+        <!-- Start Authors section -->
+        <div class="col-12">
+          <span id="photo">   
+            <img class="photo-expert" src="h.jpg" class="img-fluid" alt="Responsive image" >
+          </span>
+          <div>
+            <p class="nom-expert">Aimé Césaire </p>
+            <p class="titre-expert">Expert Immobilier </p>
+            <p class="networkers"> <i class="fa fa-users" aria-hidden="true"></i> 
+              126 Networkers
+            </p>
+            
+            <button id="se-connecter" type="button" class="btn btn-light"> 
+              <b> Se connecter</b>  
+            </button>
+          </div>
+        </div> <!-- End Authors section -->
+
+        <!-- Start description item section -->
+        <div class="description">
+          <h5> Description</h5>
+
+          <hr> <!-- separation line -->
+
+          <p>
+            {{ course.description.substring(0,course.description.length/2) }}...
+          </p>
+          
+            <a style="text-decoration:none" href="#s" data-toggle="collapse" 
+                                                      aria-expanded="false"  
+                                                      aria-controls="s">  
+            </a>
+            <div class="well text-left"> 
+              <section id="s" class="collapse">
+
+              </section>
+            </div>
   
-    <div class="col-md-9">
-      <h4>  {{ course.title }} </h4>
-      <img [src]="course.imageLink" width="250" height="250" class="d-inline-block border border-secondary" alt="">
-      <p>
-        {{ course.description }} 
-      </p>
+            <input type="checkbox" checked data-toggle="toggle" 
+                                   data-on="+ Voir Plus" 
+                                   data-off=" - Voir moins" 
+                                   data-onstyle="Light" 
+                                   data-offstyle="Light"> 
+        </div>  <!-- End description item section -->  
+       
+        <!-- Start skills-to-acquire item section -->
+        <div class="col-12">
+         <div class="skills-to-acquire">
+           <h5>Compétences acquises</h5>
+
+           <hr> <!-- separation line -->
+
+           <p>  
+             <i id="check" class="fa fa-check" aria-hidden="true"></i>
+              <span class="tx-competences">
+                Trouver facilement la Bonne Affaire Immobilière qui répond à vos critères.
+              </span>  
+            </p>
+            <p>  
+              <i id="check" class="fa fa-check" aria-hidden="true"></i> 
+              <span class="tx-competences">
+                Comment bien préparer la visite du bien
+              </span>
+            </p>
+            <p>  
+              <i id="check" class="fa fa-check" aria-hidden="true"></i>
+              <span class="tx-competences">
+                L'art de la négociation facile et gagnante
+              </span>
+            </p>
+
+            <a style="text-decoration:none" href="#M" data-toggle="collapse" aria-expanded="false"  aria-controls="M"></a>
+              <div class="text-left"class="well">
+                <section id="M" class="collapse">
+                  <p> 
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>  
+                    <span class="tx-competences">
+                      Trouver facilement la Bonne Affaire Immobilière qui répond à vos critères
+                    </span>
+                  </p>
+                  <p> 
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i> 
+                    <span class="tx-competences">
+                      Comment bien préparer la visite du bien
+                    </span>
+                  </p>
+                  <p>  
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                    <span class="tx-competences">
+                      L'art de la négociation facile et gagnante
+                    </span>
+                  </p>
+                  <p>
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                    <span class="tx-competences">
+                      Trouver facilement la Bonne Affaire Immobilière qui répond à vos critères
+                    </span>
+                  </p>
+                  <p>
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                    <span class="tx-competences">
+                      Comment bien préparer la visite du bien
+                    </span>
+                  </p>
+                  <p>
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                    <span class="tx-competences">
+                      L'art de la négociation facile et gagnante
+                    </span>
+                  </p>
+                  <p>
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                    <span class="tx-competences">
+                      Trouver facilement la Bonne Affaire Immobilière qui répond à vos critères
+                    </span>
+                  </p>
+                  <p>
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                    <span class="tx-competences">
+                      Comment bien préparer la visite du bien
+                    </span>
+                  </p>
+                  <p> 
+                    <i id="check" class="fa fa-check" aria-hidden="true"></i> 
+                    <span class="tx-competences">
+                      L'art de la négociation facile et gagnante
+                    </span>
+                  </p>
+                </section>
+            <div class="t"> 
+              <input type="checkbox" checked data-toggle="toggle" 
+                                     data-on="+ Voir Plus" 
+                                    data-off=" - Voir moins" 
+                                    data-onstyle="Light" 
+                                    data-offstyle="Light">
+            </div>
+          </div> <!-- End skills-to-acquire item section -->
+
+          <!-- Start section more author's courses  -->
+          <h5> Plus <span class="Nom-plus"> de cours </span></h5>
+          <hr> <!-- separation line -->
+
+          <div id="carouselExampleIndicators" class="carousel slide container" 
+                                              data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+
+          <div id="w-cart" class="carousel-inner">
+            <div class="carousel-item active row">
+              <div class="row">
+                <div class="col-6 col-md-4"> <!-- Start card item -->
+                  <div class="card">
+                    <img class="card-img-top" src="img-immo.jpg" alt="">
+                      <div class="card-body">
+                        <h6 class="card-title">
+                          <a class ="titre-carte" style="text-decoration:none" href="description.html">Investisssment Immobilier </a>
+                        </h6>
+                        <div class="etoiles">
+                          <a href="#5" title="Donner 5 étoiles" > ★</a>
+                          <a href="#4" title="Donner 4 étoiles">★</a>
+                          <a href="#3" title="Donner 3 étoiles">★</a>
+                          <a href="#2" title="Donner 2 étoiles">★</a>
+                          <a href="#1" title="Donner 1 étoile">★</a> 
+                        </div> 
+                        <div>
+                          Vendu : 16 fois
+                        </div> 
+                        <div>
+                          <a href="#" style="text-decoration:none">
+                            <b class="color">160 €</b>
+                            <button id="ajt" type="button" 
+                                             class="btn btn-danger btn-sm">
+                              <b>Consulter</b>
+                            </button>
+                          </a> 
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- End card item -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>  <!-- End section more author's courses  -->
+
+      <!-- Start section Ratings -->
+      <div class="col-12">
+        <div class="commentaire"> 
+          <h5> Les Avis</h5>
+          <hr> <!-- separation line -->
+          <div class="note-moyene" >
+            <h1 id="note-moyene">4,9</h1>
+            <span class="etoiles">
+              <a href="#5" title="Donner 5 étoiles" >★</a>
+              <a href="#4" title="Donner 4 étoiles">★</a>
+              <a href="#3" title="Donner 3 étoiles">★</a>
+              <a href="#2" title="Donner 2 étoiles">★</a>
+              <a href="#1" title="Donner 1 étoile">★</a>   
+            </span>
+            <p>Note globale </p>
+          </div>
+
+          <div class="barre-note" >
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 72%;" 
+                                                           aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                72%
+              </div>
+            </div>
+        
+            <br>
+           
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 72%;" 
+                                                           aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                72%
+              </div>
+            </div>
+        
+            <br>
+
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 72%;" 
+                                                           aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                72%
+              </div>
+            </div>
+        
+            <br>
+
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 72%;" 
+                                                           aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                72%
+              </div>
+            </div>
+        
+            <br>
+
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 72%;" 
+                                                           aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                72%
+              </div>
+            </div>
+         
+            <div class="bio">
+              <a href="description de l'expert.html">
+                <img id="img-bio" src="h.jpg" class="img-fluid" alt="Responsive image" >
+              </a>
+              <p>
+                <b class="nom2">Kévin</b>
+              </p>      
+              <p>il y a 1 jour</p>
+              <span class="etoiles">
+                <a href="#5" title="Donner 5 étoiles" >★</a>
+                <a href="#4" title="Donner 4 étoiles">★</a>
+                <a href="#3" title="Donner 3 étoiles">★</a>
+                <a href="#2" title="Donner 2 étoiles">★</a>
+                <a href="#1" title="Donner 1 étoile">★ </a>   
+              </span>
+              
+              <p>
+                Passionné par l'immobilier, je suis parti de rien.
+                J'ai à l'heure actuelle de nombreux biens qui sont totalement auto-financés et me rapporte chaque mois, une belle rente.
+              </p> 
+              <hr> 
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Si la formation n'existe pas -->
-<div *ngIf ="!course">
-Cette formation n'existe pas
-</div>
 
+              

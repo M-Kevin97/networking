@@ -112,7 +112,7 @@ export class CategoryService {
    */
   public static saveCategoryWithReference(ref:firebase.database.Reference, category:Category){
 
-   return ref.child(Database.CATEGORY).child(category.id).set({
+    return ref.child(Database.CATEGORY).child(category.id).set({
       name:category.name
     }).then(
       function() {
@@ -122,5 +122,4 @@ export class CategoryService {
         return false;
     });
   }
-
 }

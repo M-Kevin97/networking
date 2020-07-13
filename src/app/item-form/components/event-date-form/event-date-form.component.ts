@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ItemFormService } from 'src/app/item-form/shared/services/item-form.service';
 import { StepState } from 'src/app/item-form/shared/state-step.enum';
-
-interface DatesEvent {
-  startDate: string;
-  endDate: string;
-}
+import { IDatesEvent } from 'src/app/shared/item/event-item';
 
 @Component({
   selector: 'app-event-date-form',
@@ -55,13 +51,16 @@ export class EventDateFormComponent implements OnInit {
     return this.datesForm.get('startDate').value;
   }
 
-  onSetDates() {
+  checkDates() {
+    if(!this.datesForm.get('endDate').value) { return false }
+    return this.datesForm.get('endDate').value > this.datesForm.get('startDate').value;
+  }
 
-    if(this.datesForm.get('endDate').value > this.datesForm.get('startDate').value){
+  onSetDates() {
 
       this.endDateInf = false;
 
-      const dates: DatesEvent = {
+      const dates: IDatesEvent = {
         startDate: this.datesForm.get('startDate').value,
         endDate: this.datesForm.get('endDate').value,
       };
@@ -69,13 +68,9 @@ export class EventDateFormComponent implements OnInit {
       console.log(dates);
   
       this.itemFormService.setFormWithStepState(StepState.DATES, dates);
-    }else {
-      this.endDateInf = true;
-    }
-
   }
 
-  onRestoreDatesForm(value:DatesEvent){
+  onRestoreDatesForm(value:IDatesEvent){
 
     this.datesForm.patchValue({startDate:value.startDate});
     this.datesForm.patchValue({endDate:value.endDate});

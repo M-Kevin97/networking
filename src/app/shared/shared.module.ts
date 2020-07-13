@@ -8,6 +8,7 @@ import { ItemService } from './item/item.service';
 import { UserService } from './user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { BrowserModule } from '@angular/platform-browser';
     Ng2ImgMaxModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule
   ],
   exports : [
     HttpClientModule,
@@ -24,6 +26,7 @@ import { BrowserModule } from '@angular/platform-browser';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule
   ],
   declarations: [
     SharedComponent

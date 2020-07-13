@@ -50,7 +50,6 @@ export class EventFormComponent implements OnInit {
                                       },
                                       () => {
                                         console.log('complete suscribe');
-                                        
                                       });
   }
 
@@ -61,14 +60,20 @@ export class EventFormComponent implements OnInit {
     const price = this.itemFormService.getStepFormWithStep(StepState.PRICE).value;
     const authors: User[] = [this.authService.authUser]; 
     const creationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
+    const location = this.itemFormService.getStepFormWithStep(StepState.LOCATION).value;
+    const dates = this.itemFormService.getStepFormWithStep(StepState.DATES).value;
 
     var newEvent = new EventItem(null,
                                   title,
                                   category,
                                   null,
+                                  null,
                                   price,
+                                  location,
+                                  dates,
                                   authors,
                                   creationDate,
+                                  false,
                                   null,
                                   null); 
 
@@ -82,7 +87,7 @@ export class EventFormComponent implements OnInit {
             console.log('Image Link :', url);
             newEvent.imageLink = url;
 
-            this.itemService.createNewEvent(newEvent);  
+            this.sendEventToDB(newEvent); 
           }
         },
         (error) => {
@@ -91,10 +96,29 @@ export class EventFormComponent implements OnInit {
       );
     }
     else {
-
-      //this.itemService.createNewItem(newEvent);  
+      this.sendEventToDB(newEvent);  
     }       
   }
+
+  private sendEventToDB(newEvent:EventItem)
+  {
+    return this.itemService.createNewEvent(newEvent).then(
+      (val) => {
+        if(val && val instanceof(EventItem)){
+
+          this.itemService.saveEventInAuthorsDB(val,this.authService.authUser.id);
+        }
+        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value = this.itemService.lastItemSaved;
+        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).status = true;
+        return true;
+        
+    }).catch(
+      (error) => {
+        console.log(error);
+        return false;
+      }); 
+  }
+
 
   sortStepForm(stepState:StepState){
     switch(stepState)
@@ -140,6 +164,12 @@ export class EventFormComponent implements OnInit {
         this.createNewEvent();
         break;
       }
+
+      case StepState.COMPLETED :
+        {
+          this.router.navigate([RouteUrl.EVENT, this.itemService.lastItemSaved.id]);
+          break;
+        }
 
       case StepState.BACK :
       {
