@@ -26,14 +26,16 @@ export class AuthService {
   constructor(private userService:UserService) { 
     
     this._authUser = new User(null
-      ,null
-      ,null
-      ,null
-      ,null
-      ,null
-      ,null
-      ,null
-      ,null);
+                              ,null
+                              ,null
+                              ,null
+                              ,null
+                              ,null
+                              ,null
+                              ,null
+                              ,null
+                              ,null
+                              ,null);
   }
 
   checkAuthUser(){

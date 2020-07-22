@@ -1,8 +1,13 @@
-<app-header-visitor *ngIf="displayHeader() && !isAuth()"></app-header-visitor>
-<app-header-user *ngIf="displayHeader() && isAuth()"></app-header-user>
+<div class="wrapper w-100">
+    <app-header-visitor *ngIf="displayHeader() && !isAuth()"></app-header-visitor>
+    <app-header-user *ngIf="displayHeader() && isAuth()"></app-header-user>
 
-<div class="container">
-    <router-outlet></router-outlet>
+
+    <div class="container-pages">
+        <router-outlet></router-outlet>
+    </div>
+    
+
+
+    <app-footer *ngIf="displayHeader()"></app-footer>
 </div>
-
-<app-footer *ngIf="displayHeader()"></app-footer>

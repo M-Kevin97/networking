@@ -9,6 +9,7 @@ export enum RouteUrl {
     SEARCH = '/search',
     COURSE ='/course',
     EVENT = '/event',
+    USER = '/user',
     NEW = '/new',
     NEW_EVENT = '/new/event',
     NEW_COURSE = '/new/course',

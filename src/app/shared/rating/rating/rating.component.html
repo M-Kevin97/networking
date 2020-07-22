@@ -1,0 +1,8 @@
+<!-- Rating section --> 
+<span>
+  <!-- <span class="iconify icon-star" data-inline="false" data-icon="bi:star-fill"></span> -->
+  <i class="fa fa-star icon-star"></i>
+  <span class="avrg-rating">{{ averageRating }}</span>
+  <span *ngIf="style===0" class="nb-rating">({{ nbRatings }})</span>
+  <span *ngIf="style===1" class="nb-rating">&nbsp;({{ nbRatings }} avis)</span>
+</span>

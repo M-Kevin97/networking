@@ -1,3 +1,4 @@
+import { ItemListComponent } from './shared/components/item-list/item-list.component';
 import { SingleItemModule } from './single-item/single-item.module';
 
 import { AppRoutingRoutes } from './app-routing.routing';
@@ -21,7 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
    declarations: [
       AppComponent,
       AdminComponent,
-      HomeComponent
+      HomeComponent,
    ],
    imports: [
       SharedModule,

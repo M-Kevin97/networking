@@ -8,8 +8,6 @@ import { Subject, concat } from 'rxjs';
 import { Course } from 'src/app/shared/item/course';
 import { EventItem, IEvent } from 'src/app/shared/item/event-item';
 import { Database } from 'src/app/core/database/database.enum';
-import { error } from 'protractor';
-import { User, IUser } from '../user/user';
 import { Category } from './category/category';
 
 
@@ -58,8 +56,9 @@ export class ItemService {
       creationDate: newCourse.creationDate,
       imageLink: newCourse.imageLink,
       videoLink: newCourse.videoLink,
-      published:newCourse.published,
-      catchPhrase:newCourse.catchPhrase,
+      published: newCourse.published,
+      catchPhrase: newCourse.catchPhrase,
+      skillsToAcquire: newCourse.skillsToAcquire,
     }).then(
       () => {
         CategoryService.saveCategoryWithReference(ref, newCourse.category).then(
@@ -156,44 +155,90 @@ export class ItemService {
     //this.emitItems();
   }
 
+  private updateItemPrimaryInfoInDB(item:Item, ref:firebase.database.Reference){ 
+
+    ref.update({
+      title: item.title,
+      price: item.price, 
+      imageLink: item.imageLink,
+      videoLink: item.videoLink,
+      catchPhrase:item.catchPhrase,
+    }).then(
+      () => {
+        this.updateItemPrimaryInfoInAuthorsDB(item, ref);
+    });
+  }
+
+  private updateItemPrimaryInfoInAuthorsDB(item:Item, ItemRef:firebase.database.Reference) {
+
+    if(item.authors){
+
+      var itemRef:string;
+
+      if(ItemRef.toString().includes(Database.COURSES)) {
+        itemRef = Database.COURSES;
+      }
+      else if(ItemRef.toString().includes(Database.EVENTS)) {
+        itemRef = Database.EVENTS;
+      }
+
+      item.authors.forEach(function (value) {
+        console.log('updateCoursePrimaryInfoInDB', value, item);
+        if(value){
+         
+            var refAuthors = firebase.database()
+            .ref(Database.USERS)
+            .child(value.id)
+            .child(itemRef).child(item.id);
+          
+          refAuthors.update({
+              title: item.title, 
+              price:item.price, 
+              imageLink :item.imageLink,
+              published:item.published,
+          });
+        } 
+      });
+    }
+  }
+
   updateCoursePrimaryInfoInDB(course:Course){
 
     var ref = firebase.database().ref(Database.COURSES).child(course.id);
-    
-    ref.update({
-      title: course.title,
-      price: course.price, 
-      imageLink: course.imageLink,
-      videoLink: course.videoLink,
-      catchPhrase:course.catchPhrase,
-    }).then(
-      () => {
-        course.authors.forEach(function (value) {
-          console.log('updateCoursePrimaryInfoInDB', value, course);
-          if(value){
-        
-            var refAuthors = firebase.database()
-                                     .ref(Database.USERS)
-                                     .child(value.id)
-                                     .child(Database.COURSES).child(course.id);
+    this.updateItemPrimaryInfoInDB(course, ref);   
+  }
 
-            refAuthors.update({
-                title: course.title, 
-                price:course.price, 
-                imageLink :course.imageLink,
-                published:course.published,
-            });
-          } 
-      });
+  updateEventPrimaryInfoInDB(event:EventItem){
+
+    var ref = firebase.database().ref(Database.EVENTS).child(event.id);
+    this.updateItemPrimaryInfoInDB(event, ref);   
+  }
+
+  private updateItemDescriptionInDB(item:Item, ref:firebase.database.Reference) {
+
+    ref.update({
+      description: item.description
     });
   }
 
   updateCourseDescriptionInDB(course:Course){
 
     var ref = firebase.database().ref(Database.COURSES).child(course.id);
+    this.updateItemDescriptionInDB(course, ref);
+  }
+
+  updateEventDescriptionInDB(event:EventItem){
+
+    var ref = firebase.database().ref(Database.EVENTS).child(event.id);
+    this.updateItemDescriptionInDB(event, ref);
+  }
+
+  updateSkillsToAcquireInDB(course:Course){
+
+    var ref = firebase.database().ref(Database.COURSES).child(course.id);
     
     ref.update({
-      description: course.description
+      skillsToAcquire: course.skillsToAcquire
     });
   }
 
@@ -209,6 +254,20 @@ export class ItemService {
 
   getCoursesOfAuthenticatedUser(){
     
+  }
+
+  getItemsOfUserByUserId(id:string){
+    return new Promise(
+      (resolve, reject) => {
+        firebase.database().ref(Database.USERS).child(id).child(Database.ITEMS.substr(1)).once('value').then(
+          (data) => {
+              resolve(data.val());
+          }, (error) => {
+            reject(error);
+          }
+        );
+      }
+    );
   }
 
   getSingleCourseFromDBWithId(id:string){
@@ -373,31 +432,19 @@ export class ItemService {
 
       var ref = firebase.database().ref(Database.USERS);
 
-      const iCourse:ICourse = {
-        id:course.id,
-        title:course.title,
-        category:course.category,
-        price:course.price,
-        nbRatings:2,
-        overallRating:5,
-        authors: course.authors, 
-        imageLink: course.imageLink,
-        published: course.published,
-      };
-
       course.authors.forEach(function (value) {
         console.log('saveCourseInAuthorsDB',value); 
         
-        var refAuthors = ref.child(value.id).child(Database.COURSES).child(iCourse.id);
+        var refAuthors = ref.child(value.id).child(Database.COURSES).child(course.id);
 
         refAuthors.set({
-          title: iCourse.title, 
-          price:iCourse.price, 
-          imageLink :iCourse.imageLink,
-          published:iCourse.published,
+          title: course.title, 
+          price:course.price, 
+          imageLink :course.imageLink,
+          published:course.published,
       }).then(
         () => {
-          CategoryService.saveCategoryWithReference(refAuthors, iCourse.category).then(
+          CategoryService.saveCategoryWithReference(refAuthors, course.category).then(
             (bool) => {
   
               // si la category a été sauvegardée
@@ -405,7 +452,7 @@ export class ItemService {
   
               // si la category a été sauvegardée
               if(bool) {
-                if(UserService.saveAuthorsWithReferenceAndAuthID(refAuthors, iCourse.authors, idAuthorAuth)) {
+                if(UserService.saveAuthorsWithReferenceAndAuthID(refAuthors, course.authors, idAuthorAuth)) {
                     return true;
                }
                 // si la les auteurs n'ont pas été sauvegardés

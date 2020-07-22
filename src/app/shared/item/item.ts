@@ -1,7 +1,9 @@
 import { Category } from 'src/app/shared/item/category/category';
-import { IUser, User } from '../user/user';
+import { IUser } from '../user/user';
+import { ILocationEvent, IDatesEvent } from './event-item';
 
 export interface IItem {
+    type:string;
     id:string;
     title:string;
     price:number;
@@ -95,20 +97,31 @@ export class Item {
                 private _videoLink?: string){
     }
 
+    getMainAuthor(){
+        if(this.authors)
+        {
+            return this.authors[0];
+        }
+    }
+
     protected static getIAuthorsItemFromJson(json: Object): IUser[] {
 
-        if(json === null && json === undefined) return null;
+        if(json === null || json === undefined) return null;
 
         console.log(json);
 
         var authors = Object.keys(json).map(
             function(authorsIdIndex){
             let userJson = json[authorsIdIndex];
+            
             console.log(userJson);
+
             var author:IUser = {
                 id: authorsIdIndex,
                 firstname: userJson['firstname'],
                 lastname: userJson['lastname'],
+                title: userJson['title'],
+                ppLink: userJson['ppLink'],
             };
             return author;
         });
@@ -118,7 +131,7 @@ export class Item {
 
     public static itemFromJson(json: Object): Item {
 
-        if(json === null && json === undefined) return null;
+        if(json === null || json === undefined) return null;
 
         return new Item(
             json['id'],
@@ -134,4 +147,47 @@ export class Item {
             json['videoLink']
         );
     }
+
+    public static getILocationFromJson(json: Object): ILocationEvent {
+
+        if(json === null || json === undefined) return null;
+
+        console.log(json);
+
+        const location:ILocationEvent = {
+
+            location: json['location'],
+            address: json['address'],
+            zip: json['zip'],
+            city: json['city'],
+            country: json['country']
+          }
+
+        return location;
+    }
+
+
+    public static  getIDatesFromJson(json: Object): IDatesEvent {
+
+        if(json === null || json === undefined) return null;
+
+        console.log(json);
+
+        const dates:IDatesEvent = {
+            startDate: json['startDate'],
+            endDate: json['endDate']
+          }
+
+        return dates;
+    }
+
+    public static instanceOfIEvent(object: any){
+        return object.type === 'IEvent';
+    }
+
+    public static instanceOfICourse(object: any) {
+        return object.type === 'ICourse';
+    }
+
+
 }

@@ -1,614 +1,75 @@
+.item-path {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+.sticky
+{
+   position: sticky;
+   top: 18vh;
+}
+
 .iconify {
     font-size: 35px;
 }
 
-.iconify-safety {
-    color: #3fc710;
-}
+.heading {
 
-.iconify-add-cart {
-    color: #FFFFFF;
-}
-
-#card-shadow
-  {  
-    border-bottom-left-radius :6%;
-    border-bottom-right-radius : 6%;
-}
-#play1
-{
-   width: 80px;
-   height:80px;
-   position: absolute;
-   right: 100px;
-   top: 50px;
-   opacity:0.9;
-  filter:alpha(opacity=50);
-}
-#play-circle
-{
- position: relative;
- bottom: 40px;
- 
-}
- #card-title
- {
-     font-size:36px;
-     text-align: center;
-     
- }
-
- #shield
- {
-     position: relative;
-     right: 20px;
- }
-
- #card-text
- {
-    font-weight:bold;
+    align-items: center;
     text-align: center;
-    font-size:16px;
-    color: #565656;
- }
 
- .Ajouter
- {
-     text-align: center;
-     margin-bottom:10%;
- }
- #Ajouter
- {
-    font-weight:bold;  
-    text-align: center; 
-    width: 220px; 
-  
- }
+    border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
 
- .Acheter
- {
-     text-align: center;
-     margin-bottom:10%;
-     
- }
- #Acheter
- {
-    font-weight:bold;  
-    text-align: center;
-    width: 220px; 
- }
-
- .Enregistrer
- {
-    font-weight:bold;
-    color: #565656; 
-  
-   
- }
-
- .Partager
- {  
-    font-weight:bold;
-    position: relative;
-    left: 60%;
-    bottom: 24px;
-    color: #565656;
- }
-
- #cart-plus
- {
-    position: relative;
-    left: 15%;   
- }
-
- #youtube
- {
-    position: relative;
-    left: 18%;   
- }
-/* Partie 2 description de la formation  */
-
-
-.titre-formation
-{
-   text-align: center;
-   font-weight:bold;
-}
-
-.sous_titre
-{
-   text-align: center;
-  
-   font-size:18px;
-   color:  #565656;;
-}
-
-.langue
-{
-   text-align: center;
-}
-#lg
-{
-
-   position: relative;
-   right: 70px;
-}
-#glob
-{
-  position: relative;
-  right:10px;
-}
-.experience
-{
-   position: relative;
-   left: 65px; 
-}
-
-#diplome
-{
-position: relative;
-right:10px;
-}
-
-
-.etoiles
-{
-   direction: rtl;
-   font-size:10px;
-   position: relative;
-   top: 3px;
-  
-   
-}
-.etoiles a 
-{
-   color: gold;;
-   text-decoration: none;
-   font-size: 3em;
-   transition: color .4s;
-}
-.etoiles a:hover,
-.etoiles a:focus,
-.etoiles a:hover ~ a,
-.etoiles a:focus ~ a 
-{
-   color: gold;
-   cursor: pointer;
-}
-
-
-.avis
-{
-font-size: 17px;
-font-weight:bold;
-position: relative;
-left: 180px;
-bottom: 30px;
-color: dodgerblue;
-}
-.mise-ajour
-{
-   font-size: 16px;
-   position: relative;
-left: 265px;
-bottom: 30px;
-}
-/* Partie 3  */
-.photo-expert
-{
-
-
-overflow:hidden;
-   
-    border-radius:60px;
-    width:80px;
-    height:80px;
-    margin-top: 30px;
-  
-}
-.nom-expert
-{
-   font-weight:bold;
-   font-size: 17px;
-   color: dodgerblue;
-   position: relative;
-   left: 110px;
-   bottom: 80px;
-}
-
-.titre-expert
-{
-   font-weight:bold;
-   font-size: 15px;
-   position: relative;
-   left: 110px;
-   bottom: 95px;
-}
-
-.networkers
-{
-   
-   font-size: 15px;
-   position: relative;
-   left: 110px;
-   bottom: 105px;
-}
-#info
-{
-   position: relative;
-   right: 10px;
-}
-#se-connecter
-{
-   position: relative;
-   left: 323px;
-   bottom: 200px;
-   background-color: #E3E3E3   
-}
-
-/* Partie 4  */
-
-.description
-{
-   position: relative;
-   bottom: 110px;
-}
-#s
-{
-   color: black;
-}
-
-/* Partie 5  */
-#check
-{
-   color: forestgreen;
-}
-
-.competence-acquises
-{
-   position: relative;
-   bottom: 90px;  
-}
-.tx-competences
-{
-   position: relative;
-   left: 10px;
-}
-.tx-competences2
-{
-   position: relative;
-   left: 10px;
-}
-
-#M
-{
-   color: black;
-}
-
-/* Partie 6 Comptenu de la formation   */
-
-.Comptenu
-
-   {
-      position: relative;
-      bottom: 60px;  
-      right: 12px;
-   }
-
-
-#show1, #show3, #show5, #show7, #show9, #show11
-{
-  background-color:#8CC5E1 ;
-  margin-top: 1%;
-  width:100%;
-  height: 50px; 
-  text-align: left;
-  font-size: 22px;
-  font-weight:bold;
-  color: #302E2E ;
-  margin-bottom: 2%;
-  margin-left: 2%;
-  position: relative;
-  right: 12px;
-
-}
-
-#show1
-
-{
- margin-top: 1%;
-}
-
-
-
-#show2, #show4, #show6, #show8, #show10, #show12
-{
-font-size: 19px;
- font-weight:bold;
- color:#807C7C ;
- margin-right: 2%;
+    margin-bottom: 5vh ;
+    padding-bottom: 3vh;
+    padding-bottom: 2vh;
 }
-.duree
-{
-  text-align: left;
-  font-size: 120%;
-}
-
-.video1
-{
-	position: relative;right: 75px;
-	
-
-}
-.video2
-{
-	position: relative;right: 75px;
-}
-
-.video3
-{
-	position: relative;right: 75px;
-
-}
-.video4
-{
-	position: relative;right: 75px;
-	
-}
-.video5
-{
-	position: relative;right: 75px;
-
-}
-.commentaire
-{
-	position: relative;
-	bottom: -90px;
-}
-
-/* Partie 7 Plus du formateur  */
-.Nom-plus
-{
-   color:dodgerblue;
-}
-
-.sr-only
-{
-   width: 30px;
-}
-
-
-.titre-carte
-{
-   text-align: center;
-   font-weight: bold;
-}
-
-#w-cart
-{
-   width: 650px;
-}
-
-body .carousel-indicators li{
-   background-color:grey;
-   position: relative;
- top:70px;
- }
- body .carousel-control-prev-icon,
- body .carousel-control-next-icon{
-   background-color:gray;
- 
-  
- }
- .carousel-control-prev-icon 
- {
- position: relative;
- right:70px;
-
- 
-}
-
-.carousel-control-next-icon
-
-{
-   position: relative;
-   left:100px;  
-}
-
-
-
 
-/* Les notes    */
-
-#progress
-{
-	width:70%;
-	height: 28px;
-}
-.barre-note
-{
-	position: relative;
-	left: 190px;
-	bottom: 150px;
-}
-#note-moyene
-{
-	font-size: 60px;
-}
-.note-moyene
-{
-position: relative;
-top: 60px;
-font-size: 20px;
-}
-
-.etoiles1
-{
-	position: relative;
-	left: 730px;
-		bottom:  35px;
-   direction: rtl;
-
+.title-section {
+    margin-bottom: 5vh;
 }
 
-.etoiles2
-{
-	position: relative;
-	left: 730px;
-	bottom:  32px;
-   direction: rtl;
+.item-title {
+    font-weight: 650;
+    font-size: 2em;
 }
 
-.etoiles3
-{
-	position: relative;
-		left: 730px;
-		bottom:  30px;
-   direction: rtl;
+.item-subtitle {
+    font-weight: 400;
+    font-size: 1.02em;
 }
 
-.etoiles4
-{
-
-	position: relative;
-		left: 730px;
-	bottom:  30px;
-   direction: rtl;
-}
-
-.etoiles5
-{
-	position: relative;
-		left: 730px;
-		bottom:  30px;
-   direction: rtl;
+.feature-text > i{
+    margin-right: 1vw;
 }
-
 
-.etoiles1 a 
-{
-   color: gold;;
-   text-decoration: none;
-   font-size: 23px;
-   transition: color .4s;
-
-}
-.etoiles1 a:hover,
-.etoiles1 a:focus,
-.etoiles1 a:hover ~ a,
-.etoiles1 a:focus ~ a 
-{
-   color: gold;
-   cursor: pointer;
+.rating-link {
+    text-decoration: none;
 }
-
-
-.etoiles2 a 
-{
-   color: gold;;
-   text-decoration: none;
-   font-size: 23px;
-   transition: color .4s;
 
+.item-block {
+    margin-top: 10vh;
 }
-.etoiles2 a:hover,
-.etoiles2 a:focus,
-.etoiles2 a:hover ~ a,
-.etoiles2 a:focus ~ a 
-{
-   color: gold;
-   cursor: pointer;
-}
-
-.etoiles3 a 
-{
-   color: gold;;
-   text-decoration: none;
-   font-size: 23px;
-   transition: color .4s;
 
+.skills-list > li{
+    list-style-type: none;
+    margin-bottom: 2.5vh;
 }
-.etoiles3 a:hover,
-.etoiles3 a:focus,
-.etoiles3 a:hover ~ a,
-.etoiles3 a:focus ~ a 
-{
-   color: gold;
-   cursor: pointer;
-}
-
-.etoiles4 a 
-{
-   color: gold;;
-   text-decoration: none;
-   font-size: 23px;
-   transition: color .4s;
 
+.skills-list > li > i{
+    color: #2E7B9C;
 }
-.etoiles4 a:hover,
-.etoiles4 a:focus,
-.etoiles4 a:hover ~ a,
-.etoiles4 a:focus ~ a 
-{
-   color: gold;
-   cursor: pointer;
-}
-
 
-.etoiles5 a 
-{
-   color: gold;;
-   text-decoration: none;
-   font-size: 23px;
-   transition: color .4s;
-
-}
-.etoiles5 a:hover,
-.etoiles5 a:focus,
-.etoiles5 a:hover ~ a,
-.etoiles5 a:focus ~ a 
-{
-   color: gold;
-   cursor: pointer;
+#more-skills {
+    display: none;
 }
 
-.pourcent
-{
-color: black;
+#btnSeeMoreSkills {
 
-
-/* Commentaires    */
-
-}
-#img-bio
-{
-overflow:hidden;
-    -webkit-border-radius:3.90625vw;
-    -moz-border-radius:3.90625vw;
-    border-radius:90px;
-    width:90px;
-    height:90px;
-    position:relative;
-    right: 100px;
-    top: 150px;     
-}
-.bio
-{
-   position: relative;
-   right:130px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10vw;
+    color:#2E7B9C;
 }
-
-.nom2
-{
-   position: relative;
-   right:80px;
-   top: 170px;
-}
-
-
- .sticky
- {
-    
-    position: sticky;
-    top:0px;
- }

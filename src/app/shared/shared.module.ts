@@ -18,7 +18,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     Ng2ImgMaxModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    
   ],
   exports : [
     HttpClientModule,
@@ -26,10 +27,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
   ],
   declarations: [
-    SharedComponent
+    SharedComponent,
   ],
 })
 export class SharedModule {

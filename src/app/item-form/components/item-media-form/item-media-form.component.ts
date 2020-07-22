@@ -1,3 +1,4 @@
+import { Params } from './../../../core/params/params.enum';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -5,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { ImageService } from 'src/app/shared/image/image.service';
 import { StepState } from '../../shared/state-step.enum';
+import { Database } from 'src/app/core/database/database.enum';
 
 
 @Component({
@@ -41,7 +43,7 @@ export class ItemMediaFormComponent implements OnInit, OnDestroy {
     // sinon si l'élément media a été créé le supprimé ?
     if(this.itemFormService.mapStepForms.has(StepState.MEDIA)){
       if(this.itemFormService.getStepFormWithStep(StepState.MEDIA).status){
-        //this.onRestoreMediaForm(this.itemFormService.getStepFormWithStep(StepState.MEDIA).value);
+        // this.onRestoreMediaForm(this.itemFormService.getStepFormWithStep(StepState.MEDIA).value);
       }
     }
     // si les éléménts précédents n'ont pas été créé, retourner au début
@@ -49,6 +51,9 @@ export class ItemMediaFormComponent implements OnInit, OnDestroy {
       this.itemFormService.onStartToTheBeginning();
     }
 
+    if(this.itemFormService.isCourse()) this.urlImagePreview = Database.DEFAULT_IMG_COURSE;
+    else if(this.itemFormService.isEvent()) this.urlImagePreview = Database.DEFAULT_IMG_EVENT;
+    
     this.getImagePreviewFromService();
   }
 
@@ -70,14 +75,8 @@ export class ItemMediaFormComponent implements OnInit, OnDestroy {
   }
 
   onSetMedia(){
-    
-    const imageLink = this.urlImagePreview;
-    this.itemFormService.setFormWithStepState(StepState.MEDIA, imageLink);
-  }
 
-  onSkipMedia(){
-    
-    this.itemFormService.setFormWithStepState(StepState.MEDIA, null);
+    this.itemFormService.setFormWithStepState(StepState.MEDIA, this.urlImagePreview);
   }
 
   onBack() {

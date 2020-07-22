@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { StepState } from '../state-step.enum';
@@ -18,7 +19,7 @@ export class ItemFormService {
   private _stepFormSubject = new Subject<StepState>();
   private _mapStepForms: Map<string, StepForm> = new Map<string, StepForm>();
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   public get mapStepForms(): Map<string, StepForm> {
     return this._mapStepForms;
@@ -84,10 +85,21 @@ export class ItemFormService {
     return routeUrl.startsWith(RouteUrl.NEW_COURSE);
   }
 
+  isCourse(){
+
+    return this.router.url.startsWith(RouteUrl.NEW_COURSE);
+  }
+
   isEventFormRoute(routeUrl:string){
 
     return routeUrl.startsWith(RouteUrl.NEW_EVENT);
   }
+
+  isEvent(){
+
+    return this.router.url.startsWith(RouteUrl.NEW_EVENT);
+  }
+
 
   isTitleFormRoute(routeUrl:string){
 

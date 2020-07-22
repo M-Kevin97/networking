@@ -3,18 +3,21 @@
   <div class="modal-content"> 
     <div class="modal-body">
       <!---------------------------- Description ------------------------------>
-      <h3> Description </h3>
+      <h4>Description</h4>
+      <hr class="separation-line"> <!-- separation line -->
       <form [formGroup]="descriptionItemForm" role="form" class="form-item">
         <textarea class="form-control" 
                   formControlName="description"
                   id="description" 
-                  [(ngModel)]="item.description"
-                  rows="3"></textarea>
+                  [(ngModel)]="description"
+                  rows="5">
+        </textarea>
       </form>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light" 
-                            (click)="activeModal.close('Close click')">Annuler</button>
+                            (click)="activeModal.close(oldDescription)">Annuler</button>
+
       <button type="button" (click)="passBack()">Enregistrer</button>
     </div>
   </div>

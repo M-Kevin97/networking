@@ -1,0 +1,47 @@
+.sticky {
+  position: sticky;
+  position: -webkit-sticky; /* for Safari */
+  top: 12vh;
+  z-index: 10;
+}
+
+
+.user-info {
+  width: 100%;
+}
+
+.user-head {
+
+  margin-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.user-nav {
+
+  width: 100%;
+  height: 8vh;
+  background-color: white;
+
+  font-size: 1.05em;
+  font-weight: 500;
+}
+
+.user-nav > li{
+  width: 25%;
+  text-align:center;
+  display:table;
+}
+
+.user-nav > li > a{
+  text-decoration: none;
+  color: black;
+}
+
+.user-nav > li > span {
+  display:table-cell;
+  vertical-align:middle;
+}
+
+.user-nav > li:hover, .user-nav > li:active, .user-nav > li:focus {
+  border-bottom: #2E7B9C solid 0.6vh;
+}

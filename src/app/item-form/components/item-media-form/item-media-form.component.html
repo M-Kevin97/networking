@@ -12,18 +12,13 @@
                        id="image"
                        accept="image/*"
                        (change)="onPreviewImage($event)">
-      
-          
-    <p class="text-success" *ngIf="this.urlImagePreview">
-      Le fichier a bien été chargé
-    </p>
 
   </form>
 
   <!-------------------------------- Modal Preview Image ---------------------------->
 
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" 
+  <button type="button" class="btn btn-primary mt-3" data-toggle="modal" 
                                                 data-target="#imageModalPreview"
                                                 *ngIf="urlImagePreview">
     Prévisualiser l'image
@@ -64,7 +59,7 @@
     </li>
     <li>
       <button type="button" class="btn btn-default btn-skip" 
-                            (click)="onSkipMedia()">
+                            (click)="onSetMedia()">
         Passer
       </button>
     </li>

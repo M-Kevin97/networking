@@ -1,0 +1,10 @@
+<div class="block-description" >
+  <p *ngIf="description">
+    <span>{{ getDescriptionBeginning() }}</span>
+    <span id="dots">...</span>
+    <span id="more">{{ getDescriptionEnding() }}</span>
+  </p>
+  <div (click)="seeMore()" id="btnSeeMore" *ngIf="checkLengthDescription()">
+    + Voir plus
+  </div>
+</div>

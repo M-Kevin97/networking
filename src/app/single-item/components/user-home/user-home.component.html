@@ -1,0 +1,35 @@
+<div class="row w-100 justify-content-center user-items-block">
+  <!-- Start user courses section -->
+  <div class="row user-items-section user-courses-section border">
+    <div class="col-12">
+      <h5 class="title-cat">
+        Formations ({{ getICoursesLength() }}) > <a (click)="displayUserCourses()">Tout consulter</a>
+      </h5>
+      <hr> <!-- separation line -->
+      <app-items-carousel *ngIf="user.courses" [iItems]="user.courses"></app-items-carousel>
+      <span *ngIf="!user.courses">Aucune formations</span>
+    </div>
+
+  </div> <!-- End user courses section -->
+
+  <!-- Start user events section -->
+  <div class="row user-items-section user-events-section">
+    <div class="col-12">
+      <h5 class="title-cat">
+       Événements({{ getIEventsLength() }}) > <a (click)="displayUserEvents()">Tout consulter</a>
+      </h5>
+      <hr> <!-- separation line -->
+      <app-items-carousel *ngIf="user.events" [iItems]="user.events"></app-items-carousel>
+      <span *ngIf="!user.events">Aucun événements</span>
+    </div>
+  </div> <!-- End user events section -->
+
+  <!-- Start user posts section -->
+  <div class="row user-items-section user-posts-section">
+    <div class="col-12">
+      <h5 class="title-cat">Publications (6)</h5>
+      <hr> <!-- separation line -->
+      <span>À venir</span>
+    </div>
+  </div> <!-- End user posts section -->
+</div>

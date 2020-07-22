@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
 })
 export class FeedComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+              private auth:AuthService) { }
 
   ngOnInit() {
   }
@@ -24,5 +26,13 @@ export class FeedComponent implements OnInit {
 
   goToAdmin(){
     this.router.navigate([RouteUrl.ADMIN]);
+  }
+
+  goToMyCourses() {
+    this.router.navigate([RouteUrl.USER, this.auth.authUser.id], {fragment: 'courses'});
+  }
+
+  goToMyEvents() {
+    this.router.navigate([RouteUrl.USER, this.auth.authUser.id], {fragment: 'events'});
   }
 }

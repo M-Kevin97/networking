@@ -10,7 +10,8 @@ import { Item } from 'src/app/shared/item/item';
 })
 export class EditDescriptionItemComponent implements OnInit {
 
-  @Input() item:Item;
+  @Input() description:string;
+  oldDescription: string;
   descriptionItemForm: FormGroup;
 
   constructor(private formBuilder:FormBuilder,
@@ -29,18 +30,18 @@ export class EditDescriptionItemComponent implements OnInit {
     });
 
     this.preFillEditForm();
+    this.oldDescription = this.description;
   }
 
   preFillEditForm(){
 
-    console.log('preFillEditForm',this.item);
+    console.log('preFillEditForm', this.description);
 
-    this.descriptionItemForm.patchValue({description:this.item.description});
+    this.descriptionItemForm.patchValue({description:this.description});
   }
   
-
   passBack(){
 
-    this.activeModal.close(this.item);
+    this.activeModal.close(this.description);
   }
 }

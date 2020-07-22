@@ -73,15 +73,16 @@ export class EventItem extends Item {
             let eventJson = json[eventsIdIndex];
 
             var event:IEvent = {
+                type:'IEvent',
                 id: eventsIdIndex,
                 title: eventJson['title'],
-                category: Category.categoryFromJson(eventJson['categories']),
+                category: Category.categoryFromJson(eventJson['category']),
                 price: eventJson['price'],
                 imageLink: eventJson['imageLink'],
-                authors:this.getIAuthorsItemFromJson(eventJson['authors']),
+                authors:Item.getIAuthorsItemFromJson(eventJson['authors']),
                 published: eventJson['published'],
-                location:this.getILocationFromJson(eventJson['location']),
-                dates:this.getILocationFromJson(eventJson['dates'])
+                location:Item.getILocationFromJson(eventJson['location']),
+                dates:Item.getIDatesFromJson(eventJson['dates'])
             };
             return event;
         });
@@ -89,41 +90,8 @@ export class EventItem extends Item {
         return events;
     }
 
-    public static getILocationFromJson(json: Object): ILocationEvent {
-
-        if(json === null && json === undefined) return null;
-
-        console.log(json);
-
-        const location:ILocationEvent = {
-
-            location: json['location'],
-            address: json['address'],
-            zip: json['zip'],
-            city: json['city'],
-            country: json['country']
-          }
-
-        return location;
-    }
-
-
-    public static getIDatesFromJson(json: Object): IDatesEvent {
-
-        if(json === null && json === undefined) return null;
-
-        console.log(json);
-
-        const dates:IDatesEvent = {
-            startDate: json['startDate'],
-            endDate: json['endDate']
-          }
-
-        return dates;
-    }
-
-
     public static eventFromJson(json: Object): EventItem {
+        if(json === null || json === undefined) return null;
         return new EventItem(
             json['id'],
             json['title'],
@@ -142,6 +110,8 @@ export class EventItem extends Item {
     }
 
     public static eventsFromJson(json: Object): EventItem[] {
+
+        if(json === null || json === undefined) return [];
 
         var events = Object.keys(json).map(
             function(eventsIdIndex){

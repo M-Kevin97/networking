@@ -1,3 +1,4 @@
+import { Database } from 'src/app/core/database/database.enum';
 import { ICourse } from './../item/course';
 import { Course } from 'src/app/shared/item/course';
 import { EventItem, IEvent } from '../item/event-item';
@@ -6,9 +7,17 @@ export interface IUser {
     id:string;
     firstname:string;
     lastname:string;
+    title:string;
+    ppLink:string;
 }
 
 export class User {
+    public get ppLink(): string {
+        return this._ppLink;
+    }
+    public set ppLink(value: string) {
+        this._ppLink = value;
+    }
     
     public get events(): IEvent[] {
         return this._events;
@@ -28,17 +37,17 @@ export class User {
     public set id(value: string) {
         this._id = value;
     }
-    public get description(): string {
-        return this._description;
+    public get bio(): string {
+        return this._bio;
     }
-    public set description(value: string) {
-        this._description = value;
+    public set bio(value: string) {
+        this._bio = value;
     }
-    public get job(): string {
-        return this._job;
+    public get title(): string {
+        return this._title;
     }
-    public set job(value: string) {
-        this._job = value;
+    public set title(value: string) {
+        this._title = value;
     }
     public get tel(): string {
         return this._tel;
@@ -75,12 +84,13 @@ export class User {
                 private _firstname: string, 
                 private _lastname: string, 
                 private _mail: string, 
-                private _password: string, 
-                private _tel?: string, 
-                private _job?: string,
-                private _description?: string,
-                private _courses?: ICourse[],
-                private _events?: IEvent[]) {
+                private _password: string,
+                private _ppLink: string,
+                private _tel: string, 
+                private _title: string,
+                private _bio: string,
+                private _courses: ICourse[],
+                private _events: IEvent[]) {
 
     }
 
@@ -88,16 +98,18 @@ export class User {
 
         if(json === null && json === undefined) return null;
 
+        const jsonItems = json['items'];
         return new User(null,
                         json['firstname'],
                         json['lastname'],
                         json['mail'],
-                        null,
+                        json['password'],
+                        json['ppLink'],
                         json['tel'],
-                        json['job'],
-                        json['description'],
-                        Course.getICoursesItemFromJson(json['courses']),
-                        EventItem.getIEventsItemFromJson(json['events'])   
+                        json['title'],
+                        json['bio'],
+                        Course.getICoursesItemFromJson(jsonItems['courses']),
+                        EventItem.getIEventsItemFromJson(jsonItems['events'])   
         );
     }
 

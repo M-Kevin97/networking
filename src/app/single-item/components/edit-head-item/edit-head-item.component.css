@@ -1,9 +1,21 @@
 /* Important part */
 .modal-dialog{
+
     max-height:85%;  
     margin:10px;
 }
 .modal-body{
+
     height: auto;
     overflow-y: auto;
+}
+
+.img-modal-course > img {
+
+    display:block;
+    margin:auto;
+}
+
+.body-section {
+    margin-bottom: 5vh;
 }

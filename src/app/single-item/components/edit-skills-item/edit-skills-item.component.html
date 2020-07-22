@@ -1,0 +1,56 @@
+<!-- Modal -->
+<div class="modal-dialog" role="document">
+  <div class="modal-content"> 
+    <div class="modal-body">
+      <!---------------------------- Compétences ------------------------------>
+      <h4>Compétences à acquérir</h4>
+      <hr class="separation-line"> <!-- separation line -->
+
+      <div *ngIf="skills">
+        <div *ngFor="let skill of skills; let i = index" class="row justify-content-center mb-2">
+          <div class="col-9 border rounded my-auto skill-disp">
+            <span>{{ skill }}</span>
+          </div>
+          <div class="col-2">
+            <button class="btn border rounded" (click)="deleteSkill(i)">
+              <span class="iconify" data-inline="false" 
+              data-icon="eva:close-fill"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="skillItemForm" role="form" class="form-item row justify-content-center align-items-end">
+          <div class="col-8">
+            <input type="text" class="form-control" 
+                               formControlName = "skill"
+                               id="skill"
+                               onkeydown="return (event.key !== ','
+                                                    && event.key !== ';'
+                                                    && event.key !== '='
+                                                    && event.key !== '>'
+                                                    && event.key !== '<'
+                                                    && event.key !== '.'
+                                                    && event.key !== ':'
+                                                    && event.key !== '`'
+                                                    && event.key !== '_'
+                                                    && event.key !== '§')"
+                               placeholder="Saisissez une compétence">   
+          </div>
+          <div class="col-3">
+            <button type="button" class="btn btn-primary border" 
+                                  (click)="AddSkill()">
+              Ajouter 
+              <span class="iconify" data-inline="false" data-icon="ic:round-add"></span>
+            </button>
+          </div>   
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" 
+                            (click)="activeModal.close(oldSkills)">Annuler</button>
+
+      <button type="button" (click)="passBack()">Enregistrer</button>
+    </div>
+  </div>
+</div>

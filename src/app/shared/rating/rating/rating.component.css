@@ -1,0 +1,19 @@
+.icon-star {
+
+    color: #2E7B9C;
+    font-size: 1.6em;
+}
+
+.avrg-rating {
+
+    font-weight: 600;
+    font-size: 1.4em;
+    color: #2E7B9C;
+}
+
+.nb-rating {
+
+    font-weight: normal;
+    font-size: 0.9em;
+    color: #818181;
+}

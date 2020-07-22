@@ -1,4 +1,4 @@
-import { ICourse } from './../../../shared/item/course';
+import { Database } from 'src/app/core/database/database.enum';
 import { Course } from 'src/app/shared/item/course';
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from 'src/app/shared/item/item.service';
@@ -11,7 +11,6 @@ import { StepState } from '../../shared/state-step.enum';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/shared/user/user';
-import { Database } from 'src/app/core/database/database.enum';
 import * as firebase from 'firebase';
 
 @Component({
@@ -64,6 +63,7 @@ export class CourseFormComponent implements OnInit {
     const price = this.itemFormService.getStepFormWithStep(StepState.PRICE).value;
     const authors: User[] = [this.authService.authUser];
     const creationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
+    const imageLink = this.itemFormService.getStepFormWithStep(StepState.MEDIA).value;
 
     var newCourse = new Course(null,
                               title,
@@ -76,11 +76,15 @@ export class CourseFormComponent implements OnInit {
                               false,
                               null,
                               null,
+                              imageLink,
                               null); 
 
-    if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value) {
+    if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value 
+        && this.itemFormService.getStepFormWithStep(StepState.MEDIA).value !== Database.DEFAULT_IMG_COURSE) {
 
-      this.imageService.uploadFile(this.imageService.imageToUpload).then(
+      const fileRef = firebase.storage().ref('images').child('items');
+
+      this.imageService.uploadFile(this.imageService.imageToUpload, fileRef).then(
         (url:string) => {
 
           if(url && url !==''){
@@ -100,7 +104,8 @@ export class CourseFormComponent implements OnInit {
       );
     }
     else {
-
+      // À modifier dans le futur, pour l'instant la video == null
+      newCourse.videoLink = null;
       this.sendCourseToDB(newCourse);  
     }       
   }
@@ -217,7 +222,7 @@ export class CourseFormComponent implements OnInit {
       this.router.navigate([RouteUrl.NEW_COURSE + RouteUrl.NEW_COMPLETED]);
     }
   }
-
+                                         
   goBack(){
     switch(this.router.url)
     {

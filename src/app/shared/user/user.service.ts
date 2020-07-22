@@ -1,5 +1,4 @@
 import { Database } from 'src/app/core/database/database.enum';
-import { ItemService } from 'src/app/shared/item/item.service';
 import { Subject } from 'rxjs/internal/Subject';
 import { Injectable } from '@angular/core';
 import { User, IUser } from './user';
@@ -32,8 +31,9 @@ export class UserService {
         mail: newUser.mail, 
         password: newUser.password, 
         tel: newUser.tel, 
-        job: newUser.job,
-        description: newUser.description,
+        title: newUser.title,
+        bio: newUser.bio,
+        ppLink: newUser.ppLink,
     }).then(
       () => {
 
@@ -48,6 +48,81 @@ export class UserService {
   createNewUser(newUser:User){
     this.saveUserToDB(newUser);
   }
+
+  updateInfoUser(user:User) {
+    var ref = firebase.database().ref(Database.USERS).child(user.id);
+    
+    ref.update({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      ppLink: user.ppLink,
+      title: user.title,
+      mail: user.mail,
+      tel: user.tel,
+      bio: user.bio,
+    }).then(
+      () => {
+        firebase.auth().currentUser.updateEmail(user.mail);
+        firebase.auth().signInWithEmailAndPassword(firebase.auth().currentUser.email, user.password)
+                       .then(function(userCredential) {
+        userCredential.user.updateEmail(user.mail);
+         });
+      }
+    ).then(
+      () => {
+        if(user.courses){
+          user.courses.forEach(function (value) {
+            console.log('updateUserCourses', value, user.courses);
+            if(value){
+          
+              var refCourse = firebase.database().ref(Database.COURSES)
+                                                .child(value.id)
+                                                .child(Database.AUTHORS)
+                                                .child(user.id);
+  
+              refCourse.update({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                ppLink: user.ppLink,
+                title: user.title,
+              }).catch(
+                (error) => {
+                  console.log(error);
+                  return false;
+                });
+              }
+            });
+        }
+        }).then(
+          () => {
+            if(user.events){
+              user.events.forEach(function (value) {
+                console.log('updateUserEvents', value, user.courses);
+                if(value){
+              
+                  var refEvent = firebase.database().ref(Database.EVENTS)
+                                                    .child(value.id)
+                                                    .child(Database.AUTHORS)
+                                                    .child(user.id);
+         
+      
+                  refEvent.update({
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    ppLink: user.ppLink,
+                    title: user.title,
+                  });
+                }
+              }
+            );
+          }  
+        }).catch(
+            (error) => {
+              console.log(error);
+              return false;
+        }
+      );
+    }
 
   getUsersFromDB(){
     firebase.database().ref(Database.USERS).on('value', 
@@ -97,6 +172,8 @@ export class UserService {
         ref.child(Database.AUTHORS).child(value.id).set({
           firstname: value.firstname,
           lastname: value.lastname,
+          title:value.title,
+          ppLink:value.ppLink,
         }).then(
           function() {
             saved = true;
@@ -119,6 +196,8 @@ export class UserService {
         ref.child(Database.AUTHORS).child(value.id).set({
           firstname: value.firstname,
           lastname: value.lastname,
+          title:value.title,
+          ppLink:value.ppLink,
         }).then(
           function() {
             saved = true;

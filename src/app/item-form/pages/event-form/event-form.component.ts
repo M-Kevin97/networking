@@ -1,3 +1,4 @@
+import { Database } from 'src/app/core/database/database.enum';
 import { EventItem } from 'src/app/shared/item/event-item';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -10,6 +11,7 @@ import { StepState } from '../../shared/state-step.enum';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { User } from 'src/app/shared/user/user';
 import { DatePipe } from '@angular/common';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-event-form',
@@ -61,6 +63,7 @@ export class EventFormComponent implements OnInit {
     const authors: User[] = [this.authService.authUser]; 
     const creationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
     const location = this.itemFormService.getStepFormWithStep(StepState.LOCATION).value;
+    const imageLink = this.itemFormService.getStepFormWithStep(StepState.MEDIA).value;
     const dates = this.itemFormService.getStepFormWithStep(StepState.DATES).value;
 
     var newEvent = new EventItem(null,
@@ -74,12 +77,15 @@ export class EventFormComponent implements OnInit {
                                   authors,
                                   creationDate,
                                   false,
-                                  null,
+                                  imageLink,
                                   null); 
 
-    if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value) {
+      if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value 
+          && this.itemFormService.getStepFormWithStep(StepState.MEDIA).value !== Database.DEFAULT_IMG_EVENT) {
+                          
+      const fileRef = firebase.storage().ref('images').child('items');
 
-      this.imageService.uploadFile(this.imageService.imageToUpload).then(
+      this.imageService.uploadFile(this.imageService.imageToUpload, fileRef).then(
         (url:string) => {
 
           if(url && url !==''){
@@ -96,6 +102,7 @@ export class EventFormComponent implements OnInit {
       );
     }
     else {
+      newEvent.videoLink = null;
       this.sendEventToDB(newEvent);  
     }       
   }

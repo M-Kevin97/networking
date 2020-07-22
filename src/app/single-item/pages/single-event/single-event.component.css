@@ -1,0 +1,75 @@
+.item-path {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+.sticky
+{
+   position: sticky;
+   top: 18vh;
+}
+
+.iconify {
+    font-size: 35px;
+}
+
+.heading {
+
+    align-items: center;
+    text-align: center;
+
+    border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+
+    margin-bottom: 5vh ;
+    padding-bottom: 3vh;
+    padding-bottom: 2vh;
+}
+
+.title-section {
+    margin-bottom: 5vh;
+}
+
+.item-title {
+    font-weight: 650;
+    font-size: 2em;
+}
+
+.item-subtitle {
+    font-weight: 400;
+    font-size: 1.02em;
+}
+
+.feature-text > i{
+    margin-right: 1vw;
+}
+
+.rating-link {
+    text-decoration: none;
+}
+
+.item-block {
+    margin-top: 10vh;
+}
+
+.skills-list > li{
+    list-style-type: none;
+    margin-bottom: 2.5vh;
+}
+
+.skills-list > li > i{
+    color: #2E7B9C;
+}
+
+#more-skills {
+    display: none;
+}
+
+#btnSeeMoreSkills {
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 10vw;
+    color:#2E7B9C;
+}

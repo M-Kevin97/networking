@@ -1,0 +1,10 @@
+.btn-connect-me {
+    background: #E6E6E6;
+    border: 1px solid #9A9A9A;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+
+.author-section {
+    cursor: pointer;
+}

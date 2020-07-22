@@ -20,15 +20,12 @@ export class Category {
         
         if(json === null || json === undefined) return null;
 
-        console.log();
-        console.log(json);
-
-        
+        const id:string = Object.keys(json)[0];
+        const cat:string = json[id];
 
         return new Category(
-            Object.keys(json)[0],
-            json['name']
-        );
+            id,
+            cat['name']);
     }
 
     public static categoriesFromJson(json: Object): Category[] {

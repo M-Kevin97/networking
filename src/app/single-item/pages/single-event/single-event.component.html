@@ -1,34 +1,113 @@
+<!------------------------------------ Page Single Course ------------------------------------>
+<!-- Si la formation n'existe pas  -->
+<div *ngIf ="!hasEvent">
+  La formation n'existe pas
+</div>
+
 <!-- Si la formation existe  -->
-<div *ngIf ="event">
-  <div class="row">
-    <div>
-      <a (click)="onBack()">Retour aux résultats</a>
-    </div>
-    <div class="col-md-3">
-      <div>
-        Par :
-        <span *ngFor="let author of event.authors"> {{ author.firstname }} {{ author.lastname }}</span>
-        <button class="btn btn-lg btn-success">
-          Ajouter au panier
-        </button>
-        <button class="btn btn-lg btn-success">
-          Acheter la formation
-        </button>
-      </div>
-    </div>
-  
-    <div class="col-md-9">
-      <h4>  {{ event.title }} </h4>
-      <img [src]="event.imageLink" width="250" height="250" class="d-inline-block border border-secondary" alt="">
-      <p>
-        {{ event.description }} 
-      </p>
+<div class="container" *ngIf ="hasEvent">
+  <div class="row item-path">
+    <span> chemin </span>
+  </div>
+
+  <div class="row item-content">
+    <!-- Start Price Card -->
+    <div class="col-md-3 offset-1">
+      <div class="sticky">
+        <app-card-image-price-item [item]=event>
+        </app-card-image-price-item>
+      </div> 
+    </div>  <!-- End Price Card -->
+
+    <!-- Start page item Head -->
+    <div class="col-lg-8">
+      <div class="heading shadow-sm">
+        <div class="title-section">
+          <h2 class="item-title">
+            {{ event.title }}
+            <app-button-edit class="ml-5" (click)="openHeadItemModal()"></app-button-edit>
+          </h2>
+          <h3 class="item-subtitre">
+            {{ event.catchPhrase }}
+          </h3>
+        </div>
+        <div class="item-features">
+          <div class="row">
+            <div class="col-6">
+              <span class="feature-text">
+                <i id="glob" class="fa fa-globe" aria-hidden="true"></i>
+                Français
+              </span>
+            </div>
+            <div class="col-6">
+              <span class="feature-text">
+                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                <b>Expérience requise :</b> 
+                Aucune 
+              </span>
+            </div>
+          </div>
+          <hr> <!-- separation line -->
+          <div class="row">
+            <div class="col-6">
+              <a class="rating-link" [routerLink]='"."' fragment='ratings'>
+                <app-rating [style]="1"></app-rating>
+              </a>
+            </div>
+            <div class="col-6">
+              <span class="feature-text">
+              <i id="info" class="fa fa-info-circle" aria-hidden="true"></i> 
+                <b>Date de création : </b>
+                {{ event.creationDate }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div> <!-- End page item Head -->
+
+      <!-- Start Author section -->
+      <div class="item-block author-block">
+        <app-card-author [author]="getMainAuthor()"></app-card-author>
+      </div> <!-- End Author section -->
+
+      <!-- Start Description section -->
+      <div class="item-block description-block">
+        <h5 class="title-cat">
+          Description
+          <app-button-edit class="ml-5" (click)="openDescriptionItemModal()"></app-button-edit>
+        </h5>
+        <hr> <!-- separation line -->
+        <app-description-section [description]="event.description"></app-description-section>
+        <span *ngIf="!event.description" (click)="openDescriptionItemModal()">
+          Ajouter une description
+        </span>
+      </div> <!-- End Description section -->
+
+      <!-- Start section more author's items  -->
+      <div *ngIf="getMainAuthor()" class="item-block skills-block">
+        <h5 class="title-cat"> Plus de 
+          <a (click)="goToUserPage()">
+          {{ getMainAuthor().firstname }} {{ getMainAuthor().lastname }}
+          </a>
+        </h5>
+        <hr> <!-- separation line -->
+        <app-items-carousel *ngIf="mainAuthorItems" [iItems]="mainAuthorItems"></app-items-carousel>
+
+      </div>   <!-- End section more author's courses  -->
+
+      <!-- Start section Ratings -->
+      <div id="ratings" class="item-block ratings-block">
+        <h5 class="title-cat">Avis</h5>
+        <hr> <!-- separation line -->
+    
+      </div>   <!-- End section Ratings -->
     </div>
   </div>
 </div>
 
-<!-- Si la formation n'existe pas -->
-<div *ngIf ="!event">
-Cet événement n'existe pas
-</div>
 
+
+
+
+
+            

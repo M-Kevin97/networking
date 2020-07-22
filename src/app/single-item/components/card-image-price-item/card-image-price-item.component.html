@@ -1,0 +1,63 @@
+<!-- Start Price Card -->
+<div class="card shadow-sm">  
+  <div class="row justify-content-center">
+    <div class="col-11 text-center">
+      <div class="card-item-img">
+        <img *ngIf="checkImageLink()" class=item-img [src]="item.imageLink" height="180vw">
+      </div>
+
+      <hr class="separation-line"> <!-- separation line -->
+
+      <div class="card-item-body"> <!-- Start Body -->
+        <div class="row">
+          <div class="col-6">
+            <a class="rating-link" (click)="goToRatingsSection()">
+              <app-rating [style]="0"></app-rating>
+            </a>
+          </div>
+          <div class="col-6">
+            <h5 class="card-item-price">
+              {{ item.price }} € 
+            </h5>
+          </div>
+        </div>
+    
+        <div class="conditions-section" id="card-text">
+          <span class="iconify iconify-safety" data-inline="false" 
+                                               data-icon="ant-design:safety-outlined">
+          </span>
+          Satisfait ou remboursé 
+        </div>
+  
+        <button class="btn btn-add-cart">
+          Ajouter au panier
+          <span class="iconify iconify-add-cart" data-inline="false" data-icon="ic:round-add-shopping-cart">
+          </span>
+        </button>
+      </div> <!-- End Body -->
+    
+        <hr class="separation-line"> <!-- separation line -->
+    
+        <div class="card-item-footer"> <!-- Start Footer -->
+          <div class="row">
+            <div class="col-6">
+              <div class="save-item">
+                Enregistrer 
+                <span class="iconify iconify-save-item" data-inline="false" 
+                                      data-icon="ic:round-playlist-add">
+                </span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="share-item">
+                Partager
+                <span class="iconify iconify-share-item" data-inline="false"
+                                                         data-icon="cil:share">
+                </span>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End Footer -->
+    </div>
+  </div>  
+</div>  <!-- End Card -->

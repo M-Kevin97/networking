@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription} from 'rxjs';
-import { Item } from 'src/app/shared/item/item';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Item } from '../../item/item';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { ItemService } from 'src/app/shared/item/item.service';
+import { ItemService } from '../../item/item.service';
 
 @Component({
-  selector: 'app-items-list',
-  templateUrl: './items-list.component.html',
-  styleUrls: ['./items-list.component.css']
+  selector: 'app-item-list',
+  templateUrl: './item-list.component.html',
+  styleUrls: ['./item-list.component.css']
 })
-export class ItemsListComponent implements OnInit, OnDestroy{
+export class ItemListComponent implements OnInit, OnDestroy{
 
-  items: Item[];
+  @Input() items: Item[];
   itemsSubscription: Subscription;
   tit:string;
 
@@ -26,6 +26,13 @@ export class ItemsListComponent implements OnInit, OnDestroy{
 
   onNewItem(){
     this.router.navigate(['/items', 'newitem']);
+  }
+
+  getMainAuthor(item:Item) {
+    if(item.authors)
+    {
+      return item.authors[0].firstname+" "+item.authors[0].lastname;
+    }
   }
 
   getItemsFromService(){

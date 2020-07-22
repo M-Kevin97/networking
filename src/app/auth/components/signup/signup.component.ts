@@ -1,3 +1,4 @@
+import { Database } from 'src/app/core/database/database.enum';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -45,15 +46,18 @@ export class SignupComponent implements OnInit {
     const lastname:string = this.signUpForm.get('lastname').value;
     const email:string = this.signUpForm.get('email').value;
     const password:string = this.signUpForm.get('password').value;
+    const ppLink:string = Database.DEFAULT_PP_USER;
 
     this.authService.signUpUser(new User(null, firstname, 
-      lastname, 
-      email, 
-      password,
-      null,
-      null,
-      null,
-      []))
+                                                lastname, 
+                                                email, 
+                                                password,
+                                                ppLink,
+                                                null,
+                                                null,
+                                                null,
+                                                [],
+                                                []))
       .then(
       () => {
         

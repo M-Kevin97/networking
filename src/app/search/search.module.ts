@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SearchComponent } from './search.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { ItemsListComponent } from './components/items-list/items-list.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -11,7 +10,6 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     SearchComponent,
     SidebarComponent,
-    ItemsListComponent,
   ]
 })
 export class SearchModule { }

@@ -27,16 +27,15 @@ export class ImageService {
   }
 
   // Fonction permettant de télécharger une image dans la BDD
-  uploadFile(file:File){
+  uploadFile(file:File, ref:firebase.storage.Reference){
 
     this.imageIsUploading = true;
 
     return new Promise(
       (resole, reject) =>{
         const almostUniqueFileName = Date.now().toString();
-        const fileRef = firebase.storage()
-                               .ref('images')
-                               .child(almostUniqueFileName+file.name);
+
+        const fileRef = ref.child(almostUniqueFileName+file.name);
 
         const uploadTask = fileRef.put(file);
 
