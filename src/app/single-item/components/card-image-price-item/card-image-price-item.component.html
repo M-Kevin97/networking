@@ -3,21 +3,28 @@
   <div class="row justify-content-center">
     <div class="col-11 text-center">
       <div class="card-item-img">
-        <img *ngIf="checkImageLink()" class=item-img [src]="item.imageLink" height="180vw">
+        <img *ngIf="checkImageLink()" class=item-img [src]="imageLink" height="180vw">
       </div>
 
       <hr class="separation-line"> <!-- separation line -->
 
       <div class="card-item-body"> <!-- Start Body -->
-        <div class="row">
+        <div class="row" *ngIf="nbRatings && globalNote">
           <div class="col-6">
             <a class="rating-link" (click)="goToRatingsSection()">
-              <app-rating [style]="0"></app-rating>
+              <app-rating [style]="0" [nbRatings]="nbRatings" [globalNote]="globalNote"></app-rating>
             </a>
           </div>
           <div class="col-6">
             <h5 class="card-item-price">
-              {{ item.price }} € 
+              {{ price }} € 
+            </h5>
+          </div>
+        </div>
+        <div class="row" *ngIf="!nbRatings && !globalNote">
+          <div class="col-12">
+            <h5 class="card-item-price">
+              {{ price }} € 
             </h5>
           </div>
         </div>

@@ -153,4 +153,9 @@ export class ItemFormService {
                            && event.key !== '\''
                            )
   }
+
+  clearForm() {
+    this.mapStepForms.clear();
+    this.stepFormSubject.complete()
+  }
 }

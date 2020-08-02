@@ -1,3 +1,4 @@
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Item } from '../../item/item';
 import { Subscription } from 'rxjs';
@@ -15,13 +16,15 @@ export class ItemListComponent implements OnInit, OnDestroy{
   itemsSubscription: Subscription;
   tit:string;
 
-  constructor(private router:Router, 
-              private itemService:ItemService) {
-    this.items = [];
+  constructor(protected router:Router, 
+              protected itemService:ItemService) {
+    
+    console.log(this.items);
   }
 
   ngOnInit() {
-    this.getItemsFromService();
+
+    console.log(this.items);
   }
 
   onNewItem(){
@@ -35,29 +38,8 @@ export class ItemListComponent implements OnInit, OnDestroy{
     }
   }
 
-  getItemsFromService(){
-    this.itemsSubscription = this.itemService.itemsSubject.subscribe(
-      (data:Item[]) => {
-        for(var _i = 0; _i < data.length; _i++) 
-        {
-          this.items[_i] = Item.itemFromJson(data[_i]);
-          console.log('Titre '+this.items[_i].title);
-        }
-      },
-      (err: string) => console.error('Observer got an error: ' + err),
-      () => {
-        console.log('Observer got a complete notification');
-      }
-    );
-    this.itemService.emitItems();
-  }
-
   onDeleteItem(item: Item){
     this.itemService.removeItem(item);
-  }
-
-  onViewItem(id: number){
-    this.router.navigate(['/items', 'item', id]);
   }
 
   ngOnDestroy(){

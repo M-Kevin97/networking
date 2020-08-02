@@ -1,3 +1,4 @@
+import { ItemFormService } from './shared/services/item-form.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItemFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(private itemFormService:ItemFormService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  closeForm() {
+    this.itemFormService.clearForm();
   }
 
 }

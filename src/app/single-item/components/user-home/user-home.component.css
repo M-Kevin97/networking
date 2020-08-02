@@ -1,5 +1,7 @@
 .user-items-section {
-
-  margin-top: 5vh;
   width: 100%;
+}
+
+.user-events-section, .user-posts-section {
+  margin-top: 8vh;
 }

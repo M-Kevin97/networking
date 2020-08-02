@@ -1,3 +1,5 @@
+import { RatingService } from './../rating/rating.service';
+import { Rating } from './../rating/rating';
 import { ICourse } from './course';
 import { CategoryService } from 'src/app/shared/item/category/category.service';
 import { UserService } from './../user/user.service';
@@ -252,10 +254,62 @@ export class ItemService {
     );
   }
 
+  getCoursesFromDB(){
+    
+    return new Promise(
+      (resolve, reject) => {
+        firebase.database().ref(Database.COURSES).once('value').then(
+          (data) => {
+              resolve(data.val());
+          }, (error) => {
+            reject(error);
+          }
+        );
+      }
+    );
+  }
+
   getCoursesOfAuthenticatedUser(){
     
   }
 
+  getCoursesByName(title:string){
+    return firebase.database().ref(Database.COURSES)
+                              .orderByChild('title')
+                              .equalTo(title)
+                              .once('value')
+                              .then(
+      (snapshot) => {
+        if(snapshot){
+          return (snapshot.val());
+        }
+      })
+      .catch(
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  getCoursesByCategory(category:Category){
+
+    return firebase.database().ref(Database.COURSES)
+                              .orderByChild('category/'+category.id+'/name')
+                              .equalTo(category.name)
+                              .once('value')
+                              .then(
+      (snapshot) => {
+        if(snapshot){
+          return (snapshot.val());
+        }
+      })
+      .catch(
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+  
   getItemsOfUserByUserId(id:string){
     return new Promise(
       (resolve, reject) => {

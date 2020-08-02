@@ -1,34 +1,39 @@
 .navbar {
     width: 100%;
+    height: 4rem;
+}
+
+.nav-search {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    margin-left: 2%;
+    width: 35%;
 }
 
 .navbar-items {
-    min-width: 25vw;
+    min-width: 40vw;
 }
 
 .nav-item {
-    color: lightsteelblue;
-    margin-right: 1vw;
+    margin-left: 12%;
+    height: 90%;
+    min-width: 5vw;
+    text-align: center;
 }
 
-/*
-.nav-item:focus, .nav-item:hover{
-    border-bottom: gray solid 0.5vh;
+.nav-li {
+    border-bottom: solid 0.1rem transparent;
 }
-*/
+
+.nav-li:focus, .nav-li:hover{
+    border-bottom-color:gray;
+}
 
 .nav>li>a:focus, .nav>li>a:hover {
     text-decoration: none;
     background-color: transparent !important;
-}
-
-.nav-li {
-    height: 90%;
-    min-width: 5vw;
-    text-align: center;
-
-    font-size: 0.7em;
-    font-weight: 500;
 }
 
 .nav-li a {
@@ -37,34 +42,76 @@
     width: 100%;
 }
 
-.navbar-sign{
-    min-width: 25vw;
-}
-
-.nav-li-sign{
-    height: 8vh;
-    width: auto;
-    text-align: center;
-    text-transform: uppercase;
-    line-height : 8vh;
-
-    font-size: 1.3em;
-    font-weight: 600;
-}
-
-.nav-li-sign a { 
-    display:inline-block;
-    vertical-align:middle;
-    line-height:normal;
+.nav-icon {
+    font-size: 2rem; 
+    color: #2E7B9C;
 }
 
 .dropdown-item {
-    height: 10vh;
+   /* height: 10vh;*/
 
-    font-size: 1.5em;
+    font-size: 1rem;
     font-weight: 400;
 }
 
-input {
-    font-size: medium;
+.icon-pop-content {
+    font-size: 1.7rem;
+    color:#2E7B9C; 
+}
+
+.pop-content-btn {
+    margin:0.3rem;
+}
+
+.pop-btn-name { 
+    text-transform: uppercase;
+    font-weight: 550;
+    color:#2E7B9C; 
+}
+
+.input-search {
+    border-radius: 3rem 0 0 3rem;
+    -moz-border-radius: 3rem 0 0 3rem;
+    -webkit-border-radius: 3rem 0 0 3rem;
+}
+
+.icon-search {
+    border-radius: 0 3rem 3rem 0;
+    -moz-border-radius: 0 3rem 3rem 0;
+    -webkit-border-radius: 0 3rem 3rem 0;
+}
+
+.btn-signin {
+   
+    height: 3rem;
+
+    background-color: transparent;
+    border:solid 0.1rem #2E7B9C;
+    color: #2E7B9C;
+
+    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+
+    text-transform: uppercase;
+    font-weight: 550;
+}
+
+.btn-signin:hover, .btn-signin:focus, .btn-signin:active { 
+    background-color: #2E7B9C;
+    color: #F8F7F6;
+}
+
+.nav-categories {
+    background-color: #F4F5F6;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.nav-categories > li{
+    border-bottom: solid 0.1rem transparent;
+}
+
+.nav-categories > li:hover {
+    border-bottom-color: #2E7B9C;
 }

@@ -1,0 +1,20 @@
+<ul class="list-group">
+  <li *ngFor="let rating of ratings; let i = index" class="row list-group-event mb-4">
+      <div class="col-3">
+        <img *ngIf="rating.author" class="rounded-circle author-img" [src]="rating.author.ppLink" height="90" width="90">
+      </div>
+      <div class="col-7">
+        <div>
+          <h5 class="author-name" *ngIf="rating.author">{{ rating.author.firstname }} {{ rating.author.lastname }}</h5>
+          <h6 class="author-title" *ngIf="rating.author">{{ rating.author.title }}</h6>
+          <h6 class="publication-date">{{ rating.publicationDate }}</h6>
+        </div>
+        <div>
+          <i class="fa fa-star icon-star"></i>
+          <span class="rating-note">{{ rating.note }}</span>
+          <p class="rating-comment">{{ rating.comment }}</p>
+        </div>
+      </div>
+  </li>
+</ul>
+

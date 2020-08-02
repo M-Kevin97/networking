@@ -1,3 +1,4 @@
+import { FeedModule } from './feed/feed.module';
 import { ItemListComponent } from './shared/components/item-list/item-list.component';
 import { SingleItemModule } from './single-item/single-item.module';
 
@@ -13,7 +14,6 @@ import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminComponent } from './admin/admin.component';
-
 import { HomeComponent } from './home/home.component';
 import { ItemFormModule } from './item-form/item-form.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -26,16 +26,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
    ],
    imports: [
       SharedModule,
+      CoreModule,
       BrowserAnimationsModule,
       AppRoutingRoutes,
-      CoreModule,
       AuthModule,
       SearchModule,
       ItemFormModule,
       SingleItemModule,
-      NgbModule,
+      FeedModule,
    ],
-   providers: [],
+   providers: [
+      
+   ],
    bootstrap: [
       AppComponent
    ]

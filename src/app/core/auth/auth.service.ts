@@ -21,6 +21,9 @@ export class AuthService {
   public get isAuth(): boolean {
     return this._isAuth;
   }
+  public set isAuth(value: boolean) {
+    this._isAuth = value;
+  }
 
 
   constructor(private userService:UserService) { 
@@ -36,10 +39,6 @@ export class AuthService {
                               ,null
                               ,null
                               ,null);
-  }
-
-  checkAuthUser(){
-    return 
   }
 
   signUpUser(user:User) {
@@ -67,9 +66,6 @@ export class AuthService {
       (resolve, reject) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           () => {
-            this._isAuth = true;
-            const uid = firebase.auth().currentUser.uid;
-            this.getCurrentUserDataWithId(uid);
             resolve();
           }, 
           (error) => {
@@ -87,14 +83,14 @@ export class AuthService {
           (user) => {
             if(user){
               this.getCurrentUserDataWithId(user.uid);
-              this._isAuth = true;
+              this.isAuth = true;
               
               console.log(user.email + 'est connecté');
               resolve(true);
             } else {
-              this._isAuth = false;
-              console.log('est déconnecté');
-              reject();
+              this.isAuth = false;
+              console.log(this.isAuth,' est déconnecté');
+             // reject();
             }
           }
         );
@@ -114,9 +110,9 @@ export class AuthService {
   }
 
   signOutUser(){
-    firebase.auth().signOut().then(
+    return firebase.auth().signOut().then(
       () => {
-        this._isAuth = false;
+        this.isAuth = false;
       }
     );
   }

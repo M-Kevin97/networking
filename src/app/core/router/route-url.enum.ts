@@ -1,5 +1,6 @@
 export enum RouteUrl {
     HOME = '/home',
+    CART = '/cart',
     AUTH = '/auth',
     SIGNIN = '/auth/signin',
     SIGNUP = '/auth/signup',
@@ -7,6 +8,7 @@ export enum RouteUrl {
     INSTRUCTOR = '/instructor',
     ADMIN = '/admin',
     SEARCH = '/search',
+    RESULTS = '/search/results',
     COURSE ='/course',
     EVENT = '/event',
     USER = '/user',

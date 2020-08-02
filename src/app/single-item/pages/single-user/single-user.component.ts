@@ -1,11 +1,10 @@
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { IHeadUser } from './../../components/edit-head-user/edit-head-user.component';
 import { UserService } from './../../../shared/user/user.service';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/shared/user/user';
-import { Course } from 'src/app/shared/item/course';
 import { EditHeadUserComponent } from '../../components/edit-head-user/edit-head-user.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 
@@ -14,16 +13,31 @@ import { RouteUrl } from 'src/app/core/router/route-url.enum';
   templateUrl: './single-user.component.html',
   styleUrls: ['./single-user.component.css']
 })
-export class SingleUserComponent implements OnInit {
+export class SingleUserComponent implements OnInit, OnDestroy {
 
   user:User;
   hasUser:boolean = true;
   currentFragment:string;
+  mySubscription: any;
 
   constructor(private activatedRoute:ActivatedRoute,
+              private authService:AuthService,
               private userService:UserService,
               private router:Router,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal) { 
+
+    // Code pour rafraichir la page sans ke l'url change
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
+  }
 
   ngOnInit() {  
     this.user = new User(null,null,null,null,null,null,null,null,null,null,null);
@@ -119,6 +133,16 @@ export class SingleUserComponent implements OnInit {
     });
   }
 
+  userIsAuth(){
+    if(this.authService.isAuth){
+      if(this.user.id === this.authService.authUser.id){
+        return true;
+      }
+      else return false;
+    }
+    return false;
+  }
+
   displayUserHome() {
     this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'home'}); 
   }
@@ -136,6 +160,12 @@ export class SingleUserComponent implements OnInit {
   displayUserNetwork() {
 
     this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'network'}); 
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
 }

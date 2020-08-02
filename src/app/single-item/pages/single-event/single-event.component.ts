@@ -1,3 +1,4 @@
+import { SingleItemComponent } from './../../single-item.component';
 import { Component, OnInit } from '@angular/core';
 import { EventItem } from 'src/app/shared/item/event-item';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,42 +11,51 @@ import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-ite
 import { EditDescriptionItemComponent } from '../../components/edit-description-item/edit-description-item.component';
 import { EditSkillsItemComponent } from '../../components/edit-skills-item/edit-skills-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
+import { auth } from 'firebase';
 
 @Component({
   selector: 'app-single-event',
   templateUrl: './single-event.component.html',
   styleUrls: ['./single-event.component.css']
 })
-export class SingleEventComponent implements OnInit {
+export class SingleEventComponent extends SingleItemComponent implements OnInit {
 
   event:EventItem;
-  mainAuthorItems:Item[];
-  hasEvent:boolean = true;
-  closeResult: string;
-  moreSkillsShowed:boolean = false;
 
   constructor(private route:ActivatedRoute,
-              private itemService:ItemService,
-              private authService:AuthService,
-              private router:Router,
-              private modalService: NgbModal) { }
+              itemService:ItemService,
+              authService:AuthService,
+              router:Router,
+              modalService: NgbModal) {
+
+    super(itemService,
+          authService,
+          router,
+          modalService);
+
+         super.item = this.event;
+
+  }
 
   ngOnInit() {
     this.event = new EventItem(null,null,null,null,null,null,null,null,null,null,null,null,null);
+
+    console.log(this.route.snapshot);
 
     const id = this.route.snapshot.params['id'];
     this.itemService.getSingleEventFromDBWithId(id).then(
       (event:EventItem) => {
         if(event!==null && event!==undefined) {
-          this.hasEvent = true;
+          this.hasItem = true;
           this.event = EventItem.eventFromJson(event);
           this.event.id = id;
+          super.item = this.event;
           console.log(this.event);
           console.log(event['authors']);
           console.log(this.event.authors);
         }
         else {
-          this.hasEvent = false;
+          this.hasItem = false;
         }
       }
     ).then(
@@ -68,22 +78,9 @@ export class SingleEventComponent implements OnInit {
       }
     ).catch(
       () => {
-        this.hasEvent = false;
+        this.hasItem = false;
       }
     );
-  }
-
-  isUserMyAuthor(){
-    if(this.authService.isAuth){
-
-      this.event.authors.forEach((author)=>{
-
-        if(author.id === this.authService.authUser.id){
-            return true;
-        }
-      });
-    }
-    return false;
   }
 
   openHeadItemModal(){
@@ -152,22 +149,6 @@ export class SingleEventComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     });
-  }
-
-  getMainAuthor() {
-    if(this.event.authors)
-    {
-      return this.event.authors[0];
-    }
-  }
-
-  goToUserPage(){
-    console.log('CardAuthorComponent', this.getMainAuthor().id);
-    this.router.navigate([RouteUrl.USER, this.getMainAuthor().id]);
-  }
-
-  onBack(){
-    this.router.navigate(['/items']);
   }
 }
 

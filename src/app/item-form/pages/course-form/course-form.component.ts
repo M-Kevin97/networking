@@ -1,6 +1,6 @@
 import { Database } from 'src/app/core/database/database.enum';
 import { Course } from 'src/app/shared/item/course';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ItemService } from 'src/app/shared/item/item.service';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { ImageService } from 'src/app/shared/image/image.service';
@@ -18,7 +18,7 @@ import * as firebase from 'firebase';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.css']
 })
-export class CourseFormComponent implements OnInit {
+export class CourseFormComponent implements OnInit, OnDestroy{
 
   course:Course;
 
@@ -174,12 +174,6 @@ export class CourseFormComponent implements OnInit {
         break;
       }
 
-      case StepState.STARTING :
-        {
-          this.goToTitleForm()
-          break;
-        }
-
       default : {
 
         break;
@@ -258,8 +252,9 @@ export class CourseFormComponent implements OnInit {
 
   ngOnDestroy(){
 
-    if (this.stepFormSubscription != null) {
+    if (this.stepFormSubscription) {
       this.stepFormSubscription.unsubscribe();
+      console.log('this.stepFormSubscription.unsubscribe();');
     }
   }
 }

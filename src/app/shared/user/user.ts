@@ -1,4 +1,3 @@
-import { Database } from 'src/app/core/database/database.enum';
 import { ICourse } from './../item/course';
 import { Course } from 'src/app/shared/item/course';
 import { EventItem, IEvent } from '../item/event-item';
@@ -94,11 +93,34 @@ export class User {
 
     }
 
+    getIUser(){
+        const iUser:IUser = {
+            id: this.id,
+            firstname: this.firstname,
+            lastname: this.lastname,
+            title: this.title,
+            ppLink: this.ppLink,
+        }
+
+        return iUser;
+    }
+
     public static userFromJson(json: Object): User {
 
-        if(json === null && json === undefined) return null;
+        if(json === null || json === undefined) return null;
 
         const jsonItems = json['items'];
+        let crs, evts;
+
+        if(jsonItems === null || jsonItems === undefined) { 
+            crs=null;
+            evts=null;
+
+        } else {
+            crs = Course.getICoursesItemFromJson(jsonItems['courses']);
+            evts = EventItem.getIEventsItemFromJson(jsonItems['events']);
+        }
+
         return new User(null,
                         json['firstname'],
                         json['lastname'],
@@ -108,14 +130,13 @@ export class User {
                         json['tel'],
                         json['title'],
                         json['bio'],
-                        Course.getICoursesItemFromJson(jsonItems['courses']),
-                        EventItem.getIEventsItemFromJson(jsonItems['events'])   
-        );
+                        crs,
+                        evts);
     }
 
     public static usersFromJson(json: Object): User[] {
 
-        if(json === null && json === undefined) return null;
+        if(json === null || json === undefined) return null;
 
         var users = Object.keys(json).map(
             function(usersIdIndex){

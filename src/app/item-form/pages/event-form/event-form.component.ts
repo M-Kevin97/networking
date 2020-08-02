@@ -1,6 +1,6 @@
 import { Database } from 'src/app/core/database/database.enum';
 import { EventItem } from 'src/app/shared/item/event-item';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ItemService } from 'src/app/shared/item/item.service';
 import { ImageService } from 'src/app/shared/image/image.service';
@@ -18,7 +18,7 @@ import * as firebase from 'firebase';
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.css']
 })
-export class EventFormComponent implements OnInit {
+export class EventFormComponent implements OnInit, OnDestroy {
   
   event:EventItem;
 
@@ -302,7 +302,7 @@ export class EventFormComponent implements OnInit {
 
   ngOnDestroy(){
 
-    if (this.stepFormSubscription != null) {
+    if (this.stepFormSubscription) {
       this.stepFormSubscription.unsubscribe();
     }
   }

@@ -104,6 +104,13 @@ export class Item {
         }
     }
 
+    getMainAuthorName() {
+        if(this.authors)
+        {
+          return this.authors[0].firstname+" "+this.authors[0].lastname;
+        }
+      }
+
     protected static getIAuthorsItemFromJson(json: Object): IUser[] {
 
         if(json === null || json === undefined) return null;

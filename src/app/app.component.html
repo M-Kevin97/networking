@@ -1,6 +1,5 @@
-<div class="wrapper w-100">
-    <app-header-visitor *ngIf="displayHeader() && !isAuth()"></app-header-visitor>
-    <app-header-user *ngIf="displayHeader() && isAuth()"></app-header-user>
+<div class="wrapper">
+    <app-header-user *ngIf="displayHeader()"></app-header-user>
 
 
     <div class="container-pages">

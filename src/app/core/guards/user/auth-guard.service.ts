@@ -15,11 +15,15 @@ export class AuthGuardService implements CanActivate{
     return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          console.log('auth guard :',user.uid);
+          console.log('°°°°°°auth guard :',user.uid);
+          console.log(this.router.url);
+          //if(this.router.url===RouteUrl.HOME) this.router.navigate([RouteUrl.FEED]);
           resolve(true);
         }
         else {
-          this.router.navigate([RouteUrl.FEED]);
+          console.log(this.router.url);
+          this.router.navigate([RouteUrl.SIGNIN]);
+          console.log('auth guard :',user);
           resolve(false);
         }
       });

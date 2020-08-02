@@ -1,11 +1,11 @@
 <!------------------------------------ Page Single Course ------------------------------------>
 <!-- Si la formation n'existe pas  -->
-<div *ngIf ="!hasCourse">
+<div *ngIf ="!hasItem">
   La formation n'existe pas
 </div>
 
 <!-- Si la formation existe  -->
-<div class="container" *ngIf ="hasCourse">
+<div class="container" *ngIf ="hasItem">
   <div class="row item-path">
     <span> chemin </span>
   </div>
@@ -14,7 +14,11 @@
     <!-- Start Price Card -->
     <div class="col-md-3 offset-1">
       <div class="sticky">
-        <app-card-image-price-item [item]=course>
+        <app-card-image-price-item [id]="course.id"
+                                   [imageLink]="course.imageLink" 
+                                   [price]="course.price" 
+                                   [nbRatings]="course.nbRatings" 
+                                   [globalNote]="course.globalNote">
         </app-card-image-price-item>
       </div> 
     </div>  <!-- End Price Card -->
@@ -25,7 +29,10 @@
         <div class="title-section">
           <h2 class="item-title">
             {{ course.title }}
-            <app-button-edit class="ml-5" (click)="openHeadItemModal()"></app-button-edit>
+            <app-button-edit class="ml-5" 
+                             (click)="openHeadItemModal()"
+                             *ngIf="userIsAuthor()">
+            </app-button-edit>
           </h2>
           <h3 class="item-subtitre">
             {{ course.catchPhrase }}
@@ -51,7 +58,10 @@
           <div class="row">
             <div class="col-6">
               <a class="rating-link" [routerLink]='"."' fragment='ratings'>
-                <app-rating [style]="1"></app-rating>
+                <app-rating [style]="1" 
+                            [nbRatings]="course.nbRatings" 
+                            [globalNote]="course.globalNote">
+                </app-rating>
               </a>
             </div>
             <div class="col-6">
@@ -74,7 +84,10 @@
       <div class="item-block description-block">
         <h5 class="title-cat">
           Description
-          <app-button-edit class="ml-5" (click)="openDescriptionItemModal()"></app-button-edit>
+          <app-button-edit class="ml-5" 
+                           (click)="openDescriptionItemModal()"
+                           *ngIf="userIsAuthor()">
+          </app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="course.description"></app-description-section>
@@ -87,7 +100,10 @@
       <div class="item-block skills-block">
         <h5 class="title-cat">
           Compétences à acquérir
-          <app-button-edit class="ml-5" (click)="openSkillsItemModal()"></app-button-edit>
+          <app-button-edit class="ml-5" 
+                           (click)="openSkillsItemModal()"
+                           *ngIf="userIsAuthor()">
+          </app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <div *ngIf="course.skillsToAcquire">
@@ -134,7 +150,9 @@
       <div id="ratings" class="item-block ratings-block">
         <h5 class="title-cat">Avis</h5>
         <hr> <!-- separation line -->
-    
+        <app-global-rating [ratings]="course.ratings"></app-global-rating>
+        <button class="btn btn-primary my-5" (click)="openRatingCourseModal()">Évaluer la formation</button>
+        <app-rating-list [ratings]="course.ratings"></app-rating-list>
       </div>   <!-- End section Ratings -->
     </div>
   </div>

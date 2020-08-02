@@ -1,11 +1,11 @@
 <!------------------------------------ Page Single Course ------------------------------------>
 <!-- Si la formation n'existe pas  -->
-<div *ngIf ="!hasEvent">
+<div *ngIf ="!hasItem">
   La formation n'existe pas
 </div>
 
 <!-- Si la formation existe  -->
-<div class="container" *ngIf ="hasEvent">
+<div class="container" *ngIf ="hasItem">
   <div class="row item-path">
     <span> chemin </span>
   </div>
@@ -14,7 +14,11 @@
     <!-- Start Price Card -->
     <div class="col-md-3 offset-1">
       <div class="sticky">
-        <app-card-image-price-item [item]=event>
+        <app-card-image-price-item [id]="event.id"
+                                   [imageLink]="event.imageLink" 
+                                   [price]="event.price" 
+                                   [nbRatings]="" 
+                                   [globalNote]="">
         </app-card-image-price-item>
       </div> 
     </div>  <!-- End Price Card -->
@@ -35,31 +39,29 @@
           <div class="row">
             <div class="col-6">
               <span class="feature-text">
-                <i id="glob" class="fa fa-globe" aria-hidden="true"></i>
-                Français
+                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                <b>Expérience requise :</b> 
+                Aucune 
               </span>
             </div>
             <div class="col-6">
               <span class="feature-text">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                <b>Expérience requise :</b> 
-                Aucune 
+                <i id="glob" class="fa fa-globe" aria-hidden="true"></i>
+                Français
               </span>
             </div>
           </div>
           <hr> <!-- separation line -->
           <div class="row">
             <div class="col-6">
-              <a class="rating-link" [routerLink]='"."' fragment='ratings'>
-                <app-rating [style]="1"></app-rating>
-              </a>
-            </div>
-            <div class="col-6">
               <span class="feature-text">
               <i id="info" class="fa fa-info-circle" aria-hidden="true"></i> 
                 <b>Date de création : </b>
                 {{ event.creationDate }}
               </span>
+            </div>
+            <div class="col-6">
+
             </div>
           </div>
         </div>
@@ -96,8 +98,8 @@
       </div>   <!-- End section more author's courses  -->
 
       <!-- Start section Ratings -->
-      <div id="ratings" class="item-block ratings-block">
-        <h5 class="title-cat">Avis</h5>
+      <div id="posts" class="item-block posts-block">
+        <h5 class="title-cat">Publications</h5>
         <hr> <!-- separation line -->
     
       </div>   <!-- End section Ratings -->

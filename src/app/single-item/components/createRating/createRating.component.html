@@ -1,0 +1,33 @@
+<!-- Modal -->
+<div class="modal-dialog" role="document">
+  <div class="modal-content"> 
+    <div class="modal-body">
+
+      <!---------------------------- note ------------------------------>
+      <h4>Note générale</h4>
+      <button class="btn" *ngFor="let note of notes" (click)="selectNote(note)">
+        <i #star class="review-star fa fa-star"></i>
+      </button>
+      <!---------------------------- Commentaire ------------------------------>
+      <h4>Décrivez votre expérience</h4>
+      <hr class="separation-line"> <!-- separation line -->
+      <form [formGroup]="ratingForm" role="form" class="form-item">
+        <textarea class="form-control" 
+                  placeholder="Qu'est-ce que vous avez aimé ou pas aimé ?"
+                  formControlName="comment"
+                  id="comment" 
+                  rows="5">
+        </textarea>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" 
+                            (click)="activeModal.close()">Annuler</button>
+
+      <button type="button" (click)="passBack()" 
+                            [disabled]="ratingForm.invalid && !note">
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</div>

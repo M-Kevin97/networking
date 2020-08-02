@@ -2,6 +2,8 @@ export enum Database {
 
     USERS = '/users',
     COURSES = '/items/courses',
+    COURSE = '/course',
+    RATINGS = '/ratings',
     EVENTS = '/items/events',
     ITEMS = '/items',
     AUTHORS = '/authors',

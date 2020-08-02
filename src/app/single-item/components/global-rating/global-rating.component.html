@@ -1,7 +1,7 @@
-<div class="commentaire"> 
+<div class="container"> 
 
-  <div class="note-moyene" >
-    <h1 id="note-moyene">4,9</h1>
+  <div class="global-rating">
+    <h1 id="note-moyene">{{ globalNote }}</h1>
     <span class="etoiles">
       <a href="#5" title="Donner 5 étoiles" >★</a>
       <a href="#4" title="Donner 4 étoiles">★</a>
@@ -9,60 +9,59 @@
       <a href="#2" title="Donner 2 étoiles">★</a>
       <a href="#1" title="Donner 1 étoile">★</a>   
     </span>
-    <span>Note globale</span>
   </div>
 
   <div class="barre-note" >
     <div id="progress"class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 72%;" 
+      <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarOne+3+'%'}"
                                                    aria-valuenow="25"
-                                                  aria-valuemin="0"
-                                                  aria-valuemax="100">
-        72%
+                                                   aria-valuemin="0"
+                                                   aria-valuemax="100">
+        {{ statStarOne }}%
       </div>
     </div>
 
     <br>
    
     <div id="progress"class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 72%;" 
+      <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarTwo+3+'%'}"
                                                    aria-valuenow="25"
-                                                  aria-valuemin="0"
-                                                  aria-valuemax="100">
-        72%
+                                                   aria-valuemin="0"
+                                                   aria-valuemax="100">
+       {{ statStarTwo }}%
       </div>
     </div>
 
     <br>
 
     <div id="progress"class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 72%;" 
+      <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarThree+3+'%'}"
                                                    aria-valuenow="25"
-                                                  aria-valuemin="0"
-                                                  aria-valuemax="100">
-        72%
+                                                   aria-valuemin="0"
+                                                   aria-valuemax="100">
+       {{ statStarThree }}%
       </div>
     </div>
 
     <br>
 
     <div id="progress"class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 72%;" 
+      <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarFour+3+'%'}"
                                                    aria-valuenow="25"
                                                   aria-valuemin="0"
                                                   aria-valuemax="100">
-        72%
+        {{ statStarFour }}%
       </div>
     </div>
 
     <br>
 
     <div id="progress"class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 72%;" 
+      <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarFive+3+'%'}" 
                                                    aria-valuenow="25"
                                                   aria-valuemin="0"
                                                   aria-valuemax="100">
-        72%
+        {{ statStarFive }}%
       </div>
     </div>
   </div>

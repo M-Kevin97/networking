@@ -13,10 +13,7 @@ export class CategoryService {
 
   categoriesSubject = new Subject<Category[]>();
 
-  constructor() { 
-    console.log('constructor CategoryService');
-    this.getCategoriesFromDB();
-  }
+  constructor() { }
 
   // Methode servant à emettre les categories du service
   emitCategories(){
@@ -26,13 +23,13 @@ export class CategoryService {
   // Methode permettant d'enregistrer une liste de categories dans la DB, pour l'administrateur
   saveCategoriesToDB(){
 
-    firebase.database().ref('/categories').push();
+    firebase.database().ref(Database.CATEGORIES).push();
   }
 
    // Methode permettant d'enregistrer une categorie dans la DB, pour l'administrateur
    saveCategoryToDB(newCategory:Category){
 
-    const ref = firebase.database().ref('/categories');
+    const ref = firebase.database().ref(Database.CATEGORIES);
     const categoryId = ref.push().key;
 
     ref.child(categoryId).set({
@@ -52,15 +49,18 @@ export class CategoryService {
     
     console.log('getCategoriesFromDB CategoryService');
 
-    firebase.database().ref('/categories').on('value', 
+    return firebase.database().ref(Database.CATEGORIES).once('value').then( 
       (data) => {
         data.forEach((element) => {
           console.log(element.key, element.child('name').val());
           this.categories.push(new Category(element.key, element.child('name').val()));
         });
 
+        
         this.emitCategories();
         console.log(data.val());
+
+        return Array.from(this.categories);
       }
     );
   }
@@ -68,7 +68,7 @@ export class CategoryService {
   getSingleCategoryFromDB(id:number){
     return new Promise(
       (resolve, reject) => {
-        firebase.database().ref('/categories'+id).once('value').then(
+        firebase.database().ref(Database.CATEGORIES+id).once('value').then(
           (data) => {
               resolve(data.val());
           }, (error) => {
@@ -80,7 +80,7 @@ export class CategoryService {
   }
 
   setValueOfSingleCategoryFromDB(id:number, value:string){
-    firebase.database().ref('/categories'+id).set({
+    firebase.database().ref(Database.CATEGORIES+id).set({
       value: value,
     }, function(error) {
       if (error) {

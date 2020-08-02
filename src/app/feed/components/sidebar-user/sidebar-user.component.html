@@ -1,0 +1,40 @@
+  <!-- Sidebar -->
+  <nav id="sidebar">
+      <div class="sidebar-header">
+          <a (click)="goToAuthUserPage()">
+            <img class="mr-3 rounded-circle" [src]="getUser().ppLink" alt="" height="25vw" width="25vw">
+            <span>{{ getUser().firstname }} {{ getUser().lastname }}</span>
+          </a>
+      </div>
+
+      <ul class="list-unstyled">
+          <li class="components">
+            <h4>
+                <span class="iconify" data-inline="false" data-icon="whh:student"></span>
+                Formations
+            </h4>
+            <ul class="list-unstyled">
+                <li>
+                    <a (click)="goToMyCourses()">Mes Formations</a>
+                </li>
+                <li>
+                    <a (click)="newCourse()">Créer une Formation</a>
+                </li>
+            </ul>
+          </li>
+          <li class="components">
+            <h4>
+                <span class="iconify" data-inline="false" data-icon="bx:bx-calendar"></span>
+                Événements
+            </h4>
+            <ul class="list-unstyled">
+                <li>
+                    <a (click)="goToMyEvents()">Mes Événements</a>
+                </li>
+                <li>
+                    <a (click)="newEvent()">Créer un Événement</a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+  </nav>

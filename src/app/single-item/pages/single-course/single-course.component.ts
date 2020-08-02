@@ -1,3 +1,6 @@
+import { Rating } from 'src/app/shared/rating/rating';
+import { SingleItemComponent } from './../../single-item.component';
+import { CreateRatingComponent } from './../../components/createRating/createRating.component';
 import { EventItem } from 'src/app/shared/item/event-item';
 import { EditSkillsItemComponent } from './../../components/edit-skills-item/edit-skills-item.component';
 import { EditDescriptionItemComponent } from './../../components/edit-description-item/edit-description-item.component';
@@ -9,7 +12,6 @@ import { Course } from 'src/app/shared/item/course';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { Database } from 'src/app/core/database/database.enum';
 import { Item } from 'src/app/shared/item/item';
 
 @Component({
@@ -17,36 +19,43 @@ import { Item } from 'src/app/shared/item/item';
   templateUrl: './single-course.component.html',
   styleUrls: ['./single-course.component.css']
 })
-export class SingleCourseComponent implements OnInit {
+export class SingleCourseComponent extends SingleItemComponent implements OnInit {
 
-  course:Course;
-  mainAuthorItems:Item[];
-  hasCourse:boolean = true;
-  closeResult: string;
-  moreSkillsShowed:boolean = false;
+   course: Course;
 
-  constructor(private route:ActivatedRoute,
-              private itemService:ItemService,
-              private authService:AuthService,
-              private router:Router,
-              private modalService: NgbModal) { }
+   constructor(private route:ActivatedRoute,
+               itemService:ItemService,
+               authService:AuthService,
+               router:Router,
+               modalService: NgbModal) {
+
+      super(itemService,
+            authService,
+            router,
+            modalService);
+
+
+      super.item = this.course;
+   }
 
   ngOnInit() {
+    
     this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null);
 
     const id = this.route.snapshot.params['id'];
     this.itemService.getSingleCourseFromDBWithId(id).then(
       (course:Course) => {
         if(course!==null && course!==undefined) {
-          this.hasCourse = true;
+          this.hasItem = true;
           this.course = Course.courseFromJson(course);
           this.course.id = id;
+          super.item = this.course;
           console.log(this.course);
           console.log(course['authors']);
           console.log(this.course.authors);
         }
         else {
-          this.hasCourse = false;
+          this.hasItem = false;
         }
       }
     ).then(
@@ -69,22 +78,9 @@ export class SingleCourseComponent implements OnInit {
       }
     ).catch(
       () => {
-        this.hasCourse = false;
+        this.hasItem = false;
       }
     );
-  }
-
-  isUserMyAuthor(){
-    if(this.authService.isAuth){
-
-      this.course.authors.forEach((author)=>{
-
-        if(author.id === this.authService.authUser.id){
-            return true;
-        }
-      });
-    }
-    return false;
   }
 
   openHeadItemModal(){
@@ -155,6 +151,7 @@ export class SingleCourseComponent implements OnInit {
     });
   }
 
+
   openSkillsItemModal(){
 
     const modalRef = this.modalService.open(EditSkillsItemComponent);
@@ -180,11 +177,21 @@ export class SingleCourseComponent implements OnInit {
     });
   }
 
-  getMainAuthor() {
-    if(this.course.authors)
-    {
-      return this.course.authors[0];
-    }
+  openRatingCourseModal(){
+
+    const modalRef = this.modalService.open(CreateRatingComponent);
+    modalRef.componentInstance.course = this.course.getICourse();
+    modalRef.componentInstance.user = this.authService.authUser.getIUser();
+
+    modalRef.result.then((result:Rating) => {
+      if (result) {
+        console.log(result);
+        this.course.ratings.push(result);
+
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   getSkillsBeginning() {

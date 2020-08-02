@@ -1,11 +1,3 @@
-.sticky {
-  position: sticky;
-  position: -webkit-sticky; /* for Safari */
-  top: 12vh;
-  z-index: 10;
-}
-
-
 .user-info {
   width: 100%;
 }
@@ -14,6 +6,14 @@
 
   margin-top: 2vh;
   padding-bottom: 2vh;
+}
+
+/* Barre de navigation user page */
+.sticky {
+  position: sticky;
+  position: -webkit-sticky; /* for Safari */
+  top: 12vh;
+  z-index: 10;
 }
 
 .user-nav {
@@ -44,4 +44,8 @@
 
 .user-nav > li:hover, .user-nav > li:active, .user-nav > li:focus {
   border-bottom: #2E7B9C solid 0.6vh;
+}
+
+.tab-content {
+  margin-top: 5vh;
 }

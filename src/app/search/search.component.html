@@ -1,15 +1,13 @@
-<div class="row">
-  <div class="col-md-3">
-    <!-- Sidebar -->
-    <app-sidebar></app-sidebar>
+<div class="container-search w-75 mx-auto">
+
+  <!-- section Filter pour la recherche -->
+  <div class="filter-section mt-5">
+    <app-filter (items)="setCourseList($event)"
+                [categoryName]="categoryName">
+    </app-filter>
   </div>
 
-  <!-- Page Content -->
-  <div class="section-content col-md-9">
+  <app-course-list *ngIf="courseList" [courses]="courseList"></app-course-list>
 
-    <div class="list-items border">
-
-      
-    </div>
-  </div>
+  
 </div>

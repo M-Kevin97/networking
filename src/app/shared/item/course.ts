@@ -1,7 +1,7 @@
 import { Item, IItem } from 'src/app/shared/item/item';
 import { Category } from './category/category';
 import { Rating } from '../rating/rating';
-import { IUser, User } from '../user/user';
+import { IUser } from '../user/user';
 
 export interface ICourse extends IItem {
     nbRatings:number;
@@ -9,18 +9,23 @@ export interface ICourse extends IItem {
 }   
 
 export class Course extends Item {
-    public get overallRating(): number {
-        return this._overallRating;
+
+    public get globalNote(): number {
+        return this._globalNote;
     }
-    public set overallRating(value: number) {
-        this._overallRating = value;
+
+    public set globalNote(value: number) {
+        this._globalNote = value;
     }
+
     public get nbRatings(): number {
         return this._nbRatings;
     }
+
     public set nbRatings(value: number) {
         this._nbRatings = value;
     }
+
     public get skillsToAcquire(): string[] {
         return this._skillsToAcquire;
     }
@@ -32,6 +37,7 @@ export class Course extends Item {
     public get ratings(): Rating[] {
         return this._ratings;
     }
+
     public set ratings(value: Rating[]) {
         this._ratings = value;
     }
@@ -50,7 +56,7 @@ export class Course extends Item {
                 imageLink?: string,
                 videoLink?: string,
                 private _nbRatings?: number,
-                private _overallRating?: number){
+                private _globalNote?: number){
         
         super(id, 
               title, 
@@ -63,13 +69,44 @@ export class Course extends Item {
               published,
               imageLink,
               videoLink);
+
+              if(this.ratings){
+                this.nbRatings = this.ratings.length;
+                this.globalNote = Rating.getGlobalNote(this.ratings);
+              }
+              else {
+                this.nbRatings = 0;
+                this.globalNote = 0;
+              }
     }
+
+    getICourse(){
+        const iCourse:ICourse = {
+            type: 'ICourse',
+            id: this.id,
+            title: this.title,
+            price: this.price,
+            category: this.category,
+            authors: this.authors,
+            imageLink: this.imageLink,
+            published: this.published,
+            nbRatings:this.nbRatings,
+            overallRating: this.nbRatings,
+
+        }
+
+
+        return iCourse;
+    }
+
 
     public static getICoursesItemFromJson(json: Object): ICourse[] {
 
-        console.log(json);
+        console.log('-----------',json);
 
         if(json === null || json === undefined) return null;
+
+        console.log('°°°°°°°°°°°°',json);
 
         var courses = Object.keys(json).map(
             function(coursesIdIndex){
@@ -110,7 +147,7 @@ export class Course extends Item {
             json['creationDate'],
             json['published'],
             json['skillsToAcquire'],
-            Rating.ratingsFromJson(json['rating']),
+            Rating.ratingsFromJson(json['ratings']),
             json['imageLink'],
             json['videoLink']
         );
@@ -120,19 +157,21 @@ export class Course extends Item {
 
         console.log(json);
 
-        if(json === null || json === undefined) return [];
-        
-        console.log(json);
+        if(json === null || json === undefined) return null;
 
-        var courses = Object.keys(json).map(
+        var courses: Course[] = Object.keys(json).map(
             function(coursesIdIndex){
             let courseJson = json[coursesIdIndex];
+        
+            console.log(json);
 
             var course = Course.courseFromJson(courseJson)
             course.id = coursesIdIndex;
 
             return course;
         });
+
+        console.log('courses',courses);
 
         return courses;
     }

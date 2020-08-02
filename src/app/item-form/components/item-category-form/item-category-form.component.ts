@@ -83,6 +83,8 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
         console.log('Observer got a complete notification');
       }
     );
+
+    this.categoryService.getCategoriesFromDB();
   }
 
   onSetCategory(){

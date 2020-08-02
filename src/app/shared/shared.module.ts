@@ -9,6 +9,9 @@ import { UserService } from './user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ItemListComponent } from './components/item-list/item-list.component';
+import { CourseListComponent } from './components/course-list/course-list.component';
+import { EventListComponent } from './components/event-list/event-list.component';
 
 @NgModule({
   imports: [
@@ -28,9 +31,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    SharedComponent,
+    ItemListComponent,
+    CourseListComponent,
+    EventListComponent,
   ],
   declarations: [
     SharedComponent,
+    ItemListComponent,
+    CourseListComponent,
+    EventListComponent,
   ],
 })
 export class SharedModule {

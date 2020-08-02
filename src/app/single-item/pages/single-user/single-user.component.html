@@ -24,7 +24,10 @@
         <div class="user-info">
           <h2 class="user-name">
             {{ user.firstname }} {{ user.lastname }}
-            <app-button-edit class="ml-5" (click)="openHeadUserModal()"></app-button-edit>
+            <app-button-edit class="ml-5" 
+                             (click)="openHeadUserModal()"
+                             *ngIf="userIsAuth()">
+            </app-button-edit>
           </h2>
           <h3>{{ user.title }}</h3>
           <app-description-section [description]="user.bio"></app-description-section>
@@ -110,15 +113,19 @@
                                  aria-labelledby="courses-tab" 
                                  [ngClass]="{'active': currentFragment === 'courses',
                                              'show': currentFragment === 'courses'}">
-        <app-item-list [items]="user.courses"></app-item-list>
+        <app-course-list *ngIf="user.courses" [courses]="user.courses"></app-course-list>
       </div>
+
+      <!-- Tab content events list  -->
       <div class="tab-pane fade" id="events" 
                                  role="tabpanel" 
                                  aria-labelledby="events-tab" 
                                  [ngClass]="{'active': currentFragment === 'events',
                                              'show': currentFragment === 'events'}">
-            <app-item-list [items]="user.events"></app-item-list>
-        </div>
+        <app-event-list *ngIf="user.events" [events]="user.events"></app-event-list>
+      </div>
+
+      <!-- Tab content network  -->
       <div class="tab-pane fade" id="network" 
                                  role="tabpanel" 
                                  aria-labelledby="network-tab" 

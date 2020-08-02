@@ -1,25 +1,12 @@
-.row{
-    width: 100%;
-    margin: auto;
+.filter-section {
 
-}
+    border: 0.1rem solid #F4F4F4;
 
-#content {
-    width: 80%;
-}
+    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
 
-.section-content {
-    padding-left: 3vw;
-
-    
-}
-
-
-.list-items {
-    min-height: 80vh;
-}
-
-
-.section-filter{
     margin-bottom: 5vh;
+    margin-left: auto;
+    margin-right: auto;
 }
