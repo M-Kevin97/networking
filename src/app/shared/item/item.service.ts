@@ -1,12 +1,10 @@
-import { RatingService } from './../rating/rating.service';
-import { Rating } from './../rating/rating';
 import { ICourse } from './course';
 import { CategoryService } from 'src/app/shared/item/category/category.service';
 import { UserService } from './../user/user.service';
 import { Item } from './item';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { Subject, concat } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Course } from 'src/app/shared/item/course';
 import { EventItem, IEvent } from 'src/app/shared/item/event-item';
 import { Database } from 'src/app/core/database/database.enum';
@@ -21,10 +19,13 @@ export class ItemService {
   items:Item[] = [];
   itemsSubject = new Subject<Item[]>();
   itemSubject = new Subject<Item>();
-  private _lastItemSaved: Item = null;
 
-  public get lastItemSaved(): Item {
-    return this._lastItemSaved;
+  // Cet attribut sert à récupérer l'id du dernier Item créé
+  private _lastItemCreated: Item = null;
+  
+
+  public get lastItemCreated(): Item {
+    return this._lastItemCreated;
   }
 
   constructor() {
@@ -39,19 +40,71 @@ export class ItemService {
     this.itemSubject.next(item);
   }
 
-  private saveNewCourseToDB(newCourse: Course) {
+  createNewItemToDB(newItem:Course | EventItem): Promise<Course | EventItem> {
 
-    var ref = firebase.database().ref(Database.COURSES);
+    var ref = firebase.database().ref(Database.ITEMS);
 
     const id = ref.push().key;
-    ref = firebase.database().ref(Database.COURSES).child(id);
-    newCourse.id = id;
+    ref = ref.child(id);
+    newItem.id = id;
 
-    this._lastItemSaved = newCourse;
+    this._lastItemCreated = newItem;
 
-    console.log('saveNewCourseToDB :',id, this._lastItemSaved.id);
+    let searchContent:string = '';
+    let savePromise;
+  
+    if(newItem.title)
+      searchContent = searchContent.concat(newItem.title.replace(/[^\wèéòàùì]/gi, ''));
+    if(newItem.getMainAuthor()) 
+      searchContent = searchContent.concat('/', newItem.getMainAuthorName().replace(/[^\wèéòàùì]/gi, ''));
+    if(newItem.description) 
+      searchContent = searchContent.concat('/', newItem.description.replace(/[^\wèéòàùì]/gi, ''));
+    if(newItem.catchPhrase) 
+      searchContent = searchContent.concat('/', newItem.catchPhrase.replace(/[^\wèéòàùì]/gi, ''));
+    if(newItem.category) 
+      searchContent = searchContent.concat('/', newItem.category.name.replace(/[^\wèéòàùì]/gi, ''));
+
+    newItem.searchContent = searchContent.toLocaleLowerCase();
+
+    if(newItem instanceof Course) 
+      savePromise = this.saveNewCourseToDB(ref, newItem);
+    else if(newItem instanceof EventItem)
+      savePromise = this.saveNewEventToDB(ref, newItem);
+
+    return savePromise.then(
+      () => {
+        
+        CategoryService.saveCategoryWithReference(ref, newItem.category).then(
+          (bool) => {
+            // si la category a été sauvegardée
+            if(bool) {
+              // si la les auteurs n'ont pas été sauvegardés
+              if(!UserService.saveAuthorsWithReference(ref, newItem.authors)) {
+                return newItem;
+              }
+              else return null;
+              // si la category n'a pas été sauvegardée
+              } else {
+                return null;
+              }
+          });
+          return newItem;
+        }
+      ).catch(
+        (error) => {
+          console.log(error);
+          return null;
+        }
+      );
+  }
+
+  private saveNewCourseToDB(ref:firebase.database.Reference, newCourse: Course) {
+
+    console.log('saveNewCourseToDB :',newCourse.id, newCourse);
 
     return ref.set({
+      type:'course',
+      searchContent: newCourse.searchContent,
       title: newCourse.title,
       description: newCourse.description,
       price: newCourse.price, 
@@ -61,46 +114,16 @@ export class ItemService {
       published: newCourse.published,
       catchPhrase: newCourse.catchPhrase,
       skillsToAcquire: newCourse.skillsToAcquire,
-    }).then(
-      () => {
-        CategoryService.saveCategoryWithReference(ref, newCourse.category).then(
-          (bool) => {
-            // si la category a été sauvegardée
-            if(bool) {
-              // si la les auteurs n'ont pas été sauvegardés
-              if(!UserService.saveAuthorsWithReference(ref, newCourse.authors)) {
-                return newCourse;
-              }
-            // si la category n'a pas été sauvegardée
-            } else {
-              return false;
-            }
-        });
-        return newCourse;
-      }
-    ).catch(
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    });
   }
 
-  private saveNewEventToDB(newEvent: EventItem) {
+  private saveNewEventToDB(ref:firebase.database.Reference, newEvent: EventItem) {
 
     console.log('saveNewEventToDB',newEvent);
 
-    var ref = firebase.database().ref(Database.EVENTS);
-
-    const id = ref.push().key;
-    ref = firebase.database().ref(Database.EVENTS).child(id);
-    newEvent.id = id;
-
-    this._lastItemSaved = newEvent;
-
-    console.log('saveNewEventToDB', newEvent);
-
     return ref.set({
+      type:'event',
+      searchContent: newEvent.searchContent,
       title: newEvent.title,
       description: newEvent.description,
       price: newEvent.price, 
@@ -111,55 +134,33 @@ export class ItemService {
       location:newEvent.location,
       dates:newEvent.dates,
       catchPhrase:newEvent.catchPhrase,
-    }).then(
-      () => {
-        CategoryService.saveCategoryWithReference(ref, newEvent.category).then(
-          (bool) => {
-            // si la category a été sauvegardée
-            if(bool) {
-              // si la les auteurs n'ont pas été sauvegardés
-              if(!UserService.saveAuthorsWithReference(ref, newEvent.authors)) {
-                return newEvent;
-              }
-            // si la category n'a pas été sauvegardée
-            } else {
-              return false;
-            }
-        });
-        return newEvent;
-      }
-    ).catch(
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    });
   }
 
   private saveItemsToDB(){
-    var ref = firebase.database().ref('/items');
+    var ref = firebase.database().ref(Database.ITEMS);
     ref.set(this.items);
   } 
 
-  createNewEvent(newEvent:EventItem){
-    //this.items.push(newItem);
-    return this.saveNewEventToDB(newEvent);
-    //this.saveItemsToDB();
-    //this.emitItems();
-  }
+  updateItemPrimaryInfoInDB(item:Course | EventItem){ 
 
-  createNewCourse(newCourse:Course){
-    //this.items.push(newItem);
+    var ref = firebase.database().ref(Database.ITEMS).child(item.id);
 
-    return this.saveNewCourseToDB(newCourse);
+    if(item.title)
+    item.searchContent = item.searchContent.concat(item.title.replace(/[^\wèéòàùì]/gi, ''));
+    if(item.getMainAuthor()) 
+    item.searchContent = item.searchContent.concat('/', item.getMainAuthorName().replace(/[^\wèéòàùì]/gi, ''));
+    if(item.description) 
+    item.searchContent = item.searchContent.concat('/', item.description.replace(/[^\wèéòàùì]/gi, ''));
+    if(item.catchPhrase) 
+    item.searchContent = item.searchContent.concat('/', item.catchPhrase.replace(/[^\wèéòàùì]/gi, ''));
+    if(item.category) 
+    item.searchContent = item.searchContent.concat('/', item.category.name.replace(/[^\wèéòàùì]/gi, ''));
 
-    //this.saveItemsToDB();
-    //this.emitItems();
-  }
-
-  private updateItemPrimaryInfoInDB(item:Item, ref:firebase.database.Reference){ 
+    item.searchContent = item.searchContent.toLocaleLowerCase();
 
     ref.update({
+      searchContent:item.searchContent,
       title: item.title,
       price: item.price, 
       imageLink: item.imageLink,
@@ -167,22 +168,13 @@ export class ItemService {
       catchPhrase:item.catchPhrase,
     }).then(
       () => {
-        this.updateItemPrimaryInfoInAuthorsDB(item, ref);
+        this.updateItemPrimaryInfoInAuthorsDB(item);
     });
   }
 
-  private updateItemPrimaryInfoInAuthorsDB(item:Item, ItemRef:firebase.database.Reference) {
+  private updateItemPrimaryInfoInAuthorsDB(item:Course | EventItem) {
 
     if(item.authors){
-
-      var itemRef:string;
-
-      if(ItemRef.toString().includes(Database.COURSES)) {
-        itemRef = Database.COURSES;
-      }
-      else if(ItemRef.toString().includes(Database.EVENTS)) {
-        itemRef = Database.EVENTS;
-      }
 
       item.authors.forEach(function (value) {
         console.log('updateCoursePrimaryInfoInDB', value, item);
@@ -191,7 +183,8 @@ export class ItemService {
             var refAuthors = firebase.database()
             .ref(Database.USERS)
             .child(value.id)
-            .child(itemRef).child(item.id);
+            .child(Database.ITEMS)
+            .child(item.id);
           
           refAuthors.update({
               title: item.title, 
@@ -204,40 +197,17 @@ export class ItemService {
     }
   }
 
-  updateCoursePrimaryInfoInDB(course:Course){
+  updateItemDescriptionInDB(item:Course | EventItem) {
 
-    var ref = firebase.database().ref(Database.COURSES).child(course.id);
-    this.updateItemPrimaryInfoInDB(course, ref);   
-  }
-
-  updateEventPrimaryInfoInDB(event:EventItem){
-
-    var ref = firebase.database().ref(Database.EVENTS).child(event.id);
-    this.updateItemPrimaryInfoInDB(event, ref);   
-  }
-
-  private updateItemDescriptionInDB(item:Item, ref:firebase.database.Reference) {
-
+    var ref = firebase.database().ref(Database.ITEMS).child(item.id);
     ref.update({
       description: item.description
     });
   }
 
-  updateCourseDescriptionInDB(course:Course){
-
-    var ref = firebase.database().ref(Database.COURSES).child(course.id);
-    this.updateItemDescriptionInDB(course, ref);
-  }
-
-  updateEventDescriptionInDB(event:EventItem){
-
-    var ref = firebase.database().ref(Database.EVENTS).child(event.id);
-    this.updateItemDescriptionInDB(event, ref);
-  }
-
   updateSkillsToAcquireInDB(course:Course){
 
-    var ref = firebase.database().ref(Database.COURSES).child(course.id);
+    var ref = firebase.database().ref(Database.ITEMS).child(course.id);
     
     ref.update({
       skillsToAcquire: course.skillsToAcquire
@@ -245,41 +215,14 @@ export class ItemService {
   }
 
   getItemsFromDB(){
-    firebase.database().ref('/items').on('value', 
-      (data) => {
-        this.items = data.val() ? data.val() : [];
-        this.emitItems();
-        console.log(data.val());
-      }
-    );
-  }
-
-  getCoursesFromDB(){
-    
-    return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref(Database.COURSES).once('value').then(
-          (data) => {
-              resolve(data.val());
-          }, (error) => {
-            reject(error);
-          }
-        );
-      }
-    );
-  }
-
-  getCoursesOfAuthenticatedUser(){
-    
-  }
-
-  getCoursesByName(title:string){
-    return firebase.database().ref(Database.COURSES)
-                              .orderByChild('title')
-                              .equalTo(title)
+    return firebase.database().ref(Database.ITEMS)
+                              .orderByKey()
                               .once('value')
                               .then(
       (snapshot) => {
+
+        console.error('lezmnez________',snapshot.val());
+
         if(snapshot){
           return (snapshot.val());
         }
@@ -291,9 +234,9 @@ export class ItemService {
       );
   }
 
-  getCoursesByCategory(category:Category){
+  getItemByCategory(category:Category){
 
-    return firebase.database().ref(Database.COURSES)
+    return firebase.database().ref(Database.ITEMS)
                               .orderByChild('category/'+category.id+'/name')
                               .equalTo(category.name)
                               .once('value')
@@ -309,7 +252,7 @@ export class ItemService {
         }
       );
   }
-  
+
   getItemsOfUserByUserId(id:string){
     return new Promise(
       (resolve, reject) => {
@@ -324,24 +267,10 @@ export class ItemService {
     );
   }
 
-  getSingleCourseFromDBWithId(id:string){
+  getSingleItemFromDBById(id:string){
     return new Promise(
       (resolve, reject) => {
-        firebase.database().ref(Database.COURSES).child(id).once('value').then(
-          (data) => {
-              resolve(data.val());
-          }, (error) => {
-            reject(error);
-          }
-        );
-      }
-    );
-  }
-
-  getSingleEventFromDBWithId(id:string){
-    return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref(Database.EVENTS).child(id).once('value').then(
+        firebase.database().ref(Database.ITEMS).child(id).once('value').then(
           (data) => {
               resolve(data.val());
           }, (error) => {
@@ -392,7 +321,7 @@ export class ItemService {
       }).then(
       () => {
         console.log('saveIEventWithReference - category', iEvent.category, ref.toString());
-        CategoryService.saveCategoryWithReference(ref, new Category('rtre','nnr')).then(
+        CategoryService.saveCategoryWithReference(ref, iEvent.category).then(
           (bool) => {
           // si la category n'a pas été sauvegardée retourner false
          if(!bool) {
@@ -436,6 +365,7 @@ export class ItemService {
   public static saveICourseWithReference(ref:firebase.database.Reference, iCourse:ICourse){
 
     return ref.child(iCourse.id).set({
+        type:'course',
         title: iCourse.title, 
         price: iCourse.price,
         imageLink :iCourse.imageLink,
@@ -489,9 +419,10 @@ export class ItemService {
       course.authors.forEach(function (value) {
         console.log('saveCourseInAuthorsDB',value); 
         
-        var refAuthors = ref.child(value.id).child(Database.COURSES).child(course.id);
+        var refAuthors = ref.child(value.id).child(Database.ITEMS).child(course.id);
 
         refAuthors.set({
+          type:'course',
           title: course.title, 
           price:course.price, 
           imageLink :course.imageLink,
@@ -538,6 +469,7 @@ export class ItemService {
         var refAuthors = ref.child(value.id).child(Database.EVENTS).child(event.id);
 
         refAuthors.set({
+          type:'event',
           title: event.title, 
           imageLink :event.imageLink,
           location: event.location,

@@ -65,7 +65,9 @@ export class RatingService {
   private saveRatingInCourseDB(rating:Rating, iCourse:ICourse, iUser:IUser):Promise<Rating>{
 
     if(rating && iCourse && iUser) {
-      var refRatingInCourse = firebase.database().ref(Database.COURSES).child(iCourse.id).child(Database.RATINGS);
+      var refRatingInCourse = firebase.database().ref(Database.ITEMS)
+                                                 .child(iCourse.id)
+                                                 .child(Database.RATINGS);
 
       return this.saveRatingWithReference(refRatingInCourse, rating).then(
         (value) => {
@@ -106,13 +108,15 @@ export class RatingService {
   private saveRatingInUserDB(rating:Rating, iCourse:ICourse, iUser:IUser):Promise<Rating> {
 
     if(rating && iCourse && iUser) {
-      var refRatingInUser = firebase.database().ref(Database.USERS).child(iUser.id).child(Database.RATINGS);
+      var refRatingInUser = firebase.database().ref(Database.USERS)
+                                               .child(iUser.id)
+                                               .child(Database.RATINGS);
 
       return this.saveRatingWithReference(refRatingInUser, rating).then(
         (value) => {
           if(!value) return null;
           
-          return refRatingInUser.child(value.id).child(Database.COURSE).child(iCourse.id).set({
+          return refRatingInUser.child(value.id).child(Database.ITEMS).child(iCourse.id).set({
             title: iCourse.title, 
             price: iCourse.price,
             category: iCourse.category,

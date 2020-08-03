@@ -1,3 +1,4 @@
+import { EventItem } from 'src/app/shared/item/event-item';
 import { Database } from 'src/app/core/database/database.enum';
 import { Course } from 'src/app/shared/item/course';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -112,13 +113,13 @@ export class CourseFormComponent implements OnInit, OnDestroy{
 
   private sendCourseToDB(newCourse:Course)
   {
-    return this.itemService.createNewCourse(newCourse).then(
+    return this.itemService.createNewItemToDB(newCourse).then(
       (val) => {
         if(val && val instanceof(Course)){
 
           this.itemService.saveCourseInAuthorsDB(val,this.authService.authUser.id);
         }
-        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value = this.itemService.lastItemSaved;
+        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value = this.itemService.lastItemCreated;
         this.itemFormService.getStepFormWithStep(StepState.COMPLETE).status = true;
         return true;
         
@@ -126,7 +127,8 @@ export class CourseFormComponent implements OnInit, OnDestroy{
       (error) => {
         console.log(error);
         return false;
-      }); 
+      }
+    ); 
   }
 
   sortStepForm(stepState:StepState){
@@ -164,7 +166,7 @@ export class CourseFormComponent implements OnInit, OnDestroy{
 
       case StepState.COMPLETED :
         {
-          this.router.navigate([RouteUrl.COURSE, this.itemService.lastItemSaved.id]);
+          this.router.navigate([RouteUrl.COURSE, this.itemService.lastItemCreated.id]);
           break;
         }
 

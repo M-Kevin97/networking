@@ -1,12 +1,12 @@
-import { SearchService } from './../../../search/service/search.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { CategoryService } from 'src/app/shared/item/category/category.service';
-import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Category } from 'src/app/shared/item/category/category';
+import { CategoryService } from 'src/app/shared/item/category/category.service';
+import { AuthService } from '../../auth/auth.service';
+import { SearchService } from './../../../search/service/search.service';
 
 @Component({
   selector: 'app-header-user',
@@ -19,23 +19,24 @@ export class HeaderUserComponent implements OnInit {
   navCategoriesCollapsed = true;
 
   private categorySubscription: Subscription;
-  private categoryService:CategoryService
-  categories:Category[];
-  
+  private categoryService: CategoryService
+  categories: Category[];
+
   searchForm: FormGroup;
 
-  constructor(private formBuilder:FormBuilder,
-              private authService: AuthService,
-              private searchService:SearchService,
-              private router:Router) { 
+  constructor(private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private searchService: SearchService,
+    private router: Router) {
 
     this.categoryService = new CategoryService();
     this.searchForm = this.formBuilder.group({
-      search: ''});
+      search: ''
+    });
   }
 
   ngOnInit() {
-    
+
     // Pour reprendre le dernier compte connecté
     //this.authService.authStateChanged();
 
@@ -43,49 +44,45 @@ export class HeaderUserComponent implements OnInit {
   }
 
 
-  getCategoriesFromService(){
+  getCategoriesFromService() {
 
     console.log('getCategoriesFromService ItemCategoryFormComponent');
 
     this.categorySubscription = this.categoryService.categoriesSubject
-    .subscribe(
-      (data:Category[]) => {
-        this.categories = data;
-      },
-      (err: string) => console.error('Observer got an error: ' + err),
-      () => {
-        console.log('Observer got a complete notification');
-      }
-    );
+      .subscribe(
+        (data: Category[]) => {
+          this.categories = data;
+        },
+        (err: string) => console.error('Observer got an error: ' + err),
+        () => {
+          console.log('Observer got a complete notification');
+        }
+      );
 
     this.categoryService.getCategoriesFromDB();
   }
 
-  goToHome(){
-    if(this.authService.isAuth) this.router.navigate([RouteUrl.FEED]);
+  goToHome() {
+    if (this.authService.isAuth) this.router.navigate([RouteUrl.FEED]);
     else this.router.navigate([RouteUrl.HOME]);
   }
 
-  onSearch(searchData){
+  onSearch(searchData) {
 
-    var str = "Їжак::: résd,$%& adùf"
-    
-    console.log(str.replace(/[^\w\s]/gi, '') ); // returns " rsd adf"
-    console.log(str.replace(/[^\wèéòàùì\s]/gi, '') ); // returns " résd adùf"
-
-    if(searchData['search']) {
+    if (searchData['search']) {
       console.log(searchData['search']);
 
-      this.router.navigate([RouteUrl.RESULTS], { queryParams: { q: searchData['search'] } });
+      this.router.navigate([RouteUrl.RESULTS], { queryParams: { q: searchData['search'],
+                                                                category: 'Tout'} });
     }
   }
 
-  onSearchByCategory(category:Category){
+  onSearchByCategory(category: Category) {
 
-    if(category) {
-    
-      console.log('onSearchByCategory',category);
-      
+    if (category) {
+
+      console.log('onSearchByCategory', category);
+
       this.router.navigate([RouteUrl.RESULTS], { queryParams: { category: category.name } });
     }
   }
@@ -94,24 +91,24 @@ export class HeaderUserComponent implements OnInit {
     this.router.navigate([RouteUrl.USER, this.authService.authUser.id]);
   }
 
-  goToShoppingCart(){
+  goToShoppingCart() {
     this.router.navigate([RouteUrl.CART]);
   }
 
-  newCourse(){
+  newCourse() {
     this.router.navigate([RouteUrl.NEW_COURSE]);
   }
-  
-  newEvent(){
+
+  newEvent() {
     this.router.navigate([RouteUrl.NEW_EVENT]);
   }
 
-  goToAdmin(){
+  goToAdmin() {
     this.router.navigate([RouteUrl.ADMIN]);
-  }  
+  }
 
   CollapseNavCategories() {
-    if(this.navCategoriesCollapsed===true) this.navCategoriesCollapsed = false;
+    if (this.navCategoriesCollapsed === true) this.navCategoriesCollapsed = false;
     else this.navCategoriesCollapsed = true;
   }
 
@@ -119,17 +116,17 @@ export class HeaderUserComponent implements OnInit {
     return this.authService.isAuth;
   }
 
-  onSignIn(){
-    if(!this.isAuth()) this.router.navigate([RouteUrl.SIGNIN]);
+  onSignIn() {
+    if (!this.isAuth()) this.router.navigate([RouteUrl.SIGNIN]);
   }
 
-  onSignOut(){
+  onSignOut() {
     this.authService.signOutUser().then(
       () => {
         this.router.navigate([RouteUrl.SIGNIN]);
-    
+
         /* Si utilisateur déconnecté, isAuth = false; */
-        console.log(this.authService.isAuth,'user est déconnecté');
+        console.log(this.authService.isAuth, 'user est déconnecté');
       }
     );
   }

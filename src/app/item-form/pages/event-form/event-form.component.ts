@@ -1,3 +1,4 @@
+import { Course } from 'src/app/shared/item/course';
 import { Database } from 'src/app/core/database/database.enum';
 import { EventItem } from 'src/app/shared/item/event-item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -109,21 +110,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private sendEventToDB(newEvent:EventItem)
   {
-    return this.itemService.createNewEvent(newEvent).then(
-      (val) => {
-        if(val && val instanceof(EventItem)){
-
-          this.itemService.saveEventInAuthorsDB(val,this.authService.authUser.id);
-        }
-        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value = this.itemService.lastItemSaved;
-        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).status = true;
-        return true;
-        
-    }).catch(
-      (error) => {
-        console.log(error);
-        return false;
-      }); 
+    return this.itemService.createNewItemToDB(newEvent).then()
   }
 
 
@@ -174,7 +161,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
       case StepState.COMPLETED :
         {
-          this.router.navigate([RouteUrl.EVENT, this.itemService.lastItemSaved.id]);
+          this.router.navigate([RouteUrl.EVENT, this.itemService.lastItemCreated.id]);
           break;
         }
 

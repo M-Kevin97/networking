@@ -96,34 +96,14 @@ export class SingleUserComponent implements OnInit, OnDestroy {
         this.user.tel = result.tel;
         this.user.title = result.title;
         
-        if(this.user.ppLink === undefined)
-        {
-          this.user.ppLink = null;
-        }
-        if(this.user.firstname === undefined)
-        {
-          this.user.firstname = null;
-        }
-        if(this.user.lastname === undefined)
-        {
-          this.user.lastname = null;
-        }
-        if(this.user.title === undefined)
-        {
-          this.user.title = null;
-        }
-        if(this.user.bio === undefined)
-        {
-          this.user.bio = null;
-        }
-        if(this.user.mail === undefined)
-        {
-          this.user.mail = null;
-        }
-        if(this.user.tel === undefined)
-        {
-          this.user.tel = null;
-        }
+        if(!this.user.ppLink) this.user.ppLink = null;
+        if(!this.user.firstname) this.user.firstname = null;
+        if(!this.user.lastname) this.user.lastname = null;
+        if(!this.user.title) this.user.title = null;
+        if(!this.user.bio) this.user.bio = null;
+        if(!this.user.mail) this.user.mail = null;
+        if(!this.user.tel) this.user.tel = null;
+        
 
         this.userService.updateInfoUser(this.user);
 

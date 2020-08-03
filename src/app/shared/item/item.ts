@@ -1,6 +1,9 @@
+import { EventItem } from 'src/app/shared/item/event-item';
 import { Category } from 'src/app/shared/item/category/category';
 import { IUser } from '../user/user';
 import { ILocationEvent, IDatesEvent } from './event-item';
+import { Course } from './course';
+import { Rating } from '../rating/rating';
 
 export interface IItem {
     type:string;
@@ -14,6 +17,12 @@ export interface IItem {
 }
 
 export class Item {
+    public get searchContent(): string {
+        return this._searchContent;
+    }
+    public set searchContent(value: string) {
+        this._searchContent = value;
+    }
     public get catchPhrase(): string {
         return this._catchPhrase;
     }
@@ -93,6 +102,7 @@ export class Item {
                 private _authors: IUser[],
                 private _creationDate: string, 
                 private _published: boolean,
+                private _searchContent: string,
                 private _imageLink?: string,
                 private _videoLink?: string){
     }
@@ -150,6 +160,7 @@ export class Item {
             this.getIAuthorsItemFromJson(json['authors']),
             json['creationDate'],
             json['published'],
+            json['_searchContent'],
             json['imageLink'],
             json['videoLink']
         );

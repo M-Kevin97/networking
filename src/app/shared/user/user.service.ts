@@ -75,7 +75,7 @@ export class UserService {
             console.log('updateUserCourses', value, user.courses);
             if(value){
           
-              var refCourse = firebase.database().ref(Database.COURSES)
+              var refCourse = firebase.database().ref(Database.ITEMS)
                                                 .child(value.id)
                                                 .child(Database.AUTHORS)
                                                 .child(user.id);
@@ -100,7 +100,7 @@ export class UserService {
                 console.log('updateUserEvents', value, user.courses);
                 if(value){
               
-                  var refEvent = firebase.database().ref(Database.EVENTS)
+                  var refEvent = firebase.database().ref(Database.ITEMS)
                                                     .child(value.id)
                                                     .child(Database.AUTHORS)
                                                     .child(user.id);
@@ -169,11 +169,12 @@ export class UserService {
 
     iAuthors.forEach(function (value) {
       if(saved){
+        if(!value.title) value.title='';
         ref.child(Database.AUTHORS).child(value.id).set({
           firstname: value.firstname,
           lastname: value.lastname,
-          title:value.title,
-          ppLink:value.ppLink,
+          title: value.title,
+          ppLink: value.ppLink,
         }).then(
           function() {
             saved = true;
@@ -193,11 +194,12 @@ export class UserService {
 
     iAuthors.forEach(function (value) {
       if(saved && idAuthorAuth !== value.id){
+        if(!value.title) value.title='';
         ref.child(Database.AUTHORS).child(value.id).set({
           firstname: value.firstname,
           lastname: value.lastname,
-          title:value.title,
-          ppLink:value.ppLink,
+          title: value.title,
+          ppLink: value.ppLink,
         }).then(
           function() {
             saved = true;

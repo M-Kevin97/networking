@@ -3,6 +3,7 @@
   <!-- section Filter pour la recherche -->
   <div class="filter-section mt-5">
     <app-filter (items)="setCourseList($event)"
+                [query]="query"
                 [categoryName]="categoryName">
     </app-filter>
   </div>

@@ -107,19 +107,19 @@ export class User {
 
     public static userFromJson(json: Object): User {
 
-        if(json === null || json === undefined) return null;
+        if(!json) return null;
 
         const jsonItems = json['items'];
-        let crs, evts;
+        const idJsonItem = Object.keys(jsonItems);
+        const jsonItem = jsonItems[idJsonItem];
 
-        if(jsonItems === null || jsonItems === undefined) { 
-            crs=null;
-            evts=null;
+        console.log('sjmezjn', jsonItem);
+        let crs = null, evts = null;
 
-        } else {
-            crs = Course.getICoursesItemFromJson(jsonItems['courses']);
-            evts = EventItem.getIEventsItemFromJson(jsonItems['events']);
-        }
+        if(jsonItems)  {
+            crs = Course.getICoursesItemFromJson(jsonItems);
+            evts = EventItem.getIEventsItemFromJson(jsonItems);
+        }     
 
         return new User(null,
                         json['firstname'],
@@ -133,6 +133,7 @@ export class User {
                         crs,
                         evts);
     }
+    
 
     public static usersFromJson(json: Object): User[] {
 

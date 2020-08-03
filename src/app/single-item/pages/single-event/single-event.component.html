@@ -29,7 +29,9 @@
         <div class="title-section">
           <h2 class="item-title">
             {{ event.title }}
-            <app-button-edit class="ml-5" (click)="openHeadItemModal()"></app-button-edit>
+            <app-button-edit class="ml-5" 
+                             (click)="openHeadItemModal()"
+                             *ngIf="isAuthor()"></app-button-edit>
           </h2>
           <h3 class="item-subtitre">
             {{ event.catchPhrase }}
@@ -76,7 +78,9 @@
       <div class="item-block description-block">
         <h5 class="title-cat">
           Description
-          <app-button-edit class="ml-5" (click)="openDescriptionItemModal()"></app-button-edit>
+          <app-button-edit class="ml-5" 
+                           (click)="openDescriptionItemModal()" 
+                           *ngIf="isAuthor()"></app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="event.description"></app-description-section>

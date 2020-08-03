@@ -17,6 +17,7 @@ export class SearchComponent implements OnInit {
 
   courseList:Course[]= [];
   categoryName:string = "";
+  query:string = "";
   mySubscription: any;
 
   constructor(private itemService:ItemService,
@@ -27,12 +28,13 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(
       (params) => {
-        let category:string = params['category'];
-        console.log('ngOnInit seach :', category);
-        this.categoryName = category;
-
-            // Code pour rafraichir la page sans ke l'url change
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+        this.categoryName = params['category'];
+        this.query = params['q'];
+        console.log('ngOnInit seach :', this.categoryName);
+        console.log('ngOnInit seach :', this.query);
+         
+        // Code pour rafraichir la page sans ke l'url change
+        this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
 
@@ -66,6 +68,9 @@ export class SearchComponent implements OnInit {
 
   setCourseList(list) {
     console.log('getCourseList ', list);
-    this.courseList = Array.from(list);
+    if(list) {
+      this.courseList = [];
+      this.courseList= Array.from(list);
+    } 
   }
 }

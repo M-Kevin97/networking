@@ -43,7 +43,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null);
 
     const id = this.route.snapshot.params['id'];
-    this.itemService.getSingleCourseFromDBWithId(id).then(
+    this.itemService.getSingleItemFromDBById(id).then(
       (course:Course) => {
         if(course!==null && course!==undefined) {
           this.hasItem = true;
@@ -61,16 +61,25 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     ).then(
       () => {
         this.itemService.getItemsOfUserByUserId(this.getMainAuthor().id).then(
-          (items) => {
-            if(items!==null && items!==undefined) {
-              console.log(items);
-              var mainAuthorCourses:Item[] = Course.coursesFromJson(items['courses']);
-              console.log(mainAuthorCourses);
+          (data) => {
+            if(data) {
+              console.log(data);
+              
+              var mainAuthorItems: Item[] = Object.keys(data).map(
+                function(itemIdIndex){
+                let item, itemJson = data[itemIdIndex];
+        
+                if(itemJson['type']==='course')
+                    item = Course.courseFromJson(itemJson);
+                else if(itemJson['type']==='event')
+                    item = EventItem.eventFromJson(itemJson)
+    
+                item.id = itemIdIndex;
+    
+                return item;
+            });
 
-              var mainAuthorEvents:Item[] = EventItem.eventsFromJson(items['events']);
-              console.log(mainAuthorEvents);
-
-              this.mainAuthorItems = mainAuthorCourses.concat(mainAuthorEvents);
+              this.mainAuthorItems = mainAuthorItems;
               this.mainAuthorItems.sort((a, b) => a.creationDate < b.creationDate ? -1 : a.creationDate > b.creationDate ? 1 : 0)
             }
           }
@@ -118,7 +127,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
           this.course.videoLink = null;
         }
 
-        this.itemService.updateCoursePrimaryInfoInDB(this.course);
+        this.itemService.updateItemPrimaryInfoInDB(this.course);
 
       }
     }).catch((error) => {
@@ -143,7 +152,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
           this.course.description = null;
         }
 
-        this.itemService.updateCourseDescriptionInDB(this.course);
+        this.itemService.updateItemDescriptionInDB(this.course);
 
       }
     }).catch((error) => {
@@ -186,6 +195,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     modalRef.result.then((result:Rating) => {
       if (result) {
         console.log(result);
+        if(!this.course.ratings) this.course.ratings=[];
         this.course.ratings.push(result);
 
       }

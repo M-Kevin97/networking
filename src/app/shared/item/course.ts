@@ -51,6 +51,7 @@ export class Course extends Item {
                 authors:IUser[],
                 creationDate: string, 
                 published:boolean,
+                searchContent:string,
                 private _skillsToAcquire: string[],
                 private _ratings: Rating[],
                 imageLink?: string,
@@ -67,6 +68,7 @@ export class Course extends Item {
               authors,
               creationDate, 
               published,
+              searchContent,
               imageLink,
               videoLink);
 
@@ -108,26 +110,31 @@ export class Course extends Item {
 
         console.log('°°°°°°°°°°°°',json);
 
+        var crs:ICourse[] = [];
         var courses = Object.keys(json).map(
             function(coursesIdIndex){
             let courseJson = json[coursesIdIndex];
 
-            var course:ICourse = {
-                type:'ICourse',
-                id: coursesIdIndex,
-                title: courseJson['title'],
-                category:Category.categoryFromJson(courseJson['category']),
-                price: courseJson['price'],
-                imageLink:courseJson['imageLink'],
-                nbRatings:courseJson['nbRatings'],
-                overallRating:courseJson['overallRating'],
-                authors:Item.getIAuthorsItemFromJson(courseJson['authors']),
-                published:courseJson['published'],
-            };
-            return course;
-        });
+            if(courseJson['type']==='course') {
 
-        return courses;
+                var course:ICourse = {
+                    type:'ICourse',
+                    id: coursesIdIndex,
+                    title: courseJson['title'],
+                    category:Category.categoryFromJson(courseJson['category']),
+                    price: courseJson['price'],
+                    imageLink:courseJson['imageLink'],
+                    nbRatings:courseJson['nbRatings'],
+                    overallRating:courseJson['overallRating'],
+                    authors:Item.getIAuthorsItemFromJson(courseJson['authors']),
+                    published:courseJson['published'],
+                };
+                crs.push(course);
+                return course;
+            }
+        });
+        if(courses.length<=0) return null;
+        else return courses;
     }
 
     public static courseFromJson(json: Object): Course {
@@ -146,6 +153,7 @@ export class Course extends Item {
             this.getIAuthorsItemFromJson(json['authors']),
             json['creationDate'],
             json['published'],
+            json['searchContent'],
             json['skillsToAcquire'],
             Rating.ratingsFromJson(json['ratings']),
             json['imageLink'],

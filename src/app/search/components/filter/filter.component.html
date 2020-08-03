@@ -10,11 +10,6 @@
                 [(ngModel)]="idCategorySelected"
                 required>
 
-          <option disabled 
-                  value="" 
-                  [selected]="catRestored ? true : null">
-            Choisissez une catégorie
-          </option>
           <option *ngFor="let cat of this.categoriesValues" 
                   [value]="cat.id"
                   [selected]="catRestored && (cat.id == catRestored.id) ? true : null"> 
@@ -38,7 +33,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" (click)="onSearchWithFilter(filterForm.value)">
+    <button class="btn btn-primary" (click)="onSearchWithFilter()">
       Rechercher
     </button>
 

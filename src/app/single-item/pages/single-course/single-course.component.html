@@ -31,7 +31,7 @@
             {{ course.title }}
             <app-button-edit class="ml-5" 
                              (click)="openHeadItemModal()"
-                             *ngIf="userIsAuthor()">
+                             *ngIf="isAuthor()">
             </app-button-edit>
           </h2>
           <h3 class="item-subtitre">
@@ -86,7 +86,7 @@
           Description
           <app-button-edit class="ml-5" 
                            (click)="openDescriptionItemModal()"
-                           *ngIf="userIsAuthor()">
+                           *ngIf="isAuthor()">
           </app-button-edit>
         </h5>
         <hr> <!-- separation line -->
@@ -102,7 +102,7 @@
           Compétences à acquérir
           <app-button-edit class="ml-5" 
                            (click)="openSkillsItemModal()"
-                           *ngIf="userIsAuthor()">
+                           *ngIf="isAuthor()">
           </app-button-edit>
         </h5>
         <hr> <!-- separation line -->

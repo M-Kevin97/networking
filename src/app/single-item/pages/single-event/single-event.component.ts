@@ -43,7 +43,7 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
     console.log(this.route.snapshot);
 
     const id = this.route.snapshot.params['id'];
-    this.itemService.getSingleEventFromDBWithId(id).then(
+    this.itemService.getSingleItemFromDBById(id).then(
       (event:EventItem) => {
         if(event!==null && event!==undefined) {
           this.hasItem = true;
@@ -118,7 +118,7 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
           this.event.videoLink = null;
         }
 
-        this.itemService.updateEventPrimaryInfoInDB(this.event);
+        this.itemService.updateItemPrimaryInfoInDB(this.event);
 
       }
     }).catch((error) => {
@@ -143,7 +143,7 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
           this.event.description = null;
         }
 
-        this.itemService.updateEventDescriptionInDB(this.event);
+        this.itemService.updateItemDescriptionInDB(this.event);
 
       }
     }).catch((error) => {

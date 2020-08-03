@@ -29,14 +29,22 @@ export class SingleItemComponent implements OnInit {
 
   userIsAuthor(){
     if(this.authService.isAuth){
-
       if(this.item && this.item.authors){
         this.item.authors.forEach((author)=>{
-
           if(author.id === this.authService.authUser.id){
               return true;
           }
         });
+      }
+    }
+    return false;
+  }
+
+  isAuthor(){
+
+    if(this.authService.isAuth){
+      if(this.item && this.item.authors && this.item.getMainAuthor()){
+        return this.item.getMainAuthor().id === this.authService.authUser.id;
       }
     }
     return false;

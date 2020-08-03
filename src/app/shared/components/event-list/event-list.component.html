@@ -1,4 +1,4 @@
-<ul class="list-group">
+<ul *ngIf="events" class="list-group">
   <li *ngFor="let event of events; let i = index" 
       class="row list-group-event mb-3"
       (click)="onViewItem(event.id)">

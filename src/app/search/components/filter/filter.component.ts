@@ -17,7 +17,9 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   @Output() items = new EventEmitter<Course[]>();
   @Input() categoryName:string;
+  @Input() query:string;
 
+  results:Course[] = [];
   filterForm: FormGroup;
   idCategorySelected: string;
   categorySelected : Category;
@@ -43,7 +45,12 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() { 
 
-    this.getCategoriesFromService();
+    this.getCategoriesFromService().then(
+      (val) => {
+        this.fillFilterForm();
+        this.onSearchWithFilter();
+      }
+    );;
   }
 
   getCategoriesFromService(){
@@ -54,6 +61,8 @@ export class FilterComponent implements OnInit, OnDestroy {
     .subscribe(
       (data:Category[]) => {
 
+        this.mapCategories.set('0',new Category('0', 'Tout'));
+         
         for(var _i = 0; _i < data.length; _i++) 
         {
           this.mapCategories.set(data[_i].id, data[_i]);
@@ -67,12 +76,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.categoryService.getCategoriesFromDB().then(
-      (val) => {
-        this.fillFilterForm();
-        this.onSearchWithFilter(this.filterForm);
-      }
-    );
+    return this.categoryService.getCategoriesFromDB();
   }
 
   fillFilterForm() {
@@ -80,25 +84,107 @@ export class FilterComponent implements OnInit, OnDestroy {
       console.log('fillFilterForm',this.categoryName);
       this.idCategorySelected = this.getKeyByCategoryName(this.categoryName);
     }
+    if(this.query) {
+      console.log('fillFilterForm',this.query);
+      this.filterForm.patchValue({search:this.query});
+    }
   }
 
   getKeyByCategoryName(val:string) {
     return [...this.mapCategories].find(([key, value]) => val === value.name)[0];
   }
 
-  onSearchWithFilter(filterForm){
+  onSearchWithFilter(){
 
     //filterForm
 
-    const category = this.mapCategories.get(this.idCategorySelected);
+   /* const category = this.mapCategories.get(this.idCategorySelected);
     console.log('onSearch Category :', category);
-    this.itemService.getCoursesByCategory(category).then(
+    this.itemService.getItemByCategory(category).then(
       (val) => {
         let v = Course.coursesFromJson(val);
         console.log(v);
         this.items.emit(v);
       }
-    );
+    );*/
+
+    
+    this.query = this.filterForm.get('search').value;
+    let cat = this.mapCategories.get(this.idCategorySelected);
+    this.categoryName = cat.name;
+    if(cat.id==='0') this.categoryName = null;
+
+    if(this.categoryName) {
+      
+      this.itemService.getItemByCategory(this.mapCategories.get(this.idCategorySelected)).then(
+        (val) => {
+          console.error('///Dzzeezo,ez,e,d',val);
+          let v = Course.coursesFromJson(val);
+          console.error('///Dzo,ez,e,d',v);
+          this.results = this.filterResults(v);
+
+          this.items.emit(this.results);
+        }
+      );
+    }
+    else {
+      this.itemService.getItemsFromDB().then(
+        (val) => {
+          console.error('///Dzzeezo,ez,e,d',val);
+          let v = Course.coursesFromJson(val);
+          console.error('///Dzo,ez,e,d',v);
+          this.results = this.filterResults(v);
+
+          this.items.emit(this.results);
+        }
+      );
+    }
+  }
+
+  filterResults(results:Course[]) {
+
+    if(results){
+      
+      console.error('rhexcjvkbhnj', this.categoryName, this.query);
+      let y = 0;
+      let temp = Array.from(results);
+      results.forEach(
+        (result) => {
+          if(this.categoryName){
+            if(!(result.category.name === this.categoryName))
+            {
+              temp.splice(results.indexOf(result)-y,1);
+              y++;
+            }
+             
+          }
+        }
+      );
+      console.error('MIDDLE FILTER', temp);
+
+      let resultsFiltered = Array.from(temp);
+      console.error('MIDDLE FILTER', resultsFiltered);
+
+      y = 0;
+      temp.forEach(
+        (result) => {
+          console.error('zezeze', temp.indexOf(result));
+          console.warn(result.searchContent,' includes :',this.query.toLocaleLowerCase(), 'res: ',result.searchContent.includes(this.query.toLocaleLowerCase()));
+          if(this.query){
+            if(!result.searchContent.includes(this.query.toLocaleLowerCase()))
+            {
+              console.log('splie : ',resultsFiltered.splice(temp.indexOf(result)-y,1));
+              y++;
+            }
+          }
+        }
+      );
+
+      console.error('END FILTER', resultsFiltered);
+
+      return resultsFiltered;
+
+    } else return [];
   }
 
   // En cas de retour sur la page du formulaire Category, Selectionner automatikement la catégorie sélecté
@@ -115,6 +201,11 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     //getted id selected category from event
     this.idCategorySelected = id;
+  }
+
+  getResultsLength() {
+    if(this.results)
+      return this.results.length;
   }
 
   ngOnDestroy(){

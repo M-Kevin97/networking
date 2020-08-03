@@ -47,6 +47,7 @@ export class EventItem extends Item {
                 authors:IUser[],
                 creationDate: string, 
                 published:boolean, 
+                searchContent:string,
                 imageLink?: string,
                 videoLink?: string){
 
@@ -59,6 +60,7 @@ export class EventItem extends Item {
                 authors,
                 creationDate,  
                 published,
+                searchContent,
                 imageLink,
                 videoLink);
     }
@@ -68,26 +70,32 @@ export class EventItem extends Item {
         if(json === null || json === undefined) return null;
         console.log(json);
 
+        var evts:IEvent[] = [];
         var events = Object.keys(json).map(
             function(eventsIdIndex){
             let eventJson = json[eventsIdIndex];
 
-            var event:IEvent = {
-                type:'IEvent',
-                id: eventsIdIndex,
-                title: eventJson['title'],
-                category: Category.categoryFromJson(eventJson['category']),
-                price: eventJson['price'],
-                imageLink: eventJson['imageLink'],
-                authors:Item.getIAuthorsItemFromJson(eventJson['authors']),
-                published: eventJson['published'],
-                location:Item.getILocationFromJson(eventJson['location']),
-                dates:Item.getIDatesFromJson(eventJson['dates'])
-            };
-            return event;
-        });
+            if(eventJson['type']==='event') {
 
-        return events;
+                var event:IEvent = {
+                    type:'IEvent',
+                    id: eventsIdIndex,
+                    title: eventJson['title'],
+                    category: Category.categoryFromJson(eventJson['category']),
+                    price: eventJson['price'],
+                    imageLink: eventJson['imageLink'],
+                    authors:Item.getIAuthorsItemFromJson(eventJson['authors']),
+                    published: eventJson['published'],
+                    location:Item.getILocationFromJson(eventJson['location']),
+                    dates:Item.getIDatesFromJson(eventJson['dates']),
+                };
+                evts.push(event);
+                console.log('kjzvemzie',evts.length);
+                return event;
+            }
+        });
+        if(evts.length<=0) return null;
+        else return evts;
     }
 
     public static eventFromJson(json: Object): EventItem {
@@ -104,8 +112,9 @@ export class EventItem extends Item {
             this.getIAuthorsItemFromJson(json['authors']),
             json['creationDate'],
             json['published'],
+            json['searchContent'],
             json['imageLink'],
-            json['videoLink']
+            json['videoLink'],
         );
     }
 
@@ -117,10 +126,10 @@ export class EventItem extends Item {
             function(eventsIdIndex){
             let eventJson = json[eventsIdIndex];
 
-            var course = EventItem.eventFromJson(eventJson)
-            course.id = eventsIdIndex;
+            var event = EventItem.eventFromJson(eventJson)
+            event.id = eventsIdIndex;
 
-            return course;
+            return event;
         });
 
         return events;

@@ -28,7 +28,7 @@ export class EditHeadUserComponent implements OnInit {
   file: File;
   urlImagePreview: string;
   uploadedImage: File;
-  istelOk:boolean;
+  isTelOk:boolean;
 
   private imagePreviewSubscription: Subscription;
 
@@ -114,10 +114,11 @@ export class EditHeadUserComponent implements OnInit {
   }
 
   passBack(){
-    this.chekPhoneForm(this.headUserForm.get('tel').value);
-    if (!this.istelOk) {
-      return;
-    }
+
+    // vérifier le bon format du tel si tel a été saisi
+    const tel:string = this.headUserForm.get('tel').value;
+    
+    if(tel) if(!this.checkPhoneForm(tel)) return;
 
     if(this.user.ppLink !== this.urlImagePreview) {
 
@@ -137,7 +138,7 @@ export class EditHeadUserComponent implements OnInit {
           firstname: this.headUserForm.get('firstname').value,
           lastname: this.headUserForm.get('lastname').value,
           title: this.headUserForm.get('title').value,
-          tel: this.headUserForm.get('tel').value,
+          tel: tel,
           bio: this.headUserForm.get('bio').value,
           mail: this.headUserForm.get('mail').value,
           ppLink:this.urlImagePreview,
@@ -153,7 +154,7 @@ export class EditHeadUserComponent implements OnInit {
         firstname: this.headUserForm.get('firstname').value,
         lastname: this.headUserForm.get('lastname').value,
         title: this.headUserForm.get('title').value,
-        tel: this.headUserForm.get('tel').value,
+        tel: tel,
         bio: this.headUserForm.get('bio').value,
         mail: this.headUserForm.get('mail').value,
         ppLink:this.user.ppLink,
@@ -163,15 +164,16 @@ export class EditHeadUserComponent implements OnInit {
     }
   }
 
-  chekPhoneForm(tel:string) {
-    console.log(tel.length, Number.isInteger(+tel), tel)
-    if(tel && tel.length===10 && Number.isInteger(+tel)){
-      this.istelOk = true;
-      console.log(tel.length, Number.isInteger(+tel), tel)
+  checkPhoneForm(tel:string) {
+
+    if(tel.length===10 && tel && Number.isInteger(+tel)){
+      this.isTelOk = true;
+      return true;
     }
     else {
-      this.istelOk = false;
-    }
+      this.isTelOk = false;
+      return false;
+      }
   }
 
   ngOnDestroy(){
