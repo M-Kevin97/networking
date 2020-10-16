@@ -28,7 +28,7 @@
     "@visurel/iconify-angular": "0.0.7",
     "blueimp-canvas-to-blob": "^3.27.0",
     "bootstrap": "^4.5.0",
-    "firebase": "^7.14.2",
+    "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "ng2-img-max": "^2.2.4",
@@ -41,9 +41,9 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.7",
-    "@angular/cli": "^9.0.7",
-    "@angular/compiler-cli": "~9.0.6",
+    "@angular-devkit/build-angular": "^0.1001.7",
+    "@angular/cli": "^10.1.7",
+    "@angular/compiler-cli": "^9.0.7",
     "@angular/language-service": "~9.0.6",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
