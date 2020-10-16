@@ -4,25 +4,24 @@
   "scripts": {
     "heroku-postbuild": "ng build --prod",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "engines": { 
-    "node": "12.16.1", 
+  "engines": {
+    "node": "12.16.1",
     "npm": "6.14.8"
   },
-
   "private": true,
   "dependencies": {
-    "@angular/cli": "^10.1.7",
-    "@angular/compiler-cli": "^10.1.6",
     "@angular/animations": "~10.1.6",
     "@angular/cdk": "^9.2.4",
+    "@angular/cli": "^10.1.7",
     "@angular/common": "~10.1.6",
     "@angular/compiler": "~10.1.6",
+    "@angular/compiler-cli": "^10.1.6",
     "@angular/core": "^10.1.6",
     "@angular/forms": "~10.1.6",
     "@angular/localize": "^10.1.6",
@@ -35,17 +34,19 @@
     "@types/jquery": "^3.3.38",
     "blueimp-canvas-to-blob": "^3.27.0",
     "bootstrap": "^4.5.0",
+    "express": "^4.17.1",
     "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "ngx-countdown": "^9.0.1",
+    "path": "^0.12.7",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
     "rxjs-compat": "^6.5.5",
     "tether": "^1.4.7",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2",
-    "typescript": "~4.0.3"
+    "typescript": "~4.0.3",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1001.7",
