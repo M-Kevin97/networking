@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedComponent } from './shared.component';
-import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +26,6 @@ import { UserListComponent } from './components/user-list/user-list.component';
     HttpClientModule,
     BrowserModule,
     CommonModule,
-    Ng2ImgMaxModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,

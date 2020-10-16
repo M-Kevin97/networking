@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { Ng2ImgMaxService } from 'ng2-img-max';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -19,7 +18,7 @@ export class ImageService {
 
   imageSubject = new Subject<string>();
 
-  constructor(private ng2ImgMax: Ng2ImgMaxService) { }
+  constructor() { }
 
   // Methode servant à emettre les categories du service vers un component
   emitImage(){
@@ -69,67 +68,67 @@ export class ImageService {
     );
   }
 
-  /* 
-  Say you want to only limit the height,
-  and have the width resized accordingly to keep the aspect ratio the same. 
-  Just set whichever side should just fallow to a value of 10000
-  */
-  resizeImageWithHeightOnly(event, height:number) {
-    if (event.target.files && event.target.files[0]) {
+  // /* 
+  // Say you want to only limit the height,
+  // and have the width resized accordingly to keep the aspect ratio the same. 
+  // Just set whichever side should just fallow to a value of 10000
+  // */
+  // resizeImageWithHeightOnly(event, height:number) {
+  //   if (event.target.files && event.target.files[0]) {
 
-      let image = event.target.files[0];
+  //     let image = event.target.files[0];
 
-      this.ng2ImgMax.resizeImage(image, 10000, height).subscribe(
-        result => {
-          this.uploadedImage = new File([result], result.name);
-          this.getImagePreview(this.uploadedImage);
-        },
-        error => {
-          console.log('😢 Oh no!', error);
-        }
-      );
-    }
-  }
+  //     this.ng2ImgMax.resizeImage(image, 10000, height).subscribe(
+  //       result => {
+  //         this.uploadedImage = new File([result], result.name);
+  //         this.getImagePreview(this.uploadedImage);
+  //       },
+  //       error => {
+  //         console.log('😢 Oh no!', error);
+  //       }
+  //     );
+  //   }
+  // }
 
-  /* 
-  Say you want to only limit the width,
-  and have the width resized accordingly to keep the aspect ratio the same. 
-  Just set whichever side should just fallow to a value of 10000
-  */
-  resizeImageWithWidthOnly(event, width:number) {
+  // /* 
+  // Say you want to only limit the width,
+  // and have the width resized accordingly to keep the aspect ratio the same. 
+  // Just set whichever side should just fallow to a value of 10000
+  // */
+  // resizeImageWithWidthOnly(event, width:number) {
 
-    if (event.target.files && event.target.files[0]) {
+  //   if (event.target.files && event.target.files[0]) {
 
-      let image = event.target.files[0];
+  //     let image = event.target.files[0];
 
-      this.ng2ImgMax.resizeImage(image, width, 10000).subscribe(
-        result => {
-          this.uploadedImage = new File([result], result.name);
-          this.getImagePreview(this.uploadedImage);
-        },
-        error => {
-          console.log('😢 Oh no!', error);
-        }
-      );
-    }
-  }
+  //     this.ng2ImgMax.resizeImage(image, width, 10000).subscribe(
+  //       result => {
+  //         this.uploadedImage = new File([result], result.name);
+  //         this.getImagePreview(this.uploadedImage);
+  //       },
+  //       error => {
+  //         console.log('😢 Oh no!', error);
+  //       }
+  //     );
+  //   }
+  // }
 
-  /*
-  You can compress the image. Just pass-in a maximum value in megabytes. 
-  Exemple : 0.075 => 75Kb
-  */
-  compressImage(image:File, megabytes:number) {
+  // /*
+  // You can compress the image. Just pass-in a maximum value in megabytes. 
+  // Exemple : 0.075 => 75Kb
+  // */
+  // compressImage(image:File, megabytes:number) {
 
-    this.ng2ImgMax.compressImage(image, megabytes).subscribe(
-      result => {
-        this.uploadedImage = new File([result], result.name);
-        this.getImagePreview(this.uploadedImage);
-      },
-      error => {
-        console.log('😢 Oh no!', error);
-      }
-    );
-  }
+  //   this.ng2ImgMax.compressImage(image, megabytes).subscribe(
+  //     result => {
+  //       this.uploadedImage = new File([result], result.name);
+  //       this.getImagePreview(this.uploadedImage);
+  //     },
+  //     error => {
+  //       console.log('😢 Oh no!', error);
+  //     }
+  //   );
+  // }
 
   getImagePreview(file: File) {
 
