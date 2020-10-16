@@ -2,6 +2,7 @@
   "name": "network",
   "version": "0.0.0",
   "scripts": {
+    "heroku-postbuild": "ng build --prod",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -9,8 +10,15 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "engines": { 
+    "node": "12.16.1", 
+    "npm": "6.14.8"
+  },
+
   "private": true,
   "dependencies": {
+    "@angular/cli": "^10.1.7",
+    "@angular/compiler-cli": "^10.1.6",
     "@angular/animations": "~10.1.6",
     "@angular/cdk": "^9.2.4",
     "@angular/common": "~10.1.6",
@@ -36,7 +44,8 @@
     "rxjs-compat": "^6.5.5",
     "tether": "^1.4.7",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "typescript": "~4.0.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1001.7",
