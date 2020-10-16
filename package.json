@@ -25,7 +25,6 @@
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "@popperjs/core": "^2.4.4",
     "@types/jquery": "^3.3.38",
-    "@visurel/iconify-angular": "0.0.7",
     "blueimp-canvas-to-blob": "^3.27.0",
     "bootstrap": "^4.5.0",
     "firebase": "^7.24.0",
