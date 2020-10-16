@@ -11,7 +11,7 @@ import { ItemFormComponent } from '../../item-form.component';
 
 const routes: Routes = [
   {
-    path:RouteUrl.NEW.substr(1,RouteUrl.NEW.length), 
+    path:RouteUrl.NEW_ITEM.substr(1,RouteUrl.NEW_ITEM.length), 
     component:ItemFormComponent,
     children: 
     [

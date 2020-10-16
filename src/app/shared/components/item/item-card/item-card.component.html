@@ -1,0 +1,35 @@
+<!-- Start Price Card -->
+<div *ngIf="iItem" class="card item-card shadow-sm" (click)="goToItemPage()">  
+  <div class="row">
+    <div class="col text-center">
+      <div class="card-item-img">
+        <img class=item-img [src]="iItem.imageLink" height="150vw">
+      </div>
+      
+      <div class="card-item-body"> <!-- Start Body -->
+        <h5 class="card-item-title">
+          {{ iItem.title }} 
+        </h5>
+        <span class="card-item-category">
+          {{ getCategory() }} 
+        </span>
+        <span class="card-item-author">
+          {{ getMainAuthor() }}
+        </span>
+
+        <div class="row">
+          <div class="col-6">
+            <!-- rating -->
+            <app-rating [style]="0"></app-rating>
+          </div>
+          <div class="col-6">
+            <!-- rating -->
+            <span class="card-item-price">
+              {{ iItem.price }} €
+            </span>
+          </div>
+        </div>
+      </div> <!-- End Body -->
+    </div>
+  </div>  
+</div>  <!-- End Card -->

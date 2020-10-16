@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CategoryService } from '../shared/item/category/category.service';
-import { Category } from '../shared/item/category/category';
+import { Category } from '../shared/model/category/category';
+import { CategoryService } from '../shared/service/category/category.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,22 +12,9 @@ export class AdminComponent implements OnInit {
 
   adminForm: FormGroup;
 
-  constructor(private formBuilder:FormBuilder,
-              private categoryService: CategoryService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.adminForm = this.formBuilder.group({
-      nameCategory: ['',[Validators.required]]
-    });
-  }
-
-  onCreateCategory(){
-
-    console.log('onCreateCategory');
-
-    const nameCategory = this.adminForm.get('nameCategory').value;
-
-    this.categoryService.saveCategoryToDB(new Category(null, nameCategory));
 
   }
 

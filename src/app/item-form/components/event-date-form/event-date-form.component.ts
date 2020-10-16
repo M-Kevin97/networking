@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ItemFormService } from 'src/app/item-form/shared/services/item-form.service';
 import { StepState } from 'src/app/item-form/shared/state-step.enum';
-import { IDatesEvent } from 'src/app/shared/item/event-item';
+import { IDatesEvent } from 'src/app/shared/model/item/event-item';
 
 @Component({
   selector: 'app-event-date-form',

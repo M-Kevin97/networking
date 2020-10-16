@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { User } from 'src/app/shared/user/user';
+import { User } from 'src/app/shared/model/user/user';
 
 @Component({
   selector: 'app-user-home',

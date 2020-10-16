@@ -1,8 +1,8 @@
-import { ItemService } from 'src/app/shared/item/item.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/auth/auth.service';
 import { RouteUrl } from '../core/router/route-url.enum';
+import { ItemService } from '../shared/service/item/item.service';
 
 @Component({
   selector: 'app-feed',

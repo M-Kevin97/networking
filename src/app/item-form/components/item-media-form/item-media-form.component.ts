@@ -4,9 +4,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ItemFormService } from '../../shared/services/item-form.service';
-import { ImageService } from 'src/app/shared/image/image.service';
 import { StepState } from '../../shared/state-step.enum';
 import { Database } from 'src/app/core/database/database.enum';
+import { ImageService } from 'src/app/shared/service/image/image.service';
 
 
 @Component({

@@ -1,0 +1,258 @@
+<div class="container">
+
+  <div class="my-5">
+    <ul class="nav nav-pills nav-justified nav-admin-h border border-primary rounded mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" [routerLink]="['/admin/new']"
+                           [fragment]="'course'">
+        <a class="nav-link active" id="pills-course-tab" 
+                                   [ngClass]="{ 'active':activeTab==='course'}" 
+                                   (click)="displayPanel('course')"
+                                   data-toggle="pill" 
+                                   role="tab" 
+                                   aria-controls="pills-course" 
+                                   aria-selected="false">Formation</a>
+      </li>
+      <li class="nav-item" [routerLink]="['/admin/new']"
+                           [fragment]="'category'">
+        <a class="nav-link" id="pills-category-tab" 
+                            [ngClass]="{ 'active':activeTab==='category'}" 
+                            (click)="displayPanel('category')"
+                            data-toggle="pill" 
+                            role="tab" 
+                            aria-controls="pills-category" 
+                            aria-selected="false">Catégorie</a>
+      </li>
+      <li class="nav-item" [routerLink]="['/admin/new']"
+                           [fragment]="'instructor'">
+        <a class="nav-link" id="pills-instructor-tab" 
+                            [ngClass]="{ 'active':activeTab==='instructor'}" 
+                            (click)="displayPanel('instructor')"
+                            data-toggle="pill" 
+                            role="tab" 
+                            aria-controls="pills-instructor" 
+                            aria-selected="true">Formateur</a>
+      </li>
+    </ul>
+  
+    <div class="tab-content" id="pills-tabContent">
+  
+      <!-- Start Course Pane -->
+      <div class="tab-pane fade active" id="course" 
+                                             role="tabpanel" 
+                                             [ngClass]="{ 'active':activeTab==='course',
+                                                          'show':activeTab==='course'}"
+                                             aria-labelledby="pills-course-tab">
+  
+        <h3>Formation</h3>
+        <form [formGroup]="courseForm" role="form">
+  
+          <label class="sr-only" for="courseTitle">Title</label>
+          <input type="text" class="form-control mb-3" 
+                              id="courseTitle" 
+                              formControlName = "courseTitle" 
+                              placeholder="Titre...">
+
+          <label class="sr-only" for="courseCatchPhrase">Phrase d'accroche</label>
+          <input type="text" class="form-control mb-3" 
+                              id="courseCatchPhrase" 
+                              formControlName = "courseCatchPhrase" 
+                              placeholder="Phrase d'accroche...">
+
+          <div class="form-group row mb-3">
+            <div class="col-sm-8">
+              <label class="sr-only" for="courseUser">Formateur</label>
+              <app-user-select id="courseUser"
+                                      [height]=""
+                                      [userSelectId]="userSelectedId"
+                                      (userSelected)="onSelectUser($event)"
+                                      [userValues]="userValues">
+              </app-user-select>   
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block"
+                      (click)="displayPanel('instructor')">
+                Ajouter un formateur
+              </button>
+            </div>
+          </div>
+  
+          <div class="form-group row mb-3">
+            <div class="col-sm-8">
+              <label class="sr-only" for="courseCategory">Catégorie</label>
+              <app-categories-select id="courseCategory"
+                                  [height]=""
+                                  [categorySelectId]="categorySelectedId"
+                                  [categoryValues]="categoryValues"
+                                  (idCategorySelected)="onSelectCategoryById($event)">
+              </app-categories-select>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block"
+                      (click)="displayPanel('category')">
+                      Ajouter une catégorie
+              </button>
+            </div>      
+          </div>
+
+          <div class="form-group row mb-3">
+            <div class="col-sm-8">
+              <label class="sr-only" for="courseSubCategory">Sous-catégorie</label>
+              <app-categories-select id="courseSubCategory"
+                                  [height]=""
+                                  [categorySelectId]="subCategorySelectedId"
+                                  [categoryValues]="subCategoryValues"
+                                  (idCategorySelected)="onSelectSubCategoryById($event)">
+              </app-categories-select>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block"
+                      (click)="displayPanel('category')">
+                      Ajouter une sous-catégorie
+              </button>
+            </div>      
+          </div>
+  
+          <label class="sr-only" for="courseDescription">Description</label>
+          <textarea class="form-control mb-3" id="courseDescription" 
+                                          formControlName="courseDescription" 
+                                          rows="5"
+                                          placeholder="Descritpion...">
+          </textarea>
+  
+          <label class="sr-only" for="coursePrice">Prix</label>
+          <input type="number" class="form-control mb-3" 
+                              id="coursePrice" 
+                              formControlName = "coursePrice" 
+                              placeholder="Prix...">
+  
+          <label class="sr-only" for="courseSrcLink">Lien url</label>
+          <input type="text" class="form-control mb-3" 
+                               id="courseSrcLink" 
+                               formControlName = "courseSrcLink" 
+                               placeholder="Lien...">
+  
+          <label class="sr-only" for="courseImgLink">Image</label>
+          <input type="file" class="form-control-file" 
+                            formControlName="courseImageLink"
+                            id="courseImageLink"
+                            accept="image/*"
+                            (change)="onPreviewImage($event)">
+
+
+          <!----------------- Modal Preview Image ---------------->
+          <div class="mt-3">
+            <img class="border" style="max-width:400px" [src]="urlImagePreview">
+          </div>
+
+           <!-- Bouton créer une formation -->
+          <button type="submit" class="btn btn-primary btn-lg btn-block mt-3"
+                                [disabled]="courseForm.invalid"
+                                (click)="onCreateCourse()">
+              Ajouter une formation
+          </button>
+        </form>
+  
+      </div> <!-- End Course Pane -->
+  
+      <!-- Start Category Pane -->
+      <div class="tab-pane fade" id="category" role="tabpanel" 
+                                               aria-labelledby="pills-category-tab"
+                                               [ngClass]="{ 'active':activeTab==='category',
+                                                            'show':activeTab==='category'}">
+        <div class="subcategory mb-4">
+          <h3>Catégorie</h3>
+          <form [formGroup]="categoryForm" role="form">
+  
+                <label class="sr-only" for="categoryName">Nom de la catégorie</label>
+                <input type="text" class="form-control mb-3" 
+                                   id="categoryName" 
+                                   formControlName="categoryName" 
+                                   placeholder="Name...">
+  
+                <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                      [disabled]="categoryForm.invalid"
+                                      (click)="onCreateCategory()">
+                    Ajouter la catégorie
+                </button>
+  
+          </form>
+        </div>
+
+        <hr>
+
+        <div class="subcategory mt-4">
+
+          <h3>Sous-catégorie</h3>
+          <form [formGroup]="subcategoryForm" role="form">
+            
+            <div class="mb-3">
+              <label class="" for="subCategory"> Sélectionner une catégorie</label>
+              <app-categories-select id="subCategory"
+                                  [height]=""
+                                  [categorySelectId]="categorySelectedId"
+                                  [categoryValues]="categoryValues"
+                                  (idCategorySelected)="onSelectCategoryForSubById($event)">
+              </app-categories-select>
+            </div>
+  
+            <label class="sr-only" for="subcategoryName">Nom de la sous-catégorie</label>
+            <input type="text" class="form-control btn-lg btn-block mb-3" 
+                                id="subcategoryName" 
+                                formControlName="subcategoryName" 
+                                placeholder="Name...">
+  
+  
+            <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                  [disabled]="subcategoryForm.invalid"
+                                  (click)="onCreateSubCategory()">
+                Ajouter la sous-catégorie
+            </button>
+  
+          </form>
+        </div>
+
+      </div> <!-- End Category Pane -->
+  
+      <!-- Start Instructor Pane -->
+      <div class="tab-pane fade" id="#instructor" role="tabpanel" 
+                                                  aria-labelledby="pills-instructor-tab"
+                                                  [ngClass]="{ 'active':activeTab==='instructor',
+                                                               'show':activeTab==='instructor'}">
+  
+        <h3>Formateur</h3>
+        <form [formGroup]="userForm" role="form">
+    
+          <label class="sr-only" for="userFirstname">Prénom</label>
+          <input type="text" class="form-control mb-3" id="userFirstname" 
+                                                        formControlName="userFirstname" 
+                                                        placeholder="Prénom...">
+
+          <label class="sr-only" for="userLastname">Nom</label>
+          <input type="text" class="form-control mb-3" id="userLastname" 
+                                                  formControlName="userLastname" 
+                                                  placeholder="Nom...">
+
+          <label class="sr-only" for="userTitle">Titre</label>
+          <input type="text" class="form-control mb-3" id="userTitle" 
+                                                  formControlName="userTitle" 
+                                                  placeholder="Titre...">
+
+          <label class="sr-only" for="userBio">Bio</label>
+          <textarea class="form-control mb-3" id="userBio" 
+                                              formControlName="userBio" 
+                                              rows="5"
+                                              placeholder="Bio...">
+          </textarea>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                [disabled]="userForm.invalid"
+                                (click)="onCreateUser()">
+              Ajouter un Formateur
+          </button>
+    
+        </form>
+      </div> <!-- End Instructor Pane -->
+    </div>
+  
+  </div>
+</div>

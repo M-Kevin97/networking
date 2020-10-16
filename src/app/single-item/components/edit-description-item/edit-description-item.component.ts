@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Item } from 'src/app/shared/item/item';
 
 @Component({
   selector: 'app-edit-description-item',

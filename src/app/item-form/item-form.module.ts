@@ -1,7 +1,6 @@
 import { EventFormRoutes } from './pages/event-form/event-form.routing';
 import { NavItemFormComponent } from './components/nav-item-form/nav-item-form.component';
 import { SharedModule } from './../shared/shared.module';
-import { ItemService } from '../shared/item/item.service';
 import { NgModule } from '@angular/core';
 import { ItemFormComponent } from './item-form.component';
 import { CourseFormComponent } from './pages/course-form/course-form.component';
@@ -16,6 +15,7 @@ import { ItemCompleteFormComponent } from './components/item-complete-form/item-
 import { CourseFormRoutes } from './pages/course-form/course-form.routing';
 import { CountdownModule } from 'ngx-countdown';
 import { DatePipe } from '@angular/common';
+import { ItemService } from '../shared/service/item/item.service';
 
 @NgModule({
   imports: [

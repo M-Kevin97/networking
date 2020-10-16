@@ -3,8 +3,6 @@ import { FilterComponent } from './components/filter/filter.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { SearchComponent } from './search.component';
-import { SearchCoursesComponent } from './pages/search-courses/search-courses.component';
-import { SearchEventsComponent } from './pages/search-events/search-events.component';
 
 @NgModule({
   imports: [
@@ -13,12 +11,10 @@ import { SearchEventsComponent } from './pages/search-events/search-events.compo
   ],
   declarations: [
     SearchComponent,
-    SearchCoursesComponent,
-    SearchEventsComponent,
-    FilterComponent,
+    FilterComponent
   ],
   exports: [
-    FilterComponent,
+    FilterComponent
   ]
 })
 export class SearchModule { }

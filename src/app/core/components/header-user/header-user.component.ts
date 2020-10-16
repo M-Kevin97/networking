@@ -1,12 +1,13 @@
+import { Database } from 'src/app/core/database/database.enum';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { Category } from 'src/app/shared/item/category/category';
-import { CategoryService } from 'src/app/shared/item/category/category.service';
+import { Category } from 'src/app/shared/model/category/category';
+import { DefautCategory, ItemResult } from 'src/app/shared/model/ISearchQuery';
+import { CategoryService } from 'src/app/shared/service/category/category.service';
 import { AuthService } from '../../auth/auth.service';
-import { SearchService } from './../../../search/service/search.service';
 
 @Component({
   selector: 'app-header-user',
@@ -25,9 +26,8 @@ export class HeaderUserComponent implements OnInit {
   searchForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private searchService: SearchService,
-    private router: Router) {
+              private authService: AuthService,
+              private router: Router) {
 
     this.categoryService = new CategoryService();
     this.searchForm = this.formBuilder.group({
@@ -40,51 +40,55 @@ export class HeaderUserComponent implements OnInit {
     // Pour reprendre le dernier compte connecté
     //this.authService.authStateChanged();
 
-    this.getCategoriesFromService();
   }
 
+  getUser() {
 
-  getCategoriesFromService() {
+    if(this.authService && this.authService.isAuth) {
 
-    console.log('getCategoriesFromService ItemCategoryFormComponent');
+      return this.authService.authUser;
+    }
 
-    this.categorySubscription = this.categoryService.categoriesSubject
-      .subscribe(
-        (data: Category[]) => {
-          this.categories = data;
-        },
-        (err: string) => console.error('Observer got an error: ' + err),
-        () => {
-          console.log('Observer got a complete notification');
+    return null;
+  }
+
+  getUserPpLink() {
+
+    if(this.authService && this.authService.isAuth) {
+
+      return this.authService.authUser.ppLink === Database.DEFAULT_PP_USER;
+    }
+
+    return null;
+  }
+
+  goToTrainingSearching() {
+    this.router.navigate([RouteUrl.RESULTS], 
+      { queryParams: 
+        { 
+          category: DefautCategory.ID,
+          item: ItemResult.COURSES,
         }
-      );
+      });
+  }
 
-    this.categoryService.getCategoriesFromDB();
+  searchInstructors() {
+    this.router.navigate([RouteUrl.RESULTS], 
+      { queryParams: 
+        { 
+          category: DefautCategory.ID,
+          item: ItemResult.USERS,
+        }
+      });
+  }
+
+  isHome(){
+    return this.router.url.includes(RouteUrl.HOME.substr(1));
   }
 
   goToHome() {
     if (this.authService.isAuth) this.router.navigate([RouteUrl.FEED]);
     else this.router.navigate([RouteUrl.HOME]);
-  }
-
-  onSearch(searchData) {
-
-    if (searchData['search']) {
-      console.log(searchData['search']);
-
-      this.router.navigate([RouteUrl.RESULTS], { queryParams: { q: searchData['search'],
-                                                                category: 'Tout'} });
-    }
-  }
-
-  onSearchByCategory(category: Category) {
-
-    if (category) {
-
-      console.log('onSearchByCategory', category);
-
-      this.router.navigate([RouteUrl.RESULTS], { queryParams: { category: category.name } });
-    }
   }
 
   goToAuthUserPage() {
@@ -95,21 +99,16 @@ export class HeaderUserComponent implements OnInit {
     this.router.navigate([RouteUrl.CART]);
   }
 
-  newCourse() {
+  onNewCourse() {
     this.router.navigate([RouteUrl.NEW_COURSE]);
   }
 
-  newEvent() {
+  onNewEvent() {
     this.router.navigate([RouteUrl.NEW_EVENT]);
   }
 
   goToAdmin() {
     this.router.navigate([RouteUrl.ADMIN]);
-  }
-
-  CollapseNavCategories() {
-    if (this.navCategoriesCollapsed === true) this.navCategoriesCollapsed = false;
-    else this.navCategoriesCollapsed = true;
   }
 
   isAuth() {

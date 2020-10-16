@@ -1,55 +1,120 @@
-<div id="home" class="container">
+<div id="home" class="container-fluid">
   
-  <div class="row-home row align-items-center justify-content-center">
-
-    <!-- La colonne de gauche contient une image ou un text descrivant la plateforme -->
-    <div class="col-lg-7 sub-section-home border">
-
-      <div class="section-search section-search-courses row align-items-center rounded py-3">
-        <div class="col-lg-4">
-          <img src="" width="120" height="120" class="d-inline-block border rounded-circle" alt="">
-        </div>
-        <div class="col-lg-8">
-          <div class="section-search-title">
-            <h3>
-              Trouves des formations qui pourront t'aider
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-search section-search-events row align-items-center rounded py-3">
-        <div class="col-4">
-          <img src="" width="120" height="120" class="d-inline-block rounded-circle border" alt="">
-        </div>
-        <div class="col-8">
-          <div class="section-search-title">
-            <h3>
-              Trouves des événements qui pourront t'aider
-            </h3>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="section-search section-search-people row align-items-center rounded py-3">
-        <div class="col-4">
-          <img src="" width="120" height="120" class="d-inline-block rounded-circle border" alt="">
-        </div>
-        <div class="col-8 align-items-center">
-          <div class="section-search-title">
-            <h3>
-              Connecte toi avec des personnes qui pourront t'aider
-            </h3>
-          </div>
-        </div>
-      </div>  
-
+  <div id="search-home" class="container-fluid">
+    <div class="sb-section">
+      <h2>Trouver la formation qu'il vous faut !</h2>
+      <app-search-bar [height]="'lg'"></app-search-bar>
     </div>
 
-    <!-- La colonne de droite contient les boutons permettant d'effectuer une recherche  -->
-    <div class="sub-section-home signup-section col-lg-5">
-        <app-signup></app-signup>
+    <div class="row categories-card-row">
+      <div class="col">
+        <div class="card card-cat"
+             (click)="onSearchByCategory('-MHvryPfH-MOyssgoMqa')">
+          <img class="card-img" src="https://firebasestorage.googleapis.com/v0/b/levelup-78020.appspot.com/o/images%2Fcategories%2Fmorning-brew%20copie.jpg?alt=media&token=1e9433e0-32de-4675-8d7a-9b0211df6e66" 
+                                    alt="Card image cap">
+          <div class="card-body">
+            <span class="card-title">Immobilier</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col">
+        <div class="card card-cat"
+             (click)="onSearchByCategory('-MHvuItTTJtQ9IuVgUko')">
+          <img class="card-img" src="https://firebasestorage.googleapis.com/v0/b/levelup-78020.appspot.com/o/images%2Fcategories%2Fpiggy-bank-on-blue%20copie.jpg?alt=media&token=1d4c85f4-e838-4fb4-9614-1c85a8e686a8" 
+                                    alt="Card image cap">
+          <div class="card-body">
+            <span class="card-title">Bourse</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col">
+        <div class="card card-cat"
+             (click)="onSearchByCategory('-MHvuqc1OyxbAH0TjRzW')">
+          <img class="card-img" src="https://firebasestorage.googleapis.com/v0/b/levelup-78020.appspot.com/o/images%2Fcategories%2Fmorning-brew-TN9xs4RUJSA-unsplash%20copie.jpg?alt=media&token=2d2c89d8-13e0-4e93-b8db-8a1456b67afe" 
+                                    alt="Card image cap">
+          <div class="card-body">
+            <span class="card-title">Business en ligne</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col">
+        <div class="card card-cat"
+             (click)="onSearchByCategory('-MHvuNekuEHm_q_p32xJ')">
+          <img class="card-img" src="https://firebasestorage.googleapis.com/v0/b/levelup-78020.appspot.com/o/images%2Fcategories%2Fdigital-marketing-4297723_1920.jpg?alt=media&token=79aab845-d0cd-4f8a-b2d8-1c43d931dedd" 
+                                    alt="Card image cap">
+          <div class="card-body">
+            <span class="card-title">Marketing</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col">
+        <div class="card card-cat"
+             (click)="onSearchByCategory('-MHvt40kvWCsFUEY6g09')">
+          <img class="card-img" src="https://firebasestorage.googleapis.com/v0/b/levelup-78020.appspot.com/o/images%2Fcategories%2Fone-little-sprout-growing%20copie.jpg?alt=media&token=7afdece3-9f1a-466e-9fee-8e1b716e5a4b" 
+                                    alt="Card image cap">
+          <div class="card-body">
+            <span class="card-title">Développement personnel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu-home" class="container-fluid">
+    
+    <div class="row menu-search-home justify-content-center">
+
+      <!-- La colonne de gauche contient une image ou un text descrivant la plateforme -->
+      <div class="section-menu-home col-lg-7">
+
+        <div class="section-search section-search-courses row align-items-center rounded py-3">
+          <div class="col-lg-4">
+            <img src="" class="d-inline-block rounded-circle section-search-img border" alt="">
+          </div>
+          <div class="col-lg-8">
+            <div class="section-search-title">
+              <h3>
+                Trouves des formations qui pourront t'aider
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-search section-search-events row align-items-center rounded py-3">
+          <div class="col-4">
+            <img src="" class="d-inline-block rounded-circle section-search-img border" alt="">
+          </div>
+          <div class="col-8">
+            <div class="section-search-title">
+              <h3>
+                Trouves des événements qui pourront t'aider
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-search section-search-people row align-items-center rounded py-3">
+          <div class="col-4">
+            <img src="" class="d-inline-block rounded-circle section-search-img border" alt="">
+          </div>
+          <div class="col-8 align-items-center">
+            <div class="section-search-title">
+              <h3>
+                Connecte toi avec des personnes qui pourront t'aider
+              </h3>
+            </div>
+          </div> 
+        </div>
+      </div>
+
+      <!-- La colonne de droite contient les boutons permettant d'effectuer une recherche  -->
+      <div class="sub-section-home signup-section col-lg-5">
+          <app-signup></app-signup>
+      </div>
     </div>
   </div>
 </div>

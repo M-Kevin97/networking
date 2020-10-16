@@ -1,18 +1,19 @@
-import { Rating } from 'src/app/shared/rating/rating';
+import { DatePipe } from '@angular/common';
+import { Rating } from 'src/app/shared/model/rating/rating';
 import { SingleItemComponent } from './../../single-item.component';
 import { CreateRatingComponent } from './../../components/createRating/createRating.component';
-import { EventItem } from 'src/app/shared/item/event-item';
 import { EditSkillsItemComponent } from './../../components/edit-skills-item/edit-skills-item.component';
 import { EditDescriptionItemComponent } from './../../components/edit-description-item/edit-description-item.component';
 import { AuthService } from './../../../core/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemService } from 'src/app/shared/item/item.service';
-import { Course } from 'src/app/shared/item/course';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { Item } from 'src/app/shared/item/item';
+import { Course } from 'src/app/shared/model/item/course';
+import { EventItem } from 'src/app/shared/model/item/event-item';
+import { Item } from 'src/app/shared/model/item/item';
+import { ItemService } from 'src/app/shared/service/item/item.service';
 
 @Component({
   selector: 'app-single-course',
@@ -27,66 +28,41 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
                itemService:ItemService,
                authService:AuthService,
                router:Router,
-               modalService: NgbModal) {
+               modalService: NgbModal,
+               datePipe:DatePipe) {
 
       super(itemService,
             authService,
             router,
-            modalService);
+            modalService,
+            datePipe);
 
 
       super.item = this.course;
    }
 
   ngOnInit() {
+
+    console.warn('ngOnInit COURSE');
     
-    this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null);
+    this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
 
     const id = this.route.snapshot.params['id'];
-    this.itemService.getSingleItemFromDBById(id).then(
+    this.itemService.getSingleItemFromDBById(id,
       (course:Course) => {
-        if(course!==null && course!==undefined) {
+        if(course) {
+          console.warn(course);
           this.hasItem = true;
-          this.course = Course.courseFromJson(course);
-          this.course.id = id;
-          super.item = this.course;
-          console.log(this.course);
-          console.log(course['authors']);
-          console.log(this.course.authors);
+          super.item = this.course = course;
+          super.saveView();
         }
         else {
           this.hasItem = false;
         }
       }
-    ).then(
-      () => {
-        this.itemService.getItemsOfUserByUserId(this.getMainAuthor().id).then(
-          (data) => {
-            if(data) {
-              console.log(data);
-              
-              var mainAuthorItems: Item[] = Object.keys(data).map(
-                function(itemIdIndex){
-                let item, itemJson = data[itemIdIndex];
-        
-                if(itemJson['type']==='course')
-                    item = Course.courseFromJson(itemJson);
-                else if(itemJson['type']==='event')
-                    item = EventItem.eventFromJson(itemJson)
-    
-                item.id = itemIdIndex;
-    
-                return item;
-            });
-
-              this.mainAuthorItems = mainAuthorItems;
-              this.mainAuthorItems.sort((a, b) => a.creationDate < b.creationDate ? -1 : a.creationDate > b.creationDate ? 1 : 0)
-            }
-          }
-        )
-      }
     ).catch(
-      () => {
+      (error) => {
+        console.error(error);
         this.hasItem = false;
       }
     );

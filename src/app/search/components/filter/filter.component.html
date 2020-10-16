@@ -1,41 +1,190 @@
-<div class="container-filter">
-  <form [formGroup]="filterForm" action="" class="filter-form">
-  
-    <div class="form-row">
-      <div class="col-5">
-        <select class="form-control" 
-                formControlName="category"  
-                (change)="selectCategory($event.target.value)"
-                id="category" 
-                [(ngModel)]="idCategorySelected"
-                required>
 
-          <option *ngFor="let cat of this.categoriesValues" 
-                  [value]="cat.id"
-                  [selected]="catRestored && (cat.id == catRestored.id) ? true : null"> 
-            {{ cat.name }}
-          </option>
-        </select>
-
-      </div>
-      <div class="col-7">
-        
-        <div class="form-group has-feedback">
-    
-          <input type="text"
-                  formControlName="search"
-                  class="form-control input-search" 
-                  name="search" 
-                  id="search" 
-                  placeholder="Que recherchez-vous ?"
-                  autocomplete="off">
+<ng-template #popContentPrice>
+  <div class="form-row">
+    <div class="col">
+      <label for="min-price">Prix min :</label>
+      <div class="input-group">
+        <input id="min-price"
+                name="min-price" 
+                type="number" 
+                class="form-control"
+                [value]="minPrice" 
+                (change)="onSetMinPrice($event.target.value)" 
+                placeholder="Min"
+                aria-label="Euro">
+        <div class="input-group-append">
+          <span class="input-group-text">€</span>
         </div>
       </div>
     </div>
+      
+    <div class="col">
+      <label for="max-price">Prix max :</label>
+      <div class="input-group">
+        <input id="max-price"
+              name="max-price" 
+              type="number" 
+              class="form-control" 
+              [value]="maxPrice" 
+              (change)="onSetMaxPrice($event.target.value)" 
+              placeholder="Max"
+              aria-label="Euro">
+        <div class="input-group-append">
+          <span class="input-group-text">€</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4">
+    <button class="btn-template-ok btn btn-primary" 
+            (click)="onSetPriceRange()"
+            type="button">
+      Valider
+    </button>
+    <button class="btn-template-cancel btn btn-outline-secondary" 
+            (click)="onCancelPriceRange()"
+            type="button">
+      Annuler
+    </button>
+  </div>
+</ng-template>
 
-    <button class="btn btn-primary" (click)="onSearchWithFilter()">
-      Rechercher
+
+<ng-template #popContentRate> 
+        <div class="form-check">
+          <input class="form-check-input" type="radio" 
+                                          name="gridRadios" 
+                                          id="gridRadios1" 
+                                          value="4.5"
+                                          [(ngModel)]="ratingMin">
+          <label class="form-check-label" for="gridRadios1">
+            <i class="fa fa-star icon-star"></i> 
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star-half-o icon-star"></i>
+            <span class="ml-3">4.5 et plus</span>
+          </label>
+        </div>
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="radio" 
+                                          name="gridRadios" 
+                                          id="gridRadios2" 
+                                          value="4.0"
+                                          [(ngModel)]="ratingMin">
+          <label class="form-check-label" for="gridRadios2">
+            <i class="fa fa-star icon-star"></i> 
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star-o icon-star"></i>
+            <span class="ml-3">4.0 et plus</span>
+          </label>
+        </div>
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="radio" 
+                                          name="gridRadios" 
+                                          id="gridRadios3" 
+                                          value="3.5"
+                                          [(ngModel)]="ratingMin">
+          <label class="form-check-label" for="gridRadios3">
+            <i class="fa fa-star icon-star"></i> 
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star-half-o icon-star"></i>
+            <i class="fa fa-star-o icon-star"></i>
+            <span class="ml-3">3.5 et plus</span>
+          </label>
+        </div>
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="radio" 
+                                          name="gridRadios" 
+                                          id="gridRadios4" 
+                                          value="3.0"
+                                          [(ngModel)]="ratingMin">
+          <label class="form-check-label" for="gridRadios4">
+            <i class="fa fa-star icon-star"></i> 
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star icon-star"></i>
+            <i class="fa fa-star-o icon-star"></i>
+            <i class="fa fa-star-o icon-star"></i>
+            <span class="ml-3">3.0 et plus</span>
+          </label>
+        </div>
+        <div class="mt-4">
+          <button class="btn-template-ok btn btn-primary"
+                  (click)="onSetRatingRange()"
+                  type="button">
+            Valider
+          </button>
+          <button class="btn-template-cancel btn btn-outline-secondary" 
+                  (click)="onCancelRatingRange()"
+                  type="button">
+            Annuler
+          </button>
+        </div>
+</ng-template>
+
+
+<ng-template #popContentDate> 
+  <div class="form-check">
+  </div>
+</ng-template>
+
+
+<ng-template #popContentLocation> 
+  <div class="form-check">
+  </div>
+</ng-template>
+
+<div class="container-filter mt-3">
+  <div class="filter-row">
+    <h5 *ngIf="!isUserList()" class="filter-text mr-3">
+      Filtres
+    </h5>
+    <!-- Prix -->
+    <button *ngIf="!isUserList()"
+            type="button" 
+            class="btn-filter btn btn-outline-secondary"
+            [ngbPopover]="popContentPrice" 
+            placement="bottom"
+            [autoClose]="'outside'"
+            popoverTitle="Prix">
+      {{ btnPriceName }} 
     </button>
 
-  </form>
+    <!-- Notes Course -->
+    <button *ngIf="isCourseList()"
+            type="button" 
+            class="btn-filter btn btn-outline-secondary ml-3"
+            [ngbPopover]="popContentRate" 
+            placement="bottom"
+            [autoClose]="'outside'"
+            popoverTitle="Avis">
+      {{ btnRatingName }} 
+    </button>
+
+    <!-- Dates Event -->
+    <button *ngIf="isEventList()"
+            type="button" 
+            class="btn-filter btn btn-outline-secondary ml-3"
+            [ngbPopover]="popContentDate" 
+            placement="bottom"
+            [autoClose]="'outside'"
+            popoverTitle="Date">
+      Dates
+    </button>
+
+
+    <!-- Location Event -->
+    <button *ngIf="isEventList()"
+          type="button" 
+          class="btn-filter btn btn-outline-secondary ml-3"
+          [ngbPopover]="popContentLocation" 
+          placement="bottom"
+          [autoClose]="'outside'"
+          popoverTitle="Localisation">
+      Localisation
+    </button>
+  </div>
 </div>

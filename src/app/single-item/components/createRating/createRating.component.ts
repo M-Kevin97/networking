@@ -1,10 +1,10 @@
-import { RatingService } from './../../../shared/rating/rating.service';
 import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChildren, QueryList, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Rating } from 'src/app/shared/rating/rating';
-import { ICourse } from 'src/app/shared/item/course';
-import { IUser } from 'src/app/shared/user/user';
+import { ICourse } from 'src/app/shared/model/item/course';
+import { Rating } from 'src/app/shared/model/rating/rating';
+import { IUser } from 'src/app/shared/model/user/user';
+import { RatingService } from 'src/app/shared/service/rating/rating.service';
 
 @Component({
   selector: 'app-createRating',

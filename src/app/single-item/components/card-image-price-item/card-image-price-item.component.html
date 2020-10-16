@@ -1,70 +1,115 @@
 <!-- Start Price Card -->
-<div class="card shadow-sm">  
-  <div class="row justify-content-center">
-    <div class="col-11 text-center">
-      <div class="card-item-img">
-        <img *ngIf="checkImageLink()" class=item-img [src]="imageLink" height="180vw">
+<div *ngIf="isData else elseBlock" class="card shadow-sm">
+  <div class="text-center">
+
+    <div class="card-body">
+      <div class="card-item-img border">
+        <img *ngIf="imageLink" class=item-img [src]="imageLink">
       </div>
+
+      <span *ngIf="category" class="item-category">
+        <a [href]="'/results?category='+category.name" class="item-p">
+          {{ category.name }}
+        </a>
+        &bull;
+        <a [href]="'/results?category='+category.name" class="item-p">
+          {{ category.subCategories[0].name }}
+        </a>
+      </span>
 
       <hr class="separation-line"> <!-- separation line -->
 
-      <div class="card-item-body"> <!-- Start Body -->
-        <div class="row" *ngIf="nbRatings && globalNote">
-          <div class="col-6">
-            <a class="rating-link" (click)="goToRatingsSection()">
-              <app-rating [style]="0" [nbRatings]="nbRatings" [globalNote]="globalNote"></app-rating>
-            </a>
-          </div>
-          <div class="col-6">
-            <h5 class="card-item-price">
-              {{ price }} € 
-            </h5>
-          </div>
-        </div>
-        <div class="row" *ngIf="!nbRatings && !globalNote">
-          <div class="col-12">
-            <h5 class="card-item-price">
-              {{ price }} € 
-            </h5>
-          </div>
-        </div>
-    
-        <div class="conditions-section" id="card-text">
-          <span class="iconify iconify-safety" data-inline="false" 
-                                               data-icon="ant-design:safety-outlined">
-          </span>
-          Satisfait ou remboursé 
+      <h5 class="card-item-price">
+        {{ price }} € 
+      </h5>
+
+      <hr class="separation-line"> <!-- separation line -->
+
+      <button class="btn btn-block btn-add-cart">
+        Consulter
+      </button>
+
+    </div>
+    <!-- Start Footer -->
+    <div class="card-footer">
+      <span class="share-item">
+        Partager 
+        <span class="iconify iconify-share-item" data-inline="false"
+                                                          data-icon="cil:share"> 
+                                                        </span>
+      </span>
+    </div> <!-- End Footer -->
+  </div>
+</div>
+
+<ng-template #elseBlock >
+  <div class="card shadow-sm">  
+    <div class="row justify-content-center">
+      <div class="col-11 text-center">
+        <div class="card-item-img">
+          <img *ngIf="imageLink" class=item-img [src]="imageLink" height="180vw">
         </div>
   
-        <button class="btn btn-add-cart">
-          Ajouter au panier
-          <span class="iconify iconify-add-cart" data-inline="false" data-icon="ic:round-add-shopping-cart">
-          </span>
-        </button>
-      </div> <!-- End Body -->
-    
         <hr class="separation-line"> <!-- separation line -->
-    
-        <div class="card-item-footer"> <!-- Start Footer -->
-          <div class="row">
+  
+        <div class="card-item-body"> <!-- Start Body -->
+          <div class="row" *ngIf="nbRatings && globalNote">
             <div class="col-6">
-              <div class="save-item">
-                Enregistrer 
-                <span class="iconify iconify-save-item" data-inline="false" 
-                                      data-icon="ic:round-playlist-add">
-                </span>
-              </div>
+              <a class="rating-link" (click)="goToRatingsSection()">
+                <app-rating [style]="0" [nbRatings]="nbRatings" [globalNote]="globalNote"></app-rating>
+              </a>
             </div>
             <div class="col-6">
-              <div class="share-item">
-                Partager
-                <span class="iconify iconify-share-item" data-inline="false"
-                                                         data-icon="cil:share">
-                </span>
-              </div>
+              <h5 class="card-item-price">
+                {{ price }} € 
+              </h5>
             </div>
           </div>
-        </div> <!-- End Footer -->
-    </div>
-  </div>  
-</div>  <!-- End Card -->
+          <div class="row" *ngIf="!nbRatings && !globalNote">
+            <div class="col-12">
+              <h5 class="card-item-price">
+                {{ price }} € 
+              </h5>
+            </div>
+          </div>
+      
+          <div class="conditions-section" id="card-text">
+            <span class="iconify iconify-safety" data-inline="false" 
+                                                 data-icon="ant-design:safety-outlined">
+            </span>
+            Satisfait ou remboursé 
+          </div>
+    
+          <button class="btn btn-add-cart">
+            Ajouter au panier
+            <span class="iconify iconify-add-cart" data-inline="false" data-icon="ic:round-add-shopping-cart">
+            </span>
+          </button>
+        </div> <!-- End Body -->
+      
+          <hr class="separation-line"> <!-- separation line -->
+      
+          <div class="card-item-footer"> <!-- Start Footer -->
+            <div class="row">
+              <div class="col-6">
+                <div class="save-item">
+                  Enregistrer 
+                  <span class="iconify iconify-save-item" data-inline="false" 
+                                        data-icon="ic:round-playlist-add">
+                  </span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="share-item">
+                  Partager
+                  <span class="iconify iconify-share-item" data-inline="false"
+                                                           data-icon="cil:share">
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div> <!-- End Footer -->
+      </div>
+    </div>  
+  </div>  <!-- End Card -->
+</ng-template>

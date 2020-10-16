@@ -1,18 +1,18 @@
-import { Course } from 'src/app/shared/item/course';
-import { Database } from 'src/app/core/database/database.enum';
-import { EventItem } from 'src/app/shared/item/event-item';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ItemService } from 'src/app/shared/item/item.service';
-import { ImageService } from 'src/app/shared/image/image.service';
+import { UserService } from 'src/app/shared/service/user/user.service';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Router } from '@angular/router';
 import { StepState } from '../../shared/state-step.enum';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { User } from 'src/app/shared/user/user';
+import { User } from 'src/app/shared/model/user/user';
 import { DatePipe } from '@angular/common';
 import * as firebase from 'firebase';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Database } from 'src/app/core/database/database.enum';
+import { EventItem } from 'src/app/shared/model/item/event-item';
+import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ItemService } from 'src/app/shared/service/item/item.service';
 
 @Component({
   selector: 'app-event-form',
@@ -68,6 +68,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const dates = this.itemFormService.getStepFormWithStep(StepState.DATES).value;
 
     var newEvent = new EventItem(null,
+                                  'event',
                                   title,
                                   category,
                                   null,
@@ -78,11 +79,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
                                   authors,
                                   creationDate,
                                   false,
+                                  null,
                                   imageLink,
                                   null); 
 
-      if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value 
-          && this.itemFormService.getStepFormWithStep(StepState.MEDIA).value !== Database.DEFAULT_IMG_EVENT) {
+                                  console.error('Image Link :', imageLink, newEvent.imageLink);
+
+      if (imageLink && imageLink !== Database.DEFAULT_IMG_EVENT) {
                           
       const fileRef = firebase.storage().ref('images').child('items');
 
@@ -110,7 +113,22 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private sendEventToDB(newEvent:EventItem)
   {
-    return this.itemService.createNewItemToDB(newEvent).then()
+    return this.itemService.addNewItemToDB(newEvent).then(
+      (val) => {
+        if(val && val instanceof(EventItem)){
+
+          UserService.addItemInAuthorsDB(val,this.authService.authUser.id);
+        }
+        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value = this.itemService.lastItemCreated;
+        this.itemFormService.getStepFormWithStep(StepState.COMPLETE).status = true;
+        return true;
+        
+    }).catch(
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    ); 
   }
 
 

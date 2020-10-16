@@ -4,18 +4,44 @@
         <div class="col-8">
             <h3 class="head-item-form">À quelle catégorie votre formation appartient-elle ?</h3>
             <form [formGroup]="categoryForm" role="form" class="form-item">
+                <div class="cat-select">
+                    <label class="sr-only" for="category">Catégorie</label>
+                    <select class="form-control form-control-lg mt-5" formControlName="category"  
+                                                                      (change)="onSelectCategory($event.target.value)"
+                                                                      [(ngModel)]="categorySelected"
+                                                                      id="category" 
+                                                                      required>
 
-                <select class="form-control form-control-lg mt-5" formControlName="category"  
-                                                             (change)="selectCategory($event.target.value)"
-                                                             id="category" required>
-                    <option disabled value="" [selected]="catRestored ? true : null">
-                        Choisissez une catégorie...
-                    </option>
-                    <option *ngFor="let cat of this.categoriesValues" [value]="cat.id"
-                                                                      [selected]="catRestored && (cat.id == catRestored.id) ? true : null"> 
-                        {{ cat.name }}
-                    </option>
-                </select>
+                        <option value="" 
+                                [selected]="categorySelected ? false : true"
+                                disabled>
+                            Choisissez une catégorie...
+                        </option>
+                        <option *ngFor="let cat of this.categoriesValues" [ngValue]="cat" 
+                                                                          [selected]="categorySelected ? true : false"> 
+                            {{ cat.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="subCat-select" *ngIf="categorySelected">
+                    <label class="sr-only" for="subCategory">Sous-catégorie</label>
+                    <select class="form-control form-control-lg mt-5" formControlName="subCategory"  
+                                                                      (change)="onSelectSubCategory($event.target.value)"
+                                                                       id="subCategory" 
+                                                                       [(ngModel)]="subCategorySelected"
+                                                                       required>
+                        <option value="" 
+                                [selected]="subCategorySelected ? true : null"
+                                disabled>
+                            Choisissez une sous-catégorie...
+                        </option>
+                        <option *ngFor="let subCat of this.categorySelected.subCategories" 
+                                [ngValue]="subCat"
+                                [selected]="subCategorySelected ? true : false"> 
+                            {{ subCat.name }}
+                        </option>
+                    </select>
+                </div>
             </form>
             <ul class="nav nav-item btns-item-form justify-content-between border mx-auto mt-5">
                 <li>

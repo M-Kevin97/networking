@@ -1,9 +1,9 @@
-import { RouteUrl } from './core/router/route-url.enum';
-import { RouterService } from './core/router/router.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Component } from '@angular/core';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
+import { RouterService } from './shared/service/router/router.service';
+import { RouteUrl } from './core/router/route-url.enum';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   constructor(private router: Router,
-              private authService:AuthService,
-              private routerService:RouterService){
+              private authService: AuthService,
+              private routerService: RouterService){
 
-    this.firebaseConfiguration();
+    //this.firebaseConfiguration();
     this.authService.authStateChanged();
   }
 
@@ -50,6 +50,6 @@ export class AppComponent {
   }
 
   isNewItemRoute() {
-    return this.router.url.startsWith(RouteUrl.NEW);
+    return this.router.url.startsWith(RouteUrl.NEW_ITEM);
   }
 }

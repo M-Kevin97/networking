@@ -18,6 +18,8 @@
                                    [imageLink]="course.imageLink" 
                                    [price]="course.price" 
                                    [nbRatings]="course.nbRatings" 
+                                   [category]="course.category"
+                                   [isData]="course.data" 
                                    [globalNote]="course.globalNote">
         </app-card-image-price-item>
       </div> 
@@ -86,7 +88,7 @@
           Description
           <app-button-edit class="ml-5" 
                            (click)="openDescriptionItemModal()"
-                           *ngIf="isAuthor()">
+                           *ngIf="isAuth">
           </app-button-edit>
         </h5>
         <hr> <!-- separation line -->

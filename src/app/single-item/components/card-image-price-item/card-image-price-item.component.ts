@@ -3,6 +3,7 @@ import { Database } from 'src/app/core/database/database.enum';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
+import { Category } from 'src/app/shared/model/category/category';
 
 @Component({
   selector: 'app-card-image-price-item',
@@ -16,22 +17,12 @@ export class CardImagePriceItemComponent implements OnInit {
   @Input() price:number;
   @Input() nbRatings:number;
   @Input() globalNote:number;
+  @Input() category:Category;
+  @Input() isData:boolean;
 
   constructor(private router:Router) { }
 
-  ngOnInit() {
-  }
-
-  checkImageLink() {
-    if(this.imageLink===null || this.imageLink===undefined
-                                  || this.imageLink==='')
-    {
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
+  ngOnInit() { }
 
   getDefaultImage() {
     return Database.DEFAULT_IMG_COURSE;

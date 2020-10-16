@@ -1,125 +1,104 @@
 <!-- Ne pas afficher la barre de navigation pour les pages 'signin' et 'signup' -->  
-<div class="sticky-top">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  
-    <!-- Image Logo-->
-    <a (click)="goToHome()" class="navbar-brand my-auto">
-     <img src="assets/img/logo.png" width="90" height="46" class="d-inline-block" alt="">
-    </a>
- 
-    <form [formGroup]="searchForm" 
-          action="" 
-          class="search-form my-auto nav-search"
-          (ngSubmit)="onSearch(searchForm.value)">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
 
-      <div class="form-group has-feedback">
-        <div class="input-group mb-3">
-          <input type="text"
-                 formControlName="search"
-                 class="form-control input-search" 
-                 name="search" 
-                 id="search" 
-                 placeholder="Rechercher"
-                 autocomplete="off">
-            <div class="input-group-append">
-              <span class="icon-search  input-group-text" id="basic-addon1" (click)="onSearch(searchForm.value)">
-                <span class="iconify" data-inline="false" data-icon="bi:search"></span>
-              </span>
-            </div>
-          </div>
-        </div>
-    </form>
- 
-    <!-- Button toggle dev navbar -->
-    <button class="navbar-toggler" type="button" 
-                                    data-toggle="collapse" 
-                                    data-target="#navbarContent" 
-                                    aria-controls="navbarContent" 
-                                    [attr.aria-expanded]="!collapsed" 
-                                    aria-label="Toggle navigation" 
-                                    (click)="collapsed = !collapsed">
-      <span class="navbar-toggler-icon"></span>
-    </button>  
- 
-   <div class="navbar-collapse-nav collapse navbar-collapse justify-content-end" 
-        id="navbarContent"
-        [class.collapse]="collapsed">
- 
-     <ul class="navbar-items nav navbar-nav justify-content-end my-auto ml-auto">
- 
-       <!-- Home => Feed -->
-       <li *ngIf="isAuth()" class="nav-item nav-li">
-         <a  class="nav-link" (click)="goToHome()">
-           <span class="iconify nav-icon" data-inline="false" data-icon="ant-design:home-filled"></span>
-         </a>
-       </li>
- 
-       <ng-template #popContent> 
-         <div class="row">
-           <div class="col-6">
-            <button class="btn pop-content-btn" (click)="newCourse()">
-              <span class="iconify icon-pop-content" data-inline="false" data-icon="whh:student"></span>
-              <div class="pop-btn-name">Formation</div>
-            </button>
-           </div>
-           <div class="col-6">
-            <button class="btn pop-content-btn" (click)="newEvent()">
-              <span class="iconify icon-pop-content" data-inline="false" data-icon="bx:bx-calendar"></span>
-              <div class="pop-btn-name">Événement</div>
-            </button>
-          </div>
-         </div>
-       </ng-template>
- 
-       <!-- Create courses events -->
-       <li class="nav-item nav-li" routerLinkActive="router-link-active" 
-                                   [ngbPopover]="popContent" 
-                                   placement="bottom"
-                                   triggers="mouseenter" 
-                                   popoverTitle="CRÉER">
-         <a class="nav-link">
-           <span class="iconify nav-icon" data-inline="false" data-icon="ic:baseline-add-box"></span>
-         </a>
-       </li>
- 
-       <!-- Notifications -->
-       <li *ngIf="isAuth()" class="nav-item nav-li" routerLinkActive="router-link-active">
-         <a class="nav-link">
-           <span class="iconify nav-icon" data-inline="false" data-icon="ion:notifications"></span>
-         </a>
-       </li>
- 
-      <!-- Lien mon compte / si user est connecté--> 
-      <li *ngIf="isAuth()" class="nav-item nav-li" ngbDropdown display="dynamic" placement="bottom-right">
-        <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button">
-          <span class="iconify nav-icon" data-inline="false" data-icon="bi:person-fill"></span>
+  <!-- Image Logo-->
+  <a (click)="goToHome()" class="navbar-brand my-auto">
+    <img src="assets/img/logo.png" width="90" height="46" class="d-inline-block" alt="">
+  </a>
+
+  <div *ngIf="!isHome()" class="search-bar my-auto">
+    <app-search-bar [height]="'md'">
+    </app-search-bar>
+  </div>
+
+  <!-- Button toggle dev navbar -->
+  <button class="navbar-toggler" type="button" 
+                                  data-toggle="collapse" 
+                                  data-target="#navbarContent" 
+                                  aria-controls="navbarContent" 
+                                  [attr.aria-expanded]="!collapsed" 
+                                  aria-label="Toggle navigation" 
+                                  (click)="collapsed = !collapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>  
+
+  <div class="navbar-collapse-nav collapse navbar-collapse justify-content-end" 
+      id="navbarContent"
+      [class.collapse]="collapsed">
+
+    <ul class="navbar-items nav navbar-nav justify-content-end my-auto ml-auto">
+
+      <!-- Home => Feed -->
+      <li *ngIf="isAuth()" class="nav-item nav-li">
+        <a  class="nav-link" (click)="goToHome()">
+          <span class="iconify nav-icon" data-inline="false" data-icon="ant-design:home-filled"></span>
         </a>
-           
-        <!-- Drop Down Menu-->
-        <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-          <a ngbDropdownItem (click)="goToAuthUserPage()">Mon profil</a>
-          <div class="dropdown-divider"></div>
-          <a ngbDropdownItem (click)="onSignOut()">Se déconnecter</a>
+      </li>
+
+      <ng-template #popContent> 
+        <div class="row">
+          <div class="col-6">
+          <button class="btn pop-content-btn" (click)="onNewCourse()">
+            <span class="iconify icon-pop-content" data-inline="false" data-icon="whh:student"></span>
+            <div class="pop-btn-name">Formation</div>
+          </button>
+          </div>
+          <div class="col-6">
+          <button class="btn pop-content-btn" (click)="onNewEvent()">
+            <span class="iconify icon-pop-content" data-inline="false" data-icon="bx:bx-calendar"></span>
+            <div class="pop-btn-name">Événement</div>
+          </button>
         </div>
+        </div>
+      </ng-template>
+
+      <!-- Create courses events -->
+      <li class="nav-item nav-li" routerLinkActive="router-link-active" 
+                                  [ngbPopover]="popContent" 
+                                  placement="bottom"
+                                  triggers="mouseenter" 
+                                  popoverTitle="CRÉER">
+        <a class="nav-link">
+          <span class="iconify nav-icon" data-inline="false" data-icon="ic:baseline-add-box"></span>
+        </a>
       </li>
 
-      <!-- Sign In -->
-      <li *ngIf="!isAuth()" class="nav-item"  routerLinkActive="router-link-active">
-        <button class="btn btn-signin" (click)="onSignIn()">
-          Se connecter
-        </button>
-      </li>
+      <!-- Notifications -->
+      <!-- <li *ngIf="isAuth()" class="nav-item nav-li" routerLinkActive="router-link-active">
+        <a class="nav-link">
+          <span class="iconify nav-icon" data-inline="false" data-icon="ion:notifications"></span>
+        </a>
+      </li> -->
 
-     </ul>
-   </div>
- </nav>
- 
-  <ul *ngIf="navCategoriesCollapsed" class="nav nav-categories border" role="tablist">
-      
-    <li *ngFor="let cat of categories" (click)="onSearchByCategory(cat)">
-      <a class="nav-link">
-        <span>{{ cat.name }}</span>
-      </a>
+    <!-- Lien mon compte / si user est connecté--> 
+    <li *ngIf="isAuth()" class="nav-item nav-li" ngbDropdown display="dynamic" placement="bottom-right">
+      <div class="nav-link nav-icon-pp"> 
+        <!-- <span class="iconify nav-icon" data-inline="false" data-icon="bi:person-fill"></span> -->
+        <app-user-avatar [photoUrl] = "getUserPpLink() ? '':getUser().ppLink" 
+                          [name]="getUser().firstname +' '+ getUser().lastname"
+                          [border]="'1px solid #2E7B9C'">
+        </app-user-avatar>        
+      </div>
+      <div class="nav-link nav-icon-dd">
+        <a tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button">
+        </a>    
+      </div>
+          
+      <!-- Drop Down Menu-->
+      <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+        <a ngbDropdownItem (click)="goToAuthUserPage()">Mon profil</a>
+        <div class="dropdown-divider"></div>
+        <a ngbDropdownItem (click)="onSignOut()">Se déconnecter</a>
+      </div>
     </li>
-  </ul>
-</div>
+
+    <!-- Sign In -->
+    <li *ngIf="!isAuth()" class="nav-item"  routerLinkActive="router-link-active">
+      <button class="btn btn-signin" (click)="onSignIn()">
+        Se connecter
+      </button>
+    </li>
+
+    </ul>
+  </div>
+</nav>

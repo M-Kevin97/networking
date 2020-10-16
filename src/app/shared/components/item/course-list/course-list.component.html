@@ -1,0 +1,39 @@
+<div *ngIf="course"
+      class="row align-items-center my-4">
+  <div class="item-list-img item-click col-3" 
+        (click)="onConsultCourse(course)">
+    <img *ngIf="course.imageLink" class="img" [src]="course.imageLink">
+  </div>
+  <div class="col-7">
+    <div class="item-click" (click)="onConsultCourse(course)">
+      <h5>{{ course.title }}</h5>
+      <p>
+        {{ getTheSartOfDescription(course) }}...
+      </p>
+    </div>
+    <div *ngIf="course.iAuthors.length" class="course-section-auteur">
+      <span class="course-author-name">
+        <a [href]="'/instructor/'+course.iAuthors[0].id" class="item-p">
+          {{ course.iAuthors[0].firstname }} {{ course.iAuthors[0].lastname }}
+        </a>
+      </span>
+    </div>
+    <hr class="separator-line"> <!-- separation line -->
+    <span *ngIf="course.category" class="course-category">
+      <a class="item-p item-click" (click)="onConsultCategory(course.category.id)">
+        {{ course.category.name }}
+      </a>
+      <span> &bull; 
+        <a *ngFor="let subCat of course.category.subCategories" class="item-p item-click" 
+                                                                (click)="onConsultCategory(subCat.id)">
+          {{ subCat.name }}
+        </a>
+      </span>
+    </span>
+  </div>
+  <div class="col-2 item-click" (click)="onConsultCourse(course)">
+    <h5 class="course-price">{{ course.price }} €</h5>
+  </div>
+</div>
+
+

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from 'src/app/shared/user/user';
+import { User } from 'src/app/shared/model/user/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ImageService } from 'src/app/shared/image/image.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
+import { ImageService } from 'src/app/shared/service/image/image.service';
 
 export interface IHeadUser {
   firstname:string;

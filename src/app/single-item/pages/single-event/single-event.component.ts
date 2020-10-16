@@ -1,17 +1,15 @@
-import { SingleItemComponent } from './../../single-item.component';
-import { Component, OnInit } from '@angular/core';
-import { EventItem } from 'src/app/shared/item/event-item';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ItemService } from 'src/app/shared/item/item.service';
-import { Item } from 'src/app/shared/item/item';
-import { AuthService } from 'src/app/core/auth/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Course } from 'src/app/shared/item/course';
 import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
 import { EditDescriptionItemComponent } from '../../components/edit-description-item/edit-description-item.component';
-import { EditSkillsItemComponent } from '../../components/edit-skills-item/edit-skills-item.component';
-import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { auth } from 'firebase';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { Course } from 'src/app/shared/model/item/course';
+import { EventItem } from 'src/app/shared/model/item/event-item';
+import { Item } from 'src/app/shared/model/item/item';
+import { ItemService } from 'src/app/shared/service/item/item.service';
+import { SingleItemComponent } from '../../single-item.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-single-event',
@@ -26,24 +24,26 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
               itemService:ItemService,
               authService:AuthService,
               router:Router,
-              modalService: NgbModal) {
+              modalService: NgbModal,
+              datePipe:DatePipe) {
 
     super(itemService,
           authService,
           router,
-          modalService);
+          modalService,
+          datePipe);
 
          super.item = this.event;
 
   }
 
   ngOnInit() {
-    this.event = new EventItem(null,null,null,null,null,null,null,null,null,null,null,null,null);
+    this.event = new EventItem(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
 
     console.log(this.route.snapshot);
 
     const id = this.route.snapshot.params['id'];
-    this.itemService.getSingleItemFromDBById(id).then(
+    this.itemService.getSingleItemFromDBById(id,
       (event:EventItem) => {
         if(event!==null && event!==undefined) {
           this.hasItem = true;
@@ -52,7 +52,7 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
           super.item = this.event;
           console.log(this.event);
           console.log(event['authors']);
-          console.log(this.event.authors);
+          console.log(this.event.iAuthors);
         }
         else {
           this.hasItem = false;
@@ -60,18 +60,28 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
       }
     ).then(
       () => {
-        this.itemService.getItemsOfUserByUserId(this.getMainAuthor().id).then(
+        this.itemService.getItemsByUserId(this.getMainAuthor().id).then(
           (items) => {
-            if(items!==null && items!==undefined) {
-              console.log(items);
-              var mainAuthorCourses:Item[] = Course.coursesFromJson(items['courses']);
-              console.log(mainAuthorCourses);
+            if(items) {
+                var mainAuthorItems: Item[] = Object.keys(items).map(
+                    function(itemIdIndex){
+                    let item, itemJson = items[itemIdIndex];
+            
+                    if(itemJson['type']==='course') {
+                        item = Course.courseFromJson(itemJson);
+                        item.id = itemIdIndex;
+                    }
+                    else if(itemJson['type']==='event') {
+                        item = EventItem.eventFromJson(itemJson);
+                        item.id = itemIdIndex;
+                    }
+        
+                    return item;
+                }
+              );
 
-              var mainAuthorEvents:Item[] = EventItem.eventsFromJson(items['events']);
-              console.log(mainAuthorEvents);
-
-              this.mainAuthorItems = mainAuthorCourses.concat(mainAuthorEvents);
-              this.mainAuthorItems.sort((a, b) => a.creationDate < b.creationDate ? -1 : a.creationDate > b.creationDate ? 1 : 0)
+              this.mainAuthorItems = mainAuthorItems;
+              this.mainAuthorItems.sort((a, b) => a.creationDate < b.creationDate ? -1 : a.creationDate > b.creationDate ? 1 : 0);
             }
           }
         )

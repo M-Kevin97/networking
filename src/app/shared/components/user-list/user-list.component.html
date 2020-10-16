@@ -1,0 +1,32 @@
+<div *ngFor="let user of users" class="item-list my-3">
+
+  <div *ngIf="user"
+        class="row align-items-center my-4"
+        (click)="onConsultUser(user)">
+    <div class="item-list-img item-list-click col-3">
+      <div class="user-img">
+        <!-- <img *ngIf="user.ppLink" class="img my-auto rounded-circle" [src]="user.ppLink"> -->
+          <app-user-avatar  [photoUrl] = "userHasPpLink(user) ? '':user.ppLink" 
+                            [name]="user.firstname +' '+ user.lastname">
+          </app-user-avatar> 
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="item-list-click">
+        <h5>{{ user.firstname }} {{ user.lastname }}</h5>
+
+        <div class="item-section-title">
+          <span class="instructor-title">
+              {{ user.title }} 
+          </span>
+        </div>
+        <!-- <p>
+          {{ getTheSartOfDescription(user) }}...
+        </p> -->
+      </div>
+    </div>
+  </div>
+  <hr class="separator-line"> <!-- separation line -->
+  
+</div>
+

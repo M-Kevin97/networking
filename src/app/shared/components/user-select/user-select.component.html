@@ -1,0 +1,15 @@
+<div [formGroup]="userSelectForm">
+  <select class="form-control select-instructor" 
+          [ngStyle]="{'height':getHeight()}"
+          formControlName="userSelect" 
+          [(ngModel)]="userSelectId" 
+          (change)="selectInstructor($event.target.value)"
+          id="instructorSelect"
+          required>
+
+    <option *ngFor="let user of this.userValues" 
+          [value]="user.id"> 
+      {{ user.firstname }} {{ user.lastname }}
+    </option>
+  </select>
+</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { Rating } from 'src/app/shared/rating/rating';
+import { Rating } from 'src/app/shared/model/rating/rating';
 
 @Component({
   selector: 'app-global-rating',

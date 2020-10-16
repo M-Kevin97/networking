@@ -113,7 +113,7 @@
                                  aria-labelledby="courses-tab" 
                                  [ngClass]="{'active': currentFragment === 'courses',
                                              'show': currentFragment === 'courses'}">
-        <app-course-list *ngIf="user.courses" [courses]="user.courses"></app-course-list>
+        <app-item-list *ngIf="user.courses" [items]="user.courses"></app-item-list>
       </div>
 
       <!-- Tab content events list  -->
@@ -122,7 +122,7 @@
                                  aria-labelledby="events-tab" 
                                  [ngClass]="{'active': currentFragment === 'events',
                                              'show': currentFragment === 'events'}">
-        <app-event-list *ngIf="user.events" [events]="user.events"></app-event-list>
+        <app-item-list *ngIf="user.events" [items]="user.events"></app-item-list>
       </div>
 
       <!-- Tab content network  -->

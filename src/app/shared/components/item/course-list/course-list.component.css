@@ -1,0 +1,45 @@
+.item-list {
+
+    height: 10rem;
+}
+
+.item-list-img {
+
+    height: 90%;
+    width: 90%;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item-click {
+
+    cursor: pointer;
+}
+
+.item-list-img > img{
+    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.item-p {
+    font-size: 0.8rem;
+    color: rgb(46, 119, 202);
+    text-decoration: underline;
+}
+
+.item-p:focus, .item-p:hover {
+
+    color: rgb(72, 128, 192);
+    text-decoration: none;
+}
+
+.separator-line {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}

@@ -1,4 +1,4 @@
-import { RouterService } from './../core/router/router.service';
+import { SearchService } from 'src/app/shared/service/search/search.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/auth/auth.service';
 import { Router } from '@angular/router';
@@ -11,9 +11,8 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   constructor(private authService: AuthService,
-              private router: Router) { 
-
-    }
+              private searchService: SearchService,
+              private router: Router) {}
 
   ngOnInit() {
     this.isAuthentifiedGoToFeedPage();
@@ -22,6 +21,15 @@ export class HomeComponent implements OnInit {
   isAuthentifiedGoToFeedPage () {
     if(this.authService.isAuth) {
     this.router.navigate(['/feed']);
+    }
+  }
+
+  onSearchByCategory(categoryId: string) {
+
+    if (categoryId) {
+
+      console.warn('onSearchByCategory', categoryId);
+      this.searchService.search(categoryId, '','','');
     }
   }
 

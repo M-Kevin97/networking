@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ILocationEvent } from 'src/app/shared/model/item/event-item';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
-import { ILocationEvent } from 'src/app/shared/item/event-item';
 
 @Component({
   selector: 'app-event-location-form',

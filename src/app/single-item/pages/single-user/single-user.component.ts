@@ -1,12 +1,12 @@
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { IHeadUser } from './../../components/edit-head-user/edit-head-user.component';
-import { UserService } from './../../../shared/user/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from 'src/app/shared/user/user';
+import { User } from 'src/app/shared/model/user/user';
 import { EditHeadUserComponent } from '../../components/edit-head-user/edit-head-user.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
+import { UserService } from 'src/app/shared/service/user/user.service';
 
 @Component({
   selector: 'app-single-user',
@@ -40,7 +40,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {  
-    this.user = new User(null,null,null,null,null,null,null,null,null,null,null);
+    this.user = new User(null,null,null,null,null,null,null,null,null,null,null, null, null);
 
     const id = this.activatedRoute.snapshot.params['id'];
     this.getCurrentFragment();
@@ -52,8 +52,8 @@ export class SingleUserComponent implements OnInit, OnDestroy {
           this.user = User.userFromJson(user);
           this.user.id = id;
           console.log(this.user);
-          console.log(this.user.courses);
-          console.log(this.user.events);
+          console.error(this.user.courses);
+          console.error(this.user.events);
         }
         else {
             this.hasUser = false;

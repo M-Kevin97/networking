@@ -1,18 +1,18 @@
-import { EventItem } from 'src/app/shared/item/event-item';
-import { Database } from 'src/app/core/database/database.enum';
-import { Course } from 'src/app/shared/item/course';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ItemService } from 'src/app/shared/item/item.service';
-import { ItemFormService } from '../../shared/services/item-form.service';
-import { ImageService } from 'src/app/shared/image/image.service';
+import { UserService } from 'src/app/shared/service/user/user.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StepState } from '../../shared/state-step.enum';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { DatePipe } from '@angular/common';
-import { User } from 'src/app/shared/user/user';
+import { User } from 'src/app/shared/model/user/user';
 import * as firebase from 'firebase';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Database } from 'src/app/core/database/database.enum';
+import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ItemService } from 'src/app/shared/service/item/item.service';
+import { ItemFormService } from '../../shared/services/item-form.service';
+import { Course } from 'src/app/shared/model/item/course';
 
 @Component({
   selector: 'app-course-form',
@@ -67,6 +67,7 @@ export class CourseFormComponent implements OnInit, OnDestroy{
     const imageLink = this.itemFormService.getStepFormWithStep(StepState.MEDIA).value;
 
     var newCourse = new Course(null,
+                              'course',
                               title,
                               category,
                               null,
@@ -77,11 +78,15 @@ export class CourseFormComponent implements OnInit, OnDestroy{
                               false,
                               null,
                               null,
-                              imageLink,
+                              null,
+                              null,
+                              null,
+                              null,
                               null); 
 
-    if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value 
-        && this.itemFormService.getStepFormWithStep(StepState.MEDIA).value !== Database.DEFAULT_IMG_COURSE) {
+    // if (this.itemFormService.getStepFormWithStep(StepState.MEDIA).value 
+    //     && this.itemFormService.getStepFormWithStep(StepState.MEDIA).value !== Database.DEFAULT_IMG_COURSE) {
+    if(this.imageService.imageToUpload) {
 
       const fileRef = firebase.storage().ref('images').child('items');
 
@@ -107,17 +112,18 @@ export class CourseFormComponent implements OnInit, OnDestroy{
     else {
       // À modifier dans le futur, pour l'instant la video == null
       newCourse.videoLink = null;
+      newCourse.imageLink = Database.DEFAULT_IMG_COURSE;
       this.sendCourseToDB(newCourse);  
     }       
   }
 
   private sendCourseToDB(newCourse:Course)
   {
-    return this.itemService.createNewItemToDB(newCourse).then(
+    return this.itemService.addNewItemToDB(newCourse).then(
       (val) => {
         if(val && val instanceof(Course)){
 
-          this.itemService.saveCourseInAuthorsDB(val,this.authService.authUser.id);
+          UserService.addItemInAuthorsDB(val,this.authService.authUser.id);
         }
         this.itemFormService.getStepFormWithStep(StepState.COMPLETE).value = this.itemService.lastItemCreated;
         this.itemFormService.getStepFormWithStep(StepState.COMPLETE).status = true;

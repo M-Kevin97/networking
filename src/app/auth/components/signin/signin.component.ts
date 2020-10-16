@@ -1,3 +1,4 @@
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -37,7 +38,7 @@ export class SigninComponent implements OnInit {
     
     this.authService.signInUser(email, password).then(
       () => {
-        this.router.navigate(['/feed']);
+        this.router.navigate([RouteUrl.FEED]);
       },
       (error) => {
         this.errorMessage = error;

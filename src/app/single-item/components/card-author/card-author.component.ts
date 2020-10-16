@@ -1,4 +1,4 @@
-import { User } from './../../../shared/user/user';
+import { User } from '../../../shared/model/user/user';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
@@ -20,7 +20,7 @@ export class CardAuthorComponent implements OnInit {
 
   goToUserPage(){
     console.log('CardAuthorComponent', this.author.id);
-    this.router.navigate([RouteUrl.USER, this.author.id]);
+    if(!this.author.data) this.router.navigate([RouteUrl.USER, this.author.id]);
   }
 
 }

@@ -1,3 +1,5 @@
+import { AdminGuardService } from './core/guards/admin/admin-guard.service';
+import { AdminComponent } from './admin/admin.component';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { VisitorGuardService } from './core/guards/visitor/visitor-guard.service';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
@@ -9,19 +11,18 @@ import { AuthGuardService } from './core/guards/user/auth-guard.service';
 import { FeedComponent } from './feed/feed.component';
 
 const routes: Routes = [
-  {path:RouteUrl.HOME.substr(1,RouteUrl.HOME.length),
+  {path:RouteUrl.HOME.substr(1),
      component:HomeComponent,  
      canActivate: [VisitorGuardService]},
-  {path:RouteUrl.SEARCH.substr(1,RouteUrl.SEARCH.length), 
+  {path:RouteUrl.SEARCH.substr(1), 
     component:SearchComponent},
-  {path:RouteUrl.FEED.substr(1,RouteUrl.FEED.length), 
+  {path:RouteUrl.FEED.substr(1), 
     component:FeedComponent,
     canActivate: [AuthGuardService]},
-  {path:'', redirectTo:'home', pathMatch:'full'},
+  {path:'', redirectTo:RouteUrl.HOME.substr(1), pathMatch:'full'},
   {path:'**', component:PageNotFoundComponent}
 ];
 
-export const AppRoutingRoutes = RouterModule.forRoot(routes, 
-                                                    {anchorScrolling: 'enabled',
-                                                    onSameUrlNavigation: 'reload',
-                                                     preloadingStrategy: PreloadAllModules });
+export const AppRoutingRoutes = RouterModule.forRoot(routes, { anchorScrolling: 'enabled',
+                                                               onSameUrlNavigation: 'reload',
+                                                               preloadingStrategy: PreloadAllModules });

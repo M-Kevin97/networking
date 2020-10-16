@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
-import { CategoryService } from 'src/app/shared/item/category/category.service';
-import { Category } from 'src/app/shared/item/category/category';
+import { CategoryService } from 'src/app/shared/service/category/category.service';
+import { Category } from 'src/app/shared/model/category/category';
 
 
 @Component({
@@ -23,21 +23,21 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
   }
 
   categorySelected : Category;
+  subCategorySelected : Category;
   categoryForm: FormGroup;
   categoriesValues:Category[];
-  catRestored: Category;
 
   private categorySubscription: Subscription;
   private idCategorySelected: string;
-  private mapCategories: Map<string, Category>;
+  private idSubCategorySelected: string;
 
   constructor(private formBuilder:FormBuilder,
               private _itemFormService: ItemFormService,
               private _categoryService: CategoryService) { 
 
-                this.mapCategories = new Map<string, Category>();
                 this.categoriesValues = [];
-                this.idCategorySelected = null;
+                this.idCategorySelected = '';
+                this.idSubCategorySelected = '';
 
                 console.log('constructor ItemCategoryFormComponent');
               }
@@ -45,7 +45,8 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.categoryForm = this.formBuilder.group({
-      category: ['',[Validators.required]]
+      category: ['',[Validators.required]],
+      subCategory: ['',[Validators.required]]
     });
 
     // sinon si l'élément Price a été créé
@@ -71,12 +72,7 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
     .subscribe(
       (data:Category[]) => {
 
-        for(var _i = 0; _i < data.length; _i++) 
-        {
-          this.mapCategories.set(data[_i].id, data[_i]);
-        }
-
-        this.categoriesValues = Array.from(this.mapCategories.values());
+        this.categoriesValues = data;
       },
       (err: string) => console.error('Observer got an error: ' + err),
       () => {
@@ -89,9 +85,12 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
 
   onSetCategory(){
 
-    const category = this.mapCategories.get(this.idCategorySelected);
-    console.log('Categories map :', this.mapCategories);
-    this.itemFormService.setFormWithStepState(StepState.CATEGORY, category);
+    const cat = this.categorySelected;
+    cat.subCategories = [this.subCategorySelected];
+
+    console.log('onSetCategory', cat);
+
+    this.itemFormService.setFormWithStepState(StepState.CATEGORY, cat);
   }
 
   onBack(){
@@ -104,14 +103,22 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
     this.categoryService.getCategoriesFromDB();
 
     // Récupérer la catégorie déjà sélectionné
-    this.catRestored = category
+    this.categorySelected = category;
+    this.subCategorySelected = category.subCategories[0];
   }
 
   // Catégorie sélectionnée par l'utilisateur
-  selectCategory(id: string) {
-
+  onSelectCategory(id: string) {
     //getted id selected category from event
-    this.idCategorySelected = id;
+    //this.idCategorySelected = id;
+    console.warn('onSelectCategory', this.categorySelected.name);
+  }
+
+  // Sous catégorie sélectionnée par l'utilisateur
+  onSelectSubCategory(id: string) {
+    //getted id selected category from event
+    //this.idSubCategorySelected = id;
+    console.warn('onSelectCategory', this.subCategorySelected.name);
   }
 
   ngOnDestroy(){

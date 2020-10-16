@@ -1,14 +1,99 @@
 <div class="container-search w-75 mx-auto">
 
-  <!-- section Filter pour la recherche -->
-  <div class="filter-section mt-5">
-    <app-filter (items)="setCourseList($event)"
-                [query]="query"
-                [categoryName]="categoryName">
-    </app-filter>
+  <div class="results-info my-4">
+    <div class="row results-cat my-3">
+      <h2 *ngIf="categoryName"><span class="catName">{{ categoryName }}</span><span class="results-q"> - {{ getNbResults() }} résultats <span *ngIf="query"> "{{ query }}"</span></span></h2>
+    </div>
+    
+    <!-- Afficher les catégories si recherche par catégories -->
+    <div *ngIf="categoriesToDisplay" class="categories-section mt-3">
+      <button *ngFor="let cat of categoriesToDisplay" type="button" 
+                                                      class="btn btn-outline-secondary btn-cat-to-d mr-2"
+                                                      (click)="onSearchByCategory(cat.id)">
+        {{ cat.name }} 
+      </button>
+      <hr>
+    </div>
+
+    <!-- <div class="row results-q my-3">
+      <div class="col">
+        <h4>
+          {{ getNbResults() }} résultats <span *ngIf="query"> "{{ query }}"</span>
+        </h4>
+      </div>
+    </div> -->
   </div>
 
-  <app-course-list *ngIf="courseList" [courses]="courseList"></app-course-list>
-
+  <!-- section Filter pour la recherche -->
+  <div class="filter-section container-fluid">
+    <app-filter (items)="onAllocateItemList()"
+                [activeTab]="activeTab">
+    </app-filter>
+  </div>
   
+  
+  <ul class="nav search-nav nav-pills nav-justified my-4">
+    <li class="nav-item">
+      <a class="nav-link" id="pills-category-tab" 
+                        [ngClass]="{ 'active':activeTab === getPanelName().COURSES}" 
+                        (click)="displayPanel(getPanelName().COURSES)"
+                        data-toggle="pill" 
+                        role="tab" 
+                        aria-controls="pills-category" 
+                        aria-selected="false">
+        <span>Formations ({{ coursesList.length }})</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="pills-category-tab" 
+                        [ngClass]="{ 'active':activeTab === getPanelName().EVENTS }" 
+                        (click)="displayPanel(getPanelName().EVENTS)"
+                        data-toggle="pill" 
+                        role="tab" 
+                        aria-controls="pills-category" 
+                        aria-selected="false">
+        <span>Événements ({{ eventsList.length }})</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="pills-category-tab" 
+                        [ngClass]="{ 'active':activeTab === getPanelName().USERS }" 
+                        (click)="displayPanel(getPanelName().USERS)"
+                        data-toggle="pill" 
+                        role="tab" 
+                        aria-controls="pills-category" 
+                        aria-selected="false">
+        <span>Utilisateurs ({{ usersList.length }})</span>
+      </a>
+    </li>
+  </ul>
+
+
+  <div class="tab-content">
+    <div class="tab-pane fade" id="courses"
+                                      role="tabpanel" 
+                                      [ngClass]="{ 'active':activeTab === getPanelName().COURSES,
+                                                  'show':activeTab === getPanelName().COURSES }"
+                                      aria-labelledby="pills-course-tab">
+      <app-item-list *ngIf="coursesList" [items]="coursesList">
+      </app-item-list>
+    </div>
+
+    <div class="tab-pane fade" id="events"
+                                      role="tabpanel" 
+                                      [ngClass]="{ 'active':activeTab === getPanelName().EVENTS,
+                                                  'show':activeTab === getPanelName().EVENTS }"
+                                      aria-labelledby="pills-course-tab">
+      <app-item-list *ngIf="eventsList" [items]="eventsList">
+      </app-item-list>
+    </div>
+
+    <div class="tab-pane fade" id="instructors"
+                                      role="tabpanel" 
+                                      [ngClass]="{ 'active':activeTab === getPanelName().USERS,
+                                                  'show':activeTab === getPanelName().USERS }"
+                                      aria-labelledby="pills-course-tab">
+    <app-user-list *ngIf="usersList" [users]="usersList">
+    </app-user-list>
+  </div>
 </div>

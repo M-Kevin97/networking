@@ -1,17 +1,26 @@
+import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
+import { UserSelectComponent } from './components/user-select/user-select.component';
+import { CategoriesSelectComponent } from './components/categories-select/categories-select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedComponent } from './shared.component';
-import { ImageService } from './image/image.service';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
-import { ItemService } from './item/item.service';
-import { UserService } from './user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ItemListComponent } from './components/item-list/item-list.component';
-import { CourseListComponent } from './components/course-list/course-list.component';
-import { EventListComponent } from './components/event-list/event-list.component';
+import { ImageService } from './service/image/image.service';
+import { ItemService } from './service/item/item.service';
+import { UserService } from './service/user/user.service';
+import { CourseListComponent } from './components/item/course-list/course-list.component';
+import { EventListComponent } from './components/item/event-list/event-list.component';
+import { ItemListComponent } from './components/item/item-list/item-list.component';
+import { ItemsCarouselComponent } from './components/item/items-carousel/items-carousel.component';
+import { ItemCardComponent } from './components/item/item-card/item-card.component';
+import { RatingListComponent } from './components/rating/rating-list/rating-list.component';
+import { RatingComponent } from './components/rating/rating/rating.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 @NgModule({
   imports: [
@@ -22,7 +31,6 @@ import { EventListComponent } from './components/event-list/event-list.component
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    
   ],
   exports : [
     HttpClientModule,
@@ -31,16 +39,33 @@ import { EventListComponent } from './components/event-list/event-list.component
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    SharedComponent,
     ItemListComponent,
-    CourseListComponent,
     EventListComponent,
+    CourseListComponent,
+    UserListComponent,
+    ItemsCarouselComponent,
+    ItemCardComponent,
+    RatingComponent,
+    RatingListComponent,
+    CategoriesSelectComponent,
+    UserSelectComponent,
+    SearchBarComponent,
+    UserAvatarComponent,
   ],
   declarations: [
     SharedComponent,
     ItemListComponent,
-    CourseListComponent,
     EventListComponent,
+    CourseListComponent,
+    UserListComponent,
+    ItemsCarouselComponent,
+    ItemCardComponent,
+    RatingComponent,
+    RatingListComponent,
+    CategoriesSelectComponent,
+    SearchBarComponent,
+    UserSelectComponent,
+    UserAvatarComponent,
   ],
 })
 export class SharedModule {

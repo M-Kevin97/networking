@@ -1,0 +1,43 @@
+<form [formGroup]="searchForm" 
+      action="" 
+      class="search-form my-auto nav-search"
+      (ngSubmit)="searchQuery()">
+
+  <div class="form-group has-feedback">
+    <div class="input-group mb-3 er">
+      <!-- Prepend categories -->
+      <div class="input-group-prepend">
+        <!-- Select categories -->
+        <app-categories-select id="courseCategory"
+                             class="search-bar-elem"
+                             [width]="'md'"
+                             [height]="height"
+                             [categorySelectId]="idCategorySelected"
+                             [categoryValues]="categoryValues"
+                             [selectType]="getSelectType().CAT_AND_SUB"
+                             [selectRadius]="getSelectRadius().LEFT"
+                             (idCategorySelected)="onSelectCategoryById($event)">
+        </app-categories-select>
+      </div> 
+      <!-- Search bar-->
+      <input type="text"
+            [ngStyle]="{'height':getHeight()}"
+            formControlName="search"
+            class="form-control input-search search-bar-elem" 
+            name="search" 
+            id="search" 
+            placeholder="Rechercher"
+            autocomplete="off">
+
+      <!-- append btn search -->
+      <div class="icon-search-b input-group-append">
+        <!-- logo search -->
+        <span class="icon-search input-group-text search-bar-elem" id="basic-addon1"
+                                                                  [ngStyle]="{'height':getHeight()}"
+                                                                  (click)="searchQuery()">
+          <span class="iconify" data-inline="false" data-icon="bi:search"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</form>
