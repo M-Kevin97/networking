@@ -87,7 +87,7 @@ export class EventItem extends Item {
                     id: eventsIdIndex,
                     title: eventJson['title'],
                     category: Category.categoryFromJson(eventJson['category']),
-                    description: eventJson['description'],
+                    catchPhrase: eventJson['catchPhrase'],
                     price: eventJson['price'],
                     imageLink: eventJson['imageLink'],
                     iAuthors:Item.getIAuthorsItemFromJson(eventJson['authors']),

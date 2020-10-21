@@ -1,5 +1,5 @@
 <!-- Start Price Card -->
-<div *ngIf="isData else elseBlock" class="card shadow-sm">
+<div *ngIf="isData else elseBlock" class="card shadow">
   <div class="text-center">
 
     <div class="card-body">
@@ -43,7 +43,7 @@
 </div>
 
 <ng-template #elseBlock >
-  <div class="card shadow-sm">  
+  <div class="card shadow">  
     <div class="row justify-content-center">
       <div class="col-11 text-center">
         <div class="card-item-img">
@@ -56,7 +56,10 @@
           <div class="row" *ngIf="nbRatings && globalNote">
             <div class="col-6">
               <a class="rating-link" (click)="goToRatingsSection()">
-                <app-rating [style]="0" [nbRatings]="nbRatings" [globalNote]="globalNote"></app-rating>
+                <app-rating [style]="0" 
+                            [size]="1.4"
+                            [nbRatings]="nbRatings" 
+                            [globalNote]="globalNote"></app-rating>
               </a>
             </div>
             <div class="col-6">
@@ -82,7 +85,9 @@
     
           <button class="btn btn-add-cart">
             Ajouter au panier
-            <span class="iconify iconify-add-cart" data-inline="false" data-icon="ic:round-add-shopping-cart">
+            <span class="iconify iconify-add-cart" 
+                  data-inline="false" 
+                  data-icon="ic:round-add-shopping-cart">
             </span>
           </button>
         </div> <!-- End Body -->

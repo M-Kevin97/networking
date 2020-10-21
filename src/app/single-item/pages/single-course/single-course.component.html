@@ -27,16 +27,16 @@
 
     <!-- Start page item Head -->
     <div class="col-lg-8">
-      <div class="heading shadow-sm">
-        <div class="title-section">
-          <h2 class="item-title">
+      <div class="heading shadow">
+        <div class="title-section mt-3">
+          <h2 class="item-title mb-2">
             {{ course.title }}
             <app-button-edit class="ml-5" 
                              (click)="openHeadItemModal()"
                              *ngIf="isAuthor()">
             </app-button-edit>
           </h2>
-          <h3 class="item-subtitre">
+          <h3 class="item-subtitle">
             {{ course.catchPhrase }}
           </h3>
         </div>
@@ -59,10 +59,12 @@
           <hr> <!-- separation line -->
           <div class="row">
             <div class="col-6">
-              <a class="rating-link" [routerLink]='"."' fragment='ratings'>
+              <a class="rating-link" [routerLink]='"."' 
+                                      fragment='ratings'>
                 <app-rating [style]="1" 
                             [nbRatings]="course.nbRatings" 
-                            [globalNote]="course.globalNote">
+                            [globalNote]="course.globalNote"
+                            [size]="1.4">
                 </app-rating>
               </a>
             </div>
@@ -78,7 +80,7 @@
       </div> <!-- End page item Head -->
 
       <!-- Start Author section -->
-      <div class="item-block author-block">
+      <div *ngIf="!isAuth" class="item-block author-block">
         <app-card-author [author]="getMainAuthor()"></app-card-author>
       </div> <!-- End Author section -->
 
@@ -93,7 +95,7 @@
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="course.description"></app-description-section>
-        <span *ngIf="!course.description" (click)="openDescriptionItemModal()">
+        <span *ngIf="isAuth && !course.description" (click)="openDescriptionItemModal()">
           Ajouter une description
         </span>
       </div> <!-- End Description section -->
@@ -104,11 +106,14 @@
           Compétences à acquérir
           <app-button-edit class="ml-5" 
                            (click)="openSkillsItemModal()"
-                           *ngIf="isAuthor()">
+                           *ngIf="isAuth">
           </app-button-edit>
         </h5>
+
         <hr> <!-- separation line -->
+
         <div *ngIf="course.skillsToAcquire">
+
           <ul class="skills-list">
             <li *ngFor="let skill of getSkillsBeginning()">
               <i id="check" class="fa fa-check" aria-hidden="true"></i>
@@ -118,6 +123,7 @@
             </li>
             <li *ngIf="!moreSkillsShowed && checkSkillsLength()" id="skills-dots">...</li>
           </ul>
+
           <ul *ngIf="moreSkillsShowed" class="skills-list">
             <li *ngFor="let skill of getSkillsEnding()">
               <i id="check" class="fa fa-check" aria-hidden="true"></i>
@@ -126,15 +132,86 @@
               </span> 
             </li>
           </ul>
+
           <div *ngIf="checkSkillsLength()" (click)="seeMoreSkills()" id="btnSeeMoreSkills">
             + Voir plus
           </div>
         </div>
-        <span *ngIf="!course.skillsToAcquire" (click)="openSkillsItemModal()">
+
+        <span *ngIf="isAuth && !course.skillsToAcquire" (click)="openSkillsItemModal()">
           Ajouter des compétences à acquérir
         </span>
         
       </div> <!-- End skills-to-acquire item section -->
+
+      <!-- Start course content section -->
+      <div class="item-block description-block">
+        <h5 class="title-cat">
+          Contenu de la formation
+          <app-button-edit class="ml-5" 
+                           (click)="openDescriptionItemModal()"
+                           *ngIf="isAuth">
+          </app-button-edit>
+        </h5>
+
+        <hr> <!-- separation line -->
+
+        <span *ngIf="isAuth && !course.description" (click)="openDescriptionItemModal()">
+          Ajouter le programme de votre formation
+        </span>
+
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Collapsible Group Item #1
+                </button>
+              </h5>
+            </div>
+        
+            <div id="collapseOne" class="collapse show" 
+                                  aria-labelledby="headingOne" 
+                                  data-parent="#accordionExample">
+              <ul class="card-body list-group list-group-flush">
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Collapsible Group Item #2
+                </button>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Collapsible Group Item #3
+                </button>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End course content  section -->
 
       <!-- Start section more author's items  -->
       <div *ngIf="getMainAuthor()" class="item-block skills-block">
@@ -150,11 +227,21 @@
 
       <!-- Start section Ratings -->
       <div id="ratings" class="item-block ratings-block">
-        <h5 class="title-cat">Avis</h5>
+        <h5 class="title-cat">
+          Avis
+          <button class="btn btn-rating ml-5" 
+                  (click)="openRatingCourseModal()">
+            Évaluer la formation
+          </button>
+        </h5>
         <hr> <!-- separation line -->
-        <app-global-rating [ratings]="course.ratings"></app-global-rating>
-        <button class="btn btn-primary my-5" (click)="openRatingCourseModal()">Évaluer la formation</button>
-        <app-rating-list [ratings]="course.ratings"></app-rating-list>
+        <app-global-rating [ratings]="course.ratings">
+        </app-global-rating>
+
+        <hr> <!-- separation line -->
+        
+        <!-- <app-rating-list [ratings]="course.ratings">
+        </app-rating-list> -->
       </div>   <!-- End section Ratings -->
     </div>
   </div>

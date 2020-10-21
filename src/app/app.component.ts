@@ -36,7 +36,8 @@ export class AppComponent {
   }
 
   private isAuthRoute() {
-    return this.router.url.startsWith(RouteUrl.AUTH);
+    return (this.router.url.includes(RouteUrl.LOGIN) || this.router.url.includes(RouteUrl.SIGNUP)
+                                                     || this.router.url.includes(RouteUrl.VERIFICATION_LINK));
   }
 
   displayHeader()

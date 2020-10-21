@@ -1,7 +1,23 @@
 <ul class="list-group">
   <li *ngFor="let rating of ratings; let i = index" class="row list-group-event mb-4">
       <div class="col-3">
-        <img *ngIf="rating.author" class="rounded-circle author-img" [src]="rating.author.ppLink" height="90" width="90">
+
+        <!-- Si l'utilisateur n'a pas de PP afficher la PP par défaut-->
+        <img class="author-img rounded-circle" 
+            src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
+            alt="photo author"
+            height="90px"
+            width="90px"
+            *ngIf="!rating.author.ppLink">
+
+        <!-- Si l'utilisateur a une PP afficher sa PP -->
+        <img class="author-img rounded-circle" 
+              [src]="rating.author.ppLink" 
+              alt="photo author"
+              height="90px"
+              width="90px"
+              *ngIf="rating.author.ppLink">
+              
       </div>
       <div class="col-7">
         <div>

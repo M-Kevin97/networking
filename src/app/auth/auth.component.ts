@@ -1,3 +1,4 @@
+import { RouteUrl } from './../core/router/route-url.enum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterService } from '../shared/service/router/router.service';
@@ -16,11 +17,11 @@ export class AuthComponent implements OnInit {
   }
 
   isSignInRoute() {
-    return this.router.url === '/auth/signin';
+    return this.router.url === RouteUrl.LOGIN;
   }
 
   isSignUpRoute() {
-    return this.router.url === '/auth/signup';
+    return this.router.url === RouteUrl.SIGNUP;
   }
 
   goBack() {
@@ -30,9 +31,8 @@ export class AuthComponent implements OnInit {
 
     console.log(prevUrl,i,max);
 
-    while(i < max && (prevUrl === '/auth/signin' 
-                  || prevUrl === '/auth/signup' 
-                  || prevUrl === '/auth')){
+    while(i < max && (prevUrl === RouteUrl.LOGIN
+                  || prevUrl === RouteUrl.SIGNUP)){
 
       i++;
       prevUrl = this.routerService.getPreviousUrlWithPosition(i);

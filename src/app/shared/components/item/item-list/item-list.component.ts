@@ -60,12 +60,7 @@ export class ItemListComponent implements OnInit, OnDestroy{
   isEvent(item:Course|EventItem|ICourse|IEvent) {
       return item.type === 'event';
   }
-
-  getTheSartOfDescription(item:Course|EventItem|ICourse|IEvent) {
-    
-    return item.description ? item.description.substring(0,30) : '';
-  }
-
+  
   onDeleteItem(item: Item){
     this.itemService.removeItem(item);
   }

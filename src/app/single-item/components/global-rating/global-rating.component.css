@@ -1,0 +1,12 @@
+.progress {
+    margin-bottom: 2vh;
+    height: 2em;
+}
+
+.progress-bar {
+    background-color: #2E7B9C;
+}
+
+.etoiles > i{
+    color: #eb9a1e;
+}

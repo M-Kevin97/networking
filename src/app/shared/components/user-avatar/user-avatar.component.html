@@ -1,8 +1,11 @@
-<div class="circle" [ngStyle]="{'background-color':  circleColor,
-                                'border': border}">
+<div #circle class="circle" [ngStyle]="{'background-color':  circleColor,
+                                        'border': border,
+                                        'width':'100%',
+                                        'height':'100%'}">
+
   <img *ngIf="!showInitials" src="{{photoUrl}}">
 
-  <div *ngIf="showInitials" class="initials">
+  <div *ngIf="showInitials" class="initials" [ngStyle]="{'font-size': (circleWidth | async)+'%'}">
       {{ initials }}
   </div>
 </div>

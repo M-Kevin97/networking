@@ -122,7 +122,9 @@
           <label class="sr-only" for="coursePrice">Prix</label>
           <input type="number" class="form-control mb-3" 
                               id="coursePrice" 
-                              formControlName = "coursePrice" 
+                              formControlName="coursePrice" 
+                              min="1"
+                              pattern="\d+"
                               placeholder="Prix...">
   
           <label class="sr-only" for="courseSrcLink">Lien url</label>

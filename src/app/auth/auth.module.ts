@@ -1,25 +1,35 @@
+import { PasswordBoxComponent } from './components/password-box/password-box.component';
+import { EmailBoxComponent } from './components/email-box/email-box.component';
+import { VerificationComponent } from './pages/verification/verification.component';
+import { LoginBoxComponent } from './components/login-box/login-box.component';
 import { CoreModule } from './../core/core.module';
 import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth.component';
-import { SigninComponent } from './components/signin/signin.component';
-import { SignupComponent } from './components/signup/signup.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthRoutingRoutes } from './auth-routing.routing';
+import { SigninComponent } from './pages/signin/signin.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { CountdownModule } from 'ngx-countdown';
+
 
 @NgModule({
   imports: [
+    CoreModule,
     SharedModule,
     AuthRoutingRoutes,
-    CoreModule,
+    CountdownModule,
   ],
   declarations: [
     AuthComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    LoginBoxComponent,
+    VerificationComponent,
+    EmailBoxComponent,
+    PasswordBoxComponent
   ],
   exports: [
-    SigninComponent,
-    SignupComponent
+    LoginBoxComponent
   ]
 })
 export class AuthModule { }

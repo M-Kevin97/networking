@@ -1,0 +1,36 @@
+<div class="wrapper h-100 w-100">
+  <div class="row h-100 align-items-center justify-content-center">
+    <div class="col-6">
+
+      <div class="email-verified border border-success rounded" 
+           *ngIf="email && isEmailVerified && !emailVerificationErrorMessage">
+        <h3>Félicitations !</h3>
+        <span class="email-verified-text">
+          {{ emailVerificationMessage }}
+        </span>
+
+        <countdown #countdown [config]="{leftTime: 3}" 
+                              (event)="onTimerFinished($event)">
+        </countdown>
+        <div class="mx-auto">
+          <img src="assets/img/ok-img.png" width="90" height="90" class="d-inline-block" alt="Item créé">
+        </div>
+      </div>
+
+      <div class="email-not-verified" *ngIf="email && emailVerificationErrorMessage">
+        <p class="email-not-verified-text border boder-danger rounded">
+          {{ emailVerificationErrorMessage }}
+        </p>
+      </div>
+
+      <app-email-box *ngIf="!email"
+                     (email)="emailVerification($event)">
+      </app-email-box>
+
+      <app-password-box *ngIf="displayPassword"
+                        (passwordUpdated)="finishVerification($event)">
+      </app-password-box>
+
+    </div>
+  </div>
+</div>

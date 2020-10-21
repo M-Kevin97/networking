@@ -1,13 +1,11 @@
 h3 {
     text-align:center;
-    text-transform: uppercase;
     font-size: large;
     font-weight: 800;
 }
 
 h4 {
     text-align:center;
-    text-transform: uppercase;
     font-size: large;
     font-weight: 400;
 }
@@ -20,14 +18,16 @@ button {
     font-size: medium;
 }
 
+// .btn-login {
+//     background-color: #2E7B9C;
+//     border-color: #2E7B9C;
+// }
 
 .signin-block-signup {
-    height: 8vh;
-    font-size: medium;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
 
     margin-top: 2vh;
+
+    font-size: medium;
 }

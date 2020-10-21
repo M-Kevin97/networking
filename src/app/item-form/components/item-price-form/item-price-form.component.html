@@ -7,8 +7,9 @@
             <form [formGroup]="priceForm" role="form" class="form-item">
                 <div class="input-group">
                     <input type="number" class="form-control form-control-lg" formControlName = "price"
-                                                    min="10"
+                                                    min="1"
                                                     id="price" 
+                                                    pattern="\d+"
                                                     onkeydown="return (event.keyCode !== 69 
                                                                        && event.keyCode !== 187
                                                                        && event.keyCode !== 189)"

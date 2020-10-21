@@ -12,6 +12,7 @@ export class RatingComponent implements OnInit, OnChanges {
   @Input() style:number;
   @Input() nbRatings:number = 0;
   @Input() globalNote:number = 0;
+  @Input() size:number = 1.6;
 
   globalNoteStr:string;
 

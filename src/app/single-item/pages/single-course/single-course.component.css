@@ -25,20 +25,25 @@
     margin-bottom: 5vh ;
     padding-bottom: 3vh;
     padding-bottom: 2vh;
+
+    
+    /* background: linear-gradient(rgba(57, 129, 160, 0.8), white 50.71%); */
 }
 
 .title-section {
-    margin-bottom: 5vh;
+    margin-bottom: 3vh;
 }
 
 .item-title {
-    font-weight: 650;
+    font-weight: 500;
     font-size: 2em;
+    color: rgb(61, 60, 60);
 }
 
 .item-subtitle {
     font-weight: 400;
-    font-size: 1.02em;
+    font-size: 1.22em;
+    color: gray;
 }
 
 .feature-text > i{
@@ -72,4 +77,10 @@
     margin-right: auto;
     width: 10vw;
     color:#2E7B9C;
+}
+
+.btn-rating {
+    color: white;
+    background-color: #eb9a1e;
+    font-weight: 500;
 }

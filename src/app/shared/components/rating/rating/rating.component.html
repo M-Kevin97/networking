@@ -1,8 +1,8 @@
 <!-- Rating section --> 
 <span>
   <!-- <span class="iconify icon-star" data-inline="false" data-icon="bi:star-fill"></span> -->
-  <i class="fa fa-star icon-star"></i>
-  <span class="avrg-rating">{{ globalNoteStr }}</span>
-  <span *ngIf="style===0" class="nb-rating">({{ nbRatings }})</span>
-  <span *ngIf="style===1" class="nb-rating">&nbsp;({{ nbRatings }} avis)</span>
+  <i class="fa fa-star icon-star" [ngStyle]="{'font-size':size+'em'}"></i>
+  <span class="avrg-rating" [ngStyle]="{'font-size':size*0.95+'em'}">&thinsp;{{ globalNoteStr }}</span>
+  <span *ngIf="style===0" class="nb-rating" [ngStyle]="{'font-size':size*0.85+'em'}">&thinsp;({{ nbRatings }})</span>
+  <span *ngIf="style===1" class="nb-rating" [ngStyle]="{'font-size':size*0.85+'em'}">&thinsp;({{ nbRatings }} avis)</span>
 </span>

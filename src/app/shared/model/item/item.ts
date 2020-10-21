@@ -8,7 +8,7 @@ export interface IItem {
     type:string;
     id:string;
     title:string;
-    description:string;
+    catchPhrase:string;
     price:number;
     category:Category;
     iAuthors:IUser[];

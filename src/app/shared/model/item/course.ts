@@ -108,7 +108,7 @@ export class Course extends Item {
             published: this.published,
             nbRatings:this.nbRatings,
             globalNote: this.nbRatings,
-            description:this.description,
+            catchPhrase:this.catchPhrase,
         }
 
         return iCourse;
@@ -139,7 +139,7 @@ export class Course extends Item {
                     price: courseJson['price'],
                     imageLink:courseJson['imageLink'],
                     nbRatings:courseJson['nbRatings'],
-                    description:courseJson['description'],
+                    catchPhrase:courseJson['catchPhrase'],
                     globalNote:courseJson['globalNote'],
                     iAuthors:[],
                     published:courseJson['published'],

@@ -1,3 +1,4 @@
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserLevel } from './../../../shared/model/UserLevel.enum';
 import { Injectable } from '@angular/core';
@@ -20,9 +21,9 @@ export class AdminGuardService implements CanActivate {
           (bool) => {
             if(bool) {
               if(UserLevel.ADMIN === this.authService.authUser.accessLevel) resolve(true);
-              else resolve(false);
+              else this.router.navigate([RouteUrl.HOME]);
             } else {
-              resolve(false);
+              this.router.navigate([RouteUrl.HOME]);
             }
           }
         )

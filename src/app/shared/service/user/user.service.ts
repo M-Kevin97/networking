@@ -33,8 +33,7 @@ export class UserService {
 
   addNewUserToDB(newUser:User){
 
-    const id = this.usersDB.push().key;
-    newUser.id = id;
+    if(!newUser.id) newUser.id = this.usersDB.push().key;
 
     return this.usersDB.child(newUser.id).set({
         data: newUser.data,

@@ -40,7 +40,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {  
-    this.user = new User(null,null,null,null,null,null,null,null,null,null,null, null, null);
+    this.user = new User(null,null,null,null,null,null,null,null,null,null,null, null, null, null);
 
     const id = this.activatedRoute.snapshot.params['id'];
     this.getCurrentFragment();

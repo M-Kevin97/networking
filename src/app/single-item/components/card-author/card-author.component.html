@@ -1,18 +1,18 @@
-<div class="row author-section" *ngIf="author">      
+<div class="row author-section align-items-center" *ngIf="author">      
   <div class="photo col-2">  
     <a (click)="goToUserPage()">
-          <!-- Si l'utilisateur n'a pas de PP afficher la PP par défaut-->
-    <img class="photo-author rounded-circle" src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
-                                             alt="photo author"
-                                             height="90px"
-                                             width="90px"
-                                             *ngIf="!author.ppLink">
-    <!-- Si l'utilisateur a une PP afficher sa PP -->
-    <img class="photo-author rounded-circle" [src]="author.ppLink" 
-                                             alt="photo author"
-                                             height="90px"
-                                             width="90px"
-                                             *ngIf="author.ppLink">
+      <!-- Si l'utilisateur n'a pas de PP afficher la PP par défaut-->
+      <img class="photo-author rounded-circle" src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
+                                              alt="photo author"
+                                              height="90px"
+                                              width="90px"
+                                              *ngIf="!author.ppLink">
+      <!-- Si l'utilisateur a une PP afficher sa PP -->
+      <img class="photo-author rounded-circle" [src]="author.ppLink" 
+                                              alt="photo author"
+                                              height="90px"
+                                              width="90px"
+                                              *ngIf="author.ppLink">
     </a> 
   </div> 
   <div class="col-7">
@@ -21,14 +21,14 @@
     </a>
 
     <h5 class="titre-expert">{{ author.title }}</h5>
-    <p class="networkers"> 
+    <!-- <p class="networkers"> 
       <i class="fa fa-users" aria-hidden="true"></i> 
       126 Networkers
-    </p>
+    </p> -->
   </div>
   <div class="col-3">
     <button id="se-connecter" type="button" class="btn btn-connect-me"> 
-      <b> Se connecter</b>  
+      <b>Suivre</b>  
     </button>
   </div>
 </div>

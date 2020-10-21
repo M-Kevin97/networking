@@ -116,16 +116,15 @@ export class HeaderUserComponent implements OnInit {
   }
 
   onSignIn() {
-    if (!this.isAuth()) this.router.navigate([RouteUrl.SIGNIN]);
+    if (!this.isAuth()) this.router.navigate([RouteUrl.LOGIN]);
   }
 
   onSignOut() {
     this.authService.signOutUser().then(
       () => {
-        this.router.navigate([RouteUrl.SIGNIN]);
-
         /* Si utilisateur déconnecté, isAuth = false; */
         console.log(this.authService.isAuth, 'user est déconnecté');
+        this.router.navigate([RouteUrl.HOME]);
       }
     );
   }

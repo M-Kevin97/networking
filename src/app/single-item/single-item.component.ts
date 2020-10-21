@@ -41,7 +41,7 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
     let view:View =  {
       date: this.datePipe.transform(Date.now().toString(), 'dd/MM/yyyy'),
       heure: this.datePipe.transform(Date.now().toString(), 'h:mm:ss'),
-      user: this.authService.isAuth ? this.authService.authUser:new User('unknown', null, null, null, null, null, null, null, null, null, null, null, null),
+      user: this.authService.isAuth ? this.authService.authUser:new User('unknown', null, null, null, null, null, null, null, null, null, null, null, null, null),
     };
 
     console.error('saveView', view);

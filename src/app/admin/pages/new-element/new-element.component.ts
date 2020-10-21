@@ -391,6 +391,7 @@ export class NewElementComponent implements OnInit {
                                              null,
                                              userTitle,
                                              userBio,
+                                             "Autre",
                                              UserLevel.STANDARD,
                                              true,
                                              [],

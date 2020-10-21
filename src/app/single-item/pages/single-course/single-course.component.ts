@@ -11,8 +11,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Course } from 'src/app/shared/model/item/course';
-import { EventItem } from 'src/app/shared/model/item/event-item';
-import { Item } from 'src/app/shared/model/item/item';
 import { ItemService } from 'src/app/shared/service/item/item.service';
 
 @Component({
@@ -162,7 +160,26 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     });
   }
 
-  openRatingCourseModal(){
+  openCourseContentModal() {
+
+    const modalRef = this.modalService.open(CreateRatingComponent);
+    modalRef.componentInstance.course = this.course.getICourse();
+    modalRef.componentInstance.user = this.authService.authUser.getIUser();
+
+    modalRef.result.then((result:Rating) => {
+      if (result) {
+        console.log(result);
+        if(!this.course.ratings) this.course.ratings=[];
+        this.course.ratings.push(result);
+
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+  
+  }
+
+  openRatingCourseModal() {
 
     const modalRef = this.modalService.open(CreateRatingComponent);
     modalRef.componentInstance.course = this.course.getICourse();

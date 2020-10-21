@@ -13,6 +13,12 @@ export interface IUser {
 }
 
 export class User {
+    public get role(): string {
+        return this._role;
+    }
+    public set role(value: string) {
+        this._role = value;
+    }
     public get data(): boolean {
         return this._data;
     }
@@ -102,6 +108,7 @@ export class User {
                 private _tel: string, 
                 private _title: string,
                 private _bio: string,
+                private _role: string,
                 private _accessLevel: UserLevel,
                 private _data: boolean,
                 private _courses: ICourse[],
@@ -144,6 +151,7 @@ export class User {
                         json['tel'],
                         json['title'],
                         json['bio'],
+                        json['role'],
                         json['accessLevel'],
                         json['data'],
                         crs,
