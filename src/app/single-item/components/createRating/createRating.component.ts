@@ -56,7 +56,7 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
       (element) => {
         i++;
         if(i <= note){
-          this.renderer.setStyle(element.nativeElement, "color", "#2E7B9C");
+          this.renderer.setStyle(element.nativeElement, "color", "#fcc632");
         }
         else if(i > note){
           this.renderer.setStyle(element.nativeElement, "color", "#e2e3e4");

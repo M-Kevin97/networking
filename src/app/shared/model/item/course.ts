@@ -1,3 +1,5 @@
+import { Database } from 'src/app/core/database/database.enum';
+import { Module } from './module';
 import { Category } from '../category/category';
 import { Rating } from '../rating/rating';
 import { IUser } from '../user/user';
@@ -9,6 +11,12 @@ export interface ICourse extends IItem {
 }   
 
 export class Course extends Item {
+    public get modules(): Module[] {
+        return this._modules;
+    }
+    public set modules(value: Module[]) {
+        this._modules = value;
+    }
     public get nbClick(): number {
         return this._nbClick;
     }
@@ -58,6 +66,7 @@ export class Course extends Item {
                 authors:IUser[],
                 creationDate: string, 
                 published:boolean,
+                private _modules: Module[],
                 searchContent:string,
                 data:boolean,
                 private _skillsToAcquire: string[],
@@ -169,6 +178,7 @@ export class Course extends Item {
             [],
             json['creationDate'],
             json['published'],
+            Module.modulesFromJson(json[Database.MODULES.substr(1)]),
             json['searchContent'],
             json['data'],
             json['skillsToAcquire'],

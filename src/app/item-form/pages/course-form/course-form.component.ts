@@ -76,6 +76,7 @@ export class CourseFormComponent implements OnInit, OnDestroy{
                               authors,
                               creationDate,
                               false,
+                              [],
                               null,
                               null,
                               null,

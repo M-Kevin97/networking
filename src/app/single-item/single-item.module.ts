@@ -1,3 +1,6 @@
+import { EditCourseContentModalComponent } from './components/edit-course-content-modal/edit-course-content-modal.component';
+import { CourseContentComponent } from './components/course-content/course-content.component';
+import { EditCourseContentComponent } from './components/edit-course-content/edit-course-content.component';
 import { DescriptionSectionComponent } from './components/description-section/description-section.component';
 import { CardImagePriceItemComponent } from './components/card-image-price-item/card-image-price-item.component';
 import { EditDescriptionItemComponent } from './components/edit-description-item/edit-description-item.component';
@@ -40,6 +43,9 @@ import { SingleUserComponent } from './pages/single-user/single-user.component';
     CreateRatingComponent,
     GlobalRatingComponent,
     DescriptionSectionComponent,
+    EditCourseContentComponent,
+    EditCourseContentModalComponent,
+    CourseContentComponent
   ]
 })
 export class SingleItemModule { }

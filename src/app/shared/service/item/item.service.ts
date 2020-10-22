@@ -1,3 +1,4 @@
+import { Module } from './../../model/item/module';
 import { Item } from 'src/app/shared/model/item/item';
 import { Course, ICourse } from 'src/app/shared/model/item/course';
 import { Injectable } from '@angular/core';
@@ -10,7 +11,7 @@ import { IUser, User } from '../../model/user/user';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
 import { View } from '../../model/item/click';
-
+import { Chapter } from '../../model/item/chapter';
 
 
 @Injectable({
@@ -312,6 +313,115 @@ export class ItemService {
     }).then(cb);
   }
 
+  // ----- Course Modules
+
+  addCourseContent(newModules:Module[], courseId:string, cb) {
+
+    var promises = [];
+
+    newModules.forEach((module) => {
+
+      promises.push(
+        new Promise((resolve) => {
+          //asyncFunction(item, resolve);
+          let ref = this.itemsDB.child(courseId).child(Database.MODULES);
+
+          this.addModuleWithReference(ref,module).then(
+            (valOne:Module) => {
+              this.addChaptersWithReference(ref, valOne,
+                (module) => {
+                  resolve(module);
+                }
+              );
+            }
+          );
+        })
+      )
+    });
+
+    Promise.all(promises).then((val:Module[]) => {
+      return val; 
+    }).then(cb)
+    .catch(
+      (error) => {
+        console.error(error);
+        return null;
+      }
+    );
+  }
+
+  private addModuleWithReference(ref:firebase.database.Reference, newModule:Module) {
+
+    return new Promise(
+      (resolve, reject) => {
+        if(!ref || !newModule) reject();
+
+        newModule.id = ref.push().key;
+    
+        ref.child(newModule.id).set({
+
+          title: newModule.title,
+          description: newModule.description
+        }).then(
+          () => {
+            resolve(newModule);
+          }
+        );
+      }
+    );
+  }
+
+  // ----- Modules chapter
+
+  private addChaptersWithReference(ref:firebase.database.Reference, newModule:Module, cb) {
+
+    var promises = [];
+    let refChapters = ref.child(newModule.id).child(Database.CHAPTERS);
+    newModule.chapters.forEach((chapter) => {
+
+      promises.push(
+        new Promise((resolve) => {
+          //asyncFunction(item, resolve);
+
+          this.addChapterWithReference(refChapters, chapter).then(
+            (valOne:Chapter) => {
+             resolve(valOne);
+            }
+          );
+        })
+      )
+    });
+
+    Promise.all(promises).then((val:Chapter[]) => {
+      return val; 
+    }).then(cb)
+    .catch(
+      (error) => {
+        console.error(error);
+        return null;
+      }
+    );
+  }
+
+  private addChapterWithReference(ref:firebase.database.Reference, newChapter:Chapter) {
+
+    return new Promise(
+      (resolve, reject) => {
+        if(!ref || !newChapter) reject();
+
+        newChapter.id = ref.push().key;
+    
+        ref.child(newChapter.id).set({
+          title: newChapter.title
+        }).then(
+          ()=>{
+            resolve(newChapter);
+          }
+        );
+      }
+    );
+  }
+
   // ----------------------------- GET FROM DB ------------------------------
 
   getItemsFromDB(cb){
@@ -487,6 +597,127 @@ export class ItemService {
     });
   }
 
+  // -------- Modules à faire
+  // if exist update else add
+
+  // fonction de mise à jour temporaire
+  updateCourseContent(newModules:Module[], courseId:string, cb) {
+    this.removeModules(courseId,
+      () =>{
+        this.addCourseContent(newModules, courseId, cb);
+      }
+    );
+  }
+
+  // updateModulesToCourse(newModules:Module[], courseId:string, cb) {
+
+  //   var promises = [];
+
+  //   newModules.forEach((module) => {
+
+  //     promises.push(
+  //       new Promise((resolve) => {
+  //         //asyncFunction(item, resolve);
+  //         let ref = this.itemsDB.child(courseId).child(Database.MODULES);
+
+  //         this.addModuleWithReference(ref,module).then(
+  //           (valOne:Module) => {
+  //             this.addChaptersWithReference(ref, valOne,
+  //               (module) => {
+  //                 resolve(module);
+  //               }
+  //             );
+  //           }
+  //         );
+
+  //       })
+  //     )
+  //   });
+
+  //   Promise.all(promises).then((val:Module[]) => {
+  //     return val; 
+  //   }).then(cb)
+  //   .catch(
+  //     (error) => {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   );
+  // }
+
+  // private updateModuleWithReference(ref:firebase.database.Reference, newModule:Module) {
+
+  //   return new Promise(
+  //     (resolve, reject) => {
+  //       if(!ref || !newModule) reject();
+
+  //       newModule.id = ref.push().key;
+    
+  //       ref.child(newModule.id).set({
+
+  //         title: newModule.title,
+  //         description: newModule.description
+  //       }).then(
+  //         () => {
+  //           resolve(newModule);
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
+
+  // // -------- Chapters à faire
+  // if exist update else add
+
+  // private addChaptersWithReference(ref:firebase.database.Reference, newModule:Module, cb) {
+
+  //   var promises = [];
+  //   let refChapters = ref.child(Database.CHAPTERS);
+  //   newModule.chapters.forEach((chapter) => {
+
+  //     promises.push(
+  //       new Promise((resolve) => {
+  //         //asyncFunction(item, resolve);
+
+  //         this.addChapterWithReference(refChapters, chapter).then(
+  //           (valOne:Chapter) => {
+  //            resolve(valOne);
+  //           }
+  //         );
+  //       })
+  //     )
+  //   });
+
+  //   Promise.all(promises).then((val:Chapter[]) => {
+  //     return val; 
+  //   }).then(cb)
+  //   .catch(
+  //     (error) => {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   );
+  // }
+
+  // private addChapterWithReference(ref:firebase.database.Reference, newChapter:Chapter) {
+
+  //   return new Promise(
+  //     (resolve, reject) => {
+  //       if(!ref || !newChapter) reject();
+
+  //       newChapter.id = ref.push().key;
+    
+  //       ref.child(newChapter.id).set({
+  //         title: newChapter.title
+  //       }).then(
+  //         ()=>{
+  //           resolve(newChapter);
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
+
   // ----------------------------- REMOVE FROM DB ------------------------------
 
   // A VOIR
@@ -514,6 +745,16 @@ export class ItemService {
     this.items.splice(itemIndexToRemove, 1);
     this.emitItems();
   }
+
+  // --- Modules
+  removeModules(courseId:string, cb) {
+
+      this.itemsDB.child(courseId)
+                  .child(Database.MODULES)
+                  .remove()
+                  .then(cb);
+  }
+
 
   // --------------------------------- Other ----------------------------------------
 

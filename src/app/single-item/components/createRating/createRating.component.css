@@ -1,4 +1,10 @@
 .review-star {
     color: #e2e3e4;
-    font-size: 3rem;
+    font-size: 2.2rem;
+}
+
+.notes-btn {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
 }

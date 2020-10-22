@@ -1,0 +1,19 @@
+<!-- Modal -->
+<div class="modal-dialog" role="document">
+  <div class="modal-content"> 
+    <div class="modal-body">
+
+      <div>
+        <app-edit-course-content [courseId]=""
+                                 [courseModules]="">
+        </app-edit-course-content>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" 
+                            (click)="activeModal.close(oldCourseContent)">Annuler</button>
+
+      <button type="button" (click)="passBack()">Enregistrer</button>
+    </div>
+  </div>
+</div>

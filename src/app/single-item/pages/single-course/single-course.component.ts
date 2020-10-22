@@ -1,3 +1,5 @@
+import { Module } from './../../../shared/model/item/module';
+import { EditCourseContentModalComponent } from './../../components/edit-course-content-modal/edit-course-content-modal.component';
 import { DatePipe } from '@angular/common';
 import { Rating } from 'src/app/shared/model/rating/rating';
 import { SingleItemComponent } from './../../single-item.component';
@@ -43,7 +45,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
     console.warn('ngOnInit COURSE');
     
-    this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+    this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
 
     const id = this.route.snapshot.params['id'];
     this.itemService.getSingleItemFromDBById(id,
@@ -162,16 +164,14 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
   openCourseContentModal() {
 
-    const modalRef = this.modalService.open(CreateRatingComponent);
-    modalRef.componentInstance.course = this.course.getICourse();
-    modalRef.componentInstance.user = this.authService.authUser.getIUser();
+    const modalRef = this.modalService.open(EditCourseContentModalComponent);
+    modalRef.componentInstance.courseId = this.course.id;
+    modalRef.componentInstance.courseContent = this.course.modules;
 
-    modalRef.result.then((result:Rating) => {
+    modalRef.result.then((result:Module[]) => {
       if (result) {
         console.log(result);
-        if(!this.course.ratings) this.course.ratings=[];
-        this.course.ratings.push(result);
-
+       this.course.modules = result;
       }
     }).catch((error) => {
       console.log(error);
