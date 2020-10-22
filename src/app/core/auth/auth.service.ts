@@ -80,7 +80,7 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
-          url: 'http://localhost:5200/verification',
+          url: 'https://netskills.herokuapp.com/verification',
           // This must be true.
           handleCodeInApp: true,
           // iOS: {
