@@ -7,22 +7,23 @@ import { CreateRatingComponent } from './../../components/createRating/createRat
 import { EditSkillsItemComponent } from './../../components/edit-skills-item/edit-skills-item.component';
 import { EditDescriptionItemComponent } from './../../components/edit-description-item/edit-description-item.component';
 import { AuthService } from './../../../core/auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Course } from 'src/app/shared/model/item/course';
 import { ItemService } from 'src/app/shared/service/item/item.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-single-course',
   templateUrl: './single-course.component.html',
   styleUrls: ['./single-course.component.css']
 })
-export class SingleCourseComponent extends SingleItemComponent implements OnInit {
+export class SingleCourseComponent extends SingleItemComponent implements OnInit, AfterViewInit {
 
-   course: Course;
+   course: Course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
 
    constructor(private route:ActivatedRoute,
                itemService:ItemService,
@@ -45,8 +46,6 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
     console.warn('ngOnInit COURSE');
     
-    this.course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
-
     const id = this.route.snapshot.params['id'];
     this.itemService.getSingleItemFromDBById(id,
       (course:Course) => {
@@ -164,13 +163,15 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
   openCourseContentModal() {
 
-    const modalRef = this.modalService.open(EditCourseContentModalComponent);
+    const modalRef = this.modalService.open(EditCourseContentModalComponent,  { size: 'lg' });
     modalRef.componentInstance.courseId = this.course.id;
     modalRef.componentInstance.courseContent = this.course.modules;
 
     modalRef.result.then((result:Module[]) => {
+
       if (result) {
-        console.log(result);
+
+       if(this.course.modules && this.course.modules.length) this.course.modules.splice(0, this.course.modules.length);
        this.course.modules = result;
       }
     }).catch((error) => {

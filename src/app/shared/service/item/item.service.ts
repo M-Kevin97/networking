@@ -1,3 +1,4 @@
+import { Chapter } from 'src/app/shared/model/item/chapter';
 import { Module } from './../../model/item/module';
 import { Item } from 'src/app/shared/model/item/item';
 import { Course, ICourse } from 'src/app/shared/model/item/course';
@@ -11,7 +12,6 @@ import { IUser, User } from '../../model/user/user';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
 import { View } from '../../model/item/click';
-import { Chapter } from '../../model/item/chapter';
 
 
 @Injectable({
@@ -327,10 +327,12 @@ export class ItemService {
           let ref = this.itemsDB.child(courseId).child(Database.MODULES);
 
           this.addModuleWithReference(ref,module).then(
-            (valOne:Module) => {
-              this.addChaptersWithReference(ref, valOne,
-                (module) => {
-                  resolve(module);
+            (mod:Module) => {
+
+              this.addChaptersWithReference(ref, mod,
+                (chapters:Chapter[]) => {
+                  mod.chapters = chapters;
+                  resolve(mod);
                 }
               );
             }

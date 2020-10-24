@@ -1,154 +1,238 @@
 
 
-    <form [formGroup]="modulesForm" (submit)="onSubmit()">
-      <span class="text-center">Module</span>
-      <div>
-        <label for="titleModule" class="sr-only">Titre</label>
-        <input type="text" 
-               id="titleModule" 
-               name="titleModule" 
-               [ngClass]="{'is-invalid': shouldShowModuleRequiredError(0,'titleModule')}"
-               (click)="shouldShowModuleRequiredError(0,'titleModule')"
-               formControlName="titleModule"
-               placeholder="Titre"
-               autocomplete="off"
-               required>
- 
-        <label for="descriptionModule" class="sr-only">Name </label>
-        <input type="text" 
-               id="descriptionModule" 
-               name="descriptionModule" 
-               [ngClass]="{'is-invalid': shouldShowModuleRequiredError(0,'descriptionModule')}"
-               (click)="shouldShowModuleRequiredError(0,'titleModule')"
-               formControlName="descriptionModule"
-               placeholder="Description"
-               autocomplete="off"
-               required>
+    <!-- <form [formGroup]="contentCourseForm">
+      <div formArrayName="modules">
+        <div *ngFor="let module of modulesControls.controls; let iModule = index">
+          <div [formGroupName]="iModule">
 
-        <button *ngIf="!courseModules[0]"
-                type="button" 
-                class="btn btn-primary" 
-                (click)="addModule()" 
-                [disabled]="modulesForm.invalid">Add module</button>
+            <span class="text-center">Module</span>
+            <div>
+              <label [attr.for]="'titleModule'+iModule" class="sr-only">Titre</label>
+              <input type="text" 
+                     formControlName="titleModule"
+                     [attr.id]="'titleModule'+iModule" 
+                     [attr.name]="'titleModule'+iModule" 
+                     [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'titleModule')}"
+                     (click)="shouldShowModuleRequiredError(iModule,'titleModule')"
+                     placeholder="Titre"
+                     autocomplete="off"
+                     required>
+      
+              <label [attr.for]="'descriptionModule'+iModule" class="sr-only">Name </label>
+              <input type="text" 
+                     formControlName="descriptionModule"
+                     [attr.id]="'descriptionModule'+iModule" 
+                     [attr.name]="'descriptionModule'+iModule" 
+                     [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'descriptionModule')}"
+                     (click)="shouldShowModuleRequiredError(iModule, 'descriptionModule')"
+                     placeholder="Description"
+                     autocomplete="off"
+                     required>
 
-        <button *ngIf="courseModules[0]"
-                (click)="updateModule(0)">Update</button>
+              <button *ngIf="!courseModules[iModule]"
+                      type="button" 
+                      class="btn btn-primary" 
+                      (click)="addModule()" 
+                      [disabled]="module.invalid">Add module</button>
 
-        <button *ngIf="courseModules[0]"
-                (click)="removeModule(0)">Remove</button>
-      </div>
+              <button *ngIf="courseModules[iModule] && moduleFormIsDisabled(iModule)"
+                      (click)="updateModule(iModule)">Update</button>
 
-      <div formArrayName="chapters">
-        <div *ngFor="let chapter of chapters.controls; let iChapter = index">
-          <div [formGroupName]="iChapter">
-            {{iChapter}}
-            <label [attr.for]="'titleChapter1'+iChapter" 
-                    class="sr-only">
-              Titre
-            </label>
-            <input type="text" [attr.id]="'titleChapter1'+iChapter" 
-                               formControlName="titleChapter"
-                               placeholder="Nouvelle section"
-                               autocomplete="off"
-                               required>
-    
-            <button *ngIf="courseModules[0] && !courseModules[0].chapters[iChapter]"
-                    type="button" 
-                    class="btn btn-primary" 
-                    (click)="addChapter()" 
-                    [disabled]="chapter.invalid">Add section</button>
+              <button *ngIf="courseModules[iModule] && !moduleFormIsDisabled(iModule)"
+                      (click)="saveModule(iModule)">Save</button>
 
-            <button *ngIf="courseModules[0] && courseModules[0].chapters[iChapter]"
-                    (click)="updateChapter(iChapter)">Update</button>
+              <button *ngIf="courseModules[iModule]"
+                      (click)="removeModule(iModule)">Remove</button>
+            </div>
 
-            <button *ngIf="courseModules[0] && courseModules[0].chapters[iChapter]"
-                    (click)="removeChapter(iChapter)">Remove</button>
+            <div formArrayName="chapters">
+              <div *ngFor="let chapter of getChapterControlsWithModuleIndex(iModule).controls; let iChapter = index">
+                <div [formGroupName]="iChapter">
+                  {{ iModule }} {{ iChapter }}
+                  <label [attr.for]="'titleChapter'+iModule+''+iChapter" 
+                          class="sr-only">
+                    Titre
+                  </label>
+                  <input type="text" [attr.id]="'titleChapter'+iModule+''+iChapter" 
+                                     formControlName="titleChapter"
+                                     [ngClass]="{'is-invalid': shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')}"
+                                     (click)="shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')"
+                                     placeholder="Nouvelle section"
+                                     autocomplete="off"
+                                     required>
+          
+                  <button *ngIf="courseModules[iModule] && !courseModules[iModule].chapters[iChapter]"
+                          type="button" 
+                          class="btn btn-primary" 
+                          (click)="addChapter(iModule)" 
+                          [disabled]="chapter.invalid">Add section</button>
+
+                  <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
+                                                        && chapterFormIsDisabled(iModule, iChapter)"
+                          (click)="updateChapter(iModule, iChapter)">Update</button>
+
+                  <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
+                                                        && !chapterFormIsDisabled(iModule, iChapter)"
+                          (click)="saveChapter(iModule, iChapter)">Save</button>
+
+                  <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter]"
+                          (click)="removeChapter(iModule, iChapter)">Remove</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <p>
+    <!-- <p>
       <button type="button" 
-              (click)="onSaveCourseContent()" 
+              (click)="onSubmit()" 
               [disabled]="!courseModules.length">Créer Modules</button>
-    </p>
+    </p> -->
 
 
-    {{this.modulesForm.value | json}}
+<form [formGroup]="contentCourseForm">
 
+  <div class="accordion" id="accordionCourseModules">
+    <div formArrayName="modules">
+      
+      <div class="card" *ngFor="let module of modulesControls.controls; let iModule = index">
+        <div [formGroupName]="iModule">
 
+          <div class="card-header"
+                [attr.id]="'heading'+iModule"
+                data-toggle="collapse" 
+                [attr.data-target]="'#collapse'+iModule" 
+                attr.aria-expanded="true" 
+                [attr.aria-controls]="'collapse'+iModule">
 
+            <div class="row mb-0">
+              <div class="col-11">
+                <div class="form-group col-12">
+                  <label [attr.for]="'titleModule'+iModule">
+                    Titre
+                  </label>
 
+                  <input type="text" 
+                          class="form-control mb-3"
+                          formControlName="titleModule"
+                          [attr.id]="'titleModule'+iModule" 
+                          [attr.name]="'titleModule'+iModule" 
+                          [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'titleModule')}"
+                          (click)="shouldShowModuleRequiredError(iModule,'titleModule')"
+                          placeholder="Titre"
+                          autocomplete="off"
+                          required>
 
+                </div>
 
-    <!-- 
-      <div class="accordion" id="accordionExample">
-  <div class="card">
-      <div *ngFor="let module of modules; let iModule = index;" class="card-header" 
-                                                              [attr.id]="'heading'+iModule">
-      <h5 class="mb-0">
-        <button class="btn btn-link" type="button" 
-                                     data-toggle="collapse" 
-                                     [attr.data-target]="'#collapse'+iModule" 
-                                     aria-expanded="true" 
-                                     [attr.aria-controls]="'collapse'+iModule">
-          Collapsible Group Item #1
-        </button>
-              <input type="text" class="form-control" 
-                               formControlName = "mo"
-                               id="skill"
-                               onkeydown="return (event.key !== ','
-                                                    && event.key !== ';'
-                                                    && event.key !== '='
-                                                    && event.key !== '>'
-                                                    && event.key !== '<'
-                                                    && event.key !== '.'
-                                                    && event.key !== ':'
-                                                    && event.key !== '`'
-                                                    && event.key !== '_'
-                                                    && event.key !== '§')"
-                               placeholder="Nouveau module">  
-      </h5>
-    </div>
+                <div class="form-group col-12">
+                  <label [attr.for]="'descriptionModule'+iModule">
+                    Description
+                  </label>
 
-    <div id="collapseOne" class="collapse show" 
-                          aria-labelledby="headingOne" 
-                          data-parent="#accordionExample">
-      <ul class="card-body list-group list-group-flush">
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Collapsible Group Item #2
-        </button>
-      </h5>
-    </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  <input type="text" 
+                          class="form-control"
+                          formControlName="descriptionModule"
+                          [attr.id]="'descriptionModule'+iModule" 
+                          [attr.name]="'descriptionModule'+iModule" 
+                          [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'descriptionModule')}"
+                          (click)="shouldShowModuleRequiredError(iModule, 'descriptionModule')"
+                          placeholder="Description"
+                          autocomplete="off"
+                          required>
+                </div>
+  
+                <div class="mt-3">
+                  <button *ngIf="!courseModules[iModule]"
+                          type="button" 
+                          class="btn btn-primary" 
+                          (click)="addModule()" 
+                          [disabled]="module.invalid">Add module</button>
+    
+                  <button *ngIf="courseModules[iModule] && moduleFormIsDisabled(iModule)"
+                          (click)="updateModule(iModule)">Update</button>
+    
+                  <button *ngIf="courseModules[iModule] && !moduleFormIsDisabled(iModule)"
+                          (click)="saveModule(iModule)">Save</button>
+    
+                  <button *ngIf="courseModules[iModule]"
+                          (click)="removeModule(iModule)">Remove</button>
+                </div>
+              </div>
+              <div class="col-1">
+                <span class="iconify module-expand" 
+                      data-icon="ic:round-expand-more" 
+                      data-inline="false"></span>
+
+                <!-- <span class="iconify module-expand" 
+                      data-icon="ic:round-expand-less" 
+                      data-inline="false"></span> -->
+              </div>
+            </div>
+            
+          </div>
+          <div class="card-body py-0">
+      
+            <div [attr.id]="'collapse'+iModule" 
+                  class="collapse show py-0 my-0" 
+                  [attr.aria-labelledby]="'heading'+iModule" 
+                  data-parent="#accordionCourseModules">
+      
+              <div class="my-2 py-0">
+                
+                <div *ngIf="getChapterControlsWithModuleIndex(iModule)" 
+                    formArrayName="chapters">
+                  <div *ngFor="let chapter of getChapterControlsWithModuleIndex(iModule).controls; let iChapter = index">
+                    <div [formGroupName]="iChapter">
+
+                      <div class="form-group">
+                        <label for="titleChapter">
+                          Titre
+                        </label>
+
+                        <input type="text" class="form-control"
+                                          [attr.id]="'titleChapter'+iModule+''+iChapter" 
+                                          formControlName="titleChapter"
+                                          [ngClass]="{'is-invalid': shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')}"
+                                          (click)="shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')"
+                                          placeholder="Nouvelle section"
+                                          autocomplete="off"
+                                          required>
+                      </div>
+
+                      <div class="mb-3">
+                        <button *ngIf="courseModules[iModule] && !courseModules[iModule].chapters[iChapter]"
+                                type="button" 
+                                class="btn btn-primary" 
+                                (click)="addChapter(iModule)" 
+                                [disabled]="chapter.invalid">Add section</button>
+
+                        <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
+                                                              && chapterFormIsDisabled(iModule, iChapter)"
+                                (click)="updateChapter(iModule, iChapter)">Update</button>
+
+                        <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
+                                                              && !chapterFormIsDisabled(iModule, iChapter)"
+                                (click)="saveChapter(iModule, iChapter)">Save</button>
+
+                        <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter]"
+                                (click)="removeChapter(iModule, iChapter)">Remove</button>
+                      </div>
+                    </div>
+
+                    <hr class="my-2">
+
+                  </div>
+                </div>
+    
+              </div>
+      
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-header" id="headingThree">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Collapsible Group Item #3
-        </button>
-      </h5>
-    </div>
-    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-</div> -->
+</form>

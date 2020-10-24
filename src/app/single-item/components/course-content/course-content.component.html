@@ -1,35 +1,54 @@
-<div class="accordion" id="accordionCourseContent">
-  <div class="card" *ngFor="let module of courseContent; let i = index">
-    <div class="card-header" id="headingOne">
+<div class="accordion" id="accordionCourseModules">
+  <div class="card" *ngFor="let module of (courseModules | async); let iModule = index">
+    <div class="card-header"
+         [attr.id]="'heading'+iModule"
+          data-toggle="collapse" 
+          [attr.data-target]="'#collapse'+iModule" 
+          [attr.aria-expanded]="isModuleExpanded(iModule)" 
+          [attr.aria-controls]="'collapse'+iModule"
+          (click)="setIsModuleExpanded(iModule, isModuleExpanded(iModule))">
       <h5 class="mb-0">
-        <button class="btn btn-link" 
-                type="button" 
-                data-toggle="collapse" 
-                [attr.data-target]="'#collapse'+i" 
-                aria-expanded="true" 
-                [attr.aria-controls]="'collapse'+i">
 
-          {{ module.title }}
-        </button>
+        {{ module.title }}
+        
+        <span class="pull-right">
+
+          <span *ngIf="!isModuleExpanded(iModule)"
+                class="iconify module-expand" 
+                data-icon="ic:round-expand-more" 
+                data-inline="false"></span>
+
+          <span *ngIf="isModuleExpanded(iModule)"
+                class="iconify module-expand" 
+                data-icon="ic:round-expand-less" 
+                data-inline="false"></span>
+         
+        </span>
+
       </h5>
     </div>
-    <div class="card-body">
+    <div class="card-body py-0">
 
-      <div [attr.id]="'collapse'+i" 
-            class="collapse show" 
-            [attr.aria-labelledby]="'heading'+i" 
-            data-parent="#accordionCourseContent">
+      <div [attr.id]="'collapse'+iModule" 
+            class="collapse show py-0 my-0" 
+            [attr.aria-labelledby]="'heading'+iModule" 
+            data-parent="#accordionCourseModules">
 
-        <p class="module-description text-justify mx-2 mt-3">
-          {{ module.description }}
-        </p>
-
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let chapter of module.chapters"
-              class="list-group-item">
-            {{ chapter.title }}
-          </li>
-        </ul>
+        <div class="my-2 py-0">
+          <div class="module-description border rounded">
+            <p class="module-description-text align-middle text-justify mx-2">
+              {{ module.description }}
+            </p>
+          </div>
+  
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let chapter of module.chapters"
+                class="list-group-item">
+                <span class="iconify chapter-li mr-3" data-icon="bx:bxs-check-circle" data-inline="false"></span>
+                <span class="chapter-text">{{ chapter.title }}</span>
+            </li>
+          </ul>
+        </div>
 
       </div>
     </div>

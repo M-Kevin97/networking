@@ -1,11 +1,11 @@
 <!-- Modal -->
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document">
   <div class="modal-content"> 
     <div class="modal-body">
 
       <div>
-        <app-edit-course-content [courseId]=""
-                                 [courseModules]="">
+        <app-edit-course-content [courseId]="courseId"
+                                 [courseModules]="courseContent">
         </app-edit-course-content>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <button type="button" class="btn btn-light" 
                             (click)="activeModal.close(oldCourseContent)">Annuler</button>
 
-      <button type="button" (click)="passBack()">Enregistrer</button>
+      <button type="button" (click)="saveCourseContent()">Enregistrer</button>
     </div>
   </div>
 </div>

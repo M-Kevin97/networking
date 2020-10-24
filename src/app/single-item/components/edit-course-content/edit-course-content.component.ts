@@ -18,16 +18,12 @@ export class EditCourseContentComponent implements OnInit {
 
   @Output() newCourseContentEvent = new EventEmitter<Module[]>();
   
-  modulesForm: FormGroup;
+  contentCourseForm: FormGroup;
 
+  constructor(private formBuilder:FormBuilder) { 
 
-  constructor(private formBuilder:FormBuilder,
-              private itemService:ItemService) { 
-
-    this.modulesForm = this.formBuilder.group({
-      titleModule: ['', [Validators.required]],
-      descriptionModule: ['', [Validators.required]],
-      chapters: this.formBuilder.array([]),
+    this.contentCourseForm = this.formBuilder.group({
+      modules: this.formBuilder.array([])
     });
   }
 
@@ -35,117 +31,288 @@ export class EditCourseContentComponent implements OnInit {
 
     this.oldCourseModules = Array.from(this.courseModules);
 
+    // add the first module form
+    this.modulesControls.push(this.newModuleForm());
+    this.fillContentCourseForm()
   }
 
   /*  --------------------------------- Modules --------------------------------- */
 
+  get modulesControls() : FormArray {
+    return this.contentCourseForm.get('modules') as FormArray;
+  }
+
+  fillContentCourseForm() {
+    
+    if(this.courseModules) {
+
+      console.warn('fillContentCourseForm', this.courseModules);
+
+      // for each module, fill it and add a moduleForm 
+      for (var i = 0; i < this.courseModules.length; i++) {
+       
+        // fill module form
+        this.fillModuleForm(i);
+        
+        // add new module form
+        this.modulesControls.push(this.newModuleForm());
+
+        if(!this.courseModules[i].chapters) this.courseModules[i].chapters = [];
+
+        // for each chapter, add a chapterForm and fill it and create the add chapterForm
+        for (var j = 0; j < this.courseModules[i].chapters.length; j++) {
+
+          // add a formGroup for ChapterControls
+          this.getChapterControlsWithModuleIndex(i)
+              .push(this.newChapterForm());
+
+          // fill chapter form
+          this.fillChapterForm(i,j);
+        }
+
+        // add a formGroup for ChapterControls
+        this.getChapterControlsWithModuleIndex(i)
+        .push(this.newChapterForm());
+      }
+    }
+  }
+
+  newModuleForm(): FormGroup {
+
+    return this.formBuilder.group({
+      titleModule: ['', [Validators.required]],
+      descriptionModule: ['', [Validators.required]],
+      chapters: this.formBuilder.array([]),
+    });
+  }
+
+  // add the module form values in course content array 
   addModule() {
 
-    this.courseModules.push(new Module(null, this.modulesForm.get('titleModule').value,
-                                             this.modulesForm.get('descriptionModule').value, 
+    const iLastModule = this.modulesControls.length-1;
+    const lastModuleForm = this.modulesControls.controls[iLastModule];
+    const titleM:string = lastModuleForm.get('titleModule').value;
+    const descriptionM:string = lastModuleForm.get('descriptionModule').value;
+
+    this.courseModules.push(new Module(null, titleM,
+                                             descriptionM, 
                                              []));
 
+    // add a formGroup for moduleControls
+    this.modulesControls.push(this.newModuleForm());
+    
     console.log('addModule', this.courseModules);
 
-    this.chapters.push(this.newChapter());
+    // add a formGroup for ChapterControls
+    this.getChapterControlsWithModuleIndex(iLastModule)
+        .push(this.newChapterForm());
 
+    console.log('addChapterForm', this.getChapterControlsWithModuleIndex(this.modulesControls.controls.length-1));
   }
 
-  updateModule(i:number) {
-    console.log('updateModule', i);
+  fillModuleForm(iModule:number) {
 
-    const titleM:string = this.modulesForm.get('titleModule').value;
-    const descriptionM:string = this.modulesForm.get('descriptionModule').value;
+    console.warn('fillModuleForm', this.courseModules[iModule], this.modulesControls.controls.length);
 
-    this.courseModules[i].title = titleM;
-    this.courseModules[i].description = descriptionM;
+    const modForms = this.modulesControls.controls[iModule];
+
+    if(modForms){
+
+      modForms.patchValue({
+        titleModule: this.courseModules[iModule].title,
+        descriptionModule: this.courseModules[iModule].description,
+      });
+
+      modForms.get('titleModule').disable();
+      modForms.get('descriptionModule').disable();
+    }
   }
 
-  removeModule(i:number) {
-    this.courseModules = this.courseModules.slice(i+1);
-    this.chapters.clear();
-    this.modulesForm.reset();
+  saveModule(iModule:number){
+
+    console.log('updateModule', iModule);
+
+    const moduleForm = this.modulesControls.controls[iModule];
+
+    const titleM:string = moduleForm.get('titleModule').value;
+    const descriptionM:string = moduleForm.get('descriptionModule').value;
+
+    this.courseModules[iModule].title = titleM;
+    this.courseModules[iModule].description = descriptionM;
+
+    moduleForm.get('titleModule').disable();
+    moduleForm.get('descriptionModule').disable();
   }
 
-  shouldShowModuleRequiredError(i:number, controlName) {
 
-    return !this.modulesForm.get(controlName).valid && this.modulesForm.get(controlName).touched;
+  moduleFormIsDisabled(iModule:number) :boolean{
+
+    const moduleForm = this.modulesControls.controls[iModule];
+
+    if(moduleForm) return moduleForm.get('titleModule').disabled && moduleForm.get('descriptionModule').disabled;
+  
+    return false;
   }
 
+  updateModule(iModule:number) {
+    console.log('updateModule', iModule);
+
+    const moduleForm = this.modulesControls.controls[iModule];
+
+    moduleForm.get('titleModule').enable();
+    moduleForm.get('descriptionModule').enable();
+  }
+
+  removeModule(iModule:number) {
+
+    if(this.courseModules[iModule]) 
+    {
+      let chapters = this.courseModules[iModule].chapters;
+      if(chapters.length) {
+
+        // clear chapter controls array of module control
+        this.getChapterControlsWithModuleIndex(iModule).clear();
+
+        // clear chapter elements array
+        chapters.splice(0, chapters.length);
+      }    
+  
+      // delete module control in modules formArray
+      this.modulesControls.removeAt(iModule);
+
+      // remove element in courseModules Array
+      this.courseModules.splice(iModule, 1);
+
+      // // if array is empty, add new form
+      // if(!this.modulesControls.length && !this.courseModules.length) {
+      //    // add a formGroup for moduleControls
+      //   this.modulesControls.push(this.newModuleForm());
+        
+      //   // add a formGroup for ChapterControls
+      //   this.getChapterControlsWithModuleIndex(this.modulesControls.length-1)
+      //       .push(this.newChapterForm());
+      // }
+    }
+  }
+
+  shouldShowModuleRequiredError(iModule:number, controlName) {
+
+    const moduleForm = this.modulesControls.controls[iModule] as FormGroup;
+
+    return !moduleForm.get(controlName).valid && moduleForm.get(controlName).touched;
+  }
 
 
   /*  --------------------------------- Chapters --------------------------------- */
 
-  get chapters() : FormArray {
-    return this.modulesForm.get("chapters") as FormArray;
+  // get chapterControls in modulesControlsArray
+  getChapterControlsWithModuleIndex(iModule:number) : FormArray {
+
+    var md = this.modulesControls.controls[iModule] 
+                  ? this.modulesControls.controls[iModule].get("chapters") as FormArray 
+                  :  null;
+
+    return md ? md : null;
   }
 
-  newChapter(): FormGroup {
+  newChapterForm(): FormGroup {
     return this.formBuilder.group({
       titleChapter: ['', [Validators.required]],
     });
   }
 
-  addChapter() {
-    const i = this.chapters.length-1;
-    console.log('this.chapters.length', i, this.chapters);
+  addChapter(iModule:number) {
 
-    const titleC:string = this.chapters.controls[i].get('titleChapter').value;
+    let chapters = this.getChapterControlsWithModuleIndex(iModule);
+    if(chapters) {
 
-    this.courseModules[0].chapters.push(new Chapter(null, titleC));
+      const iChapter = chapters.length-1;
 
-    console.log('addChapter', this.chapters);
+      console.log('this.chapters.length', iChapter, chapters);
 
-    this.chapters.push(this.newChapter());
+      const titleC:string = chapters.controls[iChapter]
+                                    .get('titleChapter').value;
+  
+      this.courseModules[iModule].chapters.push(new Chapter(null, titleC));
+
+      chapters.controls[iChapter].get('titleChapter').disable();
+
+      chapters.push(this.newChapterForm());
+  
+      console.log('addChapter', chapters);
+      
+    }
   }
 
-  updateChapter(i:number){
+  fillChapterForm(iModule:number, iChapter:number) {
 
-    const titleC:string = this.chapters.controls[i].get('titleChapter').value;
+    console.warn('fillChapterForm', this.courseModules[iModule].chapters[iChapter], 
+                                    this.getChapterControlsWithModuleIndex(iModule).controls.length);
 
-    console.log('updateChapter', i, this.chapters, titleC);
+    if(this.modulesControls.controls[iModule]) {
 
-    this.courseModules[0].chapters[i].title = titleC;
+      let chapterForms = this.getChapterControlsWithModuleIndex(iModule);
+
+      if(chapterForms) {
+
+        chapterForms.controls[iChapter].patchValue({
+          titleChapter: this.courseModules[iModule].chapters[iChapter].title,
+        });
+
+        chapterForms.controls[iChapter].get('titleChapter').disable();
+      }
+    }
   }
 
-  removeChapter(i:number) {
-    this.chapters.removeAt(i);
-    this.courseModules[0].chapters = this.courseModules[0].chapters.slice(i+1);
+
+  saveChapter(iModule:number, iChapter:number){
+
+    let chapters = this.getChapterControlsWithModuleIndex(iModule);
+    const titleC:string = chapters.controls[iChapter].get('titleChapter').value;
+
+    console.log('updateChapter', iChapter, chapters, titleC);
+
+    this.courseModules[iModule].chapters[iChapter].title = titleC;
+
+    chapters.controls[iChapter].get('titleChapter').disable();
   }
 
-  shouldShowChapterRequiredError(i:number, controlName) {
+  updateChapter(iModule:number, iChapter:number){
 
-    return !this.chapters.controls[i].get(controlName).valid && this.chapters.controls[i].get(controlName).touched;
+    let chapters = this.getChapterControlsWithModuleIndex(iModule);
+
+    chapters.controls[iChapter].get('titleChapter').enable();
   }
+
+
+  chapterFormIsDisabled(iModule:number, iChapter:number) :boolean{
+
+    let chapters = this.getChapterControlsWithModuleIndex(iModule);
+    if(chapters) return chapters.controls[iChapter].get('titleChapter').disabled;
+  
+    return false;
+  }
+
+  removeChapter(iModule:number, iChapter:number) {
+
+    this.getChapterControlsWithModuleIndex(iModule).removeAt(iChapter);
+
+    this.courseModules[iModule].chapters.splice(iChapter, 1);
+
+  }
+
+  
+  shouldShowChapterRequiredError(iModule:number, iChapter:number, controlName) {
+
+    let chapters = this.getChapterControlsWithModuleIndex(iModule);
+
+    return !chapters.controls[iChapter].get(controlName).valid 
+            && chapters.controls[iChapter].get(controlName).touched;
+  }
+
 
   onSubmit() {
-    console.log(this.modulesForm.value);
+    console.log(this.contentCourseForm.value);
+    //this.newCourseContentEvent.next(this.courseModules);
   }
-
-  onSaveCourseContent() {
-    if(this.oldCourseModules.length && this.courseModules.length) this.updateCourseContent();
-    else if(!this.oldCourseModules.length && this.courseModules.length) this.createCourseContent();
-  }
-
-  private createCourseContent() {
-    this.itemService.addCourseContent(this.courseModules, this.courseId, 
-      (val:Module[]) => {
-        this.courseModules = val;
-        this.newCourseContentEvent.next(val);
-        console.log('createCourseContent', JSON.stringify(val));
-      }
-    );
-  }
-
-  private updateCourseContent() {
-    this.itemService.updateCourseContent(this.courseModules, this.courseId, 
-      (val:Module[]) => {
-        this.courseModules = val;
-        this.newCourseContentEvent.next(val);
-        console.log('updateCourseContent', JSON.stringify(val));
-      }
-    );
-  }
-
-
 }
