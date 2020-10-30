@@ -37,7 +37,8 @@ export class AppComponent {
 
   private isAuthRoute() {
     return (this.router.url.includes(RouteUrl.LOGIN) || this.router.url.includes(RouteUrl.SIGNUP)
-                                                     || this.router.url.includes(RouteUrl.VERIFICATION_LINK));
+                                                     || this.router.url.includes(RouteUrl.AUTH)
+                                                     || this.router.url.includes(RouteUrl.PASSWORD_FORGOTTEN));
   }
 
   displayHeader()

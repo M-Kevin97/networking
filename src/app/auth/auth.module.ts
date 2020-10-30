@@ -1,6 +1,8 @@
+import { SignupWithComponent } from './pages/signup-with/signup-with.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { PasswordForgottenComponent } from './pages/password-forgotten/password-forgotten.component';
 import { PasswordBoxComponent } from './components/password-box/password-box.component';
 import { EmailBoxComponent } from './components/email-box/email-box.component';
-import { VerificationComponent } from './pages/verification/verification.component';
 import { LoginBoxComponent } from './components/login-box/login-box.component';
 import { CoreModule } from './../core/core.module';
 import { NgModule } from '@angular/core';
@@ -10,6 +12,7 @@ import { AuthRoutingRoutes } from './auth-routing.routing';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { CountdownModule } from 'ngx-countdown';
+import { VerificationComponent } from './components/verification/verification.component';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { CountdownModule } from 'ngx-countdown';
     LoginBoxComponent,
     VerificationComponent,
     EmailBoxComponent,
-    PasswordBoxComponent
+    PasswordBoxComponent,
+    PasswordForgottenComponent,
+    PasswordResetComponent,
+    SignupWithComponent
   ],
   exports: [
     LoginBoxComponent

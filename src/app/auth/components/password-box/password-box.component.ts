@@ -1,6 +1,6 @@
-import { AuthService } from 'src/app/core/auth/auth.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-password-box',
@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PasswordBoxComponent implements OnInit {
 
-  @Output() passwordUpdated = new EventEmitter();
+  @Output() password:EventEmitter<string> = new EventEmitter();
   
   passwordForm: FormGroup;
   
@@ -22,8 +22,7 @@ export class PasswordBoxComponent implements OnInit {
   errorConfirmPasswordMessage:string = ''; 
   errorConfirmPassword:boolean =false;
 
-  constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -74,28 +73,21 @@ export class PasswordBoxComponent implements OnInit {
     } else {
       this.errorConfirmPassword = false;
       this.errorPassword = false;
+      this.sendPassword();
     }
   }
 
-  onUpdatePassword() {
+  sendPassword() {
 
-    const pwd = this.passwordForm.get('confirmPassword').value;
-
+    const md5 = new Md5();
+    const pwd = (md5.appendStr(this.passwordForm.get('confirmPassword').value).end()).toString();
+    
     if(!pwd) {
       this.errorConfirmPassword = false;
       this.errorConfirmPasswordMessage = "Veuillez confirmer le mot de passe.";
+    }else {
+      this.password.next(pwd);
     }
-
-    this.authService.updatePasswordWith(pwd).then(
-      () => {
-        console.warn('updatePasswordWith');
-        this.passwordUpdated.next(true);
-      }
-    ).catch(
-      (error) => {
-        this.checkPasswordError(error.code);
-      }
-    );
   }
 
   private hasLowerCase(str:string) {
@@ -137,29 +129,6 @@ export class PasswordBoxComponent implements OnInit {
     }
   }
 
-  private resetPasswordError() {
-    this.errorPassword = false;
-    this.errorPasswordMessage = 'Le mot de passe doit contenir au moins 8 caractères majuscules et minuscules ainsi que des chiffres et des symboles (tels que @ & ! ? $ #).';
-  }
-
-  private checkPasswordError(errorCode:string) {
-
-    console.warn('checkErrorAuth',errorCode);
-
-    switch (errorCode){
-
-      case 'auth/weak-password': {
-        console.warn('checkErrorAuth1',errorCode);
-        this.errorPasswordMessage = 'Veuillez choisir un mot de passe plus sûr. Essayer de mélanger des chiffres des lettres et des symboles (tels que @ & ! ? $ #)';
-        this.errorPassword = true;
-        this.passwordForm.reset();
-        break;
-      }
-      default: { 
-        this.resetPasswordError();
-        break; 
-      } 
-    }
-  }
+  
 
 }

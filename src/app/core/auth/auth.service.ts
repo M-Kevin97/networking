@@ -26,6 +26,14 @@ export class AuthService {
     this._isAuth = value;
   }
 
+  private _preSignUpUser: firebase.auth.UserCredential;
+  public get preSignUpUser(): firebase.auth.UserCredential {
+    return this._preSignUpUser;
+  }
+  public set preSignUpUser(value: firebase.auth.UserCredential) {
+    this._preSignUpUser = value;
+  }
+
 
   constructor(private userService:UserService) { 
     
@@ -46,25 +54,37 @@ export class AuthService {
   }
 
 
-  createAccount(user:User) {
+  createAccountWithEmailAndPassword(mail:string, password:string) {
     return new Promise (
       (resolve, reject) => {
-
-        console.error('password', user.password);
-        //firebase.auth().sendSignInLinkToEmail(user.mail, actionCodeSettings)
-        firebase.auth().createUserWithEmailAndPassword(user.mail, user.password).then(
+        firebase.auth().createUserWithEmailAndPassword(mail, password).then(
           () => {
-
-            user.id = firebase.auth().currentUser.uid;
-            this.userService.addNewUserToDB(user);
-    
             resolve();
-
           }).catch(
           (error) => {
             reject(error.code);
           }
         );
+      }
+    );
+  }
+
+  // Create an account with Google and maybe Facebook
+  createAccountWith(user:User) {
+    return new Promise (
+      (resolve, reject) => {
+        if(user) {
+          this.userService.addNewUserToDB(user).then(
+            (bool) => {
+              if(bool) resolve();
+              else reject();
+            }
+          ).catch(
+            (error) => {
+              reject(error.code);
+            }
+          );
+        }
       }
     );
   }
@@ -80,7 +100,7 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
-          url: 'https://netskills.herokuapp.com/verification',
+          url: 'https://netskills.herokuapp.com/auth',
           // This must be true.
           handleCodeInApp: true,
           // iOS: {
@@ -93,16 +113,6 @@ export class AuthService {
           // },
           //dynamicLinkDomain: 'example.page.link'
         };
-
-        // user.sendEmailVerification().then(
-        //   () => {
-        //     window.alert("verification sent");
-        //   }
-        // ).catch(
-        //   (error) => {
-        //     console.error(error.message);
-        //   }
-        // );
 
         firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
         .then(function() {
@@ -126,83 +136,36 @@ export class AuthService {
     return new Promise (
       (resolve, reject) => {
         if (firebase.auth().isSignInWithEmailLink(window.location.href)) resolve(true);
-        else resolve(false);
+        else reject(false);
       }
     );
   }
-
-  // emailVerification(){
-  //   return new Promise (
-  //     (resolve, reject) => {
-
-  //       // Confirm the link is a sign-in with email link.
-  //       if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-
-  //         // Additional state parameters can also be passed via URL.
-  //         // This can be used to continue the user's intended action before triggering
-  //         // the sign-in operation.
-  //         // Get the email if available. This should be available if the user completes
-  //         // the flow on the same device where they started it.
-  //         var email = window.localStorage.getItem('netSkillsEmailForSignIn');
-
-  //         if (!email) {
-  //           // User opened the link on a different device. To prevent session fixation
-  //           // attacks, ask the user to provide the associated email again. 
-  //           // For example:
-  //           email = window.prompt('Please provide your email for confirmation');
-  //         }
-  //         // The client SDK will parse the code from the link for you.
-  //         firebase.auth().signInWithEmailLink(email, window.location.href)
-  //           .then(function(result) {
-  //             // Clear email from storage.
-  //             window.localStorage.removeItem('netSkillsEmailForSignIn');
-  //             // You can access the new user via result.user
-  //             // Additional user info profile not available via:
-  //             // result.additionalUserInfo.profile == null
-
-  //             // You can check if the user is new or existing:
-  //             if(result.additionalUserInfo.isNewUser) resolve();
-
-  //           }).catch(function(error) {
-  //             // Some error occurred, you can inspect the code: error.code
-  //             // Common errors could be invalid email and invalid or expired OTPs.
-  //             reject(error);
-  //           }
-  //         );
-  //       }
-  //     }
-  //   );
-  // }
 
 
   emailVerification(email:string){
     return new Promise (
       (resolve, reject) => {
 
-        // Confirm the link is a sign-in with email link.
-        if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+        // The client SDK will parse the code from the link for you.
+        firebase.auth().signInWithEmailLink(email, window.location.href)
+          .then(function(result:firebase.auth.UserCredential) {
+            // Clear email from storage.
+            window.localStorage.removeItem('netSkillsEmailForSignIn');
+            // You can access the new user via result.user
+            // Additional user info profile not available via:
+            // result.additionalUserInfo.profile == null
 
-          // The client SDK will parse the code from the link for you.
-          firebase.auth().signInWithEmailLink(email, window.location.href)
-            .then(function(result:firebase.auth.UserCredential) {
-              // Clear email from storage.
-              window.localStorage.removeItem('netSkillsEmailForSignIn');
-              // You can access the new user via result.user
-              // Additional user info profile not available via:
-              // result.additionalUserInfo.profile == null
+            resolve(result);
+            // You can check if the user is new or existing:
+            // if(result.additionalUserInfo.isNewUser) resolve(result);
+            // else reject();
 
-              resolve(result);
-              // You can check if the user is new or existing:
-              // if(result.additionalUserInfo.isNewUser) resolve(result);
-              // else reject();
-
-            }).catch(function(error) {
-              // Some error occurred, you can inspect the code: error.code
-              // Common errors could be invalid email and invalid or expired OTPs.
-              reject(error);
-            }
-          );
-        }
+          }).catch(function(error) {
+            // Some error occurred, you can inspect the code: error.code
+            // Common errors could be invalid email and invalid or expired OTPs.
+            reject(error);
+          }
+        );
       }
     );
   }
@@ -234,6 +197,13 @@ export class AuthService {
     );
   }
 
+  googleSingIn(cb) {
+
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    return firebase.auth().signInWithPopup(provider).then(cb);
+
+  }
 
   authStateChanged(){
     return new Promise(
@@ -246,6 +216,7 @@ export class AuthService {
                 this.getCurrentUserDataWithId(user.uid).then(
                   (bool) => {
                     if(bool) {
+                      
                       this.isAuth = bool;
                       console.log(user.email + 'est connecté');
                       resolve(true);
@@ -290,17 +261,91 @@ export class AuthService {
     );
   }
 
-  updatePasswordWith(newPassword:string){
+  updatePasswordWith(newPassword:string, user?:firebase.User){
     return new Promise(
       (resolve, reject) => { 
         if(!newPassword) reject();
-        var user = firebase.auth().currentUser;
+        
+        if(!user) user = firebase.auth().currentUser;
 
         user.updatePassword(newPassword).then(function() {
           // Update successful.
           resolve();
         }).catch(function(error) {
           // An error happened.
+          reject(error);
+        });
+      }
+    );
+  }
+
+  confirmPasswordReset(actionCode:any, newPassword:string) {
+
+    return new Promise(
+      (resolve, reject) => { 
+
+        if(!newPassword) reject();
+
+        var auth = firebase.auth();
+    
+        // Save the new password.
+        auth.confirmPasswordReset(actionCode, newPassword).then(
+          function() {
+
+          // Password reset has been confirmed and new password updated.
+          resolve();
+    
+          // TODO: If a continue URL is available, display a button which on
+          // click redirects the user back to the app via continueUrl with
+          // additional state determined from that URL's parameters.
+        }).catch(
+          function(error) {
+          // Error occurred during confirmation. The code might have expired or the
+          // password is too weak.
+          reject(error);
+        });
+      }
+    );
+  }
+
+  sendMailPasswordReinitialisation(email:string) {
+    return new Promise (
+      (resolve, reject) => {
+
+        var auth = firebase.auth();
+
+        var actionCodeSettings = {
+          // URL you want to redirect back to. The domain (www.example.com) for this
+          // URL must be whitelisted in the Firebase Console.
+          //url: 'https://netskills.herokuapp.com/auth',
+          url: 'https://localhost:4200/auth',
+          // This must be true.
+          handleCodeInApp: true,
+          // iOS: {
+          //   bundleId: 'com.example.ios'
+          // },
+          // android: {
+          //   packageName: 'com.example.android',
+          //   installApp: true,
+          //   minimumVersion: '12'
+          // },
+          //dynamicLinkDomain: 'example.page.link'
+        };
+
+        // localize the password reset email by updating the language code on the Auth instance before sending the email
+        // firebase.auth().languageCode = 'de';
+        
+        // To apply the default browser preference instead of explicitly setting it.
+        firebase.auth().useDeviceLanguage();
+        
+        auth.sendPasswordResetEmail(email, actionCodeSettings).then(function() {
+          // Email sent.
+          console.log("verification sent");
+          resolve();
+
+        }).catch(function(error) {
+          // An error happened.
+          console.error(error.message);
           reject(error);
         });
       }
@@ -314,4 +359,8 @@ export class AuthService {
       }
     );
   }
+
+  /**
+   * Authentification Handler (Reset Password / VerifyEmail / RecoverEmail)
+   */
 }

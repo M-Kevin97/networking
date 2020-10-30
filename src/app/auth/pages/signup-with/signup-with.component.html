@@ -1,0 +1,118 @@
+<div class="auth-section h-100 row align-items-center justify-content-center text-center">
+
+  <div class="col-6">
+
+    <div class="auth-title">
+      <!-- À modifier (Image logo Nom de la plateforme)-->
+      <a routerLink='/home' routerLinkActive="router-link-active">
+          <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
+      </a>
+    </div>
+
+    <div class="success-message alert alert-success" 
+        *ngIf="successMessage">
+
+      <h3>Félicitations !</h3>
+
+      <p> {{ successMessage }} </p>
+
+      <countdown #countdown [config]="{leftTime: 4}" 
+                            (event)="onTimerFinished($event)">
+      </countdown>
+    </div>
+
+    <div class="email-not-verified alert alert-danger" 
+         *ngIf="errorMessage && !successMessage">
+
+      <p class="email-not-verified-text">
+        {{ errorMessage }}
+      </p>
+    </div>
+
+  </div>
+
+  <div class="auth-body col-lg-4">
+      <div class="auth-content justify-content-center">
+        <div class="user-signedIn-info-block text-center px-4 py-3 mb-3 rounded shadow">
+
+          <div class="user-signedIn-info mb-3">
+            <div class="row user-section align-items-center">      
+              <div class="photo col-3">  
+                  <!-- Si l'utilisateur a une PP afficher sa PP -->
+                  <app-user-avatar *ngIf="ppLink" 
+                                  [photoUrl]="ppLink">
+                  </app-user-avatar>
+              </div> 
+              <div class="col-9">
+
+                <h5 class="nom-user">{{ firstname }} {{ lastname }}</h5>
+                
+                <p class="mail-user">{{ mail }}</p>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="sr-only" for="role">Activité</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                  <div class="input-group-text"
+                          type="div"
+                          placement="bottom"
+                          triggers="mouseenter:mouseleave"
+                          ngbPopover="Cette information ne sera pas visible par les autres utilisateurs."
+                          container="body"
+                          #popoverRoleInfo="ngbPopover"
+                          [autoClose]="'outside'">
+        
+                          
+                      <span class="iconify" 
+                              data-icon="clarity:help-info-solid" 
+                              data-inline="false">
+                      </span>
+                  </div>
+              </div>
+              <select class="form-control form-control-sm" 
+                      id="role" 
+                      (change)="onChangeSelectRole($event.target.value)">
+        
+        
+                  <option value="roleInit" disabled selected>
+                      {{ roleInit }}
+                  </option>
+                  <option *ngFor="let role of roles; let i = index"
+                          [value]="roles[i]">
+                      {{ roles[i] }}
+                  </option>
+              </select>
+            </div>
+          </div>
+              
+          <app-password-box (password)="password = $event">
+          </app-password-box>
+        
+          <button type="submit" 
+                  class="btn-login btn btn-primary btn-block"
+                  [disabled]="!password.length"
+                  (click)="onUpdatePassword()">
+            Créer un compte
+          </button>
+
+
+
+          <hr class="my-4">
+
+          <p>
+            <small>Vous avez déjà un compte ?</small>
+          </p>
+          <button type="submit" class="btn btn-success btn-block"
+                                (click)="goToSignIn()">
+              Se connecter
+          </button>
+
+        </div>
+
+      </div>
+  </div>
+</div>

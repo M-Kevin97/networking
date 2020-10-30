@@ -3,6 +3,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
+import { User } from 'src/app/shared/model/user/user';
+import { Md5 } from 'ts-md5';
+
+enum AuthErrorCodeManagement {
+  EMAIL_INVALID = 'auth/invalid-email',
+  USER_DISABLED = 'auth/user-disabled',
+  USER_NOT_FOUND = 'auth/user-not-found',
+  WRONG_PASSWORD = 'auth/wrong-password'
+}
 
 @Component({
   selector: 'app-login-box',
@@ -21,6 +30,8 @@ export class LoginBoxComponent implements OnInit {
 
   errorEmailMessage:string = ''; 
   errorEmail:boolean = false;
+
+  isVerificationEmailSent:boolean
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -44,16 +55,17 @@ export class LoginBoxComponent implements OnInit {
   onSignIn(){
     
     console.log(this.signInForm.value);
-    
+
+    const md5 = new Md5();
     const email = this.signInForm.get('email').value;
-    const password = this.signInForm.get('password').value;
+    const password =  md5.appendStr(this.signInForm.get('password').value).end();
     
-    this.authService.signInUser(email, password).then(
+    this.authService.signInUser(email, password.toString()).then(
       () => {
         this.router.navigate([RouteUrl.FEED]);
       },
       (error) => {
-        this.errorMessage = error;
+        this.displayError(error.code);
       }
     );
   }
@@ -90,7 +102,6 @@ export class LoginBoxComponent implements OnInit {
     return !this.signInForm.get(controlName).valid && this.signInForm.get(controlName).touched;
   }
 
-
   shouldShowSignInError(controlName) {
 
     switch (controlName){
@@ -108,6 +119,37 @@ export class LoginBoxComponent implements OnInit {
         break; 
       } 
     }
+  }
+
+  displayError(errorCode:string) {
+
+    switch(errorCode) {
+
+      case AuthErrorCodeManagement.EMAIL_INVALID: {
+        this.errorMessage = "L'adresse email est invalide";
+        break;
+      }
+      case AuthErrorCodeManagement.USER_DISABLED: {
+        this.errorMessage = "Ce compte a été désactivé";
+        break;
+      }
+      case AuthErrorCodeManagement.USER_NOT_FOUND: {
+        this.errorMessage = "L'adresse email est inexistante";
+        break;
+      }
+      case AuthErrorCodeManagement.WRONG_PASSWORD: {
+        this.errorMessage = "Le mot de passe est invalide, veuillez réessayer";
+        break;
+      }
+      default : {
+        break;
+      }
+    }
+
+  }
+
+  getRoute() {
+    return RouteUrl;
   }
 
 }

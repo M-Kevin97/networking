@@ -6,7 +6,7 @@
     margin-left: auto;
     margin-right: auto;
     padding-top:25vh;
-    width: 75%;
+    width: 68%;
 }
 
 .categories-card-row {
@@ -23,8 +23,8 @@
 
 .card-cat {
 
-    height:13rem;
-    width:11rem;
+    height:10em;
+    width:10em;
     margin-left: auto;
     margin-right: auto;
 }
@@ -42,7 +42,8 @@
 
 .card-title {
 
-    font-weight: 600;
+    font-weight: 500;
+    font-size: small;
     margin-left: auto;
     margin-right: auto;
 }
@@ -56,7 +57,7 @@
     padding-top: 5vh;
     padding-bottom: 5vh;
     background-color: white;
-    border-top:solid 1px #2E7B9C;
+    border-bottom:solid 1px #2E7B9C;
 }
 
 .section-menu-home {
@@ -72,9 +73,9 @@
     width: 95%;
 }
 
-.section-search-title h3 {
-    font-size: 1.3em;
-    font-weight: 400;
+.section-search-title span {
+    font-size: 1.1em;
+    font-weight: 380;
     /*text-transform: uppercase;*/
     width: 90%;
 }
@@ -83,17 +84,21 @@
     height: 83vh;
 }
 
+.subtitle {
+    font-family: inherit;
+}
+
 .section-search {
 
     background-color: white;
 
-    height: 20vh;
-    width: 90%;
+    height: 5em;
+    width: 85%;
     cursor: pointer;
 
-    -webkit-box-shadow: 0.7px 0.7px 0.7px 0.7px rgba(166,166,166,1);
-    -moz-box-shadow: 0.7px 0.7px 0.7px 0.7px rgba(166,166,166,1);
-    box-shadow: 0.7px 0.7px 0.7px 0.7px rgba(166,166,166,1);
+    border-radius: 2rem;
+    -moz-border-radius: 2rem;
+    -webkit-border-radius: 2rem;
 }
 
 .section-search-img {
@@ -101,10 +106,23 @@
     height: 8vw;
 }
 
+.section-search-icon {
+    font-size: 2.4em;
+}
+
+.section-search:focus, .section-search:hover{
+    background-color: #F9FAFB
+}
+
 .section-search:focus, .btn-search:hover{
     background-color:rgba(224, 221, 221, 0.356);
 }
 
-.section-search-courses, .section-search-events{
-    margin-bottom: 5vh;
+.section-search-events{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+}
+
+.arrow-search-section {
+    font-size: 2em;
 }

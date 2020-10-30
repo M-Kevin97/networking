@@ -12,7 +12,7 @@ import { getTsBuildInfoEmitOutputFilePath } from 'typescript';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit() {}
 

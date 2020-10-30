@@ -1,11 +1,8 @@
-import { RouteUrl } from './../../../core/router/route-url.enum';
-import { UserLevel } from './../../../shared/model/UserLevel.enum';
-import { Database } from 'src/app/core/database/database.enum';
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { User } from 'src/app/shared/model/user/user';
 
 
@@ -31,15 +28,10 @@ export class SignupComponent implements OnInit {
 
   hasSelected:boolean = false;
 
-  roles:string[] = [];
-  roleSelect:string;
-  roleInit:string = "Activité";
-
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router) { 
 
-    this.roles = ["Salarié", "Sans activité", "Étudiant", "Formateur", "Autre"];  
     this.resetMailError();     
   }
 
@@ -49,25 +41,9 @@ export class SignupComponent implements OnInit {
 
   initForm(){
     this.signUpForm = this.formBuilder.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required, Validators.email]],
     });
-
-    this.roleSelect = this.roleInit;
-  }
-
-  isRole(role:string) {
-
-    console.log(role);
-   return role === this.roles[0];
-  }
-
-  onChangeSelectRole(event) {
-
-    console.log(event);
-    this.roleSelect = event;
   }
 
   checkConfirmEmail() {
@@ -123,7 +99,7 @@ export class SignupComponent implements OnInit {
     retVal = '&'+retVal+'@';
 
     return retVal;
-}
+  }
 
   onSignUp(){
 
@@ -132,32 +108,16 @@ export class SignupComponent implements OnInit {
       return;
     }*/
   
-    console.log(this.signUpForm.value);
-    
-    const firstname:string = this.signUpForm.get('firstname').value;
-    const lastname:string = this.signUpForm.get('lastname').value;
     const email:string = this.signUpForm.get('confirmEmail').value;
-    const ppLink:string = Database.DEFAULT_PP_USER;
-    const role:string = this.roleSelect === this.roleInit ? this.roles[this.roles.length-1]: this.roleSelect;
     const password:string = this.generatePassword(); 
 
-    console.warn(firstname, password);
-
-    this.authService.createAccount(new User(null, firstname, 
-                                                lastname, 
-                                                email, 
-                                                password,
-                                                ppLink,
-                                                null,
-                                                null,
-                                                null,
-                                                role,
-                                                UserLevel.STANDARD,
-                                                false,
-                                                [],
-                                                []))
-      .then(
+    this.authService.createAccountWithEmailAndPassword(email, password).then(
       () => {
+
+        // this.authService.preSignUpUser = new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+        // this.authService.preSignUpUser.mail = email;
+
         this.signUpForm.reset();
         this.authService.sendEmailVerification().then(
           ()=>{
@@ -166,12 +126,95 @@ export class SignupComponent implements OnInit {
         );
       },
       (error) => {
+
         this.checkErrorAuth(error);
       }
     );
   }
+
+  onGoogleSignUpWithPopUp() {
+
+    if(this.authService.isAuth) {
+      this.authService.signOutUser().then(
+        () => {
+          this.googleSignUp();
+        }
+      );
+    } else {
+      this.googleSignUp();
+    }
+  }
+
+  private googleSignUp() {
+    this.authService.googleSingIn(
+      (result:firebase.auth.UserCredential) => {
+        var verified_email = result.additionalUserInfo.profile['verified_email'];
+        
+        if(!verified_email) {
+          this.authService.sendEmailVerification().then(
+            (val) => {
+
+                this.isVerificationEmailSent = true;
+            },
+            (error) => {
+              this.checkErrorAuth(error);
+            }
+          );
+        } else {
+
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential;
+          // The signed-in user info.
+          this.authService.preSignUpUser = result;
+
+          this.router.navigate([RouteUrl.SIGNUP_WITH]);
+
+        }
+      }).catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+        console.error(error);
+        this.checkErrorAuth(error.code);
+      }
+    );
+  }
+
+  // onGoogleSignUpWithRedirect() {
+
+  //   firebase.auth().signInWithRedirect(provider);
+
+  //   var provider = new firebase.auth.GoogleAuthProvider();
+
+  //   firebase.auth().signInWithPopup(provider).then(function(result) {
+  //     // This gives you a Google Access Token. You can use it to access the Google API.
+  //     var token = result.credential.accessToken;
+  //     // The signed-in user info.
+  //     var user = result.user;
+  //     // ...
+  //   }).catch(function(error) {
+  //     // Handle Errors here.
+  //     var errorCode = error.code;
+  //     var errorMessage = error.message;
+  //     // The email of the user's account used.
+  //     var email = error.email;
+  //     // The firebase.auth.AuthCredential type that was used.
+  //     var credential = error.credential;
+  //     // ...
+  //   });
+  // }
+
+
+  goToSignIn() {
+    this.router.navigate([RouteUrl.LOGIN]);
+  }
   
-  private resetMailError() {
+  resetMailError() {
     this.errorEmail = false;
     this.errorEmailMessage = 'Vous en aurez besoin pour vous reconnecter ou pour réinitialiser votre mot de passe.';
   }

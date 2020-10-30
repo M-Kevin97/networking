@@ -1,37 +1,48 @@
+<div *ngIf="isVerificationEmailSent" class="alert alert-success p-4" role="alert">
+    <p class="text-justify text-success">
+        Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui a été envoyé sur votre boite mail.
+    </p>
+</div>
+
 <div class="signin-block text-center px-4 py-3 rounded shadow">
-  <div class="signin-title mt-3 mb-3">
-      <h4>Se connecter</h4>
-  </div>
-  <form [formGroup]="signInForm" class="signin-form">
-    <div class="form-group mb-3">
-        <ng-template #popEmailContent>
-            <div class="text-danger field-error-class">
-                {{ errorEmailMessage }}
-            </div>
-        </ng-template>
-        <label for="email" class="sr-only">
-            Adresse mail
-            <span style="color: rgb(247, 103, 103);">*</span>
-        </label>
-        <input type="email" class="form-control form-control-lg" 
-                            [ngClass]="{ 'is-invalid': shouldShowRequiredError('email') || shouldShowSignInError('email') }"
-                            formControlName="email"
-                            id="email" 
-                            aria-describedby="emailHelp" 
-                            placeholder="Email"
-                            type="input"
-                            placement="left"
-                            triggers="manual" 
-                            [ngbPopover]=popEmailContent
-                            container="body"
-                            #popoverEmail="ngbPopover"
-                            (click)="(shouldShowRequiredError('email') || shouldShowSignInError('email')) && popoverEmail.open()"
-                            [autoClose]="'outside'"
-                            required>
-        <small id="emailHelp" class="form-text text-muted">
-            Nous ne partagerons jamais votre e-mail.
-        </small>
-    </div>
+
+    <h5 class="mb-3">Se connecter</h5>
+
+    <form [formGroup]="signInForm" class="signin-form">
+        <div class="form-group mb-3">
+            <ng-template #popEmailContent>
+                <div class="text-danger field-error-class">
+                    {{ errorEmailMessage }}
+                </div>
+            </ng-template>
+            <label for="email" class="sr-only">
+                Adresse mail
+                <span style="color: rgb(247, 103, 103);">*</span>
+            </label>
+            <input type="email" class="form-control form-control-lg" 
+                                [ngClass]="{ 'is-invalid': shouldShowRequiredError('email') || shouldShowSignInError('email') }"
+                                formControlName="email"
+                                id="email" 
+                                aria-describedby="emailHelp" 
+                                placeholder="Email"
+                                type="input"
+                                placement="left"
+                                triggers="manual" 
+                                [ngbPopover]=popEmailContent
+                                container="body"
+                                #popoverEmail="ngbPopover"
+                                (click)="(shouldShowRequiredError('email') || shouldShowSignInError('email')) && popoverEmail.open()"
+                                [autoClose]="'outside'"
+                                tabindex="1" 
+                                autocapitalize="off" 
+                                autocorrect="off" 
+                                autofocus="autofocus"
+                                autocomplete="email"
+                                required>
+            <small id="emailHelp" class="form-text text-muted">
+                Nous ne partagerons jamais votre e-mail.
+            </small>
+        </div>
 
       <div class="form-group mb-4">
         <ng-template #popPasswordContent>
@@ -62,6 +73,8 @@
                     #popoverPassword="ngbPopover"
                     (click)="(shouldShowRequiredError('password') || shouldShowSignInError('password')) && popoverPassword.open()"
                     [autoClose]="'outside'"
+                    autocomplete="current-password"
+                    ng-hide="true"
                     required>
   
             <div class="input-group-append" *ngIf="hidePassword" (click)="hidePassword = !hidePassword">
@@ -91,21 +104,30 @@
                                   id="RememberMe">
       </div> -->
 
-      <button type="submit" class="btn-login btn btn-primary btn-lg btn-block"
-                          [disabled] = "signInForm.invalid || errorEmail || errorPassword"
-                          (click)="onSignIn()">
-          Se connecter
-      </button>
-  </form>
-  <p class="text-danger my-2">{{ errorMessage }}</p>
-  
-  <a class="" href="">Mot de passe oublié ?</a>
-</div>
+        <button type="submit" class="btn-login btn btn-primary btn-lg btn-block"
+                            [disabled] = "signInForm.invalid || errorEmail || errorPassword"
+                            (click)="onSignIn()">
+            Se connecter
+        </button>
+    </form>
 
-<div class="signin-block-signup justify-content-center text-center px-4 rounded shadow ">
-  <button type="submit" class="btn btn-success btn-lg btn-block"
-                        (click)="goToSignUp()">
-      Créer un compte
-  </button>
-  <small>C'est rapide et facile</small>
+    <p class="text-danger my-2">
+        {{ errorMessage }}
+    </p>
+  
+    <a [routerLink]="getRoute().PASSWORD_FORGOTTEN"
+       routerLinkActive="router-link-active">
+      Mot de passe oublié ?
+    </a>
+
+    <hr class="my-4">
+
+    <button type="submit" 
+            class="btn btn-success btn-lg btn-block"
+            (click)="goToSignUp()">
+        Créer un compte
+    </button>
+    <p>
+        <small>C'est facile, rapide et sécurisé</small>
+    </p>
 </div>

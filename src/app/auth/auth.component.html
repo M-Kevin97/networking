@@ -1,38 +1,54 @@
-<div class="wrapper">
-  <div class="auth-section row mt-3 align-items-center text-center">
-    <!-- <div class="col-1 text-left">
-      
-      <a [routerLink]="" (click)="goBack()">
-        <i class="fa fa-arrow-left fa-2x"></i>
-      </a>
-    </div> -->
-    <div class="col-6">
-      <div class="auth-title">
+<div class="wrapper h-100 w-100">
+  <div class="row h-100 align-items-center justify-content-center text-center">
+    <div class="col-5">
+
+      <div class="success-message alert alert-success rounded" 
+            *ngIf="email && successMessage">
+
+        <h3>Félicitations !</h3>
+
+        <p class="success-message-text">
+          {{ successMessage }}
+        </p>
+
+        <countdown #countdown [config]="{leftTime: 4}" 
+                              (event)="onTimerFinished($event)">
+        </countdown>
+      </div>
+
+      <div class="email-not-verified alert alert-danger" 
+           *ngIf="errorMessage && !successMessage">
+
+        <p class="email-not-verified-text">
+          {{ errorMessage }}
+        </p>
+      </div>
+
+      <div class="auth-title mb-5 mx-auto">
         <!-- À modifier (Image logo Nom de la plateforme)-->
         <a routerLink='/home' routerLinkActive="router-link-active">
-          <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
+            <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
         </a>
       </div>
-    </div>
-    <div class="auth-body col-5">
 
-     <!-- <nav>
-       <div class="nav nav-tabs nav-fill" id="nav-tab" >
-         <a class="nav-item nav-link" [ngClass]="{'active':isSignUpRoute()}"
-                                      [routerLink]="['signup']"
-                                      routerLinkActive="router-link-active">
-            S'inscrire
-          </a>
-         <a class="nav-item nav-link" [ngClass]="{'active':isSignInRoute()}"
-                                      [routerLink]="['signin']"
-                                      routerLinkActive="router-link-active">
-            Se connecter
-        </a>
-       </div>
-     </nav> -->
-     <div class="auth-content justify-content-center">
-        <router-outlet></router-outlet>
-     </div>
-   </div>
- </div>
+      <app-email-box *ngIf="!email"
+                     (email)="emailVerification($event)">
+      </app-email-box>
+
+      <app-verification *ngIf="(mode === 'verifyEmail' || mode === 'signIn') && isEmailVerified"
+                        (successMessage)="successMessage = $event"
+                        (errorMessage)="errorMessage = $event"
+                        [emailUser]="email"
+                        [idUser]="idUser">
+      </app-verification>
+
+      <app-password-reset *ngIf="mode === 'resetPassword' && email"
+                          [actionCode]='actionCode'
+                          (successMessage)="successMessage = $event"
+                          (errorMessage)="errorMessage = $event"
+                          [emailUser]="email">
+      </app-password-reset>
+
+    </div>
+  </div>
 </div>

@@ -27,6 +27,7 @@ export class EmailBoxComponent implements OnInit {
 
   onConfirmEmail() {
     const email = this.emailForm.get('email').value;
+    console.log(email);
     if(email) this.email.next(email);
   }
 

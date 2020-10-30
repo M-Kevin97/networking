@@ -40,11 +40,15 @@
     width: 100%;
 }
 
+.nav-li-text {
+    font-weight: 450;
+}
+
 .nav-icon {
     font-size: 1.8rem; 
     color: #2E7B9C;
 
-    display:block;
+    display:inline-block;
     height: 100%;
     margin: 0 auto;
 }
@@ -72,13 +76,18 @@
     color:#2E7B9C; 
 }
 
+.pop-content-btn:hover, .pop-content-btn:focus {
+    font-size: 0.8rem;
+    color:#396274; 
+}
+
 .pop-content-btn {
     margin:0.3rem;
 }
 
 .pop-btn-name { 
     text-transform: uppercase;
-    font-weight: 550;
+    font-weight: 500;
     color:#2E7B9C; 
 }
 
@@ -96,23 +105,26 @@
 
 .btn-signin {
    
-    height: 3rem;
+    height: 2.7rem;
 
-    background-color: transparent;
-    border:solid 0.1rem #2E7B9C;
-    color: #2E7B9C;
+    background-color: #2E7B9C;
+    color: #F8F7F6;
 
     border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
     -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
     -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
 
     text-transform: uppercase;
-    font-weight: 550;
+    font-weight: 500;
+
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .btn-signin:hover, .btn-signin:focus, .btn-signin:active { 
-    background-color: #2E7B9C;
-    color: #F8F7F6;
+   color: #2E7B9C;
+   background-color: #F8F7F6;
+   border:solid 0.1rem #2E7B9C;
 }
 
 .nav-categories {

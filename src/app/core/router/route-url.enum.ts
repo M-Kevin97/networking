@@ -3,6 +3,7 @@ export enum RouteUrl {
     CART = '/cart',
     LOGIN = '/login',
     SIGNUP = '/signup',
+    SIGNUP_WITH = '/signup/join',
     FEED = '/feed',
     INSTRUCTOR = '/instructor',
     ADMIN = '/admin',
@@ -20,7 +21,9 @@ export enum RouteUrl {
     NEW_PRICE = '/price',
     NEW_MEDIA = '/media',
     NEW_DATES = '/dates',
-    NEW_LOCATION = '/lieu',
+    NEW_LOCATION = '/location',
     NEW_COMPLETED = '/completed', 
     VERIFICATION_LINK = '/verification',
+    AUTH = '/auth',
+    PASSWORD_FORGOTTEN = '/password',
 }

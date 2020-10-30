@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,22 +10,20 @@ import { RouteUrl } from '../../router/route-url.enum';
 })
 export class VisitorGuardService {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+              private authService:AuthService) { }
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          console.log('auth guard :',user.uid);
-          this.router.navigate([RouteUrl.FEED]);
-          resolve(false);
-        }
-        else {
-          console.log(this.router.url);
-          console.log('auth guard :',user);
-          resolve(true);
-        }
-      });
+   
+      if (this.authService.isAuth) {
+
+        this.router.navigate([RouteUrl.FEED]);
+        resolve(false);
+      }
+      else {  
+        resolve(true);
+      }
     });
   }
 }

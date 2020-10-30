@@ -75,21 +75,16 @@ export class CategoryService {
 
     return firebase.database().ref(Database.CATEGORIES).once('value').then( 
       (data) => {
-        console.warn('getCategoriesFromDB CategoryService', data);
         let catArray = [];
         data.forEach((element) => {
-          console.log(element.key, element.child('name').val());
 
           let subCatArray = [];
           element.forEach((subElement) => {
               if(subElement.hasChild('name')) {
-                console.log(element.key, subElement.child('name').val());
 
                 subCatArray.push(new Category(subElement.key, 
                                               subElement.child('name').val(), 
                                               []));
-  
-                console.warn('sub category subCatArray :', subCatArray);
               }
           });
 
@@ -101,7 +96,6 @@ export class CategoryService {
         this.categories = Array.from(catArray);
         
         this.emitCategories();
-        console.log(data.val());
 
         return Array.from(this.categories);
       }

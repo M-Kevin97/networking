@@ -19,17 +19,12 @@ export class HeaderUserComponent implements OnInit {
   collapsed = true;
   navCategoriesCollapsed = true;
 
-  private categorySubscription: Subscription;
-  private categoryService: CategoryService
-  categories: Category[];
-
   searchForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router) {
 
-    this.categoryService = new CategoryService();
     this.searchForm = this.formBuilder.group({
       search: ''
     });

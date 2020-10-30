@@ -46,6 +46,7 @@ export class UserService {
         bio: newUser.bio,
         ppLink: newUser.ppLink,
         accessLevel: newUser.accessLevel,
+        role: newUser.role
     }).then(
       () => {
 
@@ -331,6 +332,14 @@ export class UserService {
         );
       }
     );
+  }
+
+  public static getUserByMail(email:string, cb){
+    return firebase.database().ref(Database.USERS)
+                              .orderByChild('email')
+                              .equalTo(email)
+                              .once('value')
+                              .then(cb);
   }
 
   getSingleUserFromDBWithId(id:string){ 

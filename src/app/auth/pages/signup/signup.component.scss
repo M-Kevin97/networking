@@ -25,13 +25,32 @@ button {
 }
 
 .signup-block-signin {
-    height: 8vh;
-    font-size: medium;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
 
     margin-top: 2vh;
-    background-color: white;
+
+    font-size: medium;
+}
+
+.signin-with {
+    color:#A6A6A6;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.btn-sigin-with {
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+
+    margin-top: 2vh;
+    background-color: #fafbfc;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signin-logo {
+    font-size: xx-large;
 }

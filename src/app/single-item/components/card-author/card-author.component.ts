@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { User } from '../../../shared/model/user/user';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +13,8 @@ export class CardAuthorComponent implements OnInit {
 
   @Input() author:User;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+              private authService:AuthService) { }
 
   ngOnInit() {
     console.log('CardAuthorComponent', this.author);
@@ -21,6 +23,15 @@ export class CardAuthorComponent implements OnInit {
   goToUserPage(){
     console.log('CardAuthorComponent', this.author.id);
     if(!this.author.data) this.router.navigate([RouteUrl.USER, this.author.id]);
+  }
+
+  onFollowUser() {
+    if(this.authService.isAuth) {
+
+    }
+    else {
+      this.router.navigate([RouteUrl.LOGIN]);
+    }
   }
 
 }

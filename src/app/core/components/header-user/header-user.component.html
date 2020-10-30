@@ -56,10 +56,10 @@
       <li class="nav-item nav-li" routerLinkActive="router-link-active" 
                                   [ngbPopover]="popContent" 
                                   placement="bottom"
-                                  triggers="mouseenter" 
-                                  popoverTitle="CRÉER">
+                                  [autoClose]="'outside'">
         <a class="nav-link">
           <span class="iconify nav-icon" data-inline="false" data-icon="ic:baseline-add-box"></span>
+          <span class="nav-li-text ml-2">Publier</span>
         </a>
       </li>
 
@@ -70,35 +70,35 @@
         </a>
       </li> -->
 
-    <!-- Lien mon compte / si user est connecté--> 
-    <li *ngIf="isAuth()" class="nav-item nav-li" ngbDropdown display="dynamic" placement="bottom-right">
-      <div class="nav-link nav-icon-pp"> 
-        <!-- <span class="iconify nav-icon" data-inline="false" data-icon="bi:person-fill"></span> -->
-        <app-user-avatar [photoUrl] = "getUserPpLink() ? '':getUser().ppLink" 
-                          [name]="getUser().firstname +' '+ getUser().lastname"
-                          [border]="'1px solid #2E7B9C'">
-        </app-user-avatar>        
-      </div>
-      <div class="nav-link nav-icon-dd">
-        <a tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button">
-        </a>    
-      </div>
-          
-      <!-- Drop Down Menu-->
-      <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-        <a ngbDropdownItem (click)="goToAuthUserPage()">Mon profil</a>
-        <div class="dropdown-divider"></div>
-        <a ngbDropdownItem (click)="onSignOut()">Se déconnecter</a>
-      </div>
-    </li>
+      <!-- Lien mon compte / si user est connecté--> 
+      <li *ngIf="isAuth()" class="nav-item nav-li" ngbDropdown display="dynamic" placement="bottom-right">
+        <div class="nav-link nav-icon-pp"> 
+          <!-- <span class="iconify nav-icon" data-inline="false" data-icon="bi:person-fill"></span> -->
+          <app-user-avatar [photoUrl] = "getUserPpLink() ? '':getUser().ppLink" 
+                            [name]="getUser().firstname +' '+ getUser().lastname"
+                            [border]="'1px solid #2E7B9C'">
+          </app-user-avatar>        
+        </div>
+        <div class="nav-link nav-icon-dd">
+          <a tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button">
+          </a>    
+        </div>
+            
+        <!-- Drop Down Menu-->
+        <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+          <a ngbDropdownItem (click)="goToAuthUserPage()">Mon profil</a>
+          <div class="dropdown-divider"></div>
+          <a ngbDropdownItem (click)="onSignOut()">Se déconnecter</a>
+        </div>
+      </li>
+    </ul>
 
     <!-- Sign In -->
-    <li *ngIf="!isAuth()" class="nav-item"  routerLinkActive="router-link-active">
+    <div *ngIf="!isAuth()" class="ml-5 my-auto">
       <button class="btn btn-signin" (click)="onSignIn()">
         Se connecter
       </button>
-    </li>
+    </div>
 
-    </ul>
   </div>
 </nav>

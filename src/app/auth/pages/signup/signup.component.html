@@ -1,110 +1,50 @@
 <div class="auth-section h-100 row align-items-center justify-content-center text-center">
-
     <div class="col-6">
-        <div class="auth-title">
-        <!-- À modifier (Image logo Nom de la plateforme)-->
-        <a routerLink='/home' routerLinkActive="router-link-active">
-            <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
-        </a>
+
+        <div *ngIf="isVerificationEmailSent" 
+             class="alert alert-success" 
+             role="alert">
+            <p>
+                Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui a été envoyé par mail.
+            </p>
         </div>
+
+        <div class="auth-title">
+            <!-- À modifier (Image logo Nom de la plateforme)-->
+            <a routerLink='/home' routerLinkActive="router-link-active">
+                <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
+            </a>
+        </div>
+
     </div>
-    <div class="auth-body col-5">
-        <div class="auth-content justify-content-center">
-            <div *ngIf="isVerificationEmailSent" class="alert alert-success" role="alert">
-                Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui a été envoyé sur votre boite mail.
-            </div>
+
+    <div class="auth-body col-lg-4">
+
+        <div class="auth-content justify-content-center mt-4">
             <div class="signup-block align-self-center justify-content-center text-center px-4 py-3 shadow rounded">
-                <div class="signup-title mt-2 mb-4">
-                    <h3>Rejoignez la communauté</h3>
-                    <span>C'est facile et rapide</span>
+
+                <div class="row btn-sigin-with btn-google-signin rounded shadow-sm w-80" 
+                    (click)="onGoogleSignUpWithPopUp()">
+                    <div class="col-2">
+                        <span class="signin-logo iconify" data-icon="logos:google-icon" data-inline="false"></span>
+                    </div>
+                    <div class="col-10">
+                        <span class="signin-with">Se connecter avec Google</span>
+                    </div>
                 </div>
-                <form [formGroup]="signUpForm" class="signup-form" 
-                                                autocomplete="off">
-                    <div class="form-row align-items-center">
-                        <div class="form-group col-6">
-                            <label for="firstname" class="sr-only">
-                                Prénom
-                                <span style="color: rgb(247, 103, 103);">*</span>
-                            </label>
-                            <ng-template #popFirstNameContent><div class="text-danger field-error-class">Quel est votre prénom ?</div></ng-template>
-                            <input type="text" class="form-control" 
-                                                [ngClass]="{ 'is-invalid': shouldShowRequiredError('firstname') }"
-                                                formControlName="firstname"
-                                                id="firstname" 
-                                                placeholder="Prénom"
-                                                type="input"
-                                                placement="top"
-                                                triggers="manual" 
-                                                [ngbPopover]=popFirstNameContent
-                                                container="body"
-                                                #popoverFirstName="ngbPopover"
-                                                (click)="shouldShowRequiredError('firstname') && popoverFirstName.open()"
-                                                [autoClose]="'outside'"
-                                                required>
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="lastname" class="sr-only">
-                                Nom
-                                <span style="color: rgb(247, 103, 103);">*</span>
-                            </label>
-                            <ng-template #popLastNameContent>
-                                <div class="text-danger field-error-class">Quel est votre nom ?</div>
-                            </ng-template>
-                            <input type="text" class="form-control" 
-                                                formControlName="lastname"
-                                                [ngClass]="{ 'is-invalid': shouldShowRequiredError('lastname') }"
-                                                id="lastname" 
-                                                placeholder="Nom"
-                                                type="input"
-                                                placement="top"
-                                                triggers="manual" 
-                                                [ngbPopover]=popLastNameContent
-                                                container="body"
-                                                #popoverLastName="ngbPopover"
-                                                (click)="shouldShowRequiredError('lastname') && popoverLastName.open()"
-                                                [autoClose]="'outside'"
-                                                required>
-                        </div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="sr-only" for="role">Activité</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"
-                                        type="div"
-                                        placement="left"
-                                        triggers="mouseenter:mouseleave"
-                                        ngbPopover="Cette information ne sera pas visible par les autres utilisateurs."
-                                        container="body"
-                                        #popoverRoleInfo="ngbPopover"
-                                        (click)="shouldShowRequiredError('lastname') && popoverLastName.open()"
-                                        [autoClose]="'outside'">
-            
-                                        
-                                    <span class="iconify" 
-                                            data-icon="clarity:help-info-solid" 
-                                            data-inline="false">
-                                    </span>
-                                </div>
-                            </div>
-                            <select class="form-control form-control-sm" 
-                                    id="role" 
-                                    (change)="onChangeSelectRole($event.target.value)">
-            
-            
-                                <option value="roleInit" disabled selected>
-                                    {{ roleInit }}
-                                </option>
-                                <option *ngFor="let role of roles; let i = index"
-                                        [value]="roles[i]">
-                                    {{ roles[i] }}
-                                </option>
-                            </select>
-                            </div>
-                
-                    </div>
-            
-                    <div class="form-group mb-3">
+
+                <hr class="mx-auto w-75 my-3">
+
+                <div class="signup-title mb-3">
+                    <h3>Rejoignez la communauté</h3>
+                    <small>C'est facile, rapide et sécurisé</small>
+                </div>
+
+                <form [formGroup]="signUpForm" 
+                      class="signup-form" 
+                      autocomplete="off">
+                      
+                    <div class="form-group mb-2">
                         <ng-template #popEmailContent>
                             <div class="text-danger field-error-class">
                                 {{ errorEmailMessage }}
@@ -127,6 +67,7 @@
                                             container="body"
                                             #popoverEmail="ngbPopover"
                                             (click)="(shouldShowRequiredError('email') || shouldShowSignUpError('email')) && popoverEmail.open()"
+                                            (change)="resetMailError()"
                                             [autoClose]="'outside'"
                                             required>
                         <small id="emailHelp" class="form-text text-muted">
@@ -134,7 +75,7 @@
                         </small>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="form-group mb-2">
                         <ng-template #popConfirmeEmailContent>
                             <div class="text-danger field-error-class">
                                 {{ errorEmailMessage }}
@@ -163,23 +104,22 @@
                     </div>
             
                     
-                    <button type="submit" class="btn btn-primary btn-lg btn-block mt-4"
+                    <button type="submit" class="btn btn-primary btn-lg btn-block mt-3"
                                             [disabled] = "signUpForm.invalid || errorConfirmEmailMessage 
                                                                              || errorEmail
                                                                              || errorGeneral"
                                             (click)="onSignUp()">
-                        S'inscrire
+                        Accepter & Rejoindre 
                     </button>
                 </form>
-            </div>
-            
-            <div class="signup-block-signin rounded shadow">
-                <span>
-                    Vous avez déjà un compte ?
-                    <a [routerLink]="['/login']" routerLinkActive="router-link-active" class="" href="">
-                        Connectez-vous.
-                    </a>
-                </span>
+
+                <hr class="my-3">
+
+                <p><small>Vous avez déjà un compte ?</small></p>
+                <button type="submit" class="btn btn-success btn-lg btn-block"
+                                      (click)="goToSignIn()">
+                    Se connecter
+                </button>
             </div>
         </div>
     </div>
