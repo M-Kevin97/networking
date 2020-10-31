@@ -1,11 +1,24 @@
+import { ICourse } from 'src/app/shared/model/item/course';
 import { IUser, User } from 'src/app/shared/model/user/user';
 
 export class Rating {
-    public get author(): IUser {
-        return this._author;
+    public get title(): string {
+        return this._title;
     }
-    public set author(value: IUser) {
-        this._author = value;
+    public set title(value: string) {
+        this._title = value;
+    }
+    public get course(): ICourse {
+        return this._course;
+    }
+    public set course(value: ICourse) {
+        this._course = value;
+    }
+    public get user(): IUser {
+        return this._user;
+    }
+    public set user(value: IUser) {
+        this._user = value;
     }
     public get publicationDate(): string {
         return this._publicationDate;
@@ -34,10 +47,12 @@ export class Rating {
     }
 
     constructor(private _id: string,
+                private _title: string,
                 private _note: number,
                 private _comment: string,
                 private _publicationDate: string,
-                private _author: IUser){ }
+                private _user: IUser,
+                private _course: ICourse){ }
 
     public static getGlobalNote(ratings:Rating[]):number {
 
@@ -86,17 +101,19 @@ export class Rating {
         }
 
         return globalNote
-        }
+    }
 
     public static ratingFromJson(json:Object):Rating{
 
         if(json === null && json === undefined) return null;
 
         return new Rating(json[0],
+                          json['title'],
                           json['note'],
                           json['comment'],
                           json['publicationDate'],
-                          this.getIAuthorFromRatingJson(json['author']));
+                          null,
+                          null);
     }
 
     public static ratingsFromJson(json: Object): Rating[] {
@@ -118,25 +135,25 @@ export class Rating {
         return ratings;
     }
 
-    public static getIAuthorFromRatingJson(json: Object): IUser {
+    // public static getIAuthorFromRatingJson(json: Object): IUser {
 
-        if(json === null || json === undefined) return null;
+    //     if(json === null || json === undefined) return null;
 
-        console.log(json);
+    //     console.log(json);
 
-        const id:string = Object.keys(json)[0];
-        const userJson:string = json[id];
+    //     const id:string = Object.keys(json)[0];
+    //     const userJson:string = json[id];
 
-        var author:IUser = {
-            id: id,
-            firstname: userJson['firstname'],
-            lastname: userJson['lastname'],
-            title: userJson['title'],
-            ppLink: userJson['ppLink'],
-            bio: userJson['bio'],
-            data: userJson['data'],
-        };
+    //     var author:IUser = {
+    //         id: id,
+    //         firstname: userJson['firstname'],
+    //         lastname: userJson['lastname'],
+    //         title: userJson['title'],
+    //         ppLink: userJson['ppLink'],
+    //         bio: userJson['bio'],
+    //         data: userJson['data'],
+    //     };
 
-        return author;
-    }
+    //     return author;
+    // }
 }

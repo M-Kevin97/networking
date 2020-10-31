@@ -3,25 +3,84 @@
   <div class="modal-content"> 
     <div class="modal-body">
 
-      <!---------------------------- note ------------------------------>
-      <h4>Note générale</h4>
-      <div class="notes-btn border">
-        <button class="btn" *ngFor="let note of notes" (click)="selectNote(note)">
-          <i #star class="review-star fa fa-star"></i>
-        </button>
-      </div>
-
-      <hr class="separation-line"> <!-- separation line -->
-
-      <!---------------------------- Commentaire ------------------------------>
-      <h4>Décrivez votre expérience</h4>
       <form [formGroup]="ratingForm" role="form" class="form-item">
-        <textarea class="form-control" 
-                  placeholder="Qu'est-ce que vous avez aimé ou pas aimé ?"
-                  formControlName="comment"
-                  id="comment" 
-                  rows="5">
-        </textarea>
+
+        <!---------------------------- note ------------------------------>
+        <div class="note my-3">
+          <h4>
+            Note générale
+            <span style="color: rgb(247, 103, 103);">*</span>
+          </h4>
+          <div class="notes-btn text-center w-100">
+            <button class="btn" *ngFor="let note of notes" (click)="selectNote(note)">
+              <i #star class="review-star fa fa-star"></i>
+            </button>
+          </div>
+        </div>
+
+        <hr class="separation-line"> <!-- separation line -->
+
+        <!---------------------------- Titre ------------------------------>
+        <div class="form-group my-3">
+          <label for="title">
+            <h4>
+              Titre
+              <span style="color: rgb(247, 103, 103);">*</span>
+            </h4>
+          </label>
+          <ng-template #popTitleContent>
+              <div class="text-secondary">Résumer votre avis en quelques mots</div>
+          </ng-template>
+
+          <input class="form-control" 
+                  id="title"
+                  formControlName="title"
+                  type="text"
+                  [ngClass]="{ 'is-invalid': shouldShowRequiredError('title') }"
+                  placeholder="Résumer votre avis en quelques mots"
+                  triggers="manual"
+                  [ngbPopover]=popTitleContent
+                  container="body"
+                  #popoverTitle="ngbPopover"
+                  (click)="shouldShowRequiredError('title') && popoverTitle.open()"
+                  [autoClose]="'outside'"
+                  required>
+        </div>
+
+        <hr class="separation-line"> <!-- separation line -->
+
+        <!---------------------------- Commentaire ------------------------------>
+
+        <div class="form-group my-3">
+          <label for="comment">
+            <h4>
+              Commentaire
+              <span style="color: rgb(247, 103, 103);">*</span>
+            </h4>
+          </label>
+          <ng-template #popCommentContent>
+              <div class="text-secondary">
+                Qu'est-ce que vous avez aimé ou pas aimé ?
+              </div>
+          </ng-template>
+
+          <textarea class="form-control" 
+                    placeholder="Qu'est-ce que vous avez aimé ou pas aimé ?"
+                    formControlName="comment"
+                    id="comment" 
+                    rows="5"
+                    [ngClass]="{ 'is-invalid': shouldShowRequiredError('comment') }"
+                    triggers="manual"
+                    [ngbPopover]=popCommentContent
+                    container="body"
+                    #popoverComment="ngbPopover"
+                    (click)="shouldShowRequiredError('comment') && popoverComment.open()"
+                    [autoClose]="'outside'"
+                    required>
+          </textarea>
+
+        </div>
+
       </form>
 
     </div>

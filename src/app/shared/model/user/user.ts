@@ -138,8 +138,8 @@ export class User {
         let crs = null, evts = null;
 
         if(jsonItems)  {
-            crs = Course.getICoursesItemFromJson(jsonItems);
-            evts = EventItem.getIEventsItemFromJson(jsonItems);
+            //crs = Course.getICoursesItemFromJson(jsonItems);
+            //evts = EventItem.getIEventsItemFromJson(jsonItems);
         }     
 
         return new User(null,

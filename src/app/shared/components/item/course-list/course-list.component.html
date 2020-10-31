@@ -1,7 +1,6 @@
-<div *ngIf="course"
-      (click)="onConsultCourse(course)"
-      class="row my-4">
-  <div class="item-list-img item-click col-3">
+<div *ngIf="course" class="row my-4">
+  <div class="item-list-img item-click col-3"
+       (click)="onConsultCourse(course)">
     <img *ngIf="course.imageLink" class="img" [src]="course.imageLink">
   </div>
   <div class="col-7">
@@ -13,11 +12,12 @@
                 [style]="0" 
                 [nbRatings]="course.nbRatings" 
                 [globalNote]="course.globalNote"
+                (click)="onConsultCourse(course)"
                 [size]="1">
     </app-rating>
     <div *ngIf="course.iAuthors.length" class="course-section-auteur">
       <span class="course-author-name">
-        <a [href]="'/instructor/'+course.iAuthors[0].id" class="item-p">
+        <a [href]="'/user/'+course.iAuthors[0].id" class="item-p">
           {{ course.iAuthors[0].firstname }} {{ course.iAuthors[0].lastname }}
         </a>
       </span>

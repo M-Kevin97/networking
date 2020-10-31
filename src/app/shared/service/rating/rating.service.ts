@@ -1,140 +1,241 @@
+import { IUser } from './../../model/user/user';
+import { ICourse } from 'src/app/shared/model/item/course';
+import { ItemService } from 'src/app/shared/service/item/item.service';
+import { UserService } from 'src/app/shared/service/user/user.service';
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Database } from 'src/app/core/database/database.enum';
-import { ICourse } from '../../model/item/course';
 import { Rating } from '../../model/rating/rating';
-import { IUser } from '../../model/user/user';
-
+import { rejects } from 'assert';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RatingService {
 
+  ratingsDB = firebase.database().ref(Database.RATINGS);
+  userRatingsDB = firebase.database().ref(Database.USERS);
+  courseRatingsDB = firebase.database().ref(Database.ITEMS);
+
   constructor(private datepipe: DatePipe) { }
 
+  /**
+   *  -------------------- ADD
+   */
+
   // Enregistrer un avis dans la DB 
-  saveRating(newRating:Rating, iCourse:ICourse, iUser:IUser){
-    if(newRating && iCourse && iUser) {
-      return this.saveRatingInCourseDB(newRating, iCourse, iUser).then(
-        (val) => {
-          console.log('pporzrz____________________',val);
-          if(val) {
-            console.log('pporzrz____________________',val);
-            return this.saveRatingInUserDB(val, iCourse, iUser);
-          }
-          else return null;
-        }
-      )
-    }
-  }
+  addRatingInDB(newRating:Rating, cb){
 
-  // Mettre à jour@ un avis dans la DB 
-  updateRating(newRating:Rating, iCourse:ICourse, iUser:IUser){
-      if(newRating && iCourse && iUser) {
+    if(newRating) {
 
-        let updateRating = {
+      newRating.publicationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
 
+      // adding rating in RatingsDB
+      return this.addRatingWithReference(this.ratingsDB, newRating).then(
+        (rating:Rating) => {
 
-      }
-    }
-  }
+          // adding rating ID in CourseRatingsDB
+          return this.addRatingInCourseDB(rating,
+            (ratingInCourse:Rating) => {
+              console.log('pporzrz____________________',ratingInCourse);
 
-  // Enregistrer un avis avec une référence
-  private saveRatingWithReference(ref:firebase.database.Reference, newRating:Rating):Promise<Rating>{
+              if(ratingInCourse) {
+                console.log('pporzrz____________________',ratingInCourse);
 
-    if(!newRating.id) newRating.id = ref.push().key;
+                 // adding rating ID in UserRatingsDB
+                return this.addRatingInUserDB(ratingInCourse, cb);
+              }
+              else return null;
+            }
+          );
 
-    newRating.publicationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
-
-    return ref.child(newRating.id).set({
-      note: newRating.note,
-      comment: newRating.comment,
-      publicationDate: newRating.publicationDate,
-    }).then(
-      ()=>{
-        return newRating;
-    }).catch(
-      (error)=>{
-        console.log(error);
-        return null;
-    });
-  }
-
-  // Enregistrer un avis dans la formation, avec l'utilisateur ayant publier l'avis
-  private saveRatingInCourseDB(rating:Rating, iCourse:ICourse, iUser:IUser):Promise<Rating>{
-
-    if(rating && iCourse && iUser) {
-      var refRatingInCourse = firebase.database().ref(Database.ITEMS)
-                                                 .child(iCourse.id)
-                                                 .child(Database.RATINGS);
-
-      return this.saveRatingWithReference(refRatingInCourse, rating).then(
-        (value) => {
-
-          console.log('saveRatingInCourseDB________',value)
-
-          if(!value) { 
-            return null;
-          } 
-
-          if(iUser.title===undefined || iUser.title ===null) iUser.title=null;
-
-          return refRatingInCourse.child(value.id).child(Database.AUTHOR).child(iUser.id).set({
-            firstname: iUser.firstname,
-            lastname: iUser.lastname,
-            title: iUser.title,
-            ppLink: iUser.ppLink,
-          }).then(
-            ()=>{
-              return value;
-          }).catch(
-            (error)=>{
-              console.log(error);
-              return null; 
-        });
-      }).catch(
-        (error) => {
-          console.log(error);
         }
       );
     }
-    else {
-      return null;
-    }
+  }
+
+  // Add the rating id into the course DB
+  private addRatingInCourseDB(newRating:Rating, cb) {
+
+    if(newRating) {
+      var refRatingInCourse = this.courseRatingsDB.child(newRating.course.id)
+                                                  .child(Database.RATINGS);
+
+      this.addRatingWithReference(refRatingInCourse, newRating).then(cb);
+    } else return null;
+  }
+
+  // Add the rating id into the user DB
+  private addRatingInUserDB(rating:Rating, cb) {
+
+    console.warn('addRatingInUserDB', rating);
+
+    if(rating) {
+      var refRatingInUser = this.userRatingsDB.child(rating.user.id)
+                                              .child(Database.RATINGS);
+
+      return this.addRatingWithReference(refRatingInUser, rating).then(cb);
+  
+    } else return null;
   }
   
-  // Enregistrer un avis dans l'utilisateur, avec le cours profitant de l'avis
-  private saveRatingInUserDB(rating:Rating, iCourse:ICourse, iUser:IUser):Promise<Rating> {
+  // add rating id into the DB with a reference
+  private addRatingWithReference(ref:firebase.database.Reference, newRating:Rating):Promise<Rating>{
 
-    if(rating && iCourse && iUser) {
-      var refRatingInUser = firebase.database().ref(Database.USERS)
-                                               .child(iUser.id)
-                                               .child(Database.RATINGS);
+    if(!newRating.id) {
 
-      return this.saveRatingWithReference(refRatingInUser, rating).then(
-        (value) => {
-          if(!value) return null;
-          
-          return refRatingInUser.child(value.id).child(Database.ITEMS).child(iCourse.id).set({
-            title: iCourse.title, 
-            price: iCourse.price,
-            category: iCourse.category,
-            imageLink :iCourse.imageLink,
-            
-          }).then(
-            ()=>{
-              return value;
-          }).catch(
-            (error)=>{
-              console.log(error);
-              return null; 
-        });
+      newRating.id = ref.push().key;
+
+      return ref.child(newRating.id).set({
+        title: newRating.title,
+        note: newRating.note,
+        comment: newRating.comment,
+        publicationDate: newRating.publicationDate,
+        user: newRating.user.id,
+        course: newRating.course.id
+      }).then(
+        ()=>{
+          return newRating;
+      }).catch(
+        (error)=>{
+          console.log(error);
+          return null;
       });
+
     } else {
-      return null;
+
+      return ref.update({
+        [newRating.id] : '0'
+      }).then(
+        ()=>{
+          return newRating;
+      }).catch(
+        (error)=>{
+          console.log(error);
+          return null;
+      });
     }
   }
- 
+
+  /**
+   *  -------------------- UPDATE
+   */
+
+  // Mettre à jour@ un avis dans la DB 
+  updateRating(rating:Rating){
+      if(rating) {
+
+        rating.publicationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
+
+        this.ratingsDB.child(rating.id)
+                      .update({
+
+          title: rating.title,
+          note: rating.note,
+          comment: rating.comment,
+          publicationDate: rating.publicationDate,
+        }
+      );       
+    }
+  } 
+
+  /**
+   *  -------------------- GET
+   */
+
+  // Get the ratings 
+  public static async getRatingsFromJSON(ratingsJson:any, iCourse:ICourse, iUser:IUser) {
+
+    console.warn('getRatingsFromJSON', ratingsJson);
+
+    let requestRatings = Object.keys(ratingsJson).map((key) => {
+
+      return new Promise((resolve) => {
+        
+        // rating variable for each rating
+        let singleRating:Rating;
+
+        console.warn('getRatingsFromJSON', key);
+
+        // get the single rating content by ID
+        firebase.database().ref(Database.RATINGS).child(key).once('value').then(
+          (rating) => {
+            console.log('has rating', rating.val());
+
+            if(rating.val()) {
+
+              console.log(rating.val());
+
+              singleRating = Rating.ratingFromJson(rating.val());
+              singleRating.id = key;
+
+              const ratingUserId = rating.val()['user'];
+              const ratingCourseId = rating.val()['course'];
+
+              console.log('ratingUserId', ratingUserId);
+
+              console.log('ratingCourseId', ratingCourseId);
+  
+              // if on single course page
+              if(!iUser && ratingUserId) {
+                // getting the single IUser of a single rating 
+                UserService.getSingleiUserFromDBWithId(ratingUserId).then(
+                  (val:IUser)=> {
+                    if(val) {
+  
+                      val.id = ratingUserId;
+                      singleRating.user = val;
+
+                      console.log('getSingleiUserFromDBWithId', singleRating.user);
+
+                      resolve(singleRating);
+                    }
+                  }
+                );
+              } else singleRating.user = iUser;
+  
+              // // if on single user page
+              // if(!iCourse && ratingCourseId) {
+              //   // getting the single ICourse of a single rating
+              //   ItemService.getSingleiItemFromDBById(ratingCourseId).then(
+              //     (val:ICourse) => {
+              //       if(val) {
+  
+              //         val.id = ratingUserId;
+              //         singleRating.course = val;
+              //       }
+              //     }
+              //   );
+              // } else singleRating.course = iCourse;
+  
+              resolve(singleRating);
+            }
+            //else reject()
+          }
+        );
+
+      });
+    });
+
+    // get ratings
+    return await Promise.all(requestRatings);
+  }
+  
+  
+  // 1 - Get the ratings ID of the single course
+
+  // 2 - For each rating ID, get the single rating by his Id
+
+  
+
+
+
+
+
+  /**
+   *  -------------------- REMOVE
+   */
+
 }

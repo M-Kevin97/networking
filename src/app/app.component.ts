@@ -41,7 +41,7 @@ export class AppComponent {
                                                      || this.router.url.includes(RouteUrl.PASSWORD_FORGOTTEN));
   }
 
-  displayHeader()
+  display()
   {
     return (!this.isAuthRoute() && !this.isNewItemRoute());
   }

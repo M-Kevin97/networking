@@ -31,27 +31,27 @@
                             required>
       </div>
       <div class="form-group col-6">
-          <label for="lastname" class="sr-only">
-              Nom
-              <span style="color: rgb(247, 103, 103);">*</span>
-          </label>
-          <ng-template #popLastNameContent>
-              <div class="text-danger field-error-class">Quel est votre nom ?</div>
-          </ng-template>
-          <input type="text" class="form-control" 
-                              formControlName="lastname"
-                              [ngClass]="{ 'is-invalid': shouldShowRequiredError('lastname') }"
-                              id="lastname" 
-                              placeholder="Nom"
-                              type="input"
-                              placement="top"
-                              triggers="manual" 
-                              [ngbPopover]=popLastNameContent
-                              container="body"
-                              #popoverLastName="ngbPopover"
-                              (click)="shouldShowRequiredError('lastname') && popoverLastName.open()"
-                              [autoClose]="'outside'"
-                              required>
+        <label for="lastname" class="sr-only">
+            Nom
+            <span style="color: rgb(247, 103, 103);">*</span>
+        </label>
+        <ng-template #popLastNameContent>
+            <div class="text-danger field-error-class">Quel est votre nom ?</div>
+        </ng-template>
+        <input type="text" class="form-control" 
+                            formControlName="lastname"
+                            [ngClass]="{ 'is-invalid': shouldShowRequiredError('lastname') }"
+                            id="lastname" 
+                            placeholder="Nom"
+                            type="input"
+                            placement="top"
+                            triggers="manual" 
+                            [ngbPopover]=popLastNameContent
+                            container="body"
+                            #popoverLastName="ngbPopover"
+                            (click)="shouldShowRequiredError('lastname') && popoverLastName.open()"
+                            [autoClose]="'outside'"
+                            required>
       </div>
     </div>
   </form>

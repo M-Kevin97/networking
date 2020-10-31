@@ -1,3 +1,6 @@
+import { EventItem, IEvent } from 'src/app/shared/model/item/event-item';
+import { RatingService } from 'src/app/shared/service/rating/rating.service';
+import { Rating } from 'src/app/shared/model/rating/rating';
 import { Chapter } from 'src/app/shared/model/item/chapter';
 import { Module } from './../../model/item/module';
 import { Item } from 'src/app/shared/model/item/item';
@@ -7,7 +10,6 @@ import * as firebase from 'firebase';
 import { Subject } from 'rxjs';
 import { Database } from 'src/app/core/database/database.enum';
 import { Category } from '../../model/category/category';
-import { EventItem, IEvent } from '../../model/item/event-item';
 import { IUser, User } from '../../model/user/user';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
@@ -338,7 +340,7 @@ export class ItemService {
             }
           );
         })
-      )
+      );
     });
 
     Promise.all(promises).then((val:Module[]) => {
@@ -466,42 +468,69 @@ export class ItemService {
     else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
       item = EventItem.eventFromJson(itemJson.val());
 
-      if(item) {
+    if(item) {
 
-        item.id = itemJson.key;
-    
-        const usersJson:string = itemJson.val()[Database.USERS.substring(1)];
-        const subCatId:string = itemJson.val()[Database.SUB_CATEGORY.substring(1)];
+      item.id = itemJson.key;
+  
+      const usersJson:string = itemJson.val()[Database.USERS.substring(1)];
+      const ratingsJson:string = itemJson.val()[Database.RATINGS.substring(1)];
+      const subCatId:string = itemJson.val()[Database.SUB_CATEGORY.substring(1)];
 
-        let requests = Object.keys(usersJson).map((key) => {
+      let requestUsers = Object.keys(usersJson).map((key) => {
         return new Promise((resolve) => {
           //asyncFunction(item, resolve);
           UserService.getSingleiUserFromDBWithId(key).then(
             (iUser)=> {
               iUser.id = key;
-              resolve(iUser)
+              resolve(iUser);
             }
           );
         });
-    });
-
-    CategoryService.getSingleCategoryBySubCategoryId(subCatId).then(
-      (val: Category) => {
-        item.category = val;
-    
-        Promise.all(requests).then((val:IUser[]) => {
-          item.iAuthors = val;
-          return item; 
-        }).then(cb)
-        .catch(
-          (error) => {
-            console.error(error);
-            return null;
-          }
-        );
       });
-    }
 
+      CategoryService.getSingleCategoryBySubCategoryId(subCatId).then(
+        (valCategory: Category) => {
+          item.category = valCategory;
+          return item;
+        }
+      ).then(
+        (val) => {
+
+          return Promise.all(requestUsers).then((valUsers:IUser[]) => {
+            val.iAuthors = valUsers;
+            return val; 
+          })
+          .catch(
+            (error) => {
+              console.error(error);
+              return null;
+            }
+          );
+        }
+      ).then(
+        (val:Course | EventItem) => {
+
+          if(ratingsJson && val instanceof Course) {
+
+            let course:Course = val;
+
+            console.log('ratingsJson', ratingsJson);
+
+            return RatingService.getRatingsFromJSON(ratingsJson, course.getICourse(), null).then(
+              (valRatings:Rating[])=> {
+
+                course.ratings = valRatings;
+                course.globalNote = Rating.getGlobalNote(valRatings);
+                console.error('getRatingsFromJSON', course);
+
+                return course;
+              }
+            );
+
+          } else return val; 
+        }
+      ).then(cb);
+    }
   }
 
   getItemsByCategory(categoryId:string, cb){
@@ -522,6 +551,25 @@ export class ItemService {
 
       if(snap) this.getSingleItemFromJSONById(snap, cb);
     });
+  }
+
+  public static getSingleiItemFromDBById(id:string){ 
+    if(!id) return null;
+    return firebase.database().ref(Database.ITEMS).child(id).once('value').then(
+      (itemJson) => {
+        console.log(itemJson.val());
+
+        let item:ICourse|IEvent;
+
+        if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
+          item = Course.iCourseFromJson(itemJson.val());
+
+        else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
+          item = EventItem.eventFromJson(itemJson.val());
+
+        return item;
+      }
+    );
   }
 
   // ----------------------------- UPDATE IN DB ------------------------------

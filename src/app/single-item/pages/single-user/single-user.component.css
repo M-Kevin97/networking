@@ -4,8 +4,15 @@
 
 .user-head {
 
-  margin-top: 2vh;
-  padding-bottom: 2vh;
+  margin-top: 8vh;
+  padding-top: 4vh;
+
+  border-radius: 40px 40px 0 0;
+  -moz-border-radius: 40px 40px 0 0;
+  -webkit-border-radius: 40px 40px 0 0;
+
+  -webkit-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
+  box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32);
 }
 
 /* Barre de navigation user page */
@@ -24,6 +31,9 @@
 
   font-size: 1.05em;
   font-weight: 500;
+
+  margin: 0;
+  padding: 0;
 }
 
 .user-nav > li{

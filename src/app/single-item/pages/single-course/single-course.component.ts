@@ -23,9 +23,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class SingleCourseComponent extends SingleItemComponent implements OnInit, AfterViewInit {
 
-   course: Course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
+  course: Course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
 
-   constructor(private route:ActivatedRoute,
+  constructor(private route:ActivatedRoute,
                itemService:ItemService,
                authService:AuthService,
                router:Router,
@@ -43,12 +43,14 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
    }
 
   ngOnInit() {
-
-    console.warn('ngOnInit COURSE');
     
+    // getting course id from url 
     const id = this.route.snapshot.params['id'];
+
     this.itemService.getSingleItemFromDBById(id,
       (course:Course) => {
+        console.warn('ngOnInit COURSE', course);
+
         if(course) {
           console.warn(course);
           this.hasItem = true;
@@ -182,20 +184,24 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
   openRatingCourseModal() {
 
-    const modalRef = this.modalService.open(CreateRatingComponent);
-    modalRef.componentInstance.course = this.course.getICourse();
-    modalRef.componentInstance.user = this.authService.authUser.getIUser();
+    if(this.authService.isAuth) {
 
-    modalRef.result.then((result:Rating) => {
-      if (result) {
-        console.log(result);
-        if(!this.course.ratings) this.course.ratings=[];
-        this.course.ratings.push(result);
+      const modalRef = this.modalService.open(CreateRatingComponent);
+      modalRef.componentInstance.course = this.course.getICourse();
+      modalRef.componentInstance.user = this.authService.authUser.getIUser();
+  
+      modalRef.result.then((result:Rating) => {
+        if (result) {
+          console.log(result);
+          if(!this.course.ratings) this.course.ratings=[];
+          this.course.ratings.push(result);
+  
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
 
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    } else this.router.navigate([RouteUrl.LOGIN]);
   }
 
   getSkillsBeginning() {

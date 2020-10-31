@@ -2,21 +2,22 @@
   <div class="col-12">
 
     <!-- Start user Page Head section -->
-    <div class="row user-head justify-content-center border border-success w-100">
-      <!-- Start user PP section -->
-      <div class="col-4">
-        <!-- Si l'utilisateur a une PP afficher sa PP -->
-            <img class="photo-author rounded-circle ml-5" [src]="user.ppLink" 
-                                                      alt="photo de profil utilisateur"
-                                                      height="180vw"
-                                                      width="180vw"
-                                                      *ngIf="user.ppLink">
+    <div class="row user-head justify-content-center w-100">
 
-            <img class="photo-author rounded-circle ml-5"  src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
-                                                      alt="photo de profil utilisateur"
-                                                      height="110px"
-                                                      width="110px"
-                                                      *ngIf="!user.ppLink">
+      <!-- Start user PP section -->
+      <div class="col-4 my-3">
+        <!-- Si l'utilisateur a une PP afficher sa PP -->
+        <img class="photo-author rounded-circle ml-5" [src]="user.ppLink" 
+                                                  alt="photo de profil utilisateur"
+                                                  height="180vw"
+                                                  width="180vw"
+                                                  *ngIf="user.ppLink">
+
+        <img class="photo-author rounded-circle ml-5"  src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
+                                                  alt="photo de profil utilisateur"
+                                                  height="110px"
+                                                  width="110px"
+                                                  *ngIf="!user.ppLink">
       </div> <!-- End user PP section -->
       <!-- Start user Info section -->
       <div class="col-7">
@@ -25,8 +26,8 @@
           <h2 class="user-name">
             {{ user.firstname }} {{ user.lastname }}
             <app-button-edit class="ml-5" 
-                             (click)="openHeadUserModal()"
-                             *ngIf="userIsAuth()">
+                              (click)="openHeadUserModal()"
+                              *ngIf="userIsAuth()">
             </app-button-edit>
           </h2>
           <h3>{{ user.title }}</h3>
@@ -34,7 +35,7 @@
         </div> <!-- End user ID section -->
 
         <!-- Start user contact section -->
-        <div class="row justify-content-end userbar-contact mt-3">
+        <div class="row justify-content-end userbar-contact my-3">
           <div class="col-6 net-post align-self-center"> 
             <span class="networkers mr-5"><b>12 Networkers</b></span>    
             <span class="user-posts"><b>20 Posts</b></span> 
@@ -53,47 +54,43 @@
           </div>
         </div> <!-- End user contact section -->
       </div>  <!-- End user Info section -->
-    </div> <!-- End user Page Head section -->
 
-    <hr> <!-- separation line -->
-
-    <div class="row w-100 justify-content-center sticky">
-
-        <ul class="nav border user-nav" role="tablist">
-      
-          <li  id="user-home-link" class="nav-item" [ngClass]="{'active':checkHome()}">
-            <a class="nav-link" id="home-tab" (click)="displayUserHome()"
-                                              role="tab" 
-                                              aria-controls="home" 
-                                              aria-selected="checkHome()">
-              <span>ACCUEIL</span>
-            </a>
-          </li>
-          <li id="user-courses-link"class="nav-item" [ngClass]="{'active': currentFragment === 'courses'}">
-            <a class="nav-link" id="courses-tab" (click)="displayUserCourses()" 
-                                                 role="tab" 
-                                                 aria-controls="courses" 
-                                                 aria-selected="currentFragment === 'courses'">
-             <span>FORMATIONS</span>
-            </a>
-          </li>
-          <li id="user-events-link"class="nav-item" [ngClass]="{'active': currentFragment === 'events'}"> 
-            <a class="nav-link" id="events-tab" (click)="displayUserEvents()" 
+      <ul class="user-nav row justify-content-center" role="tablist">
+    
+        <li  id="user-home-link" class="nav-item" [ngClass]="{'active':checkHome()}">
+          <a class="nav-link" id="home-tab" (click)="displayUserHome()"
+                                            role="tab" 
+                                            aria-controls="home" 
+                                            aria-selected="checkHome()">
+            <span>ACCUEIL</span>
+          </a>
+        </li>
+        <li id="user-courses-link"class="nav-item" [ngClass]="{'active': currentFragment === 'courses'}">
+          <a class="nav-link" id="courses-tab" (click)="displayUserCourses()" 
                                                 role="tab" 
-                                                aria-controls="events" 
-                                                aria-selected="currentFragment === 'events'">
-              ÉVÉNEMENTS
-            </a>
-          </li>
-          <li id="user-network-link" class="nav-item">
-            <a class="nav-link" id="network-tab" (click)="displayUserNetwork()"
-                                                 role="tab" 
-                                                  aria-controls="network" 
-                                                 aria-selected="currentFragment === 'network'">
-            NETWORK </a>
-          </li> 
-        </ul>
-    </div>
+                                                aria-controls="courses" 
+                                                aria-selected="currentFragment === 'courses'">
+            <span>FORMATIONS</span>
+          </a>
+        </li>
+        <li id="user-events-link"class="nav-item" [ngClass]="{'active': currentFragment === 'events'}"> 
+          <a class="nav-link" id="events-tab" (click)="displayUserEvents()" 
+                                              role="tab" 
+                                              aria-controls="events" 
+                                              aria-selected="currentFragment === 'events'">
+            ÉVÉNEMENTS
+          </a>
+        </li>
+        <li id="user-network-link" class="nav-item">
+          <a class="nav-link" id="network-tab" (click)="displayUserNetwork()"
+                                                role="tab" 
+                                                aria-controls="network" 
+                                                aria-selected="currentFragment === 'network'">
+          NETWORK </a>
+        </li> 
+      </ul>
+          
+    </div> <!-- End user Page Head section -->
 
     <!-- Tab content (home / courses / events / network) -->
     <div class="tab-content" id="myTabContent">

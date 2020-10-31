@@ -147,34 +147,8 @@ export class Item {
         {
           return this.iAuthors[0].firstname+" "+this.iAuthors[0].lastname;
         }
-      }
-
-    protected static getIAuthorsItemFromJson(json: Object): IUser[] {
-
-        if(json === null || json === undefined) return null;
-
-        console.log(json);
-
-        var authors = Object.keys(json).map(
-            function(authorsIdIndex){
-            let userJson = json[authorsIdIndex];
-            
-            console.log(userJson);
-
-            var author:IUser = {
-                id: authorsIdIndex,
-                firstname: userJson['firstname'],
-                lastname: userJson['lastname'],
-                title: userJson['title'],
-                ppLink: userJson['ppLink'],
-                bio: userJson['bio'],
-                data: userJson['data'],
-            };
-            return author;
-        });
-
-        return authors;
     }
+
 
     public static itemFromJson(json: Object): Item {
 
@@ -184,11 +158,11 @@ export class Item {
             json['id'],
             json['type'],
             json['title'],
-            Category.categoryFromJson(json['category']),
+            null,
             json['catchPhrase'],
             json['description'],
             json['price'],
-            this.getIAuthorsItemFromJson(json['authors']),
+            null,
             json['creationDate'],
             json['published'],
             json['_searchContent'],

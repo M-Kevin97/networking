@@ -2,7 +2,8 @@
 <span>
   <!-- <span class="iconify icon-star" data-inline="false" data-icon="bi:star-fill"></span> -->
   <i class="fa fa-star icon-star" [ngStyle]="{'font-size':size+'em'}"></i>
-  <span class="avrg-rating" [ngStyle]="{'font-size':size*0.95+'em'}">&thinsp;{{ globalNoteStr }}</span>
+  <span *ngIf="globalNote" class="avrg-rating" [ngStyle]="{'font-size':size*0.95+'em'}">&thinsp;{{ globalNote }}</span>
+  <span *ngIf="!globalNote" class="avrg-rating" [ngStyle]="{'font-size':size*0.95+'em'}">&thinsp;-</span>
   <span *ngIf="style===0" class="nb-rating" [ngStyle]="{'font-size':size*0.85+'em'}">&thinsp;({{ nbRatings }})</span>
   <span *ngIf="style===1" class="nb-rating" [ngStyle]="{'font-size':size*0.85+'em'}">&thinsp;({{ nbRatings }} avis)</span>
 </span>

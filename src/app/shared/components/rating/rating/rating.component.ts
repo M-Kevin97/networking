@@ -14,22 +14,13 @@ export class RatingComponent implements OnInit, OnChanges {
   @Input() globalNote:number = 0;
   @Input() size:number = 1.6;
 
-  globalNoteStr:string;
-
-
-  constructor() { 
-    this.globalNoteStr = this.globalNote.toString();
-  }
-
   ngOnInit() {
 
   }
 
   ngOnChanges(changes: SimpleChanges) {
     //Insérez votre code de détection du changement ici
-    if(this.globalNote === 0) {
-      this.globalNoteStr ='-';
-    }
+
   }
 
 }

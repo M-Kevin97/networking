@@ -2,7 +2,9 @@
 
   <div class="row">
     <div class="global-rating col-3  align-self-center text-center">
-      <h1 id="global-note">{{ globalNote }}</h1>
+      <h1 *ngIf="globalNote" id="global-note">{{ globalNote }}</h1>
+      <h1 *ngIf="!globalNote" id="global-note">-</h1>
+
       <span class="etoiles">
         <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
         <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
@@ -12,51 +14,92 @@
       </span>
     </div>
     <div class="global-rating col-9">
-      <div class="barre-note" >
-        <div id="progress"class="progress">
-          <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarOne+3+'%'}"
-                                                      aria-valuenow="25"
-                                                      aria-valuemin="0"
-                                                      aria-valuemax="100">
-            {{ statStarOne }}%
+      <div class="barre-note">
+        <div class="barre row">
+          <div class="col-10">
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarFive+3+'%'}"
+                                                          aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                {{ statStarFive }}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <b class="mr-1">5</b>
+            <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
           </div>
         </div>
-      
-        <div id="progress"class="progress">
-          <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarTwo+3+'%'}"
-                                                      aria-valuenow="25"
-                                                      aria-valuemin="0"
-                                                      aria-valuemax="100">
-          {{ statStarTwo }}%
+
+        <div class="barre row">
+          <div class="col-10">
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarFour+3+'%'}"
+                                                          aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                {{ statStarFour }}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <b class="mr-1">4</b>
+            <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
+          </div>
+        </div>
+
+        <div class="barre row">
+          <div class="col-10">
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarThree+3+'%'}"
+                                                          aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                {{ statStarThree }}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <b class="mr-1">3</b>
+            <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
           </div>
         </div>
     
-        <div id="progress"class="progress">
-          <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarThree+3+'%'}"
-                                                      aria-valuenow="25"
-                                                      aria-valuemin="0"
-                                                      aria-valuemax="100">
-          {{ statStarThree }}%
+        <div class="barre row">
+          <div class="col-10">
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarTwo+3+'%'}"
+                                                          aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                {{ statStarTwo }}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <b class="mr-1">2</b>
+            <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
           </div>
         </div>
-    
-        <div id="progress"class="progress">
-          <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarFour+3+'%'}"
-                                                      aria-valuenow="25"
-                                                      aria-valuemin="0"
-                                                      aria-valuemax="100">
-            {{ statStarFour }}%
+
+        <div class="barre row">
+          <div class="col-10">
+            <div id="progress"class="progress">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarOne+3+'%'}"
+                                                          aria-valuenow="25"
+                                                          aria-valuemin="0"
+                                                          aria-valuemax="100">
+                {{ statStarOne }}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <b class="mr-1">1</b>
+            <i class="fa fa-star icon-star" style="font-size:0.9em;"></i>
           </div>
         </div>
-    
-        <div id="progress"class="progress">
-          <div class="progress-bar" role="progressbar" [ngStyle]="{'width':statStarFive+3+'%'}" 
-                                                      aria-valuenow="25"
-                                                      aria-valuemin="0"
-                                                      aria-valuemax="100">
-            {{ statStarFive }}%
-          </div>
-        </div>
+  
       </div>
     </div>
   </div>

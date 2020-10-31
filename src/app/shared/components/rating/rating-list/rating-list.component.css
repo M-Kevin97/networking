@@ -1,0 +1,23 @@
+.user-img {
+
+    height: 3rem;
+    width:  3rem;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-bottom: 1em;
+}
+
+.icon-star {
+
+    color: #fcc632;
+    font-size: 1.1em; 
+}
+
+.rating-note {
+
+    color: #fcc632;
+    font-size: 1.4em; 
+    font-weight: 500;
+}

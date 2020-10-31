@@ -124,7 +124,7 @@ export class Course extends Item {
     }
 
 
-    public static getICoursesItemFromJson(json: Object): ICourse[] {
+    public static iCoursesItemFromJson(json: Object): ICourse[] {
 
         console.log('-----------',json);
 
@@ -159,6 +159,35 @@ export class Course extends Item {
         });
         if(crs.length<=0) return null;
         else return crs;
+    }
+
+    public static iCourseFromJson(json: Object): ICourse {
+
+        console.log('-----------',json);
+
+        if(json === null || json === undefined) return null;
+
+        console.log('°°°°°°°°°°°°',json);
+
+        if(json['type']==='course') {
+
+            var course:ICourse = {
+                data:json['data'],
+                type:json['type'],
+                id: json[0],
+                title: json['title'],
+                category:null,
+                price: json['price'],
+                imageLink:json['imageLink'],
+                nbRatings:json['nbRatings'],
+                catchPhrase:json['catchPhrase'],
+                globalNote:json['globalNote'],
+                iAuthors:[],
+                published:json['published'],
+            };
+            
+            return course;
+        }
     }
 
     public static courseFromJson(json: Object): Course {

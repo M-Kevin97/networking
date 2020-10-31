@@ -19,6 +19,7 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
   note:number;
   notes:number[] = [1,2,3,4,5];
   rating:Rating;
+
   ratingForm: FormGroup;
 
   @ViewChildren('star') stars:QueryList< ElementRef>;
@@ -32,7 +33,7 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
               private ratingService:RatingService,
               private renderer: Renderer2) { 
 
-    this.rating = new Rating(null, null, null, null, null);
+    this.rating = new Rating(null, null, null, null, null, null, null);
   }
 
   ngOnInit() {
@@ -40,6 +41,7 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
     console.log('ngOnInit rating course');
 
     this.ratingForm = this.formBuilder.group({
+      title : ['',[Validators.required]],
       comment: ['',[Validators.required]],
     });
   }
@@ -47,7 +49,6 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     console.log('ngAfterViewInit rating course', this.stars);
   }
-
 
   selectNote(note:number) {
 
@@ -67,17 +68,29 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
     this.note = note;
   }
 
+  shouldShowRequiredError(controlName:string) {
+
+    return !this.ratingForm.get(controlName).valid && this.ratingForm.get(controlName).touched;
+  }
+
   passBack(){
 
     if(this.note && this.course && this.user) { 
-      this.rating.note = this.note;
-      this.rating.comment = this.ratingForm.get('comment').value;
 
-      this.ratingService.saveRating(this.rating, this.course, this.user).then(
+      this.rating.note = this.note;
+      this.rating.title = this.ratingForm.get('title').value;
+      this.rating.comment = this.ratingForm.get('comment').value;
+      this.rating.user = this.user;
+      this.rating.course = this.course;
+
+      this.ratingService.addRatingInDB(this.rating,
         (val) => {
+          console.warn('close modal no val', val);
           if(val) {
-            this.activeModal.close(this.rating);
+            console.warn('close modal', val);
+            this.activeModal.close(val);
           }
+          // else display 'le commentaire n'a pas pu être enregistrer, veuillez réessayer'
         }
       );
     }

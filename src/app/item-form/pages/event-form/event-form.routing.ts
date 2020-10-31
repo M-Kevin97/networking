@@ -12,35 +12,44 @@ import { EventLocationFormComponent } from '../../components/event-location-form
 import { ItemFormComponent } from '../../item-form.component';
 
 const routes: Routes = [
-  {path:RouteUrl.NEW_ITEM.substr(1), 
-  component:ItemFormComponent,
-  children: 
-  [
-  {path:RouteUrl.EVENT.substr(1), 
+  {
+    path:RouteUrl.NEW_ITEM.substr(1), component:ItemFormComponent,
+    canActivate: [AuthGuardService],
+    children: [
+      {path:RouteUrl.EVENT.substr(1), 
     component:EventFormComponent,
     children: [
-      {path:RouteUrl.NEW_TITLE.substr(1), 
-        component:ItemTitleFormComponent,
-        canActivate: [AuthGuardService]},
-      {path:RouteUrl.NEW_CATEGORY.substr(1), 
-        component:ItemCategoryFormComponent,
-        canActivate: [AuthGuardService]},
-      {path:RouteUrl.NEW_PRICE.substr(1), 
-        component:ItemPriceFormComponent,
-        canActivate: [AuthGuardService]},
-      {path:RouteUrl.NEW_MEDIA.substr(1), 
-        component:ItemMediaFormComponent,
-        canActivate: [AuthGuardService]},
-        {path:RouteUrl.NEW_DATES.substr(1), 
-          component:EventDateFormComponent,
-          canActivate: [AuthGuardService]},
-        {path:RouteUrl.NEW_LOCATION.substr(1), 
-          component:EventLocationFormComponent,
-          canActivate: [AuthGuardService]},
-      {path:RouteUrl.NEW_COMPLETED.substr(1), 
-        component:ItemCompleteFormComponent,
-        canActivate: [AuthGuardService]},
-      {path:'', redirectTo:RouteUrl.NEW_EVENT+RouteUrl.NEW_TITLE, pathMatch:'full'},
+      {
+        path:RouteUrl.NEW_TITLE.substr(1), component:ItemTitleFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:RouteUrl.NEW_CATEGORY.substr(1), component:ItemCategoryFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:RouteUrl.NEW_PRICE.substr(1), component:ItemPriceFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:RouteUrl.NEW_MEDIA.substr(1), component:ItemMediaFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:RouteUrl.NEW_DATES.substr(1), component:EventDateFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:RouteUrl.NEW_LOCATION.substr(1), component:EventLocationFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:RouteUrl.NEW_COMPLETED.substr(1), component:ItemCompleteFormComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path:'', redirectTo:RouteUrl.NEW_EVENT+RouteUrl.NEW_TITLE, pathMatch:'full'
+      },
     ]}
   ]}
 ];

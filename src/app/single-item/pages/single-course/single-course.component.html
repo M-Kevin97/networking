@@ -12,7 +12,7 @@
 
   <div class="row item-content">
     <!-- Start Price Card -->
-    <div class="col-md-3 offset-1">
+    <div class="col-md-3">
       <div class="sticky">
         <app-card-image-price-item [id]="course.id"
                                    [imageLink]="course.imageLink" 
@@ -26,8 +26,8 @@
     </div>  <!-- End Price Card -->
 
     <!-- Start page item Head -->
-    <div class="col-lg-8">
-      <div class="heading shadow">
+    <div class="col-lg-9">
+      <div class="heading">
         <div class="title-section mt-3">
           <h2 class="item-title mb-2">
             {{ course.title }}
@@ -188,13 +188,15 @@
           </button>
         </h5>
         <hr> <!-- separation line -->
-        <app-global-rating [ratings]="course.ratings">
+        <app-global-rating [ratings]="course.ratings"
+                            [globalNote]="course.globalNote">
         </app-global-rating>
 
         <hr> <!-- separation line -->
         
-        <!-- <app-rating-list [ratings]="course.ratings">
-        </app-rating-list> -->
+        <app-rating-list [ratings]="course.ratings">
+        </app-rating-list>
+        
       </div>   <!-- End section Ratings -->
     </div>
   </div>

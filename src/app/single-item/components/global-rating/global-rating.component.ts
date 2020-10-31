@@ -9,8 +9,8 @@ import { Rating } from 'src/app/shared/model/rating/rating';
 export class GlobalRatingComponent implements OnInit, OnChanges {
 
   @Input() ratings:Rating[];
+  @Input() globalNote:number = 0;
 
-  globalNote:number = 0;
   oneStars:number = 0;
   twoStars:number = 0;
   threeStars:number = 0;
@@ -36,7 +36,6 @@ export class GlobalRatingComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     //Insérez votre code de détection du changement ici
     this.sortRatings();
-    this.globalNote = Rating.getGlobalNote(this.ratings)
 
     this.statStarOne = this.getGlobalNoteForStar(1);
     this.statStarTwo = this.getGlobalNoteForStar(2);

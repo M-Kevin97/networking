@@ -90,7 +90,7 @@ export class EventItem extends Item {
                     catchPhrase: eventJson['catchPhrase'],
                     price: eventJson['price'],
                     imageLink: eventJson['imageLink'],
-                    iAuthors:Item.getIAuthorsItemFromJson(eventJson['authors']),
+                    iAuthors:null,
                     published: eventJson['published'],
                     location:Item.getILocationFromJson(eventJson['location']),
                     dates:Item.getIDatesFromJson(eventJson['dates']),
@@ -118,7 +118,7 @@ export class EventItem extends Item {
             json['price'],
             this.getILocationFromJson(json['location']),
             this.getIDatesFromJson(json['dates']),
-            this.getIAuthorsItemFromJson(json['authors']),
+            null,
             json['creationDate'],
             json['published'],
             json['searchContent'],
@@ -142,5 +142,27 @@ export class EventItem extends Item {
         });
 
         return events;
+    }
+
+    public static iEventFromJson(json: Object): IEvent {
+        if(json === null || json === undefined) return null;
+        console.log(json);
+
+        var iEvent:IEvent = {
+            data:json['data'],
+            type:json['type'],
+            id: json[0],
+            title: json['title'],
+            category:null,
+            price: json['price'],
+            imageLink:json['imageLink'],
+            catchPhrase:json['catchPhrase'],
+            iAuthors:[],
+            published:json['published'],
+            location: this.getILocationFromJson(json['location']),
+            dates: this.getIDatesFromJson(json['dates'])
+        };
+
+        return iEvent;
     }
 }
