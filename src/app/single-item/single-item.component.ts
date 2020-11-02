@@ -22,7 +22,9 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
   hasItem:boolean = true;
   closeResult: string;
   moreSkillsShowed:boolean = false;
-  isAuth:boolean = false;
+
+  // To know if that's the creator of this item that consult the page item now
+  isAuthor:boolean = false;
 
   constructor(protected itemService:ItemService,
               protected authService:AuthService,
@@ -52,7 +54,7 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
       });
   }
 
-  isAuthor(){
+  isItemAuthor(){
 
     if(this.authService && this.authService.isAuth) {
 
@@ -64,8 +66,8 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
   
       if(this.authService.isAuth){
         if(this.item && this.item.iAuthors && this.authService.authUser){
-          this.isAuth = this.item.iAuthors.some(isAuthor);
-          return this.isAuth;
+          this.isAuthor = this.item.iAuthors.some(isAuthor);
+          return this.isAuthor;
         }
       }
       return false;

@@ -33,7 +33,7 @@
             {{ course.title }}
             <app-button-edit class="ml-5" 
                              (click)="openHeadItemModal()"
-                             *ngIf="isAuthor()">
+                             *ngIf="isAuthor">
             </app-button-edit>
           </h2>
           <h3 class="item-subtitle">
@@ -80,7 +80,7 @@
       </div> <!-- End page item Head -->
 
       <!-- Start Author section -->
-      <div *ngIf="!isAuth" class="item-block author-block">
+      <div *ngIf="!isAuthor" class="item-block author-block">
         <app-card-author [author]="getMainAuthor()"></app-card-author>
       </div> <!-- End Author section -->
 
@@ -90,13 +90,13 @@
           Description
           <app-button-edit class="ml-5" 
                            (click)="openDescriptionItemModal()"
-                           *ngIf="isAuth">
+                           *ngIf="isAuthor">
           </app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="course.description">
         </app-description-section>
-        <span *ngIf="isAuth && !course.description" (click)="openDescriptionItemModal()">
+        <span *ngIf="isAuthor && !course.description" (click)="openDescriptionItemModal()">
           Ajouter une description
         </span>
       </div> <!-- End Description section -->
@@ -107,7 +107,7 @@
           Compétences à acquérir
           <app-button-edit class="ml-5" 
                            (click)="openSkillsItemModal()"
-                           *ngIf="isAuth">
+                           *ngIf="isAuthor">
           </app-button-edit>
         </h5>
 
@@ -139,7 +139,7 @@
           </div>
         </div>
 
-        <span *ngIf="isAuth && !course.skillsToAcquire" (click)="openSkillsItemModal()">
+        <span *ngIf="isAuthor && !course.skillsToAcquire" (click)="openSkillsItemModal()">
           Ajouter des compétences à acquérir
         </span>
         
@@ -151,13 +151,13 @@
           Contenu de la formation
           <app-button-edit class="ml-5" 
                            (click)="openCourseContentModal()"
-                           *ngIf="isAuth">
+                           *ngIf="isAuthor">
           </app-button-edit>
         </h5>
 
         <hr> <!-- separation line -->
 
-        <span *ngIf="isAuth && !course.modules" (click)="openCourseContentModal()">
+        <span *ngIf="isAuthor && !course.modules" (click)="openCourseContentModal()">
           Ajouter le programme de votre formation
         </span>
 
@@ -182,7 +182,8 @@
       <div id="ratings" class="item-block ratings-block">
         <h5 class="title-cat">
           Avis
-          <button class="btn btn-rating ml-5" 
+          <button *ngIf="!isAuthor"
+                  class="btn btn-rating ml-5" 
                   (click)="openRatingCourseModal()">
             Évaluer la formation
           </button>

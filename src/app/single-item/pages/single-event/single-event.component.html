@@ -31,7 +31,7 @@
             {{ event.title }}
             <app-button-edit class="ml-5" 
                              (click)="openHeadItemModal()"
-                             *ngIf="isAuthor()"></app-button-edit>
+                             *ngIf="isAuthor"></app-button-edit>
           </h2>
           <h3 class="item-subtitre">
             {{ event.catchPhrase }}
@@ -80,7 +80,7 @@
           Description
           <app-button-edit class="ml-5" 
                            (click)="openDescriptionItemModal()" 
-                           *ngIf="isAuthor()"></app-button-edit>
+                           *ngIf="isAuthor"></app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="event.description"></app-description-section>

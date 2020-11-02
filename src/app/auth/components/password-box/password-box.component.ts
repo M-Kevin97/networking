@@ -16,7 +16,8 @@ export class PasswordBoxComponent implements OnInit {
   hidePassword:boolean = true;
   hideConfirmPassword:boolean = true;
 
-  errorPasswordMessage:string = ''; 
+  errorPasswordMessageEmpty:string = ''; 
+  errorPasswordMessage:string[] = []; 
   errorPassword:boolean = false;
 
   errorConfirmPasswordMessage:string = ''; 
@@ -30,51 +31,86 @@ export class PasswordBoxComponent implements OnInit {
 
   initForm(){
     this.passwordForm = this.formBuilder.group({
-      password: ['', [Validators.required/*, Validators.pattern(/[0-9a-zA-Z]{8,}/)*/]],
-      confirmPassword: ['', [Validators.required/*, Validators.pattern(/[0-9a-zA-Z]{8,}/)*/]]
+      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z!@#$%&:=+£€*\[\]()_\-?]{8,50}/)]],
+      confirmPassword: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z!@#$%&:=+£€*\[\]()_\-?]{8,50}/)]]
     });
   }
 
   checkPassword() {
     const pwd:string = this.passwordForm.get(['password']).value;
-    //var hasSpecialCharacters = /[ !@#$%^&*\[\]()_-?]/;
-    //validSpecialCharacters.test(pwd)
+    
+    this.errorPasswordMessage.splice(0,this.errorPasswordMessage.length);
+    this.errorPasswordMessageEmpty = '';
+    this.errorPassword = false;
 
-    //var hasNumber = /\d/;
-    // hasNumber.test("ABC"); // false
-    // hasNumber.test("Easy as 123"); // true
+    if(!pwd.length) {
+      this.errorPassword = true;
+      this.errorPasswordMessageEmpty = 'Le mot de passe doit contenir au moins 8 caractères majuscules et minuscules, un chiffre ainsi que des symboles (tels que @ & ! ? $ #).';
+    }
+    else {
+      this.errorPasswordMessageEmpty = '';
+      if(!(pwd.length >= 8 && pwd.length <= 50)) {
+        this.errorPassword = true;
+        this.errorPasswordMessage.push('8 caractères');
+      }
+  
+      if(!this.hasLowerCase(pwd)) {
+        this.errorPassword = true;
+        this.errorPasswordMessage.push('Une minuscule');
+      }
+  
+      if(!this.hasUpperCase(pwd)) {
+        this.errorPassword = true;
+        this.errorPasswordMessage.push('Une majuscule');
+      }
 
-    if((pwd.length < 8 && pwd.length > 30) 
-                        // || !hasNumber.test(pwd)
-                        // || !hasSpecialCharacters.test(pwd)
-                        || !this.hasLowerCase(pwd) 
-                        || !this.hasUpperCase(pwd)) this.errorPassword = true;
-    else this.errorPassword = false;
+      if(!this.hasNumber(pwd)) {
+        this.errorPassword = true;
+        this.errorPasswordMessage.push('Un chiffre');
+      }
+  
+      if(!this.hasSpecialCharacters(pwd)) {
+        this.errorPassword = true;
+        this.errorPasswordMessage.push('Un caractère spécial\n! @ # $ % & : = + £ € * []()_-?');
+      }
+    }
+
+    return this.errorPassword;
   }
 
   checkConfirmPassword() {
     const pwd:string = this.passwordForm.get(['password']).value;
     const confPwd:string = this.passwordForm.get(['confirmPassword']).value;
-    //let validSpecialCharacters = /[ !@#$%^&*\[\]()_-?]/;
-    //validSpecialCharacters.test(pwd)
 
-    if(pwd && !confPwd) {
+    this.errorConfirmPassword = false;
+    if(this.errorPassword) {
+      this.errorConfirmPassword = true;
+      this.errorConfirmPasswordMessage = "Veuillez saisir un mot de passe correct";
+    }
+    else if(pwd.length && !confPwd.length) {
 
         this.errorConfirmPassword = true;
-        this.errorConfirmPasswordMessage = "Veuillez confirmer le mot de passe.";
+        this.errorConfirmPasswordMessage = "Veuillez confirmer votre mot de passe.";
     }
-    else if(!(confPwd && pwd)) return;
-
-    if(confPwd !== pwd) {
+    else if(!confPwd.length && !pwd.length) {
 
       this.errorConfirmPassword = true;
-      this.errorConfirmPasswordMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
-
-    } else {
-      this.errorConfirmPassword = false;
-      this.errorPassword = false;
-      this.sendPassword();
+      this.errorConfirmPasswordMessage = "Veuillez saisir votre mot de passe.";
     }
+    else if(confPwd.length && pwd.length) {
+      if(confPwd !== pwd) {
+
+        this.errorConfirmPassword = true;
+        this.errorConfirmPasswordMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
+  
+      } else {
+        this.errorConfirmPassword = false;
+        this.errorPassword = false;
+        this.sendPassword();
+      }
+    }
+
+    return this.errorConfirmPassword;
   }
 
   sendPassword() {
@@ -90,20 +126,49 @@ export class PasswordBoxComponent implements OnInit {
     }
   }
 
+  forbidOtherCharacters(char) {
+
+    const regex =  /[0-9a-zA-Z!@#$%&:=+£€*\[\]()_\-?]/;
+
+    return regex.test(char);
+  }
+
   private hasLowerCase(str:string) {
-    let x;
-    for(x=0; x<str.length; x++)
-        if(str.charAt(x) >= 'a' && str.charAt(x) <= 'z')
-            return true;
-    return false;
+    // let x;
+    // for(x=0; x<str.length; x++)
+    //     if(str.charAt(x) >= 'a' && str.charAt(x) <= 'z')
+    //         return true;
+    // return false;
+
+    const regex =  /[a-z]/;
+
+    return str.search(regex) > -1 ? true : false;
   }
 
   private hasUpperCase(str:string) {
-    let x;
-    for(x=0; x<str.length; x++)
-        if(str.charAt(x) >= 'A' && str.charAt(x) <= 'Z')
-            return true;
-    return false;
+    // let x;
+    // for(x=0; x<str.length; x++)
+    //     if(str.charAt(x) >= 'A' && str.charAt(x) <= 'Z')
+    //         return true;
+    // return false;
+
+    const regex =  /[A-Z]/;
+
+    return str.search(regex) > -1 ? true : false;
+  }
+
+  private hasSpecialCharacters(str:string) {
+
+    const regex =  /[!@#$%&:=+£€*\[\]()_\-?]/;
+
+    return str.search(regex) > -1 ? true : false;
+  }
+
+  private hasNumber(str:string) {
+
+    const regex =  /[0-9]/;
+
+    return str.search(regex) > -1 ? true : false;
   }
 
   shouldShowRequiredError(controlName) {

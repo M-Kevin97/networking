@@ -120,6 +120,7 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
   
                 this.idUser= val.user.uid;
                 this.isEmailVerified = true;
+                this.authService.preSignUpUser = val;
               }
             }
           ).catch(
@@ -138,6 +139,7 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
               if(val) {
                 this.idUser= val.user.uid;
                 this.isEmailVerified = true;
+                this.authService.preSignUpUser = val;
               }
             }
           ).catch(
@@ -159,10 +161,6 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
-  }
-
-  onCreateUser() {
-
   }
 
   displayErrorMessage(errorCode:string) {

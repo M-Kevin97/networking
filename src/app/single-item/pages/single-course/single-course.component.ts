@@ -14,7 +14,6 @@ import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-ite
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Course } from 'src/app/shared/model/item/course';
 import { ItemService } from 'src/app/shared/service/item/item.service';
-import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-single-course',
@@ -71,120 +70,130 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
   openHeadItemModal(){
 
-    const modalRef = this.modalService.open(EditHeadItemComponent, { scrollable: true });
-    modalRef.componentInstance.item = this.course;
+    if(this.authService.isAuth && this.isAuthor) {
 
-    modalRef.result.then((result:IHeadItem) => {
-      if (result) {
-        console.log(result);
+      const modalRef = this.modalService.open(EditHeadItemComponent, { scrollable: true });
+      modalRef.componentInstance.item = this.course;
 
-        this.course.title = result.title;
-        this.course.catchPhrase = result.catchPhrase;
-        this.course.price = result.price;
-        this.course.imageLink = result.imageLink;
+      modalRef.result.then((result:IHeadItem) => {
+        if (result) {
 
-        if(this.course.catchPhrase === undefined)
-        {
-          this.course.catchPhrase = null;
-        }
-        if(this.course.title === undefined)
-        {
-          this.course.title = null;
-        }
-        if(this.course.price === undefined)
-        {
-          this.course.price = null;
-        }
-        if(this.course.imageLink === undefined)
-        {
-          this.course.imageLink = null;
-        }
-        if(this.course.videoLink === undefined)
-        {
-          this.course.videoLink = null;
-        }
+          this.course.title = result.title;
+          this.course.catchPhrase = result.catchPhrase;
+          this.course.price = result.price;
+          this.course.imageLink = result.imageLink;
 
-        this.itemService.updateItemPrimaryInfoInDB(this.course);
+          if(this.course.catchPhrase === undefined)
+          {
+            this.course.catchPhrase = null;
+          }
+          if(this.course.title === undefined)
+          {
+            this.course.title = null;
+          }
+          if(this.course.price === undefined)
+          {
+            this.course.price = null;
+          }
+          if(this.course.imageLink === undefined)
+          {
+            this.course.imageLink = null;
+          }
+          if(this.course.videoLink === undefined)
+          {
+            this.course.videoLink = null;
+          }
 
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+          this.itemService.updateItemPrimaryInfoInDB(this.course);
+
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
   openDescriptionItemModal(){
 
-    const modalRef = this.modalService.open(EditDescriptionItemComponent);
-    modalRef.componentInstance.description = this.course.description;
+    if(this.authService.isAuth && this.isAuthor) {
 
-    modalRef.result.then((result) => {
-      if (result) {
-        console.log(result);
-        console.log(this.course);
+      const modalRef = this.modalService.open(EditDescriptionItemComponent);
+      modalRef.componentInstance.description = this.course.description;
 
-        this.course.description = result;
+      modalRef.result.then((result) => {
+        if (result) {
+          console.log(result);
+          console.log(this.course);
 
-        if(this.course.description === undefined)
-        {
-          this.course.description = null;
+          this.course.description = result;
+
+          if(this.course.description === undefined)
+          {
+            this.course.description = null;
+          }
+
+          this.itemService.updateItemDescriptionInDB(this.course);
+
         }
-
-        this.itemService.updateItemDescriptionInDB(this.course);
-
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
 
   openSkillsItemModal(){
 
-    const modalRef = this.modalService.open(EditSkillsItemComponent);
-    modalRef.componentInstance.skills = this.course.skillsToAcquire;
+    if(this.authService.isAuth && this.isAuthor) {
 
-    modalRef.result.then((result:string[]) => {
-      if (result) {
-        console.log(result);
-        console.log(this.course);
+      const modalRef = this.modalService.open(EditSkillsItemComponent);
+      modalRef.componentInstance.skills = this.course.skillsToAcquire;
 
-        this.course.skillsToAcquire = result;
+      modalRef.result.then((result:string[]) => {
+        if (result) {
+          console.log(result);
+          console.log(this.course);
 
-        if(this.course.skillsToAcquire === undefined)
-        {
-          this.course.skillsToAcquire = [];
+          this.course.skillsToAcquire = result;
+
+          if(this.course.skillsToAcquire === undefined)
+          {
+            this.course.skillsToAcquire = [];
+          }
+
+          this.itemService.updateSkillsToAcquireInDB(this.course);
+
         }
-
-        this.itemService.updateSkillsToAcquireInDB(this.course);
-
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
   openCourseContentModal() {
 
-    const modalRef = this.modalService.open(EditCourseContentModalComponent,  { size: 'lg' });
-    modalRef.componentInstance.courseId = this.course.id;
-    modalRef.componentInstance.courseContent = this.course.modules;
+    if(this.authService.isAuth && this.isAuthor) {
 
-    modalRef.result.then((result:Module[]) => {
+      const modalRef = this.modalService.open(EditCourseContentModalComponent,  { size: 'lg' });
+      modalRef.componentInstance.courseId = this.course.id;
+      modalRef.componentInstance.courseContent = this.course.modules;
 
-      if (result) {
+      modalRef.result.then((result:Module[]) => {
 
-       if(this.course.modules && this.course.modules.length) this.course.modules.splice(0, this.course.modules.length);
-       this.course.modules = result;
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
-  
+        if (result) {
+
+        if(this.course.modules && this.course.modules.length) this.course.modules.splice(0, this.course.modules.length);
+        this.course.modules = result;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
   openRatingCourseModal() {
 
-    if(this.authService.isAuth) {
+    if(this.authService.isAuth && this.isAuthor && (!this.hasUserRateAlready())) {
 
       const modalRef = this.modalService.open(CreateRatingComponent);
       modalRef.componentInstance.course = this.course.getICourse();
@@ -251,11 +260,26 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
   }
 
   goToUserPage(){
-    console.log('CardAuthorComponent', this.getMainAuthor().id);
-    this.router.navigate([RouteUrl.USER, this.getMainAuthor().id]);
+
+    if(this.getMainAuthor().data) this.router.navigate([RouteUrl.USER, this.getMainAuthor().id]);
   }
 
-  onBack(){
-    this.router.navigate(['/items']);
+  hasUserRateAlready() {
+
+    /**
+     *  If the user is connected  
+     *  If the course has ratings
+     *  If the user connected has already rate the course return true
+     */
+
+    function hasRating(rating, indice, array) {
+      return (rating.user.id === this.authService.authUser.id);
+    }
+
+    if(this.authService.isAuth && this.course && this.course.ratings && this.authService.authUser){
+      return  this.course.ratings.some(hasRating);
+    }
+
+    return false;
   }
 }

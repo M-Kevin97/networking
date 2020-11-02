@@ -1,3 +1,4 @@
+import { SignupWithService } from './../core/guards/signup-with/signup-with.service';
 import { SignupWithComponent } from './pages/signup-with/signup-with.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { VerificationLinkService } from './../core/guards/verification/verification-link.service';
@@ -14,7 +15,7 @@ const routes: Routes = [
     path: RouteUrl.SIGNUP.substr(1), component:SignupComponent
   },
   {
-    path: RouteUrl.SIGNUP_WITH.substr(1), component:SignupWithComponent
+    path: RouteUrl.SIGNUP_WITH.substr(1), component:SignupWithComponent, canActivate: [SignupWithService]
   },
   {
     path: RouteUrl.LOGIN.substr(1), component:SigninComponent

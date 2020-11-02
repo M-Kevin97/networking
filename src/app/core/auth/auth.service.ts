@@ -264,7 +264,7 @@ export class AuthService {
   updatePasswordWith(newPassword:string, user?:firebase.User){
     return new Promise(
       (resolve, reject) => { 
-        if(!newPassword) reject();
+        if(!newPassword && !newPassword.length) reject();
         
         if(!user) user = firebase.auth().currentUser;
 
