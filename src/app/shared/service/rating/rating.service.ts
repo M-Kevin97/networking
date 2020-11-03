@@ -1,5 +1,5 @@
 import { IUser } from './../../model/user/user';
-import { ICourse } from 'src/app/shared/model/item/course';
+import { Course, ICourse } from 'src/app/shared/model/item/course';
 import { ItemService } from 'src/app/shared/service/item/item.service';
 import { UserService } from 'src/app/shared/service/user/user.service';
 import { DatePipe } from '@angular/common';
@@ -7,8 +7,6 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Database } from 'src/app/core/database/database.enum';
 import { Rating } from '../../model/rating/rating';
-import { rejects } from 'assert';
-import { resetFakeAsyncZone } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -124,21 +122,26 @@ export class RatingService {
    */
 
   // Mettre à jour@ un avis dans la DB 
-  updateRating(rating:Rating){
+  updateRating(rating:Rating, cb){
       if(rating) {
 
         rating.publicationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
 
         this.ratingsDB.child(rating.id)
                       .update({
-
           title: rating.title,
           note: rating.note,
           comment: rating.comment,
           publicationDate: rating.publicationDate,
         }
-      );       
+      ).then(
+        () => {
+          return rating;
+        }
+      )
+      .then(cb);       
     }
+    else return null;
   } 
 
   /**
@@ -146,6 +149,11 @@ export class RatingService {
    */
 
   // Get the ratings 
+    
+  // 1 - Get the ratings ID of the single course
+
+  // 2 - For each rating ID, get the single rating by his Id
+
   public static async getRatingsFromJSON(ratingsJson:any, iCourse:ICourse, iUser:IUser) {
 
     console.warn('getRatingsFromJSON', ratingsJson);
@@ -196,19 +204,22 @@ export class RatingService {
                 );
               } else singleRating.user = iUser;
   
-              // // if on single user page
-              // if(!iCourse && ratingCourseId) {
-              //   // getting the single ICourse of a single rating
-              //   ItemService.getSingleiItemFromDBById(ratingCourseId).then(
-              //     (val:ICourse) => {
-              //       if(val) {
-  
-              //         val.id = ratingUserId;
-              //         singleRating.course = val;
-              //       }
-              //     }
-              //   );
-              // } else singleRating.course = iCourse;
+              // if on single user page
+              if(!iCourse && ratingCourseId) {
+                // getting the single ICourse of a single rating
+                firebase.database().ref(Database.ITEMS).child(ratingCourseId).once('value').then(
+                  (itemJson) => {
+                    console.log(itemJson.val());
+            
+                    let iCourse:ICourse;
+                    iCourse = Course.iCourseFromJson(itemJson.val());
+                    iCourse.id = ratingCourseId;
+                    singleRating.course = iCourse;
+            
+                    return iCourse;
+                  }
+                );
+              } else singleRating.course = iCourse;
   
               resolve(singleRating);
             }
@@ -222,20 +233,30 @@ export class RatingService {
     // get ratings
     return await Promise.all(requestRatings);
   }
-  
-  
-  // 1 - Get the ratings ID of the single course
-
-  // 2 - For each rating ID, get the single rating by his Id
-
-  
-
-
-
-
 
   /**
    *  -------------------- REMOVE
    */
+  removeRating(rating:Rating, cb) {
+
+    this.courseRatingsDB.child(rating.course.id)
+                        .child(Database.RATINGS)
+                        .child(rating.id)
+                        .remove()
+                        .then(
+                          ()=> {
+                            this.userRatingsDB.child(rating.user.id)
+                            .child(Database.RATINGS)
+                            .child(rating.id)
+                            .remove().then(
+                              () => {
+                                this.ratingsDB.child(rating.id)
+                                .remove()
+                                .then(cb)
+                              }
+                            );
+                          }
+                        );
+  }
 
 }

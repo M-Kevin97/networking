@@ -94,14 +94,7 @@ export class Course extends Item {
               videoLink,
               srcLink);
 
-              if(this.ratings){
-                this.nbRatings = this.ratings.length;
-                this.globalNote = Rating.getGlobalNote(this.ratings);
-              }
-              else {
-                this.nbRatings = 0;
-                this.globalNote = 0;
-              }
+        this.calculateGlobalRating();
     }
 
     getICourse(){
@@ -123,6 +116,17 @@ export class Course extends Item {
         return iCourse;
     }
 
+    calculateGlobalRating() {
+        if(this.ratings){
+            this.nbRatings = this.ratings.length;
+            this.globalNote = Rating.getGlobalNote(this.ratings);
+        }
+        else 
+        {
+            this.nbRatings = 0;
+            this.globalNote = 0;
+        }
+    }
 
     public static iCoursesItemFromJson(json: Object): ICourse[] {
 

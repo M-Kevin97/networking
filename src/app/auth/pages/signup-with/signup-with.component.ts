@@ -67,7 +67,7 @@ export class SignupWithComponent implements OnInit {
                               this.lastname,
                               this.mail,
                               this.password,
-                              Database.DEFAULT_PP_USER,
+                              this.ppLink,
                               null,
                               null,
                               null,

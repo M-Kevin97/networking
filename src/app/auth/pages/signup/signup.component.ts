@@ -146,8 +146,64 @@ export class SignupComponent implements OnInit {
     }
   }
 
+  onFacebookSignUpWithPopUp() {
+
+    if(this.authService.isAuth) {
+      this.authService.signOutUser().then(
+        () => {
+          this.facebookSignUp();
+        }
+      );
+    } else {
+      this.facebookSignUp();
+    }
+  }
+
+  private facebookSignUp() {
+
+    this.authService.facebookSignIn(
+      (result:firebase.auth.UserCredential) => {
+
+        var verified_email = result.additionalUserInfo.profile['verified_email'];
+        console.error(verified_email);
+        
+        if(!verified_email) {
+          this.authService.sendEmailVerification().then(
+            (val) => {
+
+                this.isVerificationEmailSent = true;
+            },
+            (error) => {
+              this.checkErrorAuth(error);
+            }
+          );
+        } else {
+
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential;
+          // The signed-in user info.
+          this.authService.preSignUpUser = result;
+
+          this.router.navigate([RouteUrl.SIGNUP_WITH]);
+
+        }
+      }).catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+        console.error(error);
+        this.checkErrorAuth(error.code);
+      }
+    );
+  }
+
   private googleSignUp() {
-    this.authService.googleSingIn(
+    this.authService.googleSignIn(
       (result:firebase.auth.UserCredential) => {
         var verified_email = result.additionalUserInfo.profile['verified_email'];
         

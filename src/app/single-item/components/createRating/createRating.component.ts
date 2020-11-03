@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChildren, QueryList, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChildren, QueryList, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ICourse } from 'src/app/shared/model/item/course';
 import { Rating } from 'src/app/shared/model/rating/rating';
 import { IUser } from 'src/app/shared/model/user/user';
@@ -15,10 +16,10 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
   
   @Input() course:ICourse;
   @Input() user:IUser;
+  @Input() rating:Rating;
   
   note:number;
   notes:number[] = [1,2,3,4,5];
-  rating:Rating;
 
   ratingForm: FormGroup;
 
@@ -31,14 +32,11 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
   constructor(private formBuilder:FormBuilder,
               private _NgbActiveModal: NgbActiveModal,
               private ratingService:RatingService,
-              private renderer: Renderer2) { 
-
-    this.rating = new Rating(null, null, null, null, null, null, null);
+              private renderer: Renderer2,
+              private changeDetectorRef: ChangeDetectorRef) { 
   }
 
   ngOnInit() {
-
-    console.log('ngOnInit rating course');
 
     this.ratingForm = this.formBuilder.group({
       title : ['',[Validators.required]],
@@ -47,8 +45,26 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit rating course', this.stars);
+
+    this.fillForm();
+    this.changeDetectorRef.detectChanges();
   }
+
+  fillForm() {
+    if(this.rating) {
+      this.ratingForm.patchValue({
+        title: this.rating.title,
+        comment: this.rating.comment
+      },{
+        emitEvent: false
+      });
+
+      this.user = this.rating.user;
+      this.course = this.rating.course;
+
+      this.selectNote(this.rating.note);
+    }
+  } 
 
   selectNote(note:number) {
 
@@ -75,25 +91,53 @@ export class CreateRatingComponent implements OnInit, AfterViewInit {
 
   passBack(){
 
+    console.log('passBack', this.note, this.course, this.user);
+
     if(this.note && this.course && this.user) { 
 
-      this.rating.note = this.note;
-      this.rating.title = this.ratingForm.get('title').value;
-      this.rating.comment = this.ratingForm.get('comment').value;
-      this.rating.user = this.user;
-      this.rating.course = this.course;
+      if(this.rating) {
 
-      this.ratingService.addRatingInDB(this.rating,
-        (val) => {
-          console.warn('close modal no val', val);
-          if(val) {
-            console.warn('close modal', val);
-            this.activeModal.close(val);
+        console.log('passBack', this.rating);
+        
+        this.getRatingFormValues(this.rating);
+  
+        this.ratingService.updateRating(this.rating,
+          (val) => {
+            console.warn('close modal no val', val);
+            if(val) {
+              console.warn('close modal', val);
+              this.activeModal.close(val);
+            }
+            // else display 'le commentaire n'a pas pu être enregistrer, veuillez réessayer'
           }
-          // else display 'le commentaire n'a pas pu être enregistrer, veuillez réessayer'
-        }
-      );
+        );
+
+      } else {
+        this.rating = new Rating(null, null, null, null, null, null, null);
+
+        this.getRatingFormValues(this.rating);
+  
+        this.ratingService.addRatingInDB(this.rating,
+          (val) => {
+            console.warn('close modal no val', val);
+            if(val) {
+              console.warn('close modal', val);
+              this.activeModal.close(val);
+            }
+            // else display 'le commentaire n'a pas pu être enregistrer, veuillez réessayer'
+          }
+        );
+      }
     }
+  }
+
+  private getRatingFormValues(rating:Rating) {
+
+    rating.note = this.note;
+    rating.title = this.ratingForm.get('title').value;
+    rating.comment = this.ratingForm.get('comment').value;
+    rating.user = this.user;
+    rating.course = this.course;
   }
 }
 

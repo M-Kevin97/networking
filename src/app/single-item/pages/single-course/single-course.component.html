@@ -182,7 +182,7 @@
       <div id="ratings" class="item-block ratings-block">
         <h5 class="title-cat">
           Avis
-          <button *ngIf="!isAuthor"
+          <button *ngIf="!isAuthor && !hasUserRateAlready()"
                   class="btn btn-rating ml-5" 
                   (click)="openRatingCourseModal()">
             Évaluer la formation
@@ -190,12 +190,13 @@
         </h5>
         <hr> <!-- separation line -->
         <app-global-rating [ratings]="course.ratings"
-                            [globalNote]="course.globalNote">
+                           [globalNote]="course.globalNote">
         </app-global-rating>
 
         <hr> <!-- separation line -->
         
-        <app-rating-list [ratings]="course.ratings">
+        <app-rating-list [ratings]="course.ratings"
+                          (newRatings)="refreshRatings($event)">
         </app-rating-list>
         
       </div>   <!-- End section Ratings -->

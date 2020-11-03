@@ -1,11 +1,28 @@
 
+<!-- Modal -->
+<ng-template #ratingDeletingcontent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d(false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <p><b>Voulez-vous supprimer votre avis ?</b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="d(false)">Annuler</button>
+    <button type="button" class="btn btn-danger" (click)="c(true)">Supprimer</button>
+  </div>
+</ng-template>
+
 <div *ngFor="let rating of ratings; let i = index" 
      class="row rating-list align-self-center justify-content-center mb-4">
 
   <div class="col-2 rating-user-info text-center">
     
     <div class="user-img">
-      <app-user-avatar *ngIf="rating.user" [photoUrl]="rating.user.ppLink">
+      <app-user-avatar *ngIf="rating.user" [photoUrl]="rating.user.ppLink" 
+                                           [name]="rating.user.firstname +' '+rating.user.lastname">
       </app-user-avatar>
     </div>
 
@@ -47,12 +64,22 @@
 
     <div *ngIf="authService.authUser && rating.user && rating.user.id === authService.authUser.id" 
           class="btns-rating mt-3">
-      <button class="btn">Modifier</button>
+      <button class="btn btn-outline-secondary btn-sm mr-2"
+              (click)="updateRatingCourseModal(rating)">
+        Modifier
+      </button>
 
-      <button class="btn">Supprimer</button>
+      <!-- Button trigger modal -->
+      <button class="btn btn-outline-danger btn-sm mr-2"
+              (click)="deleteRating(rating, i)">
+        Supprimer
+      </button>
     </div>
 
   </div>
 </div>
+
+
+
 
 

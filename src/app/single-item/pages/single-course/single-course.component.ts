@@ -7,7 +7,7 @@ import { CreateRatingComponent } from './../../components/createRating/createRat
 import { EditSkillsItemComponent } from './../../components/edit-skills-item/edit-skills-item.component';
 import { EditDescriptionItemComponent } from './../../components/edit-description-item/edit-description-item.component';
 import { AuthService } from './../../../core/auth/auth.service';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
@@ -53,6 +53,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
         if(course) {
           console.warn(course);
           this.hasItem = true;
+          this.isItemAuthor();
           super.item = this.course = course;
           super.saveView();
         }
@@ -67,6 +68,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
       }
     );
   }
+
 
   openHeadItemModal(){
 
@@ -190,27 +192,40 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
       });
     }
   }
-
+  
   openRatingCourseModal() {
 
-    if(this.authService.isAuth && this.isAuthor && (!this.hasUserRateAlready())) {
+    if(this.hasUserRateAlready()) return;
+
+    if(this.isAuthor) return;
+
+    if(this.authService.isAuth) {
 
       const modalRef = this.modalService.open(CreateRatingComponent);
       modalRef.componentInstance.course = this.course.getICourse();
       modalRef.componentInstance.user = this.authService.authUser.getIUser();
-  
+
       modalRef.result.then((result:Rating) => {
         if (result) {
-          console.log(result);
-          if(!this.course.ratings) this.course.ratings=[];
-          this.course.ratings.push(result);
-  
+          if(!this.course.ratings || !this.course.ratings.length) {
+            this.course.ratings=[];
+            this.course.ratings.push(result);
+          }
+          else {
+            let ind = this.course.ratings.findIndex((res) => res.id === result.id);
+            ind > -1 ? this.course.ratings.push(result) : this.course.ratings[ind] = result;
+          }
+          this.refreshRatings(true);
         }
       }).catch((error) => {
         console.log(error);
       });
 
     } else this.router.navigate([RouteUrl.LOGIN]);
+  }
+
+  refreshRatings(event) {
+    if(event) this.course.calculateGlobalRating();
   }
 
   getSkillsBeginning() {
@@ -272,12 +287,12 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
      *  If the user connected has already rate the course return true
      */
 
-    function hasRating(rating, indice, array) {
-      return (rating.user.id === this.authService.authUser.id);
+    function hasRating(userId , rating, indice, array) {
+      if(rating.user) return (rating.user.id === userId);
     }
 
-    if(this.authService.isAuth && this.course && this.course.ratings && this.authService.authUser){
-      return  this.course.ratings.some(hasRating);
+    if(this.authService.isAuth && this.course && this.course.ratings){
+      return  this.course.ratings.some(hasRating.bind(null, this.authService.authUser.id));
     }
 
     return false;

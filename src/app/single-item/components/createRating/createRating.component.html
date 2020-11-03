@@ -89,8 +89,9 @@
       <button type="button" class="btn btn-light" 
                             (click)="activeModal.close()">Annuler</button>
 
-      <button type="button" (click)="passBack()" 
-                            [disabled]="ratingForm.invalid && !note">
+      <button type="button" 
+              (click)="passBack()" 
+              [disabled]="ratingForm.invalid && !note">
         Enregistrer
       </button>
     </div>

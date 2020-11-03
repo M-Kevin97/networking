@@ -121,6 +121,13 @@ export class LoginBoxComponent implements OnInit {
     }
   }
 
+  forbidOtherCharacters(char) {
+
+    const regex =  /[0-9a-zA-Z!@#$%&:=+£€*\[\]()_\-?]/;
+
+    return regex.test(char);
+  }
+
   displayError(errorCode:string) {
 
     switch(errorCode) {

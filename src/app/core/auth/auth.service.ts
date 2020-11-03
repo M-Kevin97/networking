@@ -197,12 +197,20 @@ export class AuthService {
     );
   }
 
-  googleSingIn(cb) {
+  googleSignIn(cb) {
 
+    // Sign in using a popup.
     var provider = new firebase.auth.GoogleAuthProvider();
 
     return firebase.auth().signInWithPopup(provider).then(cb);
+  }
 
+  facebookSignIn(cb) {
+
+    // Sign in using a popup.
+    var provider = new firebase.auth.FacebookAuthProvider();
+
+    return firebase.auth().signInWithPopup(provider).then(cb);
   }
 
   authStateChanged(){

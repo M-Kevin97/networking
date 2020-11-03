@@ -34,6 +34,9 @@ export class GlobalRatingComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
+    this.clearGlobalRating();
+
     //Insérez votre code de détection du changement ici
     this.sortRatings();
 
@@ -44,8 +47,23 @@ export class GlobalRatingComponent implements OnInit, OnChanges {
     this.statStarFive = this.getGlobalNoteForStar(5);
   }
 
+  clearGlobalRating() {
+    this.statStarOne = 0;
+    this.statStarTwo = 0;
+    this.statStarThree = 0;
+    this.statStarFour = 0;
+    this.statStarFive = 0;
+
+    this.oneStars = 0;
+    this.twoStars = 0;
+    this.threeStars = 0;
+    this.fourStars = 0;
+    this.fiveStars = 0;
+  }
+
   sortRatings() {
     if(!this.ratings) return;
+
     for(let rating of this.ratings) {
       switch(rating.note){
         case 1 :  {

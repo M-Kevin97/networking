@@ -10,11 +10,6 @@
 
     <form [formGroup]="signInForm" class="signin-form">
         <div class="form-group mb-3">
-            <ng-template #popEmailContent>
-                <div class="text-danger field-error-class">
-                    {{ errorEmailMessage }}
-                </div>
-            </ng-template>
             <label for="email" class="sr-only">
                 Adresse mail
                 <span style="color: rgb(247, 103, 103);">*</span>
@@ -26,13 +21,7 @@
                                 aria-describedby="emailHelp" 
                                 placeholder="Email"
                                 type="input"
-                                placement="left"
-                                triggers="manual" 
-                                [ngbPopover]=popEmailContent
-                                container="body"
-                                #popoverEmail="ngbPopover"
-                                (click)="(shouldShowRequiredError('email') || shouldShowSignInError('email')) && popoverEmail.open()"
-                                [autoClose]="'outside'"
+                                (click)="(shouldShowRequiredError('email') || shouldShowSignInError('email'))"
                                 tabindex="1" 
                                 autocapitalize="off" 
                                 autocorrect="off" 
@@ -45,11 +34,6 @@
         </div>
 
       <div class="form-group mb-4">
-        <ng-template #popPasswordContent>
-            <div class="text-danger field-error-class">
-                {{ errorPasswordMessage }}
-            </div>
-        </ng-template>
         <label for="password" class="sr-only">
             Mot de passe
             <span style="color: rgb(247, 103, 103);">*</span>
@@ -60,19 +44,14 @@
                     [ngClass]="{ 'is-invalid': shouldShowRequiredError('password') || shouldShowSignInError('password') }"
                     formControlName="password"
                     id="password" 
-                    (change)="checkPassword()"
+                    (keyup)="checkPassword()"
+                    (keydown)="forbidOtherCharacters($event.key)"
                     minlength="8"
                     maxlength="30"
                     aria-describedby="passwordHelp" 
                     placeholder="Mot de passe"
                     type="input"
-                    placement="left"
-                    triggers="manual" 
-                    [ngbPopover]=popPasswordContent
-                    container="body"
-                    #popoverPassword="ngbPopover"
-                    (click)="(shouldShowRequiredError('password') || shouldShowSignInError('password')) && popoverPassword.open()"
-                    [autoClose]="'outside'"
+                    (click)="(shouldShowRequiredError('password') || shouldShowSignInError('password'))"
                     autocomplete="current-password"
                     ng-hide="true"
                     required>

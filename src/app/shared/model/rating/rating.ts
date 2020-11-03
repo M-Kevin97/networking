@@ -55,7 +55,7 @@ export class Rating {
                 private _course: ICourse){ }
 
     public static getGlobalNote(ratings:Rating[]):number {
-
+        
         if(!ratings) return;
        var notes = {
         one: 0,
