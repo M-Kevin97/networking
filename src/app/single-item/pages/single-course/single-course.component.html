@@ -1,38 +1,38 @@
 <!------------------------------------ Page Single Course ------------------------------------>
+<div *ngIf="hasItem && isAuthor && hasBeenUpdated" class="alert alert-success text-center sticky-top">
+  <span>Vos modifications ont bien été enregistré !</span>
+</div>
+
 <!-- Si la formation n'existe pas  -->
 <div *ngIf ="!hasItem">
   La formation n'existe pas
 </div>
 
 <!-- Si la formation existe  -->
-<div class="container" *ngIf ="hasItem">
+<div class="container w-100" *ngIf ="hasItem">
+
   <div class="row item-path">
-    <span> chemin </span>
+    <a *ngIf="backLink && isSearchBackLink; else elseLink" 
+       [href]="backLink">
+       &#x3C; Retour aux résultats
+    </a>
+    <ng-template #elseLink>
+      <a [href]="backLink">
+        &#x3C; Retour
+      </a>
+    </ng-template>
   </div>
 
-  <div class="row item-content">
-    <!-- Start Price Card -->
-    <div class="col-md-3">
-      <div class="sticky">
-        <app-card-image-price-item [id]="course.id"
-                                   [imageLink]="course.imageLink" 
-                                   [price]="course.price" 
-                                   [nbRatings]="course.nbRatings" 
-                                   [category]="course.category"
-                                   [isData]="course.data" 
-                                   [globalNote]="course.globalNote">
-        </app-card-image-price-item>
-      </div> 
-    </div>  <!-- End Price Card -->
+  <div class="row item-content w-100">
 
     <!-- Start page item Head -->
-    <div class="col-lg-9">
-      <div class="heading">
+    <div class="col-lg-9 col-md-8">
+      <div class="heading px-2">
         <div class="title-section mt-3">
           <h2 class="item-title mb-2">
             {{ course.title }}
             <app-button-edit class="ml-5" 
-                             (click)="openHeadItemModal()"
+                             (click)="openEditHeadItemModal()"
                              *ngIf="isAuthor">
             </app-button-edit>
           </h2>
@@ -40,6 +40,7 @@
             {{ course.catchPhrase }}
           </h3>
         </div>
+
         <div class="item-features">
           <div class="row">
             <div class="col-6">
@@ -77,11 +78,28 @@
             </div>
           </div>
         </div>
+    
+        <div *ngIf="course.tags" class="course-tags mt-3 mx-3">
+          <span *ngFor="let tag of course.tags; let i = index" 
+                class="course-tag py-2 px-3 mr-2"
+                (click)="onSearchTag(tag)">
+
+            <span class="iconify" 
+                  data-icon="heroicons-solid:hashtag" 
+                  data-inline="false" 
+                  style="color: #2E7B9C; font-size: 1.1em;">
+            </span>
+
+            <span class="item-p item-click">{{ tag.name }}</span>
+          </span> 
+        </div>
       </div> <!-- End page item Head -->
+
 
       <!-- Start Author section -->
       <div *ngIf="!isAuthor" class="item-block author-block">
-        <app-card-author [author]="getMainAuthor()"></app-card-author>
+        <app-card-author [author]="item.getMainiAuthor()">
+        </app-card-author>
       </div> <!-- End Author section -->
 
       <!-- Start Description section -->
@@ -167,15 +185,17 @@
       </div> <!-- End course content  section -->
 
       <!-- Start section more author's items  -->
-      <div *ngIf="getMainAuthor()" class="item-block skills-block">
+      <div *ngIf="course.getMainiAuthor() && course.getMainiAuthor().iCourses && course.getMainiAuthor().iCourses.length" 
+           class="item-block skills-block">
         <h5 class="title-cat"> Plus de 
           <a (click)="goToUserPage()">
-          {{ getMainAuthor().firstname }} {{ getMainAuthor().lastname }}
+            {{ item.getMainiAuthorName() }}
           </a>
         </h5>
         <hr> <!-- separation line -->
-        <app-items-carousel *ngIf="mainAuthorItems" [iItems]="mainAuthorItems"></app-items-carousel>
-
+        <app-items-carousel [iItems]="course.getMainiAuthor().iCourses"
+                            [iAuthor]="course.getMainiAuthor()">
+        </app-items-carousel>
       </div>   <!-- End section more author's courses  -->
 
       <!-- Start section Ratings -->
@@ -196,11 +216,20 @@
         <hr> <!-- separation line -->
         
         <app-rating-list [ratings]="course.ratings"
-                          (newRatings)="refreshRatings($event)">
+                         (newRatings)="refreshRatings($event)">
         </app-rating-list>
         
-      </div>   <!-- End section Ratings -->
+      </div> <!-- End section Ratings -->
     </div>
+
+    <!-- Start Price Card -->
+    <div class="col-lg-3 col-md-4">
+      <div class="sticky">
+        <app-card-image-price-item [item]="item">
+        </app-card-image-price-item>
+      </div> 
+    </div>  <!-- End Price Card -->
+
   </div>
 </div>
 

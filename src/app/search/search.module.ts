@@ -1,3 +1,4 @@
+import { ResultsComponent } from './pages/results/results.component';
 import { SearchRoutes } from './search.routing';
 import { FilterComponent } from './components/filter/filter.component';
 import { NgModule } from '@angular/core';
@@ -11,7 +12,8 @@ import { SearchComponent } from './search.component';
   ],
   declarations: [
     SearchComponent,
-    FilterComponent
+    FilterComponent,
+    ResultsComponent,
   ],
   exports: [
     FilterComponent

@@ -1,5 +1,5 @@
-import { ICourse } from 'src/app/shared/model/item/course';
-import { IUser, User } from 'src/app/shared/model/user/user';
+import { IItem } from 'src/app/shared/model/item/item';
+import { IUser } from 'src/app/shared/model/user/user';
 
 export class Rating {
     public get title(): string {
@@ -8,10 +8,10 @@ export class Rating {
     public set title(value: string) {
         this._title = value;
     }
-    public get course(): ICourse {
+    public get course(): IItem {
         return this._course;
     }
-    public set course(value: ICourse) {
+    public set course(value: IItem) {
         this._course = value;
     }
     public get user(): IUser {
@@ -46,13 +46,13 @@ export class Rating {
         this._id = value;
     }
 
-    constructor(private _id: string,
-                private _title: string,
-                private _note: number,
-                private _comment: string,
-                private _publicationDate: string,
-                private _user: IUser,
-                private _course: ICourse){ }
+    constructor(private _id:                string,
+                private _title:             string,
+                private _note:              number,
+                private _comment:           string,
+                private _publicationDate:   string,
+                private _user:              IUser,
+                private _course:            IItem){ }
 
     public static getGlobalNote(ratings:Rating[]):number {
         
@@ -91,7 +91,7 @@ export class Rating {
             }
         }
 
-        var globalNote:number;
+        var globalNote:number = null;
         const num = ((notes.one*1)+(notes.two*2)+(notes.three*3)+(notes.four*4)+(notes.five*5))
         if (num===0) globalNote = 0;
         else {
@@ -107,11 +107,11 @@ export class Rating {
 
         if(json === null && json === undefined) return null;
 
-        return new Rating(json[0],
-                          json['title'],
-                          json['note'],
-                          json['comment'],
-                          json['publicationDate'],
+        return new Rating(json[0] || null,
+                          json['title'] || null,
+                          json['note'] || null,
+                          json['comment'] || null,
+                          json['publicationDate'] || null,
                           null,
                           null);
     }

@@ -1,0 +1,44 @@
+.icon-search {
+    cursor: pointer;
+
+    color: #2E7B9C;
+    font-size: 1.3rem;
+    background-color: white;
+    border-left: 0;
+
+    border-radius: 0 3rem 3rem 0;
+    -moz-border-radius: 0 3rem 3rem 0;
+    -webkit-border-radius: 0 3rem 3rem 0;
+}
+
+.input-search {
+    border-right: 0;
+
+    border-radius: 3rem 0 0 3rem;
+    -moz-border-radius: 3rem 0 0 3rem;
+    -webkit-border-radius: 3rem 0 0 3rem;
+}
+
+.suggestions {
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 91%;
+
+    max-height: 15em;
+
+    overflow-y: auto;
+
+    border-radius: 0 0 1.5rem 1.5rem;
+    -moz-border-radius: 0 0 1.5rem 1.5rem;
+    -webkit-border-radius: 0 0 1.5rem 1.5rem;
+
+    -webkit-box-shadow: 0px 2px 4px 1px rgba(155,155,155,0.32); 
+    -moz-box-shadow: 0px 2px 4px 1px rgba(155,155,155,0.32); 
+    box-shadow: 0px 2px 4px 1px rgba(155,155,155,0.32);
+}
+
+.suggestion:hover {
+    color: #2E7B9C;
+}

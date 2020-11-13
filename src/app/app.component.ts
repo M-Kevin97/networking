@@ -11,6 +11,8 @@ import { RouteUrl } from './core/router/route-url.enum';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+
   constructor(private router: Router,
               private authService: AuthService,
               private routerService: RouterService){

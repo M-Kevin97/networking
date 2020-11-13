@@ -1,5 +1,8 @@
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
+import { Observable, Subject } from 'rxjs';
 import { User } from 'src/app/shared/model/user/user';
 import { UserService } from 'src/app/shared/service/user/user.service';
 
@@ -9,9 +12,12 @@ import { UserService } from 'src/app/shared/service/user/user.service';
 })
 export class AuthService {
 
+  private isConnected = new Subject<Boolean>();
+
 
   // authUser est l'utilisateur identifé lors de la connexion
   private _authUser: User;
+  hasAuthResult = false;
 
   public get authUser(): User {
     return this._authUser;
@@ -35,7 +41,8 @@ export class AuthService {
   }
 
 
-  constructor(private userService:UserService) { 
+  constructor(private userService:UserService,
+              private router:Router) { 
     
     this._authUser = new User(null,
                               null,
@@ -53,6 +60,9 @@ export class AuthService {
                               null);
   }
 
+  getAuth(): Observable<Boolean> {
+    return this.isConnected.asObservable();
+  }
 
   createAccountWithEmailAndPassword(mail:string, password:string) {
     return new Promise (
@@ -120,7 +130,6 @@ export class AuthService {
           // Save the email locally so you don't need to ask the user for it again
           // if they open the link on the same device.
           window.localStorage.setItem('netSkillsEmailForSignIn', email);
-          console.log("verification sent");
           resolve();
         })
         .catch(function(error) {
@@ -172,8 +181,6 @@ export class AuthService {
 
   signInUser(email:string, password:string){
 
-    console.error('signInUser', password);
-
     return new Promise (
       (resolve, reject) => {
         
@@ -214,36 +221,37 @@ export class AuthService {
   }
 
   authStateChanged(){
+
     return new Promise(
       (resolve, reject) => {
         firebase.auth().onAuthStateChanged(
           (user) => {
             if(user){
-              console.warn('onAuthStateChanged :', user.uid, user.email, user.emailVerified);
               if(user.emailVerified){
                 this.getCurrentUserDataWithId(user.uid).then(
                   (bool) => {
                     if(bool) {
-                      
+                      this.hasAuthResult = true;
                       this.isAuth = bool;
-                      console.log(user.email + 'est connecté');
+                      this.isConnected.next(true);
                       resolve(true);
                     }
                     else {
                       this.isAuth = false;
-                      console.log(this.isAuth,' est déconnecté');
+                      this.isConnected.next(false);
                       resolve(false);
                     }
                   }
                 );
               } else {
                 this.isAuth = false;
-                console.log(this.isAuth,' est déconnecté');
+                this.isConnected.next(false);
                 resolve(false);
               }
             } else {
               this.isAuth = false;
-              console.log(this.isAuth,' est déconnecté');
+              this.hasAuthResult = true;
+              this.isConnected.next(false);
               resolve(false);
             }
           }
@@ -253,16 +261,16 @@ export class AuthService {
   }
 
   getCurrentUserDataWithId(id:string) {
+
     return this.userService.getSingleUserFromDBWithId(id).then(
-      (user) => {
+      (user:User) => {
         if(!user) {
           this.signOutUser();
           return false;
         } else {
-          console.log('Auth USer',user);
-          this._authUser = User.userFromJson(user);
-          this._authUser.id = id;
-          console.log('Auth USer', this._authUser);
+          user.id = id;
+          this._authUser = user;
+
           return true;
         }
       }
@@ -348,7 +356,6 @@ export class AuthService {
         
         auth.sendPasswordResetEmail(email, actionCodeSettings).then(function() {
           // Email sent.
-          console.log("verification sent");
           resolve();
 
         }).catch(function(error) {
@@ -364,6 +371,8 @@ export class AuthService {
     return firebase.auth().signOut().then(
       () => {
         this.isAuth = false;
+        this._authUser = null;
+        this.router.navigate([RouteUrl.LOGIN]);
       }
     );
   }

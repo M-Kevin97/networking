@@ -1,12 +1,11 @@
+import { IUser, User } from 'src/app/shared/model/user/user';
 import { UserLevel } from './../../model/UserLevel.enum';
 import { Database } from 'src/app/core/database/database.enum';
 import { Subject } from 'rxjs/internal/Subject';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { IUser, User } from '../../model/user/user';
 import { Course } from '../../model/item/course';
 import { EventItem } from '../../model/item/event-item';
-import { CategoryService } from '../category/category.service';
 
 
 @Injectable({
@@ -317,23 +316,6 @@ export class UserService {
     );
   }
 
-  getSingleUserFromDBWithMail(email:string){
-    return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref(Database.USERS+'/'+email).once('value').then(
-          (user) => {
-
-              resolve(user.val());
-              console.log(user.val());
-          }, (error) => {
-
-            reject(error);
-          }
-        );
-      }
-    );
-  }
-
   public static getUserByMail(email:string, cb){
     return firebase.database().ref(Database.USERS)
                               .orderByChild('email')
@@ -344,7 +326,7 @@ export class UserService {
 
   getSingleUserFromDBWithId(id:string){ 
 
-    return firebase.database().ref(Database.USERS).child(id).once('value').then(
+    return this.usersDB.child(id).once('value').then(
       (user) => {
         console.log(user.val());
         return User.userFromJson(user.val());
@@ -352,12 +334,17 @@ export class UserService {
     );
   }
 
-  public static getSingleiUserFromDBWithId(id:string){ 
+
+  public static getiUserFromDBWithId(id:string){ 
     if(!id) return null;
     return firebase.database().ref(Database.USERS).child(id).once('value').then(
-      (user) => {
-        console.log(user.val());
-         return User.iUserFromJson(user.val());
+      (iUserJSON) => {
+
+        console.warn('userItemsJson', iUserJSON.val());
+
+        let iUser = User.iUserFromJson(iUserJSON.val());
+        console.warn('userItemsJson', iUser.itemId);
+        return iUser;
       }
     );
   }

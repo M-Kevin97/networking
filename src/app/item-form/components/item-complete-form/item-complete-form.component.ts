@@ -30,7 +30,11 @@ export class ItemCompleteFormComponent implements OnInit {
   }
 
   getCategoryFormValue(){
-    return (this.itemFormService.getStepFormWithStep(StepState.CATEGORY).value).name;
+    return (this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).value).name;
+  }
+
+  getTagsFormValue(){
+    return this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).value;
   }
 
   getPriceFormValue(){

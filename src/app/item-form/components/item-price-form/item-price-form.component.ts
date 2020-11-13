@@ -22,7 +22,7 @@ export class ItemPriceFormComponent implements OnInit {
   ngOnInit() {
 
     this.priceForm = this.formBuilder.group({
-      price: ['',[Validators.required]]
+      price: ['',Validators.required]
     });
 
     // sinon si l'élément Price a été créé

@@ -10,15 +10,18 @@
                   formControlName="description"
                   id="description" 
                   [(ngModel)]="description"
-                  rows="5">
+                  rows="12">
         </textarea>
       </form>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light" 
-                            (click)="activeModal.close(oldDescription)">Annuler</button>
+                            (click)="activeModal.close(null)">Annuler</button>
 
-      <button type="button" (click)="passBack()">Enregistrer</button>
+      <button type="button" 
+              class="btn"
+              [disabled]="descriptionItemForm.invalid"
+              (click)="passBack()">Enregistrer</button>
     </div>
   </div>
 </div>

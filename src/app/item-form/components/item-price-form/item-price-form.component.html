@@ -7,20 +7,20 @@
             <form [formGroup]="priceForm" role="form" class="form-item">
                 <div class="input-group">
                     <input type="number" class="form-control form-control-lg" formControlName = "price"
-                                                    min="1"
+                                                    min="0"
                                                     id="price" 
-                                                    pattern="\d+"
+                                                    pattern="\d+(?:[.,]\d{1,2})?"
                                                     onkeydown="return (event.keyCode !== 69 
                                                                        && event.keyCode !== 187
                                                                        && event.keyCode !== 189)"
                                                     aria-label="Amount (to the nearest dollar)"
-                                                    placeholder="Saisissez le price de votre formation...">
+                                                    placeholder="Saisissez le prix de votre formation...">
                     <div class="input-group-append">
                         <span class="input-group-text">€</span>
                     </div>
                 </div>
             </form>
-            <ul class="nav nav-item btns-item-form justify-content-between border mx-auto">
+            <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
                 <li>
                     <button type="button" class="btn btn-default btn-prev" 
                                           (click)="onBack()">

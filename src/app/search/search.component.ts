@@ -1,4 +1,3 @@
-import { Item } from 'src/app/shared/model/item/item';
 import { FilterService } from './../shared/service/search/filter/filter.service';
 import { IUser } from 'src/app/shared/model/user/user';
 import { Course } from 'src/app/shared/model/item/course';
@@ -47,11 +46,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   coursesList:Array<Course|EventItem> = [];
   eventsList:Array<Course|EventItem> = [];
   usersList:Array<IUser> = [];
-
-  itemNavActive:boolean = true;
-  courseNavActive:boolean = false;
-  eventNavActive:boolean = false;
-  userNavActive:boolean = false;
 
   constructor(private itemService:ItemService,
               private searchService:SearchService,
@@ -116,7 +110,37 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.activeTab = activeTab;
   }
 
-  private setCategoryNav(categoryId:string) {
+  private setCategoriesNav(categoryId:string) {
+
+    let catF:Category;
+
+    if(categoryId) {
+      if(categoryId === DefautCategory.ID) {
+        this.categoryName = DefautCategory.NAME;
+        catF = new Category(DefautCategory.ID, DefautCategory.NAME,[]);
+      }
+      else if(catF = this.categoryService.categories.find(cat => cat.id === categoryId)) this.categoryName = catF.name;
+      else {
+        function breakIfSubCategoryFound(cat:Category) {
+          const isFound = cat.subCategories.find(subCat => subCat.id === categoryId);
+          if(isFound) {
+            catF = cat;
+            this.categoryName = isFound.name;
+          }
+          return isFound;
+        }
+        this.categoryService.categories.some(breakIfSubCategoryFound, this);
+      }
+    } else {
+      categoryId =  DefautCategory.ID;
+      this.categoryName = DefautCategory.NAME;
+    }
+
+    // Récupérer les catégories à afficher
+    this.categoriesToDisplay = this.getCategoriesToDisplay(catF);
+  }
+
+  private setTagsNav(categoryId:string) {
 
     let catF:Category;
 
@@ -147,12 +171,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   // methode pour rechercher des formations dans la DB en fonction de la categorie choisie et des mots clés
-  searchCourses(eventQuery:ISearchQuery){
+  searchCourses(eventQuery:ISearchQuery) {
 
     let categoryId:string = eventQuery.categoryId;
     this.query = eventQuery.query;
   
-    this.setCategoryNav(categoryId);
+    this.setCategoriesNav(categoryId);
 
     console.error('searchCourses',eventQuery, this.categoryName);
 
@@ -183,26 +207,32 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.displayPanel(ItemResult.COURSES);
          break; 
       } 
-    } 
+    }
 
     // Si il y a une categorie, récupérer les formations en fonction de la categorie 
     if(categoryId && categoryId!=='0') {
 
-      if(this.categoryService.categories.find(cat => cat.id === categoryId)){
-        this.itemService.getItemsByCategory(categoryId,
-          (itemSnap:Course|EventItem) => {
+      // if(this.categoryService.categories.find(cat => cat.id === categoryId)){
+      //   this.itemService.getItemsByCategory(categoryId,
+      //     (itemSnap:Course|EventItem) => {
   
-            this.selectResult(itemSnap, eventQuery.query);
-          }
-        );
-      } else {
-        this.itemService.getItemsBySubCategory(categoryId,
-          (itemSnap:Course|EventItem) => {
+      //       this.selectResult(itemSnap, eventQuery.query);
+      //     },
+      //     (error) => {
+
+      //     }
+      //   );
+      // } else {
+      //   this.itemService.getItemsBySubCategory(categoryId,
+      //     (itemSnap:Course|EventItem) => {
             
-            this.selectResult(itemSnap, eventQuery.query);
-          }
-        ); 
-      }
+      //       this.selectResult(itemSnap, eventQuery.query);
+      //     },
+      //     (error) => {
+            
+      //     }
+      //   ); 
+      // }
     }
     // Si il n'y a pas de categorie (Tout), ni de mots clés, récupérer toutes les formations 
     else {
@@ -251,11 +281,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   private filterSingleItemWithQuery(item:Course|EventItem, query:string): boolean {
+
     console.warn(item.searchContent,' includes :',query.toLocaleLowerCase(), 
                                           'res : ',item.searchContent.includes(query.toLocaleLowerCase()));
 
+    const regex =  /[ !@§_#$%&:=\-+.,£€<>^¨°\‘\“\`\'\"*\[\](){}¡∞≠æ®†Úºîœß◊©≈‹«πµ¬ﬁ¶;~ƒ∂≤≥›÷…•¿±\\ø¢√∫ı\/?]/;
+
     //récupération de chaque mot de la recherche
-    let splittedArray = query.toLocaleLowerCase().split(' ');
+    let splittedArray = query.toLocaleLowerCase().split(regex);
+
     let counts:number[] = [];
 
     for(let keyword of splittedArray) counts.push(item.searchContent.split(keyword).length - 1); 
@@ -293,28 +327,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.allocateItem(item);
       }
     );
-  }
-
-  onSelectCourseList(courses:Course[]){
-
-    this.eventNavActive = false;
-    this.userNavActive = false;
-    this.courseNavActive = true;
-  }
-
-  onSelectEventList(events:EventItem[]){
-
-    this.courseNavActive = false;
-    this.userNavActive = false;
-    this.eventNavActive = true;
-  }
-
-  onSelectUserList(){
-
-    this.courseNavActive = false;
-    this.userNavActive = false;
-    this.eventNavActive = true;
-
   }
 
   /* ---------------------------------------- SORT --------------------------------------------- */
@@ -393,7 +405,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     if(this.searchSubscription) {
       this.searchSubscription.unsubscribe();
-      console.log('this.searchSubscription.unsubscribe();');
     }
 
     if(this.mySubscription) {

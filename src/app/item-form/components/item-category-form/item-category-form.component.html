@@ -2,8 +2,16 @@
 <div class="tab-pane" role="tabpanel" id="step2">
     <div class="row justify-content-center">
         <div class="col-8">
-            <h3 class="head-item-form">À quelle catégorie votre formation appartient-elle ?</h3>
-            <form [formGroup]="categoryForm" role="form" class="form-item">
+            <h3 class="head-item-form">Choisissez / créez vos tags ! </h3>
+
+            <div class="input-tags mt-5">
+                <app-tags-input [tags]="tags"
+                                [size]="'lg'"
+                                (tagsEvent)="tags = $event">
+                </app-tags-input>
+            </div>
+
+            <!-- <form [formGroup]="categoryForm" role="form" class="form-item">
                 <div class="cat-select">
                     <label class="sr-only" for="category">Catégorie</label>
                     <select class="form-control form-control-lg mt-5" formControlName="category"  
@@ -42,8 +50,9 @@
                         </option>
                     </select>
                 </div>
-            </form>
-            <ul class="nav nav-item btns-item-form justify-content-between border mx-auto mt-5">
+            </form> -->
+
+            <ul class="nav nav-item btns-item-form justify-content-between mx-auto mt-5">
                 <li>
                     <button type="button" class="btn btn-default btn-prev" 
                                           (click)="onBack()">
@@ -53,8 +62,8 @@
                 <li>
                     <button type="button" id="continue" 
                                           class="btn btn-default btn-next" 
-                                          *ngIf="!categoryForm.invalid"
-                                          (click)="onSetCategory()">
+                                          *ngIf="tags.length"
+                                          (click)="onSetCategories()">
                         Continuer
                     </button>
                 </li>

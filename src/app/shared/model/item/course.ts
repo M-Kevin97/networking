@@ -1,14 +1,10 @@
+import { IItem, Item } from 'src/app/shared/model/item/item';
+import { Tag } from './../tag/tag';
 import { Database } from 'src/app/core/database/database.enum';
 import { Module } from './module';
 import { Category } from '../category/category';
 import { Rating } from '../rating/rating';
 import { IUser } from '../user/user';
-import { IItem, Item } from './item';
-
-export interface ICourse extends IItem {
-    nbRatings:number;
-    globalNote:number;
-}   
 
 export class Course extends Item {
     public get modules(): Module[] {
@@ -60,6 +56,7 @@ export class Course extends Item {
                 type:string,
                 title: string, 
                 category: Category,
+                tags:Tag[],
                 catchPhrase: string,
                 description: string,
                 price: number,
@@ -69,6 +66,7 @@ export class Course extends Item {
                 private _modules: Module[],
                 searchContent:string,
                 data:boolean,
+                consultationLink:string,
                 private _skillsToAcquire: string[],
                 private _ratings: Rating[],
                 private _nbClick?: number,
@@ -82,6 +80,7 @@ export class Course extends Item {
               type,
               title, 
               category,
+              tags,
               catchPhrase,
               description, 
               price, 
@@ -90,6 +89,7 @@ export class Course extends Item {
               published,
               searchContent,
               data,
+              consultationLink,
               imageLink,
               videoLink,
               srcLink);
@@ -98,19 +98,24 @@ export class Course extends Item {
     }
 
     getICourse(){
-        const iCourse:ICourse = {
-            type: this.type,
-            data: this.data,
-            id: this.id,
-            title: this.title,
-            price: this.price,
-            category: this.category,
-            iAuthors: this.iAuthors,
-            imageLink: this.imageLink,
-            published: this.published,
-            nbRatings:this.nbRatings,
-            globalNote: this.nbRatings,
-            catchPhrase:this.catchPhrase,
+
+        const iCourse:IItem = {
+            type:               this.type || null,
+            data:               this.data || null,
+            consultationLink:   this.consultationLink || null,
+            id:                 this.id || null,
+            title:              this.title || null,
+            price:              this.price || null,
+            category:           this.category || null,
+            tags :              this.tags || null,
+            iAuthors:           this.iAuthors || null,
+            imageLink:          this.imageLink || null,
+            published:          this.published || null,
+            nbRatings:          this.nbRatings || null,
+            globalNote:         this.globalNote || null,
+            catchPhrase:        this.catchPhrase || null,
+            location:           null,
+            dates:              null
         }
 
         return iCourse;
@@ -128,7 +133,7 @@ export class Course extends Item {
         }
     }
 
-    public static iCoursesItemFromJson(json: Object): ICourse[] {
+    public static iCoursesFromJson(json: Object): IItem[] {
 
         console.log('-----------',json);
 
@@ -136,36 +141,25 @@ export class Course extends Item {
 
         console.log('°°°°°°°°°°°°',json);
 
-        var crs:ICourse[] = [];
+        var iCrs:IItem[] = [];
         Object.keys(json).map(
             function(coursesIdIndex){
             let courseJson = json[coursesIdIndex];
 
             if(courseJson['type']==='course') {
 
-                var course:ICourse = {
-                    data:courseJson['data'],
-                    type:courseJson['type'],
-                    id: coursesIdIndex,
-                    title: courseJson['title'],
-                    category:null,
-                    price: courseJson['price'],
-                    imageLink:courseJson['imageLink'],
-                    nbRatings:courseJson['nbRatings'],
-                    catchPhrase:courseJson['catchPhrase'],
-                    globalNote:courseJson['globalNote'],
-                    iAuthors:[],
-                    published:courseJson['published'],
-                };
-                crs.push(course);
-                return course;
+                var iCourse:IItem = this.iCourseFromJson(courseJson);
+
+                iCrs.push(iCourse);
+                
+                return iCourse;
             }
         });
-        if(crs.length<=0) return null;
-        else return crs;
+        if(iCrs.length<=0) return null;
+        else return iCrs;
     }
 
-    public static iCourseFromJson(json: Object): ICourse {
+    public static iCourseFromJson(json: Object): IItem {
 
         console.log('-----------',json);
 
@@ -175,19 +169,23 @@ export class Course extends Item {
 
         if(json['type']==='course') {
 
-            var course:ICourse = {
-                data:json['data'],
-                type:json['type'],
-                id: json[0],
-                title: json['title'],
-                category:null,
-                price: json['price'],
-                imageLink:json['imageLink'],
-                nbRatings:json['nbRatings'],
-                catchPhrase:json['catchPhrase'],
-                globalNote:json['globalNote'],
-                iAuthors:[],
-                published:json['published'],
+            var course:IItem = {
+                consultationLink:   json['consultationLink'] || null,
+                data:               json['data'] || null,
+                type:               json['type'] || null,
+                id:                 json[0] || null,
+                title:              json['title'] || null,
+                catchPhrase:        json['catchPhrase'] || null,
+                category:           null,
+                tags:               Tag.tagsFromJson(json['tags']) || null,
+                price:              json['price'] || null,
+                imageLink:          json['imageLink'] || null,
+                nbRatings:          json['nbRatings'] || null,
+                globalNote:         json['globalNote'] || null,
+                iAuthors:           [],
+                published:          json['published'] || null,
+                location:           null,
+                dates:              null
             };
             
             return course;
@@ -200,25 +198,26 @@ export class Course extends Item {
 
         console.log(json);
 
-        return new Course(
-            json['id'],
-            json['type'],
-            json['title'],
-            null,
-            json['catchPhrase'],
-            json['description'],
-            json['price'],
-            [],
-            json['creationDate'],
-            json['published'],
-            Module.modulesFromJson(json[Database.MODULES.substr(1)]),
-            json['searchContent'],
-            json['data'],
-            json['skillsToAcquire'],
-            Rating.ratingsFromJson(json['ratings']),
-            json['nbClick'],
-            json['imageLink'],
-            json['videoLink']
+        return new Course(json[0],
+                          json['type'] || null,
+                          json['title'] || null,
+                          null,
+                          Tag.tagsFromJson(json['tags']) || null,
+                          json['catchPhrase'] || null,
+                          json['description'] || null,
+                          json['price'] || null,
+                          [],
+                          json['creationDate'] || null,
+                          json['published'] || null,
+                          Module.modulesFromJson(json[Database.MODULES.substr(1)]) || null,
+                          json['searchContent'] || null,
+                          json['data'] || null,
+                          json['consultationLink'] || null,
+                          json['skillsToAcquire'] || null,
+                          Rating.ratingsFromJson(json['ratings']) || null,
+                          json['views'] || null,
+                          json['imageLink'] || null,
+                          json['videoLink'] || null,
         );
     }
 

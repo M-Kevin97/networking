@@ -13,6 +13,7 @@ export enum Database {
     AUTHOR = '/author',
     CATEGORY = '/category',
     CATEGORIES = '/categories',
+    TAGS = '/tags',
     LOCATION = '/location',
     DATA_COURSES = '/data/courses',
     DATA_INSTRUCTORS = '/data/instructors',

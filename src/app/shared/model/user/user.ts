@@ -1,6 +1,5 @@
+import { IItem } from 'src/app/shared/model/item/item';
 import { UserLevel } from './../UserLevel.enum';
-import { Course, ICourse } from './../item/course';
-import { EventItem, IEvent } from '../item/event-item';
 
 export interface IUser {
     id:string;
@@ -10,9 +9,18 @@ export interface IUser {
     ppLink:string;
     bio:string;
     data:boolean;
+    iCourses:IItem[];
+    iEvents:IItem[];
+    itemId?:string[];
 }
 
 export class User {
+    public get itemsId(): string[] {
+        return this._itemsId;
+    }
+    public set itemsId(value: string[]) {
+        this._itemsId = value;
+    }
     public get role(): string {
         return this._role;
     }
@@ -38,16 +46,16 @@ export class User {
         this._ppLink = value;
     }
     
-    public get events(): IEvent[] {
+    public get events(): IItem[] {
         return this._events;
     }
-    public set events(value: IEvent[]) {
+    public set events(value: IItem[]) {
         this._events = value;
     }
-    public get courses(): ICourse[] {
+    public get courses(): IItem[] {
         return this._courses;
     }
-    public set courses(value: ICourse[]) {
+    public set courses(value: IItem[]) {
         this._courses = value;
     }
     public get id(): string {
@@ -99,84 +107,44 @@ export class User {
         this._firstname = value;
     }
 
-    constructor(private _id: string,
-                private _firstname: string, 
-                private _lastname: string, 
-                private _mail: string, 
-                private _password: string,
-                private _ppLink: string,
-                private _tel: string, 
-                private _title: string,
-                private _bio: string,
-                private _role: string,
-                private _accessLevel: UserLevel,
-                private _data: boolean,
-                private _courses: ICourse[],
-                private _events: IEvent[]) {
+    constructor(private _id:            string,
+                private _firstname:     string, 
+                private _lastname:      string, 
+                private _mail:          string, 
+                private _password:      string,
+                private _ppLink:        string,
+                private _tel:           string, 
+                private _title:         string,
+                private _bio:           string,
+                private _role:          string,
+                private _accessLevel:   UserLevel,
+                private _data:          boolean,
+                private _courses:       IItem[],
+                private _events:        IItem[],
+                private _itemsId?:       string[]) {
 
     }
 
     getIUser(){
         const iUser:IUser = {
-            id: this.id,
-            firstname: this.firstname,
-            lastname: this.lastname,
-            title: this.title,
-            ppLink: this.ppLink,
-            bio:this.bio,
-            data:this.data,
+            id:         this.id || null,
+            firstname:  this.firstname || null,
+            lastname:   this.lastname || null,
+            title:      this.title || null,
+            ppLink:     this.ppLink || null,
+            bio:        this.bio || null,
+            data:       this.data || null,
+            iCourses:   this.courses || null,
+            iEvents:    this.events || null,
+            itemId:    this.itemsId || null,
         }
 
         return iUser;
     }
 
-    public static userFromJson(json: Object): User {
-
-        if(!json) return null;
-
-        const jsonItems = json['items'];
-        let crs = null, evts = null;
-
-        if(jsonItems)  {
-            //crs = Course.getICoursesItemFromJson(jsonItems);
-            //evts = EventItem.getIEventsItemFromJson(jsonItems);
-        }     
-
-        return new User(null,
-                        json['firstname'],
-                        json['lastname'],
-                        json['mail'],
-                        json['password'],
-                        json['ppLink'],
-                        json['tel'],
-                        json['title'],
-                        json['bio'],
-                        json['role'],
-                        json['accessLevel'],
-                        json['data'],
-                        crs,
-                        evts);
+    getName() {
+        return this.firstname+' '+this.lastname;
     }
-
-    public static iUserFromJson(json: Object): IUser {
-
-        if(!json) return null;  
-
-        let iUser:IUser;
-
-        iUser = { 
-            id: '',
-            firstname: json['firstname'],
-            lastname: json['lastname'],
-            title: json['title'],
-            ppLink: json['ppLink'],
-            bio: json['bio'],
-            data: json['data'],
-        };
-
-        return iUser;
-    }
-    
 
     public static usersFromJson(json: Object): User[] {
 
@@ -193,5 +161,58 @@ export class User {
         });
 
         return users;
+    }
+
+    public static userFromJson(json: Object): User {
+
+        if(!json) return null;
+
+        const jsonItems = json['items'];
+        let crs = null, evts = null;
+
+        console.warn('userFromJson', jsonItems);
+
+        if(jsonItems)  {
+            //crs = Course.getICoursesItemFromJson(jsonItems);
+            //evts = EventItem.getIEventsItemFromJson(jsonItems);
+        }     
+
+        return new User(null,
+                        json['firstname'] || null,
+                        json['lastname'] || null,
+                        json['mail'] || null,
+                        json['password'] || null,
+                        json['ppLink'] || null,
+                        json['tel'] || null,
+                        json['title'] || null,
+                        json['bio'] || null,
+                        json['role'] || null,
+                        json['accessLevel'] || null,
+                        json['data'] || null,
+                        crs || null,
+                        evts || null,
+                        json['items'] ? Array.from(Object.keys(json['items'])) : null);
+    }
+
+    public static iUserFromJson(json: Object): IUser {
+
+        if(!json) return null;  
+
+        let iUser:IUser;
+
+        iUser = { 
+            id:         json[0] || null,
+            firstname:  json['firstname'] || null,
+            lastname:   json['lastname'] || null,
+            title:      json['title'] || null,
+            ppLink:     json['ppLink'] || null,
+            bio:        json['bio'] || null,
+            data:       json['data'] || null,
+            iCourses:   json['courses'] || null,
+            iEvents:    json['events'] || null,
+            itemId:     Array.from(Object.keys(json['items'])) || null,
+        };
+
+        return iUser;
     }
 }

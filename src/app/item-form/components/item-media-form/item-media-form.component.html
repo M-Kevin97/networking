@@ -1,75 +1,81 @@
 <!-- Section media -->
 <div class="tab-pane" role="tabpanel" id="step4">
   
-  <h3 class="head-item-form ">
-    Voulez-vous ajouter une image ou une vidéo de présentation ? (Optionnel)
-  </h3>
+  <div class="row justify-content-center">
+    <div class="col-8">
 
-  <form [formGroup]="mediaForm" role="form" class="form-item">
+      <h3 class="head-item-form">
+        Voulez-vous ajouter une image de présentation ? (Optionnel)
+      </h3>
 
-    <input type="file" class="form-control-file" 
-                       formControlName="image"
-                       id="image"
-                       accept="image/*"
-                       (change)="onPreviewImage($event)">
+      <form [formGroup]="mediaForm" role="form" class="form-item">
 
-  </form>
+        <input type="file" class="form-control-file" 
+                          formControlName="image"
+                          id="image"
+                          accept="image/*"
+                          (change)="onPreviewImage($event)">
 
-  <!-------------------------------- Modal Preview Image ---------------------------->
+      </form>
 
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary mt-3" data-toggle="modal" 
-                                                data-target="#imageModalPreview"
-                                                *ngIf="urlImagePreview">
-    Prévisualiser l'image
-  </button>
+      <!-------------------------------- Modal Preview Image ---------------------------->
 
-  <!-- Modal -->
-  <div class="modal fade" id="imageModalPreview" tabindex="-1" 
-                                                role="dialog" 
-                                                aria-labelledby="exampleModalCenterTitle" 
-                                                aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary mt-3" data-toggle="modal" 
+                                                    data-target="#imageModalPreview"
+                                                    *ngIf="urlImagePreview">
+        Prévisualiser l'image
+      </button>
 
-          <img class="border" style="max-width:400px" [src]="urlImagePreview">
-      
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <!-- Modal -->
+      <div class="modal fade" id="imageModalPreview" tabindex="-1" 
+                                                    role="dialog" 
+                                                    aria-labelledby="exampleModalCenterTitle" 
+                                                    aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+
+              <img class="border" style="max-width:400px" [src]="urlImagePreview">
+          
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
+      <ul class="nav nav-item justify-content-between mx-auto mt-5">
+        <li>
+          <button type="button" class="btn btn-default btn-prev" 
+                                (click)="onBack()">
+            Précédent
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-skip" 
+                                *ngIf="!this.hasUploadedImage()"
+                                (click)="onSetMedia()">
+            Passer
+          </button>
+        </li>
+        <li>
+          <button type="button" id="continue" 
+                                class="btn btn-default btn-next" 
+                                *ngIf="!mediaForm.invalid && this.urlImagePreview"
+                                (click)="onSetMedia()">
+            Continuer
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
-
-  <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
-  <ul class="nav nav-item justify-content-between border mx-auto mt-5">
-    <li>
-      <button type="button" class="btn btn-default btn-prev" 
-                            (click)="onBack()">
-        Précédent
-      </button>
-    </li>
-    <li>
-      <button type="button" class="btn btn-default btn-skip" 
-                            (click)="onSetMedia()">
-        Passer
-      </button>
-    </li>
-    <li>
-      <button type="button" id="continue" 
-                            class="btn btn-default btn-next" 
-                            *ngIf="!mediaForm.invalid && this.urlImagePreview"
-                            (click)="onSetMedia()">
-        Continuer
-      </button>
-    </li>
-  </ul>
 </div>

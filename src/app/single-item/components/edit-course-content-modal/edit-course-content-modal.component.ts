@@ -31,8 +31,7 @@ export class EditCourseContentModalComponent implements OnInit {
   }
 
   /**
-   * Methode permettant d'envoyer à au component ayant appeler EDITSKILL,
-   * de récuper les valeurs saisies
+   * close modal
    * */ 
   private passBack(){
 

@@ -1,135 +1,198 @@
-<div class="container row justify-content-center mx-auto">
-  <div class="col-12">
+<div *ngIf="hasUser" class="container row justify-content-center mx-auto">
+  <div class="col-11">
 
     <!-- Start user Page Head section -->
-    <div class="row user-head justify-content-center w-100">
+    <div class="row user-head w-100">
 
       <!-- Start user PP section -->
-      <div class="col-4 my-3">
-        <!-- Si l'utilisateur a une PP afficher sa PP -->
-        <img class="photo-author rounded-circle ml-5" [src]="user.ppLink" 
-                                                  alt="photo de profil utilisateur"
-                                                  height="180vw"
-                                                  width="180vw"
-                                                  *ngIf="user.ppLink">
+      <div class="col-3 my-auto">
+        <div class="pp-user">
+          <!-- Si l'utilisateur a une PP afficher sa PP -->
+                <!-- <img class="photo-author rounded-circle ml-5" [src]="user.ppLink" 
+                                                          alt="photo de profil utilisateur"
+                                                          height="180vw"
+                                                          width="180vw"
+                                                          *ngIf="user.ppLink">
 
-        <img class="photo-author rounded-circle ml-5"  src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
-                                                  alt="photo de profil utilisateur"
-                                                  height="110px"
-                                                  width="110px"
-                                                  *ngIf="!user.ppLink">
+          <img class="photo-author rounded-circle ml-5"  src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/images%2Fusers%2Fuser-default.png?alt=media&token=bacaac7c-2e1b-4d24-8205-0964e65df549" 
+                                                    alt="photo de profil utilisateur"
+                                                    height="110px"
+                                                    width="110px"
+                                                    *ngIf="!user.ppLink"> -->
+
+          <app-user-avatar [photoUrl]="user.ppLink" 
+                           [name]="user.getName()" 
+                           alt="photo de profil utilisateur">
+          </app-user-avatar>
+        </div>
       </div> <!-- End user PP section -->
       <!-- Start user Info section -->
-      <div class="col-7">
+      <div class="col-9">
         <!-- Start user ID section -->
         <div class="user-info">
-          <h2 class="user-name">
+          <h5 class="user-name">
             {{ user.firstname }} {{ user.lastname }}
             <app-button-edit class="ml-5" 
                               (click)="openHeadUserModal()"
-                              *ngIf="userIsAuth()">
+                              *ngIf="isUser">
             </app-button-edit>
-          </h2>
-          <h3>{{ user.title }}</h3>
+          </h5>
+          <h6>{{ user.title }}</h6>
           <app-description-section [description]="user.bio"></app-description-section>
         </div> <!-- End user ID section -->
-
-        <!-- Start user contact section -->
-        <div class="row justify-content-end userbar-contact my-3">
-          <div class="col-6 net-post align-self-center"> 
-            <span class="networkers mr-5"><b>12 Networkers</b></span>    
-            <span class="user-posts"><b>20 Posts</b></span> 
-          </div>
-          <div class="col-6 connect-msg">
-            <span class="btn-group">
-              <button id="se-connecter" type="button" 
-                                        class="mr-3 btn btn-light">
-                <b>+ Se connecter</b>
-              </button>
-              <button id="message" type="button"
-                                  class="btn btn-light">
-                <b> Message</b>  
-              </button>
-            </span>
-          </div>
-        </div> <!-- End user contact section -->
       </div>  <!-- End user Info section -->
 
-      <ul class="user-nav row justify-content-center" role="tablist">
-    
-        <li  id="user-home-link" class="nav-item" [ngClass]="{'active':checkHome()}">
-          <a class="nav-link" id="home-tab" (click)="displayUserHome()"
-                                            role="tab" 
-                                            aria-controls="home" 
-                                            aria-selected="checkHome()">
+      <!-- Start user contact section -->
+      <div class="row w-100 user-contact my-3">
+        <div class="col-6 text-center net-post"> 
+          <span class="networkers mr-5"><b>12 Networkers</b></span>    
+          <span class="user-posts"><b>20 Posts</b></span> 
+        </div>
+        <div class="col-6 center-block connect-msg">
+          <div class="btn-group">
+            <button id="se-connecter" type="button" 
+                                      class="mr-3 btn btn-light"
+                                      *ngIf="!isUser">
+              <b>+ Se connecter</b>
+            </button>
+            <button id="message" type="button"
+                                class="btn btn-light"
+                                *ngIf="!isUser">
+              <b> Message</b>  
+            </button>
+          </div>
+        </div>
+      </div> <!-- End user contact section -->
+
+      <ul id="user-home-link" class="nav user-nav nav-pills nav-justified mt-4">
+
+        <li class="nav-item">
+          <a class="nav-link" id="pills-category-tab" 
+                              [ngClass]="{ 'active':activeTab === getPanelName().HOME}" 
+                              (click)="displayPanel(getPanelName().HOME)"
+                              data-toggle="pill" 
+                              role="tab" 
+                              aria-controls="pills-category" 
+                              aria-selected="false">
+
             <span>ACCUEIL</span>
           </a>
         </li>
-        <li id="user-courses-link"class="nav-item" [ngClass]="{'active': currentFragment === 'courses'}">
-          <a class="nav-link" id="courses-tab" (click)="displayUserCourses()" 
-                                                role="tab" 
-                                                aria-controls="courses" 
-                                                aria-selected="currentFragment === 'courses'">
+        <li class="nav-item">
+          <a class="nav-link" id="pills-category-tab" 
+                              [ngClass]="{ 'active':activeTab === getPanelName().COURSES}" 
+                              (click)="displayPanel(getPanelName().COURSES)"
+                              data-toggle="pill" 
+                              role="tab" 
+                              aria-controls="pills-category" 
+                              aria-selected="false">
+
             <span>FORMATIONS</span>
           </a>
         </li>
-        <li id="user-events-link"class="nav-item" [ngClass]="{'active': currentFragment === 'events'}"> 
-          <a class="nav-link" id="events-tab" (click)="displayUserEvents()" 
-                                              role="tab" 
-                                              aria-controls="events" 
-                                              aria-selected="currentFragment === 'events'">
-            ÉVÉNEMENTS
+        <li class="nav-item">
+          <a class="nav-link" id="pills-category-tab" 
+                              [ngClass]="{ 'active':activeTab === getPanelName().EVENTS}" 
+                              (click)="displayPanel(getPanelName().EVENTS)"
+                              data-toggle="pill" 
+                              role="tab" 
+                              aria-controls="pills-category" 
+                              aria-selected="false">
+
+            <span>ÉVÉNEMENTS</span>
           </a>
         </li>
-        <li id="user-network-link" class="nav-item">
-          <a class="nav-link" id="network-tab" (click)="displayUserNetwork()"
-                                                role="tab" 
-                                                aria-controls="network" 
-                                                aria-selected="currentFragment === 'network'">
-          NETWORK </a>
-        </li> 
+        <li class="nav-item">
+          <a class="nav-link" id="pills-category-tab" 
+                              [ngClass]="{ 'active':activeTab === getPanelName().NETWORK}" 
+                              (click)="displayPanel(getPanelName().NETWORK)"
+                              data-toggle="pill" 
+                              role="tab" 
+                              aria-controls="pills-category" 
+                              aria-selected="false">
+
+            <span>NETWORK</span>
+          </a>
+        </li>
       </ul>
+    
           
     </div> <!-- End user Page Head section -->
 
     <!-- Tab content (home / courses / events / network) -->
     <div class="tab-content" id="myTabContent">
 
-       <!-- Tab content home courses-carousel events-carousel -->
-      <div class="tab-pane fade" id="home" 
-                                 role="tabpanel" 
-                                 aria-labelledby="home-tab"
-                                 [ngClass]="{'active':checkHome(),
-                                             'show': checkHome()}">
-        <app-user-home [user]="user"></app-user-home>
+      <div class="tab-content">
+        <!-- Tab content home courses-carousel events-carousel -->
+        <div class="tab-pane fade" id="home"
+                                          role="tabpanel" 
+                                          [ngClass]="{ 'active':activeTab === getPanelName().HOME,
+                                                      'show':activeTab === getPanelName().HOME }"
+                                          aria-labelledby="pills-course-tab">
+          <app-user-home [user]="user"></app-user-home>
+        </div>
+
+        <!-- Tab content courses list  -->
+        <div class="tab-pane fade" id="courses"
+                                   role="tabpanel" 
+                                   [ngClass]="{ 'active':activeTab === getPanelName().COURSES,
+                                              'show':activeTab === getPanelName().COURSES }"
+                                   aria-labelledby="pills-course-tab">
+
+          <h5 *ngIf="user.courses && user.courses.length">Formations mises en ligne</h5>
+
+          <app-item-list *ngIf="user.courses && user.courses.length" [items]="user.courses">
+          </app-item-list>
+          
+          <div *ngIf="!user.courses || !user.courses.length && isUser" 
+              class="create-item create-course text-center">
+            <h5>Créer votre première formation</h5>
+
+            <!-- create a new course -->
+            <button class="btn btn-gen" (click)="onNewCourse()">
+              Créer une formation
+            </button>
+          </div>
+
+
+        </div>
+    
+        <!-- Tab content events list  -->
+        <div class="tab-pane fade" id="events"
+                                    role="tabpanel" 
+                                    [ngClass]="{ 'active':activeTab === getPanelName().EVENTS,
+                                                'show':activeTab === getPanelName().EVENTS }"
+                                    aria-labelledby="pills-course-tab">
+
+
+          <h5 *ngIf="user.events && user.events.length">Évènements mis en ligne</h5>
+
+          <app-item-list *ngIf="user.events || user.events.length" [items]="user.events">
+          </app-item-list>
+
+          <div *ngIf="!user.events || !user.events.length && isUser" 
+               class="create-item create-event text-center">
+
+            <h5 class="mb-4">Créer votre premier évènement</h5>
+
+            <!-- create a new course -->
+            <button class="btn btn-gen" (click)="onNewEvent()">
+              Créer un événement
+            </button>
+          </div>
       </div>
 
-       <!-- Tab content courses list  -->
-      <div class="tab-pane fade" id="courses" 
-                                 role="tabpanel" 
-                                 aria-labelledby="courses-tab" 
-                                 [ngClass]="{'active': currentFragment === 'courses',
-                                             'show': currentFragment === 'courses'}">
-        <app-item-list *ngIf="user.courses" [items]="user.courses"></app-item-list>
-      </div>
-
-      <!-- Tab content events list  -->
-      <div class="tab-pane fade" id="events" 
-                                 role="tabpanel" 
-                                 aria-labelledby="events-tab" 
-                                 [ngClass]="{'active': currentFragment === 'events',
-                                             'show': currentFragment === 'events'}">
-        <app-item-list *ngIf="user.events" [items]="user.events"></app-item-list>
-      </div>
+      
 
       <!-- Tab content network  -->
-      <div class="tab-pane fade" id="network" 
-                                 role="tabpanel" 
-                                 aria-labelledby="network-tab" 
-                                 [ngClass]="{'active': currentFragment === 'network',
-                                            'show': currentFragment === 'network'}">
+        <div class="tab-pane fade" id="events"
+                                    role="tabpanel" 
+                                    [ngClass]="{ 'active':activeTab === getPanelName().NETWORK,
+                                                'show':activeTab === getPanelName().NETWORK }"
+                                    aria-labelledby="pills-course-tab">
         <span>A venir</span>
       </div>
+
     </div>
 
 

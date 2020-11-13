@@ -13,7 +13,6 @@ import { EventDateFormComponent } from './components/event-date-form/event-date-
 import { EventLocationFormComponent } from './components/event-location-form/event-location-form.component';
 import { ItemCompleteFormComponent } from './components/item-complete-form/item-complete-form.component';
 import { CourseFormRoutes } from './pages/course-form/course-form.routing';
-import { CountdownModule } from 'ngx-countdown';
 import { DatePipe } from '@angular/common';
 import { ItemService } from '../shared/service/item/item.service';
 
@@ -22,7 +21,6 @@ import { ItemService } from '../shared/service/item/item.service';
     SharedModule,
     CourseFormRoutes,
     EventFormRoutes,
-    CountdownModule
   ],
   declarations: [
     ItemFormComponent,

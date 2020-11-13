@@ -23,7 +23,7 @@
       </span>
     </div>
     <hr class="separator-line"> <!-- separation line -->
-    <span *ngIf="course.category" class="course-category">
+    <!-- <span *ngIf="course.category" class="course-category">
       <a class="item-p item-click" (click)="onConsultCategory(course.category.id)">
         {{ course.category.name }}
       </a>
@@ -33,7 +33,17 @@
           {{ subCat.name }}
         </a>
       </span>
-    </span>
+    </span> -->
+    <div *ngIf="course.tags" class="course-tags">
+      <span class="iconify mr-1 my-auto" data-icon="heroicons-solid:hashtag" 
+                                         data-inline="false" 
+                                         style="color: #2E7B9C;">
+      </span>
+      <span *ngFor="let tag of course.tags; let i = index" class="course-tag">
+        <span class="item-p item-click" (click)="onConsultTag(tag)">{{ tag.name }}</span>
+        <span *ngIf="course.tags.length > 1 && course.tags.length-1 > i">&nbsp;&bull;&nbsp;</span>
+      </span> 
+    </div>
   </div>
    <div class="col-2 align-self-center item-click" 
        (click)="onConsultCourse(course)">

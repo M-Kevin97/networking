@@ -1,1 +1,11 @@
-@import "../../shared/item-form.css"
+@import "../../shared/item-form.css";
+
+.tag {
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+
+    background-color: gainsboro;
+
+    align-content: center;
+}

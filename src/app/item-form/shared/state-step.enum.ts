@@ -1,6 +1,7 @@
 export enum StepState{
     TITLE = 'title',
-    CATEGORY = 'category',
+    CATEGORIES = 'categories',
+    TAGS = 'tags',
     PRICE = 'price',
     MEDIA = 'media',
     DATES = 'dates',

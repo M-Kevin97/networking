@@ -1,17 +1,16 @@
+import { Database } from 'src/app/core/database/database.enum';
+import { Course } from 'src/app/shared/model/item/course';
+import { ItemService } from 'src/app/shared/service/item/item.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ImageService } from 'src/app/shared/service/image/image.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
+import { Tag } from 'src/app/shared/model/tag/tag';
+import { EventItem } from 'src/app/shared/model/item/event-item';
 import { Item } from 'src/app/shared/model/item/item';
 
-export interface IHeadItem {
-  title:string;
-  catchPhrase:string;
-  price:number;
-  imageLink:string;
-}
 
 @Component({
   selector: 'app-edit-head-item',
@@ -20,16 +19,18 @@ export interface IHeadItem {
 })
 export class EditHeadItemComponent implements OnInit {
 
-  @Input() item:Item;
+  @Input() item:Course|EventItem|Item;
   headItemForm: FormGroup;
   file: File;
   urlImagePreview: string;
   uploadedImage: File;
+  itemToUpdate:Course|EventItem|Item;
 
   private imagePreviewSubscription: Subscription;
 
   constructor(private formBuilder:FormBuilder,
               private imageService: ImageService,
+              private itemService: ItemService,
               private _NgbActiveModal: NgbActiveModal) { }
 
   get activeModal() {
@@ -44,9 +45,26 @@ export class EditHeadItemComponent implements OnInit {
       image: [''],
       title: ['',[Validators.required]],
       catchPhrase: ['',[Validators.required]],
-      category: ['',[Validators.required]],
       price: ['',[Validators.required]],
+      consultationLink:['',[Validators.required]]
     });
+
+    this.itemToUpdate = new Item(this.item.id,
+                                 null,
+                                 this.item.title || null,
+                                 null,
+                                 this.item.tags || [],
+                                 this.item.catchPhrase || null,
+                                 this.item.description || null,
+                                 this.item.price || null,
+                                 this.item.iAuthors || null,
+                                 null,
+                                 null,
+                                 null,
+                                 null,
+                                 this.item.consultationLink || null,
+                                 this.item.imageLink || null);
+
 
     this.getImagePreviewFromService();
     this.preFillEditForm();
@@ -73,10 +91,13 @@ export class EditHeadItemComponent implements OnInit {
 
     console.log('preFillEditForm',this.item);
 
-    this.headItemForm.patchValue({title:this.item.title});
-    this.headItemForm.patchValue({catchPhrase:this.item.catchPhrase});
-    this.headItemForm.patchValue({price:this.item.price});
-    this.urlImagePreview = this.item.imageLink;
+    this.headItemForm.patchValue({
+                                  title:this.itemToUpdate.title,
+                                  catchPhrase:this.itemToUpdate.catchPhrase,
+                                  price:this.itemToUpdate.price,
+                                  consultationLink:this.itemToUpdate.consultationLink,
+                                });
+    this.urlImagePreview = this.itemToUpdate.imageLink;
   }
 
   onPreviewImage(event) {
@@ -85,28 +106,17 @@ export class EditHeadItemComponent implements OnInit {
       this.imageService.getImagePreview(event.target.files[0]);
     }
     else{
-      this.urlImagePreview = this.item.imageLink;
+      this.urlImagePreview = this.itemToUpdate.imageLink;
     }
-  }
-
-  getHeadParams(){
-
-    const iHeadItem:IHeadItem = {
-      title: this.item.title,
-      price: this.item.price,
-      catchPhrase: this.item.catchPhrase,
-      imageLink: this.item.imageLink,
-    }
-
-    return iHeadItem;
   }
 
   passBack(){
 
-    if(this.item.imageLink !== this.urlImagePreview) {
+    if(this.itemToUpdate.imageLink !== this.urlImagePreview) {
 
-      const fileRef = firebase.storage().ref('images').child('items');
-      this.imageService.uploadFile(this.imageService.imageToUpload,fileRef).then(
+      const fileRef = firebase.storage().ref('images').child(Database.ITEMS);
+
+      this.imageService.uploadFile(this.imageService.imageToUpload, fileRef).then(
         (url:string) => {
 
           if(url && url !==''){
@@ -117,27 +127,46 @@ export class EditHeadItemComponent implements OnInit {
         }
       ).then(
         () => {
-        const iHeadItem:IHeadItem = {
-          title: this.headItemForm.get('title').value,
-          price: this.headItemForm.get('price').value,
-          catchPhrase: this.headItemForm.get('catchPhrase').value,
-          imageLink: this.urlImagePreview,
-        }
 
-        this.activeModal.close(iHeadItem);
+          this.setParams();
+
+          this.itemService.updateItemPrimaryInfoInDB(this.itemToUpdate, 
+            () => {
+  
+              this.activeModal.close(this.itemToUpdate);
+            },
+            (error) => {
+              this.activeModal.close(null);
+            }
+          );
+        }
+      ).catch(
+        (error) => {
+          console.error(error);
+        }
+      );
+    } else {
+
+      this.setParams();
+
+      this.itemService.updateItemPrimaryInfoInDB(this.itemToUpdate, 
+        () => {
+          this.activeModal.close(this.itemToUpdate);
+        },
+        (error) => {
+          this.activeModal.close(null);
         }
       );
     }
-    else {
-      const iHeadItem:IHeadItem = {
-        title: this.headItemForm.get('title').value,
-        price: this.headItemForm.get('price').value,
-        catchPhrase: this.headItemForm.get('catchPhrase').value,
-        imageLink: this.urlImagePreview,
-      }
+    
+  }
 
-      this.activeModal.close(iHeadItem);
-    }
+  setParams() {
+
+    this.itemToUpdate.title = this.headItemForm.get('title').value;
+    this.itemToUpdate.price = +this.headItemForm.get('price').value;
+    this.itemToUpdate.catchPhrase = this.headItemForm.get('catchPhrase').value;
+    this.itemToUpdate.imageLink = this.urlImagePreview;
   }
 
   ngOnDestroy(){

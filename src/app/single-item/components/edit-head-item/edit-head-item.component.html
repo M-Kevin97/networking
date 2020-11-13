@@ -4,82 +4,104 @@
   <div class="modal-content"> 
     <div class="modal-body">
       <!---------------------------- Image ------------------------------>
-        <form [formGroup]="headItemForm" role="form" 
-                                       class="form-item">
-          <div class="body-section">
-            <h4>Image</h4>
-            <hr class="separation-line"> <!-- separation line -->
-      
-            <div class="img-modal-course border">
-              <img [src]="urlImagePreview" width="250" 
-                                          height="250" 
-                                          alt="">
+      <form [formGroup]="headItemForm" role="form" 
+                                      class="form-item">
+        <div class="body-section">
+          <h4>Image</h4>
+          <hr class="separation-line"> <!-- separation line -->
+    
+          <div class="img-modal-course border">
+            <img [src]="urlImagePreview" width="250" 
+                                        height="250" 
+                                        alt="">
+          </div>
+
+          <input type="file" class="form-control-file mt-2" 
+                                  formControlName="image"
+                                  id="image"
+                                  accept="image/*"
+                                  (change)="onPreviewImage($event)">
+        </div>
+        <!---------------------------- Titre ------------------------------>
+        <div class="body-section">
+          <h4>Titre</h4>
+          <hr class="separation-line"> <!-- separation line -->
+          <input type="text" class="form-control" 
+                              formControlName = "title"
+                              id="title"
+                              onkeydown="return (event.key !== '\''
+                                                  && event.key !== ','
+                                                  && event.key !== ';'
+                                                  && event.key !== '='
+                                                  && event.key !== '>'
+                                                  && event.key !== '<'
+                                                  && event.key !== '.'
+                                                  && event.key !== ':'
+                                                  && event.key !== '`'
+                                                  && event.key !== '_'
+                                                  && event.key !== '§')"
+                              placeholder="Saisissez le titre de votre formation...">
+        </div>
+        
+        <!---------------------------- Phrase d'accroche ------------------------------>
+        <div class="body-section">
+          <h4>Phrase d'accroche</h4>
+          <hr class="separation-line"> <!-- separation line -->
+
+          <input type="text" class="form-control" 
+                              formControlName = "catchPhrase"
+                              id="catchPhrase"
+                              placeholder="Saisissez votre phrase d'accroche">
+        </div>
+
+        <!---------------------------- Tags ------------------------------>
+        <div class="body-section">
+          <h4>Tags</h4>  
+          <hr class="separation-line"> <!-- separation line --> 
+
+          <app-tags-input [tags]="itemToUpdate.tags">
+          </app-tags-input>
+        </div>
+
+        <!---------------------------- Prix ------------------------------>
+        <div class="body-section">
+          <h4>Prix</h4>  
+          <hr class="separation-line"> <!-- separation line -->   
+
+          <div class="input-group">
+            <input type="number" class="form-control" 
+                                formControlName = "price"
+                                min="0"
+                                id="price"
+                                onkeydown="return (event.keyCode !== 69 
+                                                    && event.keyCode !== 187
+                                                    && event.keyCode !== 189)"
+                                aria-label="Amount (to the nearest dollar)"
+                                placeholder="Saisissez le price de votre formation...">
+            <div class="input-group-append">
+                <span class="input-group-text">€</span>
             </div>
-  
-            <input type="file" class="form-control-file mt-2" 
-                                    formControlName="image"
-                                    id="image"
-                                    accept="image/*"
-                                    (change)="onPreviewImage($event)">
-          </div>
-          <!---------------------------- Titre ------------------------------>
-          <div class="body-section">
-            <h4>Titre</h4>
-            <hr class="separation-line"> <!-- separation line -->
-            <input type="text" class="form-control" 
-                                formControlName = "title"
-                                id="title"
-                                onkeydown="return (event.key !== '\''
-                                                    && event.key !== ','
-                                                    && event.key !== ';'
-                                                    && event.key !== '='
-                                                    && event.key !== '>'
-                                                    && event.key !== '<'
-                                                    && event.key !== '.'
-                                                    && event.key !== ':'
-                                                    && event.key !== '`'
-                                                    && event.key !== '_'
-                                                    && event.key !== '§')"
-                                placeholder="Saisissez le titre de votre formation...">
-          </div>
-          
-          <!---------------------------- Phrase d'accroche ------------------------------>
-          <div class="body-section">
-            <h4>Phrase d'accroche</h4>
-            <hr class="separation-line"> <!-- separation line -->
-            <input type="text" class="form-control" 
-                                formControlName = "catchPhrase"
-                                id="catchPhrase"
-                                placeholder="Saisissez votre phrase d'accroche">
-          </div>
+          </div>                      
+        </div>
 
-          <!---------------------------- Prix ------------------------------>
-          <div class="body-section">
-            <h4>Prix</h4>  
-            <hr class="separation-line"> <!-- separation line -->     
-            <div class="input-group">
-              <input type="number" class="form-control" 
-                                  formControlName = "price"
-                                  min="10"
-                                  id="price"
-                                  onkeydown="return (event.keyCode !== 69 
-                                                      && event.keyCode !== 187
-                                                      && event.keyCode !== 189)"
-                                  aria-label="Amount (to the nearest dollar)"
-                                  placeholder="Saisissez le price de votre formation...">
-              <div class="input-group-append">
-                  <span class="input-group-text">€</span>
-              </div>
-            </div>                      
+        <!---------------------------- Lien ------------------------------>
+        <div class="body-section">
+          <h4>Lien</h4>  
+          <hr class="separation-line"> <!-- separation line -->     
+          <input type="text" class="form-control" 
+                              formControlName = "consultationLink"
+                              id="consultationLink"
+                              placeholder="Saisissez votre lien de consultation...">                     
+        </div>
 
-          </div>
-        </form>
-
+      </form>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light" 
-                            (click)="activeModal.close(getHeadParams())">Annuler</button>
-      <button type="button" (click)="passBack()">Enregistrer</button>
+                            (click)="activeModal.close()">Annuler</button>
+      <button type="button" class="btn btn-light" 
+                            [disabled]="headItemForm.invalid && itemToUpdate.tags" 
+                            (click)="passBack()">Enregistrer</button>
     </div>
   </div>
 </div>

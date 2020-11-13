@@ -70,8 +70,6 @@ export class CategoryService {
   }
 
   getCategoriesFromDB(){
-    
-    console.log('getCategoriesFromDB CategoryService');
 
     return firebase.database().ref(Database.CATEGORIES).once('value').then( 
       (data) => {

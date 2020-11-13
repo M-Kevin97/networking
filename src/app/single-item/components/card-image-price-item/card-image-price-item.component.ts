@@ -1,9 +1,9 @@
-
+import { EventItem } from 'src/app/shared/model/item/event-item';
 import { Database } from 'src/app/core/database/database.enum';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { Category } from 'src/app/shared/model/category/category';
+import { Course } from 'src/app/shared/model/item/course';
 
 @Component({
   selector: 'app-card-image-price-item',
@@ -12,13 +12,7 @@ import { Category } from 'src/app/shared/model/category/category';
 })
 export class CardImagePriceItemComponent implements OnInit {
 
-  @Input() id:string;
-  @Input() imageLink:string;
-  @Input() price:number;
-  @Input() nbRatings:number;
-  @Input() globalNote:number;
-  @Input() category:Category;
-  @Input() isData:boolean;
+  @Input() item:Course|EventItem;
 
   constructor(private router:Router) { }
 
@@ -29,6 +23,6 @@ export class CardImagePriceItemComponent implements OnInit {
   }
 
   goToRatingsSection() {
-    this.router.navigate([RouteUrl.COURSE, this.id],{ fragment: 'ratings' });
+    this.router.navigate([RouteUrl.COURSE, this.item.id],{ fragment: 'ratings' });
   }
 }

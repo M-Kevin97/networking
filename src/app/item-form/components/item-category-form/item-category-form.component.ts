@@ -5,6 +5,7 @@ import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
 import { CategoryService } from 'src/app/shared/service/category/category.service';
 import { Category } from 'src/app/shared/model/category/category';
+import { Tag } from 'src/app/shared/model/tag/tag';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
   public get categoryService(): CategoryService {
     return this._categoryService;
   }
+
+  tags:Tag[] = [];
 
   categorySelected : Category;
   subCategorySelected : Category;
@@ -49,11 +52,13 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
       subCategory: ['',[Validators.required]]
     });
 
-    // sinon si l'élément Price a été créé
-    if(this.itemFormService.mapStepForms.has(StepState.CATEGORY)){
-      if(this.itemFormService.getStepFormWithStep(StepState.CATEGORY).status){
-        this.getCategoriesFromService();
-        this.onRestoreCategoryForm(this.itemFormService.getStepFormWithStep(StepState.CATEGORY).value);
+    // if categies were already created
+    if(this.itemFormService.mapStepForms.has(StepState.CATEGORIES)){
+      if(this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).status){
+        //this.getCategoriesFromService();
+        //this.onRestoreCategoryForm(this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).value);
+
+        this.onRestoreCategoriesTag(this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).value);
       }
     }
     // sinon si les éléménts précédents n'ont pas été créé, retourner au début
@@ -61,36 +66,40 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
       this.itemFormService.onStartToTheBeginning();
     }
 
-    this.getCategoriesFromService();
+    //this.getCategoriesFromService();
   }
 
-  getCategoriesFromService(){
+  // getCategoriesFromService(){
 
-    console.log('getCategoriesFromService ItemCategoryFormComponent');
+  //   console.log('getCategoriesFromService ItemCategoryFormComponent');
 
-    this.categorySubscription = this.categoryService.categoriesSubject
-    .subscribe(
-      (data:Category[]) => {
+  //   this.categorySubscription = this.categoryService.categoriesSubject
+  //   .subscribe(
+  //     (data:Category[]) => {
 
-        this.categoriesValues = data;
-      },
-      (err: string) => console.error('Observer got an error: ' + err),
-      () => {
-        console.log('Observer got a complete notification');
-      }
-    );
+  //       this.categoriesValues = data;
+  //     },
+  //     (err: string) => console.error('Observer got an error: ' + err),
+  //     () => {
+  //       console.log('Observer got a complete notification');
+  //     }
+  //   );
 
-    this.categoryService.getCategoriesFromDB();
-  }
+  //   this.categoryService.getCategoriesFromDB();
+  // }
 
-  onSetCategory(){
+  onSetCategories(){
 
-    const cat = this.categorySelected;
-    cat.subCategories = [this.subCategorySelected];
+    // // add a category
+    // const cat = this.categorySelected;
+    // cat.subCategories = [this.subCategorySelected];
 
+    // or add tags categories
+    const cat = this.tags;
+
+    //________
     console.log('onSetCategory', cat);
-
-    this.itemFormService.setFormWithStepState(StepState.CATEGORY, cat);
+    this.itemFormService.setFormWithStepState(StepState.CATEGORIES, cat);
   }
 
   onBack(){
@@ -105,6 +114,11 @@ export class ItemCategoryFormComponent implements OnInit, OnDestroy {
     // Récupérer la catégorie déjà sélectionné
     this.categorySelected = category;
     this.subCategorySelected = category.subCategories[0];
+  }
+
+  // En cas de retour sur la page du formulaire Category, Selectionner automatikement la catégorie sélecté
+  onRestoreCategoriesTag(tagsToRestore:Tag[]){
+    if(tagsToRestore) this.tags = tagsToRestore;
   }
 
   // Catégorie sélectionnée par l'utilisateur

@@ -302,11 +302,11 @@ export class EditCourseContentComponent implements OnInit {
   }
 
   
-  shouldShowChapterRequiredError(iModule:number, iChapter:number, controlName) {
+  shouldShowChapterRequiredError(iModule:number, iChapter:number, controlName:string) {
 
     let chapters = this.getChapterControlsWithModuleIndex(iModule);
 
-    return !chapters.controls[iChapter].get(controlName).valid 
+    return chapters.controls[iChapter].get(controlName).invalid 
             && chapters.controls[iChapter].get(controlName).touched;
   }
 

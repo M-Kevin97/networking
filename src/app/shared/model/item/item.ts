@@ -1,5 +1,6 @@
 import { IUser } from 'src/app/shared/model/user/user';
 import { Category } from '../category/category';
+import { Tag } from '../tag/tag';
 import { ILocationEvent, IDatesEvent } from './event-item';
 
 
@@ -11,12 +12,30 @@ export interface IItem {
     catchPhrase:string;
     price:number;
     category:Category;
+    tags:Tag[];
     iAuthors:IUser[];
     imageLink:string;
     published:boolean;
+    consultationLink:string;
+    nbRatings:  number;
+    globalNote: number;
+    location:ILocationEvent;
+    dates:IDatesEvent;
 }
 
 export class Item {
+    public get consultationLink(): string {
+        return this._consultationLink;
+    }
+    public set consultationLink(value: string) {
+        this._consultationLink = value;
+    }
+    public get tags(): Tag[] {
+        return this._tags;
+    }
+    public set tags(value: Tag[]) {
+        this._tags = value;
+    }
     public get data(): boolean {
         return this._data;
     }
@@ -115,6 +134,7 @@ export class Item {
                 private _type: string,
                 private _title: string, 
                 private _category: Category,
+                private _tags: Tag[],
                 private _catchPhrase: string,
                 private _description: string,
                 private _price: number,
@@ -123,6 +143,7 @@ export class Item {
                 private _published: boolean,
                 private _searchContent: string,
                 private _data: boolean,
+                private _consultationLink: string,
                 private _imageLink?: string,
                 private _videoLink?: string,
                 private _srcLink?: string){
@@ -149,27 +170,6 @@ export class Item {
         }
     }
 
-
-    public static itemFromJson(json: Object): Item {
-
-        if(json === null || json === undefined) return null;
-
-        return new Item(
-            json['id'],
-            json['type'],
-            json['title'],
-            null,
-            json['catchPhrase'],
-            json['description'],
-            json['price'],
-            null,
-            json['creationDate'],
-            json['published'],
-            json['_searchContent'],
-            json['imageLink'],
-            json['videoLink']
-        );
-    }
 
     public static getILocationFromJson(json: Object): ILocationEvent {
 

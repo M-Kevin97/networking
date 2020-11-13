@@ -1,60 +1,69 @@
 <!-- Section complete -- Add video Guide -->
 <div class="tab-pane" role="tabpanel" id="complete">
-  <div class="item-created" *ngIf="isItemCreated()">
+  <div class="alert alert-success text-center item-created" *ngIf="isItemCreated()">
     <h3>Félicitations !</h3>
+
     <span class="item-created-text" *ngIf="isCourse()">
       Votre formation à bien été créé, vous pourrez la consulter dans : 
     </span>
+
     <span class="item-created-text" *ngIf="isEvent()">
       Votre événement à bien été créé, vous pourrez le consulter dans : 
     </span>
-
     <countdown #countdown [config]="{leftTime: 6}" (event)="onTimerFinished($event)" >$!m!:$!s!</countdown>
-    <div>
-      <img src="assets/img/ok-img.png" width="90" height="90" class="d-inline-block" alt="Item créé">
-    </div>
   </div>
 
   <div  *ngIf="!isItemCreated()">
-    <h3>Complete</h3>
-    <p>You have successfully completed all steps.</p>
 
-    <div>
-      <span>Titre : </span>
-      <span>{{ getTitleFormValue() }}</span>
+    <div class="row justify-content-center">
+      <div class="col-10">
 
-      <br><hr>
+        <h3>Résumé</h3>
+        <p>Vous avez terminé toutes les étapes avec succès.</p>
 
-      <span>Categorie : </span>
-      <span>{{ getCategoryFormValue() }}</span>
+        <div class="row mb-3">
+          <div class="col-4">
+            <img class="border" style="max-width:100%" [src]="getImageFormValue()">
+          </div>
+          <div class="col-7">
+            <span>{{ getTitleFormValue() }}</span>
+  
+  
+            <br><hr>
+  
+            <span>{{ getPriceFormValue() }}</span>
 
-      <br><hr>
+            <br><hr>
 
-      <span>Prix : </span>
-      <span>{{ getPriceFormValue() }}</span>
+          </div>
+        </div>
 
-      <br><hr>
+        <span>Tags :</span>
+        <hr>
+        <div *ngFor="let tag of getTagsFormValue(); let i = index" class="col-auto mb-3">
+          <span class="tag py-2 px-3"> 
+            {{ tag.name }}
+          </span>
+        </div>
 
-      <span>Image : </span>
-      <img class="border" style="max-width:400px" [src]="getImageFormValue()">
+        <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
+        <ul class="nav nav-item justify-content-between mx-auto mt-5" *ngIf="!isItemCreated()">
+          <li>
+            <button type="button" class="btn btn-default btn-prev" 
+                                  (click)="onBack()">
+              Précédent
+            </button>
+          </li>
+          <li>
+            <button type="button" class="btn btn-default btn-next" 
+                                  (click)="onCreateItem()">
+              <span *ngIf="isCourse()">Créer ma formation</span>
+              <span *ngIf="isEvent()">Créer mon événement</span>
+            </button>
+          </li>
+        </ul>
 
+      </div>
     </div>
   </div>
-
-  <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
-  <ul class="nav nav-item justify-content-between border mx-auto mt-5" *ngIf="!isItemCreated()">
-    <li>
-      <button type="button" class="btn btn-default btn-prev" 
-                            (click)="onBack()">
-        Précédent
-      </button>
-    </li>
-    <li>
-      <button type="button" class="btn btn-primary next-step" 
-                            (click)="onCreateItem()">
-        <span *ngIf="isCourse()">Créer ma formation</span>
-        <span *ngIf="isEvent()">Créer mon événement</span>
-      </button>
-    </li>
-  </ul>
 </div>

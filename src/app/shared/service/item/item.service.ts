@@ -1,19 +1,21 @@
+import { TagService } from './../tag/tag.service';
 import { EventItem, IEvent } from 'src/app/shared/model/item/event-item';
 import { RatingService } from 'src/app/shared/service/rating/rating.service';
 import { Rating } from 'src/app/shared/model/rating/rating';
 import { Chapter } from 'src/app/shared/model/item/chapter';
 import { Module } from './../../model/item/module';
-import { Item } from 'src/app/shared/model/item/item';
-import { Course, ICourse } from 'src/app/shared/model/item/course';
+import { IItem, Item } from 'src/app/shared/model/item/item';
+import { Course } from 'src/app/shared/model/item/course';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Subject } from 'rxjs';
 import { Database } from 'src/app/core/database/database.enum';
 import { Category } from '../../model/category/category';
-import { IUser, User } from '../../model/user/user';
+import { IUser, User } from 'src/app/shared/model/user/user';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
-import { View } from '../../model/item/click';
+import { View } from '../../model/item/view';
+import { Tag } from '../../model/tag/tag';
 
 
 @Injectable({
@@ -76,14 +78,13 @@ export class ItemService {
       catchPhrase: newCourse.catchPhrase,
       skillsToAcquire: newCourse.skillsToAcquire,
       category: newCourse.category.id,
+      consultationLink: newCourse.consultationLink,
       subCategory: newCourse.category.subCategories ? newCourse.category.subCategories[0].id : '',
     }).then(
       () => {
         let i = 0;
 
         newCourse.iAuthors.forEach(function (user) {
-
-          console.error(' newCourse.iAuthors.forEach(', user.id);
 
           // si la les auteurs n'ont pas été sauvegardés
           let savepr:Promise<any>;
@@ -102,7 +103,7 @@ export class ItemService {
         });
       }).catch(
       (error) => {
-        console.log(error);
+        console.error(error);
         return null;
       }
     );
@@ -129,6 +130,7 @@ export class ItemService {
     return savePromise.then(
       () => {
         let i = 0;
+
         newItem.iAuthors.forEach(function (user) {
           // si la les auteurs n'ont pas été sauvegardés
           UserService.addUserIdByReference(ref, user, i).then
@@ -142,17 +144,24 @@ export class ItemService {
           i++;
         });
 
-      }).catch(
+        // add tags in item DB
+        TagService.addTagsWithReference(ref, newItem.tags).catch(
+          (error) => {
+            console.error(error);
+            return null;
+          }
+        );
+
+      }
+    ).catch(
       (error) => {
-        console.log(error);
+        console.error(error);
         return null;
       }
     );
   }
 
   private addNewCourseToDB(ref:firebase.database.Reference, newCourse: Course) {
-
-    console.log('saveNewCourseToDB :',newCourse.id, newCourse);
 
     return ref.set({
       type: Database.COURSE.substr(1),
@@ -167,14 +176,13 @@ export class ItemService {
       published: newCourse.published,
       catchPhrase: newCourse.catchPhrase,
       skillsToAcquire: newCourse.skillsToAcquire,
-      category: newCourse.category.id,
-      subCategory: newCourse.category.subCategories ? newCourse.category.subCategories[0].id : '',
+      category: newCourse.category ? newCourse.category.id : '',
+      subCategory: newCourse.category && newCourse.category.subCategories ? newCourse.category.subCategories[0].id : '',
+      consultationLink: newCourse.consultationLink,
     });
   }
 
   private addNewEventToDB(ref:firebase.database.Reference, newEvent: EventItem) {
-
-    console.log('saveNewEventToDB',newEvent);
 
     return ref.set({
       type: Database.EVENT.substr(1),
@@ -190,14 +198,13 @@ export class ItemService {
       location:newEvent.location,
       dates:newEvent.dates,
       catchPhrase:newEvent.catchPhrase,
+      consultationLink: newEvent.consultationLink,
     });
   }
 
   addItemIdInAuthorDB(item:Course|EventItem, idUser:string){
 
     if(item) {
-      
-      console.log('addCourseInAuthorDB', item.iAuthors[0]);
 
       var ref = firebase.database().ref(Database.USERS).child(idUser)
                                                        .child(Database.ITEMS)
@@ -221,8 +228,6 @@ export class ItemService {
 
   public static addIEventWithReference(ref:firebase.database.Reference, iEvent:IEvent){
 
-    console.log('saveIEventWithReference', iEvent);
-
     return ref.set({
           type: Database.EVENT.substr(1),
           title: iEvent.title, 
@@ -233,12 +238,10 @@ export class ItemService {
           dates:iEvent.dates,
       }).then(
       () => {
-        console.log('saveIEventWithReference - category', iEvent.category, ref.toString());
         CategoryService.addCategoryWithReference(ref, iEvent.category).then(
           (bool) => {
           // si la category n'a pas été sauvegardée retourner false
          if(!bool) {
-            console.log('category pas enregistré');
             return false
         }
         // si la les auteurs n'ont pas été sauvegardés
@@ -249,7 +252,7 @@ export class ItemService {
       function() {
         return true;
     }).catch(function(error) {
-      console.log(error);
+      console.error(error);
         return false;
       });
       return true;
@@ -266,7 +269,7 @@ export class ItemService {
           function() {
             saved = true;
         }).catch(function(error) {
-          console.log(error);
+          console.error(error);
           saved = false;
         });
       }
@@ -275,7 +278,7 @@ export class ItemService {
     return saved;
   }
 
-  public static addICourseWithReference(ref:firebase.database.Reference, iCourse:ICourse){
+  public static addICourseWithReference(ref:firebase.database.Reference, iCourse:IItem){
 
     return ref.child(iCourse.id).set({
         type:Database.COURSE.substr(1),
@@ -302,12 +305,12 @@ export class ItemService {
     });
   }
 
-  addItemClick(itemId:string, newView:View, cb) {
+  addItemView(itemId:string, newView:View, cb) {
 
     let ref = this.itemsViewDB.child(itemId);
-    let clickId = ref.push().key;
+    let viewId = ref.push().key;
 
-    ref.child(clickId).set({
+    ref.child(viewId).set({
       date:newView.date,
       user:newView.user.id,
       hour:newView.heure,
@@ -375,7 +378,7 @@ export class ItemService {
     );
   }
 
-  // ----- Modules chapter
+  // ----- Modules & Chapters
 
   private addChaptersWithReference(ref:firebase.database.Reference, newModule:Module, cb) {
 
@@ -426,40 +429,179 @@ export class ItemService {
     );
   }
 
+  // ----- Tags
+  addTags(itemId:string, newTags:Tag[], cb, error) {
+
+    if(itemId && newTags && newTags.length){
+
+      TagService.addTagsWithReference(this.itemsDB.child(itemId), newTags).then(cb).catch(error);
+    }
+  }
+
+
   // ----------------------------- GET FROM DB ------------------------------
 
   getItemsFromDB(cb){
 
     this.itemsDB.on('child_added', (snapshot) => {
 
-      this.getSingleItemFromJSONById(snapshot, cb);
+      this.getSingleItemFromJSONByIdWithTags(snapshot, cb);
     });
-  }
-
-  getItemsByUserId(id:string){
-    return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref(Database.USERS).child(id).child(Database.ITEMS.substr(1)).once('value').then(
-          (data) => {
-              resolve(data.val());
-          }, (error) => {
-            reject(error);
-          }
-        );
-      }
-    );
   }
 
   getSingleItemFromDBById(id:string, cb){
 
     return this.itemsDB.child(id).once('value').then(
       (data) => {
-          return this.getSingleItemFromJSONById(data, cb);
+          //return this.getSingleItemFromJSONById(data, cb);
+          return this.getSingleItemFromJSONByIdWithTags(data, cb);
       }
     );
   }
 
-  private async getSingleItemFromJSONById(itemJson, cb){
+
+  private async getSingleItemFromJSONByIdWithTags(itemJson, cb){
+  
+    let item:Course|EventItem = null;
+
+    if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
+      item = Course.courseFromJson(itemJson.val());
+    else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
+      item = EventItem.eventFromJson(itemJson.val());
+
+    if(item) {
+
+      item.id = itemJson.key;
+  
+      const usersJson:string = itemJson.val()[Database.USERS.substring(1)];
+      const ratingsJson:string = itemJson.val()[Database.RATINGS.substring(1)];
+
+      let requestUsers = Object.keys(usersJson).map((key) => {
+        return new Promise((resolve) => {
+          //asyncFunction(item, resolve);
+          UserService.getiUserFromDBWithId(key).then(
+            async (iUser:IUser)=> {
+              iUser.id = key;
+
+              if(iUser.itemId && iUser.itemId.length) {
+
+                await this.getiItemsByIUser(iUser);
+              }
+              // if(userItemsJson) {
+
+              //   this.joinItemsByJSON(userItemsJson, (valItems)=>{
+              //     iUser.iCourses = valItems;
+              //     console.error('userItemsJson', valItems);
+              //     resolve(iUser);
+  
+              //   }, (error)=>{});
+              // }
+
+              resolve(iUser);
+            }
+          );
+        });
+      });
+
+
+      Promise.all(requestUsers).then(
+        (valUsers:IUser[]) => {
+          item.iAuthors = valUsers;
+          return item; 
+        }
+      ).then(
+        (val:Course | EventItem) => {
+
+          if(ratingsJson && val instanceof Course) {
+
+            let course:Course = val;
+
+            return RatingService.getRatingsFromJSON(ratingsJson, course.getICourse(), null).then(
+              (valRatings:Rating[])=> {
+
+                course.ratings = valRatings;
+                course.globalNote = Rating.getGlobalNote(valRatings);
+
+                return course;
+              }
+            );
+
+          } else return val; 
+        }
+      ).catch(
+        (error) => {
+          console.error(error);
+          return null;
+        }
+      ).then(cb);
+    }
+  }
+
+  public async getiItemsByIUser(iUser:IUser) {
+
+    if(iUser && iUser.itemId && iUser.itemId.length) {
+
+      let requestItems = Object.keys(iUser.itemId).map((i) => {
+  
+        return this.getiItemFromDBWithId(iUser.itemId[i]).then(
+          (iItem: IItem) => {
+            if(iItem) {
+            
+              iItem.iAuthors = [iUser];
+
+              return iItem;
+            }
+          }
+        );
+      });
+  
+      return await Promise.all(requestItems).then(
+        (val:IItem[]) => {
+
+          if(val && val.length) {
+
+            iUser.iCourses = val.filter(item => item.type ===Database.COURSE.substr(1));
+            iUser.iEvents = val.filter(item => item.type ===Database.EVENT.substr(1));
+
+            return iUser; 
+          }
+          else null;
+        }
+      );
+    }
+  }
+
+  public static async getiItemsByIUser(iUser:IUser, itemType:string) {
+
+    if(iUser && iUser.itemId && iUser.itemId.length) {
+
+      let requestItems = Object.keys(iUser.itemId).map((i) => {
+  
+        return this.getiItemFromDBWithId(iUser.itemId[i]).then(
+          (iItem: IItem) => {
+            if(iItem) {
+              iItem.iAuthors = [iUser];
+              return iItem;
+            }
+          }
+        );
+      });
+  
+      return await Promise.all(requestItems).then(
+        (val:IItem[]) => {
+          if(val && val.length) {
+            if(itemType && itemType.length) {
+              return val.filter(item => item.type === itemType);
+            } else val;
+          } else null;
+        }
+      );
+    }
+  }
+
+
+
+  private async getSingleItemFromJSONById(itemJson, cb, error){
   
     let item:Course|EventItem = null;
 
@@ -479,10 +621,19 @@ export class ItemService {
       let requestUsers = Object.keys(usersJson).map((key) => {
         return new Promise((resolve) => {
           //asyncFunction(item, resolve);
-          UserService.getSingleiUserFromDBWithId(key).then(
-            (iUser)=> {
+          UserService.getiUserFromDBWithId(key).then(
+            (iUserJson)=> {
+
+              let iUser = User.iUserFromJson(iUserJson);
               iUser.id = key;
-              resolve(iUser);
+
+              const userItemsJson:string = iUserJson[Database.ITEMS.substring(1)];
+
+              this.joinItemsByJSON(userItemsJson, (valItems)=>{
+                iUser.iCourses = valItems;
+                resolve(iUser);
+
+              }, error);
             }
           );
         });
@@ -500,12 +651,7 @@ export class ItemService {
             val.iAuthors = valUsers;
             return val; 
           })
-          .catch(
-            (error) => {
-              console.error(error);
-              return null;
-            }
-          );
+          .catch(error);
         }
       ).then(
         (val:Course | EventItem) => {
@@ -514,14 +660,11 @@ export class ItemService {
 
             let course:Course = val;
 
-            console.log('ratingsJson', ratingsJson);
-
             return RatingService.getRatingsFromJSON(ratingsJson, course.getICourse(), null).then(
               (valRatings:Rating[])=> {
 
                 course.ratings = valRatings;
                 course.globalNote = Rating.getGlobalNote(valRatings);
-                console.error('getRatingsFromJSON', course);
 
                 return course;
               }
@@ -533,76 +676,275 @@ export class ItemService {
     }
   }
 
-  getItemsByCategory(categoryId:string, cb){
+  getItemsByTag(tag:Tag, cb){
 
-    this.itemsDB.orderByChild(Database.CATEGORY.substr(1, Database.CATEGORY.length))
-                   .equalTo(categoryId)
+    this.itemsDB.orderByChild(Database.TAGS.substr(1))
+                   .equalTo(tag.id)
                    .on('child_added', (snap) => { 
 
-      if(snap) this.getSingleItemFromJSONById(snap, cb);
+      if(snap) this.getSingleItemFromJSONByIdWithTags(snap, cb);
     });
   }
 
-  getItemsBySubCategory(categoryId:string, cb){
+  // getItemsByCategory(categoryId:string, cb){
 
-    this.itemsDB.orderByChild(Database.SUB_CATEGORY.substring(1))
-                .equalTo(categoryId)
-                .on('child_added', (snap) => { 
+  //   this.itemsDB.orderByChild(Database.CATEGORY.substr(1))
+  //                  .equalTo(categoryId)
+  //                  .on('child_added', (snap) => { 
 
-      if(snap) this.getSingleItemFromJSONById(snap, cb);
-    });
-  }
+  //     if(snap) this.getSingleItemFromJSONById(snap, cb, error);
+  //   });
+  // }
 
-  public static getSingleiItemFromDBById(id:string){ 
+  // getItemsBySubCategory(categoryId:string, cb, error){
+
+  //   this.itemsDB.orderByChild(Database.SUB_CATEGORY.substring(1))
+  //               .equalTo(categoryId)
+  //               .on('child_added', (snap) => { 
+
+  //     if(snap) this.getSingleItemFromJSONById(snap, cb, error);
+  //   });
+  // }
+
+  // -------------------- GET Interface
+
+  getiItemFromDBWithId(id:string){ 
     if(!id) return null;
-    return firebase.database().ref(Database.ITEMS).child(id).once('value').then(
-      (itemJson) => {
-        console.log(itemJson.val());
+    return new Promise(
+      (resolve, reject) => {
 
-        let item:ICourse|IEvent;
+        return firebase.database().ref(Database.ITEMS).child(id).once('value').then(
+          async (item) => {
 
-        if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
-          item = Course.iCourseFromJson(itemJson.val());
+            // console.log('getiItemFromUser1',item.val());
+            // resolve(Course.iCourseFromJson(item.val()));
 
-        else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
-          item = EventItem.eventFromJson(itemJson.val());
+            let iItem = await this.getiItemFromUser(item);
 
-        return item;
+            resolve(iItem);
+          }
+        );
+
       }
     );
   }
 
+  public static getiItemFromDBWithId(id:string){ 
+    if(!id) return null;
+    return new Promise(
+      (resolve, reject) => {
+
+        return firebase.database().ref(Database.ITEMS).child(id).once('value').then(
+          async (item) => {
+
+            // console.log('getiItemFromUser1',item.val());
+            // resolve(Course.iCourseFromJson(item.val()));
+
+            let iItem = await this.getiItemFromUser(item);
+
+            resolve(iItem);
+          }
+        );
+
+      }
+    );
+  }
+
+
+  private joinItemsByJSON(json, cb, error) {
+
+    if(json) {
+
+      let requestItems = Object.keys(json).map((key) => {
+  
+        return new Promise((resolve) => {
+          //asyncFunction(item, resolve);
+          // resolve(this.getiItemFromDBWithId(key, 
+          //   (iItem)=>{
+          //     if(iItem) {
+          //       console.error('getiItemFromDBWithId', iItem);
+          //       resolve(iItem);
+          //     }
+          //   }, 
+          // error));
+          
+        });
+
+      });
+  
+      Promise.all(requestItems).then(
+        (val)=>{
+          return val;
+        }).then(cb).catch(error);
+    }
+  }
+
+
+  private async getiItemFromJSONByIdWithTags(itemJson, cb, error){
+  
+    let iItem: IItem = null;
+
+    if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
+    iItem = Course.iCourseFromJson(itemJson.val());
+    else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
+    iItem = EventItem.iEventFromJson(itemJson.val());
+
+    if(iItem) {
+
+      iItem.id = itemJson.key;
+  
+      const usersJson:string = itemJson.val()[Database.USERS.substring(1)];
+      const ratingsJson:string = itemJson.val()[Database.RATINGS.substring(1)];
+
+      if(usersJson && usersJson.length) {
+
+        let requestUsers = Object.keys(usersJson).map((key) => {
+          return new Promise((resolve) => {
+  
+            UserService.getiUserFromDBWithId(key).then(
+              (iUserJSON)=> {
+                if(iUserJSON) {
+                  let iUser = User.iUserFromJson(iUserJSON);
+                  iUser.id = key;
+    
+                  const userItemsJson:string = iUserJSON[Database.ITEMS.substring(1)];
+    
+                  if(userItemsJson.length) {
+
+                    this.joinItemsByJSON(userItemsJson, (valItems)=>{
+                      iUser.iCourses = valItems;
+                      resolve(iUser);
+      
+                    }, error);
+                  }
+                }
+              }
+            ).catch(error);
+          });
+        });
+  
+  
+  
+        return Promise.all(requestUsers).then(
+          (valUsers:IUser[]) => {
+            if(valUsers && valUsers.length) {
+              iItem.iAuthors = valUsers;
+              return iItem; 
+            }
+          }
+        ).then(
+          (val) => {
+  
+            if(ratingsJson && val.type === 'course') {
+  
+              return RatingService.getRatingsFromJSON(ratingsJson, iItem, null).then(
+                (valRatings:Rating[])=> {
+  
+                  iItem.nbRatings = valRatings.length;
+                  iItem.globalNote = Rating.getGlobalNote(valRatings);
+  
+                  return iItem;
+                }
+              );
+  
+            } else return val; 
+          }
+        ).catch(error).then(cb);
+      }
+    }
+  }
+
+
+
+  private getiItemFromUser(itemJson){
+  
+    if(itemJson) {
+
+      let iItem: IItem = null;
+
+      if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
+      iItem = Course.iCourseFromJson(itemJson.val());
+      else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
+      iItem = EventItem.iEventFromJson(itemJson.val());
+  
+      if(iItem) {
+  
+        iItem.id = itemJson.key;
+  
+        const ratingsJson:string = itemJson.val()[Database.RATINGS.substring(1)];
+    
+        if(ratingsJson && iItem.type === 'course') {
+  
+          return RatingService.getRatingsFromJSON(ratingsJson, iItem, null).then(
+            (valRatings:Rating[])=> {
+  
+              iItem.nbRatings = valRatings.length;
+              iItem.globalNote = Rating.getGlobalNote(valRatings);
+  
+              return iItem;
+            }
+          );
+        } else return iItem;
+      }
+    }
+  }
+
+
+  private static getiItemFromUser(itemJson){
+  
+    if(itemJson) {
+
+      let iItem: IItem = null;
+
+      if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
+      iItem = Course.iCourseFromJson(itemJson.val());
+      else if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.EVENT.substr(1)) 
+      iItem = EventItem.iEventFromJson(itemJson.val());
+  
+      if(iItem) {
+  
+        iItem.id = itemJson.key;
+  
+        const ratingsJson:string = itemJson.val()[Database.RATINGS.substring(1)];
+    
+        if(ratingsJson && iItem.type === 'course') {
+  
+          return RatingService.getRatingsFromJSON(ratingsJson, iItem, null).then(
+            (valRatings:Rating[])=> {
+  
+              iItem.nbRatings = valRatings.length;
+              iItem.globalNote = Rating.getGlobalNote(valRatings);
+  
+              return iItem;
+            }
+          );
+        } else return iItem;
+      }
+    }
+  }
+
+
   // ----------------------------- UPDATE IN DB ------------------------------
 
-  updateItemPrimaryInfoInDB(item:Course | EventItem){ 
+  updateItemPrimaryInfoInDB(item:Item, cb, error){ 
 
     var ref = firebase.database().ref(Database.ITEMS).child(item.id);
-    var searchContent :string = '';
 
-    if(item.title)
-    searchContent = searchContent.concat(item.title.replace(/[^\wèéòàùì]/gi, ''));
-    if(item.getMainiAuthor()) 
-    searchContent = searchContent.concat('/', item.getMainiAuthorName().replace(/[^\wèéòàùì]/gi, ''));
-    if(item.description) 
-    searchContent = searchContent.concat('/', item.description.replace(/[^\wèéòàùì]/gi, ''));
-    if(item.catchPhrase) 
-    searchContent = searchContent.concat('/', item.catchPhrase.replace(/[^\wèéòàùì]/gi, ''));
-    if(item.category) 
-    searchContent = searchContent.concat('/', item.category.name.replace(/[^\wèéòàùì]/gi, ''));
-
-    item.searchContent = searchContent.toLocaleLowerCase();
+    item.searchContent = this.setSearchContent(item);
 
     ref.update({
-      searchContent:item.searchContent,
-      title: item.title,
-      price: item.price, 
-      imageLink: item.imageLink,
-      videoLink: item.videoLink,
-      catchPhrase:item.catchPhrase,
+      searchContent:item.searchContent || null,
+      title: item.title || null,
+      price: item.price || null, 
+      imageLink: item.imageLink || null,
+      videoLink: item.videoLink || null,
+      catchPhrase:item.catchPhrase || null,
+      consultationLink:item.consultationLink || null,
     }).then(
       () => {
-        this.updateItemPrimaryInfoInAuthorsDB(item);
-    });
+        this.updateTags(item.tags, item.id, cb, error);
+      }
+    );
   }
 
   private updateItemPrimaryInfoInAuthorsDB(item:Course | EventItem) {
@@ -610,7 +952,6 @@ export class ItemService {
     if(item.iAuthors){
 
       item.iAuthors.forEach(function (value) {
-        console.log('updateCoursePrimaryInfoInDB', value, item);
         if(value){
          
             var refAuthors = firebase.database()
@@ -630,21 +971,28 @@ export class ItemService {
     }
   }
 
-  updateItemDescriptionInDB(item:Course | EventItem) {
+  updateItemDescriptionInDB(item:Item|Course|EventItem, cb, error) {
 
-    var ref = firebase.database().ref(Database.ITEMS).child(item.id);
-    ref.update({
-      description: item.description
-    });
+    if(item && item.description && item.description.length) {
+
+      item.searchContent = this.setSearchContent(item);
+
+      var ref = firebase.database().ref(Database.ITEMS).child(item.id);
+      ref.update({
+        description: item.description || null
+      }).then(cb)
+        .catch(error);
+
+    }
   }
 
-  updateSkillsToAcquireInDB(course:Course){
+  updateSkillsToAcquireInDB(courseId:string, skills:string[], cb, error){
 
-    var ref = firebase.database().ref(Database.ITEMS).child(course.id);
+    var ref = firebase.database().ref(Database.ITEMS).child(courseId);
     
     ref.update({
-      skillsToAcquire: course.skillsToAcquire
-    });
+      skillsToAcquire: skills || null
+    }).catch(error).then(cb);
   }
 
   // -------- Modules à faire
@@ -768,6 +1116,18 @@ export class ItemService {
   //   );
   // }
 
+  // -------- Tag à faire
+  // if exist update else add
+  updateTags(newTags:Tag[], itemId:string, cb, error) {
+    if(itemId && newTags && newTags.length) {
+      this.removeTags(itemId,
+        () =>{
+          this.addTags(itemId, newTags, cb, error);
+        }
+      );
+    }
+  }
+
   // ----------------------------- REMOVE FROM DB ------------------------------
 
   // A VOIR
@@ -799,33 +1159,44 @@ export class ItemService {
   // --- Modules
   removeModules(courseId:string, cb) {
 
-      this.itemsDB.child(courseId)
-                  .child(Database.MODULES)
-                  .remove()
-                  .then(cb);
+    this.itemsDB.child(courseId)
+                .child(Database.MODULES)
+                .remove()
+                .then(cb);
+  }
+
+
+  removeTags(itemId:string, cb) {
+
+    TagService.removeTagsWithReference(this.itemsDB.child(itemId), cb);
   }
 
 
   // --------------------------------- Other ----------------------------------------
 
-  private setSearchContent(item:Course | EventItem) {
+  private setSearchContent(item:Course | EventItem|Item) {
 
     if(!item) return null
 
     let searchContent:string = '';
 
     if(item.title)
-      searchContent = searchContent.concat(item.title.replace(/[^\wèéòàùì]/gi, ''));
-    if(item.getMainiAuthor()) 
-      searchContent = searchContent.concat('/', item.getMainiAuthorName().replace(/[^\wèéòàùì]/gi, ''));
+      searchContent = searchContent.concat(item.title);
+    if(item.iAuthors && item.iAuthors.length)
+      item.iAuthors.forEach(user => {
+        searchContent = searchContent.concat('/', user.firstname+' '+user.lastname);
+      }); 
     if(item.description) 
-      searchContent = searchContent.concat('/', item.description.replace(/[^\wèéòàùì]/gi, ''));
+      searchContent = searchContent.concat('/', item.description);
     if(item.catchPhrase) 
-      searchContent = searchContent.concat('/', item.catchPhrase.replace(/[^\wèéòàùì]/gi, ''));
-    if(item.category) 
-      searchContent = searchContent.concat('/', item.category.name.replace(/[^\wèéòàùì]/gi, ''));
+      searchContent = searchContent.concat('/', item.catchPhrase);
+    if(item.tags && item.tags.length){
+      item.tags.forEach(tag => {
+        searchContent = searchContent.concat('/', tag.name);
+      });
+    }
 
-    return searchContent.toLocaleLowerCase();
+    return searchContent.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
   }
 
 }

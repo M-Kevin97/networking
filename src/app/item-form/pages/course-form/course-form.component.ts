@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { StepState } from '../../shared/state-step.enum';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { DatePipe } from '@angular/common';
-import { User } from 'src/app/shared/model/user/user';
+import { IUser, User } from 'src/app/shared/model/user/user';
 import * as firebase from 'firebase';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Database } from 'src/app/core/database/database.enum';
@@ -60,16 +60,20 @@ export class CourseFormComponent implements OnInit, OnDestroy{
   private createNewCourse(){
 
     const title = this.itemFormService.getStepFormWithStep(StepState.TITLE).value;
-    const category = this.itemFormService.getStepFormWithStep(StepState.CATEGORY).value;
+    //const category = this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).value;
     const price = this.itemFormService.getStepFormWithStep(StepState.PRICE).value;
-    const authors: User[] = [this.authService.authUser];
+    const authors: IUser[] = [this.authService.authUser.getIUser()];
     const creationDate = this.datepipe.transform(Date.now().toString(), 'dd/MM/yyyy');
     const imageLink = this.itemFormService.getStepFormWithStep(StepState.MEDIA).value;
+    const tags = this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).value;
+
+    console.log('tags', tags);
 
     var newCourse = new Course(null,
-                              'course',
+                              Database.COURSE.substr(1),
                               title,
-                              category,
+                              null,
+                              tags,
                               null,
                               null,
                               price,
@@ -138,16 +142,17 @@ export class CourseFormComponent implements OnInit, OnDestroy{
     ); 
   }
 
+  // to know in which step the user is and go to the next
   sortStepForm(stepState:StepState){
     switch(stepState)
     {
       case StepState.TITLE : 
       {
-        this.goToCategoryForm();
+        this.goToCategoriesForm();
         break;
       }
 
-      case StepState.CATEGORY : 
+      case StepState.CATEGORIES : 
       {
         this.goToPriceForm();
         break;
@@ -195,7 +200,7 @@ export class CourseFormComponent implements OnInit, OnDestroy{
     this.router.navigate([RouteUrl.NEW_COURSE + RouteUrl.NEW_TITLE]);
   }
 
-  goToCategoryForm() {
+  goToCategoriesForm() {
 
     if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status){
       this.router.navigate([RouteUrl.NEW_COURSE + RouteUrl.NEW_CATEGORY]);
@@ -204,14 +209,14 @@ export class CourseFormComponent implements OnInit, OnDestroy{
 
   goToPriceForm() {
 
-    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status && this.itemFormService.getStepFormWithStep(StepState.CATEGORY).status){
+    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status && this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).status){
       this.router.navigate([RouteUrl.NEW_COURSE + RouteUrl.NEW_PRICE]);
     }
   }
 
   goToMediaForm() {
     
-    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status && this.itemFormService.getStepFormWithStep(StepState.CATEGORY).status
+    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status && this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).status
                                                                         && this.itemFormService.getStepFormWithStep(StepState.PRICE).status){
       this.router.navigate([RouteUrl.NEW_COURSE + RouteUrl.NEW_MEDIA]);
     }
@@ -219,7 +224,7 @@ export class CourseFormComponent implements OnInit, OnDestroy{
 
   goToCompleteForm() {
 
-    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status && this.itemFormService.getStepFormWithStep(StepState.CATEGORY).status
+    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status && this.itemFormService.getStepFormWithStep(StepState.CATEGORIES).status
                                                                         && this.itemFormService.getStepFormWithStep(StepState.PRICE).status
                                                                         && this.itemFormService.getStepFormWithStep(StepState.MEDIA).status){
       this.router.navigate([RouteUrl.NEW_COURSE + RouteUrl.NEW_COMPLETED]);
@@ -237,7 +242,7 @@ export class CourseFormComponent implements OnInit, OnDestroy{
 
       case RouteUrl.NEW_COURSE+RouteUrl.NEW_PRICE : 
       {
-        this.goToCategoryForm();
+        this.goToCategoriesForm();
         break;
       }
 

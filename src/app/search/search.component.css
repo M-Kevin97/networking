@@ -62,3 +62,7 @@
   font-weight: 350;
 }
 
+.tab-content {
+
+  min-height: 50vh;
+}

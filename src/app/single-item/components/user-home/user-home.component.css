@@ -1,3 +1,5 @@
+@import '../../../shared/style/buttons-style.scss';
+
 .user-items-section {
   width: 100%;
 }

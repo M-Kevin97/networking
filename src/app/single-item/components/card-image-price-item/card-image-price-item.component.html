@@ -1,77 +1,82 @@
 <!-- Start Price Card -->
-<div *ngIf="isData else elseBlock" class="card shadow">
-  <div class="text-center">
+<div class="card text-center">
+  
+  <img  *ngIf="item.imageLink" 
+        class=item-img 
+        [src]="item.imageLink">
 
-    <div class="card-body">
-      <div class="card-item-img border">
-        <img *ngIf="imageLink" class=item-img [src]="imageLink">
-      </div>
+  <div class="card-body">
+    <!-- <div class="card-item-img border">
+      <img *ngIf="item.imageLink" 
+            class=item-img 
+            [src]="item.imageLink">
+    </div> -->
 
-      <span *ngIf="category" class="item-category">
-        <a [href]="'/results?category='+category.name" class="item-p">
-          {{ category.name }}
-        </a>
-        &bull;
-        <a [href]="'/results?category='+category.name" class="item-p">
-          {{ category.subCategories[0].name }}
-        </a>
+    <hr class="separation-line"> <!-- separation line -->
+
+    <h5 class="card-item-price">
+      {{ item.price }} € 
+    </h5>
+
+    <hr class="separation-line"> <!-- separation line -->
+
+    <a  [href]="item.consultationLink || '#'" 
+        [ngClass]="{ 'disabled': !item.consultationLink }"
+        class="btn btn-block btn-consult" 
+        role="button" 
+        target="_blank"
+        aria-pressed="true">Consulter</a>
+
+  </div>
+
+  <!-- Start Footer -->
+  <div class="card-footer">
+
+    <div class="share-item">
+      Partager
+      <span class="iconify iconify-share-item" data-inline="false"
+                                                data-icon="cil:share">
       </span>
-
-      <hr class="separation-line"> <!-- separation line -->
-
-      <h5 class="card-item-price">
-        {{ price }} € 
-      </h5>
-
-      <hr class="separation-line"> <!-- separation line -->
-
-      <button class="btn btn-block btn-add-cart">
-        Consulter
-      </button>
-
     </div>
-    <!-- Start Footer -->
-    <div class="card-footer">
-      <span class="share-item">
-        Partager 
-        <span class="iconify iconify-share-item" data-inline="false"
-                                                          data-icon="cil:share"> 
-                                                        </span>
+
+      <!--  <button class="btn btn-sm btn-outline-secondary save-item mb-2">
+      <span>Enregistrer</span>
+      <span class="iconify iconify-save-item ml-1" 
+            data-inline="false" 
+            data-icon="ic:round-playlist-add">
       </span>
-    </div> <!-- End Footer -->
+    </button>
+
+    <button class="btn btn-sm btn-outline-secondary share-item">
+      <span>Partager</span>
+      <span class="iconify iconify-share-item ml-1" 
+            data-inline="false"
+            data-icon="cil:share">
+      </span>
+    </button> -->
+
   </div>
 </div>
+
+
+
+
 
 <ng-template #elseBlock >
   <div class="card shadow">  
     <div class="row justify-content-center">
       <div class="col-11 text-center">
         <div class="card-item-img">
-          <img *ngIf="imageLink" class=item-img [src]="imageLink" height="180vw">
+          <img *ngIf="item.imageLink" class=item-img [src]="item.imageLink" height="180vw">
         </div>
   
         <hr class="separation-line"> <!-- separation line -->
   
         <div class="card-item-body"> <!-- Start Body -->
-          <div class="row" *ngIf="nbRatings && globalNote">
-            <div class="col-6">
-              <a class="rating-link" (click)="goToRatingsSection()">
-                <app-rating [style]="0" 
-                            [size]="1.4"
-                            [nbRatings]="nbRatings" 
-                            [globalNote]="globalNote"></app-rating>
-              </a>
-            </div>
-            <div class="col-6">
-              <h5 class="card-item-price">
-                {{ price }} € 
-              </h5>
-            </div>
-          </div>
-          <div class="row" *ngIf="!nbRatings && !globalNote">
+          <div class="row">
             <div class="col-12">
               <h5 class="card-item-price">
-                {{ price }} € 
+                {{ item.price }} € 
               </h5>
             </div>
           </div>

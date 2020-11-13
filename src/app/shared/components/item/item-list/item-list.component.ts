@@ -4,10 +4,11 @@ import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { Course, ICourse } from 'src/app/shared/model/item/course';
+import { Course } from 'src/app/shared/model/item/course';
 import { EventItem, IEvent } from 'src/app/shared/model/item/event-item';
-import { Item } from 'src/app/shared/model/item/item';
+import { IItem, Item } from 'src/app/shared/model/item/item';
 import { ItemService } from 'src/app/shared/service/item/item.service';
+import { Tag } from 'src/app/shared/model/tag/tag';
 
 @Component({
   selector: 'app-item-list',
@@ -16,7 +17,7 @@ import { ItemService } from 'src/app/shared/service/item/item.service';
 })
 export class ItemListComponent implements OnInit, OnDestroy{
 
-  @Input() items: Array<Course|EventItem|IEvent|ICourse>;
+  @Input() items: Array<Course|EventItem|IItem>;
   itemsSubscription: Subscription;
   tit:string;
 
@@ -32,7 +33,21 @@ export class ItemListComponent implements OnInit, OnDestroy{
     console.log(this.items);
   }
 
-  onConsultCourse(course: Course | ICourse){
+  consultCategory(catId: string){
+    if(catId){
+      // rediriger vers la formation
+      this.searchService.search(catId, '', '','');
+    }
+  }
+
+  onConsultTag(tag: Tag) {
+    if(tag){
+      // rediriger vers la formation
+      this.searchService.search('', tag.name, '','');
+    }
+  }
+
+  onConsultCourse(course: Course | IItem){
     if(course){
       // rediriger vers la formation
       this.router.navigate([RouteUrl.COURSE, course.id]);
@@ -53,11 +68,11 @@ export class ItemListComponent implements OnInit, OnDestroy{
     }
   }
 
-  isCourse(item:Course|EventItem|ICourse|IEvent) {
+  isCourse(item:Course|EventItem|IItem) {
     return item.type === 'course';
   }
 
-  isEvent(item:Course|EventItem|ICourse|IEvent) {
+  isEvent(item:Course|EventItem|IItem) {
       return item.type === 'event';
   }
   

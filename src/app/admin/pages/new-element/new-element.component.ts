@@ -273,10 +273,11 @@ export class NewElementComponent implements OnInit {
     console.warn('categorySelected', this.categorySelected);
     const courseDescription = this.courseForm.get('courseDescription').value;
     const coursePrice = this.courseForm.get('coursePrice').value;
-    const courseInstructors = [this.userSelected, this.authService.authUser];
+    const courseInstructors = [this.userSelected.getIUser(), this.authService.authUser.getIUser()];
     const courseSrcLink = this.courseForm.get('courseSrcLink').value;
     const courseSkills =  [];
     const creationDate = this.datePipe.transform(Date.now().toString(), 'dd/MM/yyyy');
+    const tags = [];
 
     if(this.imageService.imageToUpload) {
       const fileRef = firebase.storage().ref('images').child('courses');
@@ -292,6 +293,7 @@ export class NewElementComponent implements OnInit {
                                          'course',
                                          courseTitle,
                                          new Category(courseCategory.id, courseCategory.name, [courseSubCategory]),
+                                         tags,
                                          courseCatchPhrase,
                                          courseDescription,
                                          coursePrice,
@@ -301,6 +303,7 @@ export class NewElementComponent implements OnInit {
                                          [],
                                          null,
                                          true,
+                                         null,
                                          courseSkills,
                                          [],
                                          0,
@@ -315,6 +318,7 @@ export class NewElementComponent implements OnInit {
               'course',
               courseTitle,
               new Category(courseCategory.id, courseCategory.name, [courseSubCategory]),
+              tags,
               courseCatchPhrase,
               courseDescription,
               coursePrice,
@@ -324,6 +328,7 @@ export class NewElementComponent implements OnInit {
               [],
               null,
               true,
+              null,
               courseSkills,
               [],
               0,
@@ -340,24 +345,27 @@ export class NewElementComponent implements OnInit {
     else {
       
       this.createCourse(new Course(null,
-        'course',
-        courseTitle,
-        new Category(courseCategory.id, courseCategory.name, [courseSubCategory]),
-        courseCatchPhrase,
-        courseDescription,
-        coursePrice,
-        courseInstructors,
-        creationDate,
-        true,
-        [],
-        null,
-        true,
-        courseSkills,
-        [],
-        0,
-        Database.DEFAULT_IMG_COURSE,
-        '',
-        ''));
+                                  'course',
+                                  courseTitle,
+                                  new Category(courseCategory.id, courseCategory.name, [courseSubCategory]),
+                                  tags,
+                                  courseCatchPhrase,
+                                  courseDescription,
+                                  coursePrice,
+                                  courseInstructors,
+                                  creationDate,
+                                  true,
+                                  [],
+                                  null,
+                                  true,
+                                  null,
+                                  courseSkills,
+                                  [],
+                                  0,
+                                  Database.DEFAULT_IMG_COURSE,
+                                  '',
+                                  '')
+                                );
     }
   }
 

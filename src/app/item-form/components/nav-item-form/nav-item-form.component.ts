@@ -113,7 +113,7 @@ export class NavItemFormComponent implements OnInit {
 
   isCategoryCreated(){
 
-    if(this.itemFormService.getStepFormWithStep(StepState.CATEGORY)){
+    if(this.itemFormService.getStepFormWithStep(StepState.CATEGORIES)){
       return true
     }
     return false;

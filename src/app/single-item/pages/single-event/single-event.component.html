@@ -14,11 +14,7 @@
     <!-- Start Price Card -->
     <div class="col-md-3 offset-1">
       <div class="sticky">
-        <app-card-image-price-item [id]="event.id"
-                                   [imageLink]="event.imageLink" 
-                                   [price]="event.price" 
-                                   [nbRatings]="" 
-                                   [globalNote]="">
+        <app-card-image-price-item [item]="event">
         </app-card-image-price-item>
       </div> 
     </div>  <!-- End Price Card -->
@@ -30,7 +26,7 @@
           <h2 class="item-title">
             {{ event.title }}
             <app-button-edit class="ml-5" 
-                             (click)="openHeadItemModal()"
+                             (click)="openEditHeadItemModal()"
                              *ngIf="isAuthor"></app-button-edit>
           </h2>
           <h3 class="item-subtitre">
@@ -71,7 +67,7 @@
 
       <!-- Start Author section -->
       <div class="item-block author-block">
-        <app-card-author [author]="getMainAuthor()"></app-card-author>
+        <app-card-author [author]="item.getMainiAuthor()"></app-card-author>
       </div> <!-- End Author section -->
 
       <!-- Start Description section -->
@@ -90,14 +86,16 @@
       </div> <!-- End Description section -->
 
       <!-- Start section more author's items  -->
-      <div *ngIf="getMainAuthor()" class="item-block skills-block">
+      <div *ngIf="item.getMainiAuthor()" class="item-block skills-block">
         <h5 class="title-cat"> Plus de 
           <a (click)="goToUserPage()">
-          {{ getMainAuthor().firstname }} {{ getMainAuthor().lastname }}
+          {{ item.getMainiAuthorName() }}
           </a>
         </h5>
         <hr> <!-- separation line -->
-        <app-items-carousel *ngIf="mainAuthorItems" [iItems]="mainAuthorItems"></app-items-carousel>
+        <app-items-carousel *ngIf="event.getMainiAuthor().iCourses && event.getMainiAuthor().iCourses.length" 
+                            [iItems]="event.getMainiAuthor().iCourses">
+        </app-items-carousel>
 
       </div>   <!-- End section more author's courses  -->
 

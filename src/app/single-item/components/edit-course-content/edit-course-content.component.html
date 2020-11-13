@@ -110,7 +110,7 @@
             <div class="row mb-0">
               <div class="col-11">
                 <div class="form-group col-12">
-                  <label [attr.for]="'titleModule'+iModule">
+                  <label [attr.for]="'titleModule'+iModule" class="sr-only">
                     Titre
                   </label>
 
@@ -121,27 +121,29 @@
                           [attr.name]="'titleModule'+iModule" 
                           [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'titleModule')}"
                           (click)="shouldShowModuleRequiredError(iModule,'titleModule')"
-                          placeholder="Titre"
+                          placeholder="Quelle est le nom de votre module ?"
                           autocomplete="off"
                           required>
 
                 </div>
 
                 <div class="form-group col-12">
-                  <label [attr.for]="'descriptionModule'+iModule">
+                  <label class="sr-only" [attr.for]="'descriptionModule'+iModule">
                     Description
                   </label>
 
-                  <input type="text" 
-                          class="form-control"
-                          formControlName="descriptionModule"
-                          [attr.id]="'descriptionModule'+iModule" 
-                          [attr.name]="'descriptionModule'+iModule" 
-                          [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'descriptionModule')}"
-                          (click)="shouldShowModuleRequiredError(iModule, 'descriptionModule')"
-                          placeholder="Description"
-                          autocomplete="off"
-                          required>
+                  <textarea type="text" 
+                            class="form-control"
+                            rows="5"
+                            formControlName="descriptionModule"
+                            [attr.id]="'descriptionModule'+iModule" 
+                            [attr.name]="'descriptionModule'+iModule" 
+                            [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'descriptionModule')}"
+                            (click)="shouldShowModuleRequiredError(iModule, 'descriptionModule')"
+                            placeholder="Résumez le contenu de votre module"
+                            autocomplete="off"
+                            required>
+                  </textarea>
                 </div>
   
                 <div class="mt-3">
@@ -149,16 +151,16 @@
                           type="button" 
                           class="btn btn-primary" 
                           (click)="addModule()" 
-                          [disabled]="module.invalid">Add module</button>
+                          [disabled]="module.invalid">Ajouter un module</button>
     
                   <button *ngIf="courseModules[iModule] && moduleFormIsDisabled(iModule)"
-                          (click)="updateModule(iModule)">Update</button>
+                          (click)="updateModule(iModule)">Modifier</button>
     
                   <button *ngIf="courseModules[iModule] && !moduleFormIsDisabled(iModule)"
-                          (click)="saveModule(iModule)">Save</button>
+                          (click)="saveModule(iModule)">Enregistrer</button>
     
                   <button *ngIf="courseModules[iModule]"
-                          (click)="removeModule(iModule)">Remove</button>
+                          (click)="removeModule(iModule)">Supprimer</button>
                 </div>
               </div>
               <div class="col-1">
@@ -188,8 +190,8 @@
                     <div [formGroupName]="iChapter">
 
                       <div class="form-group">
-                        <label for="titleChapter">
-                          Titre
+                        <label for="titleChapter" class="sr-only">
+                          Nom du chapitre
                         </label>
 
                         <input type="text" class="form-control"
@@ -197,7 +199,7 @@
                                           formControlName="titleChapter"
                                           [ngClass]="{'is-invalid': shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')}"
                                           (click)="shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')"
-                                          placeholder="Nouvelle section"
+                                          placeholder="Quel est le titre de votre nouveau chapitre"
                                           autocomplete="off"
                                           required>
                       </div>
@@ -207,18 +209,18 @@
                                 type="button" 
                                 class="btn btn-primary" 
                                 (click)="addChapter(iModule)" 
-                                [disabled]="chapter.invalid">Add section</button>
+                                [disabled]="chapter.invalid">Ajouter un Chapitre</button>
 
                         <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
                                                               && chapterFormIsDisabled(iModule, iChapter)"
-                                (click)="updateChapter(iModule, iChapter)">Update</button>
+                                (click)="updateChapter(iModule, iChapter)">Modifier</button>
 
                         <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
                                                               && !chapterFormIsDisabled(iModule, iChapter)"
-                                (click)="saveChapter(iModule, iChapter)">Save</button>
+                                (click)="saveChapter(iModule, iChapter)">Enregistrer</button>
 
                         <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter]"
-                                (click)="removeChapter(iModule, iChapter)">Remove</button>
+                                (click)="removeChapter(iModule, iChapter)">Supprimer</button>
                       </div>
                     </div>
 

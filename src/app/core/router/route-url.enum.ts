@@ -17,7 +17,7 @@ export enum RouteUrl {
     NEW_EVENT = '/new/event',
     NEW_COURSE = '/new/course',
     NEW_TITLE = '/title',
-    NEW_CATEGORY = '/category',
+    NEW_CATEGORY = '/tags',
     NEW_PRICE = '/price',
     NEW_MEDIA = '/media',
     NEW_DATES = '/dates',

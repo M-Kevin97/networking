@@ -1,24 +1,8 @@
-.carousel-items {
-
-    display: flex;
-    overflow-x: scroll;
-    padding: 1rem 0;
-}
-.carousel-item {
-
-    margin-left: 1rem;
-}
 .carousel-item {
 
     flex-grow: 1;
     flex-shrink: 0;
     flex-basis: 450px;
-    margin-left: 1rem;
-}
-.carousel-item {
-
-    flex: 1 0 450px;
-    margin-left: 1rem;
 }
 
 .carousel-indicators li {
@@ -28,20 +12,29 @@
     top:70px;
 }
 
+.carousel-control {
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    width: 15px;
+}
+
 .carousel-control-prev-icon, .carousel-control-next-icon{
     background-color:gray;
+    font-size: xx-large;
   
    
 }
 
 .carousel-control-prev-icon {
-position: relative;
-right:78px;
+    position: relative;
+    right:10px;
 
 
 }
   
 .carousel-control-next-icon {
-position: relative;
-left:70px;  
+    position: relative;
+    left:10px;  
 }

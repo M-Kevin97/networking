@@ -7,8 +7,8 @@
   </a>
 
   <div *ngIf="!isHome()" class="search-bar my-auto">
-    <app-search-bar [height]="'md'">
-    </app-search-bar>
+    <app-search-bar2 [height]="'md'">
+    </app-search-bar2>
   </div>
 
   <!-- Button toggle dev navbar -->
@@ -22,11 +22,11 @@
     <span class="navbar-toggler-icon"></span>
   </button>  
 
-  <div class="navbar-collapse-nav collapse navbar-collapse justify-content-end" 
+  <div class="nav-items-collapse navbar-collapse-nav collapse navbar-collapse justify-content-end" 
       id="navbarContent"
       [class.collapse]="collapsed">
 
-    <ul class="navbar-items nav navbar-nav justify-content-end my-auto ml-auto">
+    <ul class="navbar-items nav navbar-nav justify-content-end my-auto">
 
       <!-- Home => Feed -->
       <li *ngIf="isAuth()" class="nav-item nav-li">

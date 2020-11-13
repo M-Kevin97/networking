@@ -1,3 +1,5 @@
+import { SearchBar2Component } from './components/search-bar2/search-bar2.component';
+import { TagsInputComponent } from './components/tags-input/tags-input.component';
 import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
 import { UserSelectComponent } from './components/user-select/user-select.component';
 import { CategoriesSelectComponent } from './components/categories-select/categories-select.component';
@@ -20,6 +22,7 @@ import { RatingListComponent } from './components/rating/rating-list/rating-list
 import { RatingComponent } from './components/rating/rating/rating.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
   imports: [
@@ -29,6 +32,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    CountdownModule,
   ],
   exports : [
     HttpClientModule,
@@ -37,6 +41,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    CountdownModule,
     ItemListComponent,
     EventListComponent,
     CourseListComponent,
@@ -49,6 +54,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     UserSelectComponent,
     SearchBarComponent,
     UserAvatarComponent,
+    TagsInputComponent,
+    SearchBar2Component,
   ],
   declarations: [
     SharedComponent,
@@ -64,6 +71,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     SearchBarComponent,
     UserSelectComponent,
     UserAvatarComponent,
+    TagsInputComponent,
+    SearchBar2Component,
   ],
 })
 export class SharedModule {

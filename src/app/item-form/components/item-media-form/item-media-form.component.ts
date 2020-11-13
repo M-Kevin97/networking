@@ -74,6 +74,11 @@ export class ItemMediaFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  hasUploadedImage() {
+    return this.urlImagePreview && ((this.urlImagePreview !== Database.DEFAULT_IMG_COURSE) 
+                                    && this.urlImagePreview !== Database.DEFAULT_IMG_EVENT);
+  }
+
   onSetMedia(){
 
     this.itemFormService.setFormWithStepState(StepState.MEDIA, this.urlImagePreview);

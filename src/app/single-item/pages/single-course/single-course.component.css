@@ -23,12 +23,12 @@
     -webkit-border-radius: 40px 40px 0 0;
   
     -webkit-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
+    -moz-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
     box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32);
 
     margin-bottom: 5vh ;
     padding-bottom: 3vh;
-    padding-bottom: 2vh;
-
+    padding-top: 2vh;
     
     /* background: linear-gradient(rgba(57, 129, 160, 0.8), white 50.71%); */
 }
@@ -55,6 +55,28 @@
 
 .rating-link {
     text-decoration: none;
+}
+
+.course-tags {
+    
+    align-items: center;
+    text-align: left;
+}
+
+.course-tag {
+
+    border: 1px solid #2E7B9C;
+
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+
+    cursor: pointer;
+}
+
+.course-tag:hover, .course-tag:focus {
+
+    background-color: whitesmoke;
 }
 
 .item-block {

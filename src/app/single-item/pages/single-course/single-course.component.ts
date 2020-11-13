@@ -1,3 +1,5 @@
+import { EventItem } from 'src/app/shared/model/item/event-item';
+import { SearchService } from './../../../shared/service/search/search.service';
 import { Module } from './../../../shared/model/item/module';
 import { EditCourseContentModalComponent } from './../../components/edit-course-content-modal/edit-course-content-modal.component';
 import { DatePipe } from '@angular/common';
@@ -7,13 +9,14 @@ import { CreateRatingComponent } from './../../components/createRating/createRat
 import { EditSkillsItemComponent } from './../../components/edit-skills-item/edit-skills-item.component';
 import { EditDescriptionItemComponent } from './../../components/edit-description-item/edit-description-item.component';
 import { AuthService } from './../../../core/auth/auth.service';
-import { AfterViewInit, Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
+import { EditHeadItemComponent } from '../../components/edit-head-item/edit-head-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Course } from 'src/app/shared/model/item/course';
 import { ItemService } from 'src/app/shared/service/item/item.service';
+import { RouterService } from 'src/app/shared/service/router/router.service';
 
 @Component({
   selector: 'app-single-course',
@@ -22,20 +25,40 @@ import { ItemService } from 'src/app/shared/service/item/item.service';
 })
 export class SingleCourseComponent extends SingleItemComponent implements OnInit, AfterViewInit {
 
-  course: Course = new Course(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
+  course: Course = new Course(null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null, 
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null);
 
   constructor(private route:ActivatedRoute,
-               itemService:ItemService,
-               authService:AuthService,
-               router:Router,
-               modalService: NgbModal,
-               datePipe:DatePipe) {
+                      itemService:ItemService,
+                      authService:AuthService,
+                      router:Router,
+                      routerService:RouterService,
+                      searchService:SearchService,
+                      modalService: NgbModal,
+                      datePipe:DatePipe) {
 
-      super(itemService,
-            authService,
-            router,
-            modalService,
-            datePipe);
+    super(itemService,
+          authService,
+          router,
+          searchService,
+          routerService,
+          modalService,
+          datePipe);
 
 
       super.item = this.course;
@@ -43,18 +66,25 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
   ngOnInit() {
     
-    // getting course id from url 
+    // getting course id from url
+    this.route.params.subscribe(params => {
+      // PARAMS CHANGED .. TO SOMETHING REALLY COOL HERE ..
+ 
+      if(this.course && this.course.id && params['id'] !== this.course.id) window.location.reload();
+ 
+    }); 
+
     const id = this.route.snapshot.params['id'];
 
     this.itemService.getSingleItemFromDBById(id,
       (course:Course) => {
-        console.warn('ngOnInit COURSE', course);
 
         if(course) {
-          console.warn(course);
-          this.hasItem = true;
-          this.isItemAuthor();
+          course.iAuthors[0].iCourses.splice(course.iAuthors[0].iCourses.indexOf(id),1);
           super.item = this.course = course;
+          this.hasItem = true;
+
+          this.isItemAuthor();
           super.saveView();
         }
         else {
@@ -69,114 +99,11 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     );
   }
 
-
-  openHeadItemModal(){
-
-    if(this.authService.isAuth && this.isAuthor) {
-
-      const modalRef = this.modalService.open(EditHeadItemComponent, { scrollable: true });
-      modalRef.componentInstance.item = this.course;
-
-      modalRef.result.then((result:IHeadItem) => {
-        if (result) {
-
-          this.course.title = result.title;
-          this.course.catchPhrase = result.catchPhrase;
-          this.course.price = result.price;
-          this.course.imageLink = result.imageLink;
-
-          if(this.course.catchPhrase === undefined)
-          {
-            this.course.catchPhrase = null;
-          }
-          if(this.course.title === undefined)
-          {
-            this.course.title = null;
-          }
-          if(this.course.price === undefined)
-          {
-            this.course.price = null;
-          }
-          if(this.course.imageLink === undefined)
-          {
-            this.course.imageLink = null;
-          }
-          if(this.course.videoLink === undefined)
-          {
-            this.course.videoLink = null;
-          }
-
-          this.itemService.updateItemPrimaryInfoInDB(this.course);
-
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-  }
-
-  openDescriptionItemModal(){
-
-    if(this.authService.isAuth && this.isAuthor) {
-
-      const modalRef = this.modalService.open(EditDescriptionItemComponent);
-      modalRef.componentInstance.description = this.course.description;
-
-      modalRef.result.then((result) => {
-        if (result) {
-          console.log(result);
-          console.log(this.course);
-
-          this.course.description = result;
-
-          if(this.course.description === undefined)
-          {
-            this.course.description = null;
-          }
-
-          this.itemService.updateItemDescriptionInDB(this.course);
-
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-  }
-
-
-  openSkillsItemModal(){
-
-    if(this.authService.isAuth && this.isAuthor) {
-
-      const modalRef = this.modalService.open(EditSkillsItemComponent);
-      modalRef.componentInstance.skills = this.course.skillsToAcquire;
-
-      modalRef.result.then((result:string[]) => {
-        if (result) {
-          console.log(result);
-          console.log(this.course);
-
-          this.course.skillsToAcquire = result;
-
-          if(this.course.skillsToAcquire === undefined)
-          {
-            this.course.skillsToAcquire = [];
-          }
-
-          this.itemService.updateSkillsToAcquireInDB(this.course);
-
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-  }
-
   openCourseContentModal() {
 
     if(this.authService.isAuth && this.isAuthor) {
 
-      const modalRef = this.modalService.open(EditCourseContentModalComponent,  { size: 'lg' });
+      const modalRef = this.modalService.open(EditCourseContentModalComponent,  { size: 'xl', centered: true });
       modalRef.componentInstance.courseId = this.course.id;
       modalRef.componentInstance.courseContent = this.course.modules;
 
@@ -228,6 +155,31 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     if(event) this.course.calculateGlobalRating();
   }
 
+/**
+*------------------------------- skills To Acquire
+*/  
+
+  openSkillsItemModal(){
+
+    if(this.authService.isAuth && this.isAuthor) {
+
+      const modalRef = this.modalService.open(EditSkillsItemComponent);
+      modalRef.componentInstance.course = this.course;
+
+      modalRef.result.then((result:string[]) => {
+        if (result) {
+
+          this.course.skillsToAcquire = result;
+          this.displayItemUpdatedAlert();
+
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  }
+
+
   getSkillsBeginning() {
     if(this.course.skillsToAcquire) {
       return this.course.skillsToAcquire.slice(0,this.getSlice());
@@ -274,10 +226,9 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     }
   }
 
-  goToUserPage(){
-
-    if(this.getMainAuthor().data) this.router.navigate([RouteUrl.USER, this.getMainAuthor().id]);
-  }
+/**
+*------------------------------- End skills To Acquire
+*/ 
 
   hasUserRateAlready() {
 

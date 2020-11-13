@@ -1,38 +1,38 @@
 <div class="row container-feed no-gutters justify-content-start w-100">
-    <div class="col-3">
-      <app-sidebar-user></app-sidebar-user>
-    </div>
-    <div class="col-9">
-      <div class="row w-100 justify-content-center sticky">
+  <div class="col-3">
+    <app-sidebar-user></app-sidebar-user>
+  </div>
+  <div class="col-9">
+    <div class="row w-100 justify-content-center sticky">
 
-        <ul class="nav border feed-nav" role="tablist">
-      
-          <li  id="feed-home-link" class="nav-item">
-            <a class="nav-link" id="home-tab" (click)="displayPostsFeed()"
-                                              role="tab" 
-                                              aria-controls="home" 
-                                              aria-selected="checkHome()">
-              <span>NETWORKING</span>
-            </a>
-          </li>
-          <li id="feed-courses-link"class="nav-item">
-            <a class="nav-link" id="courses-tab" (click)="displayCoursesFeed()" 
-                                                 role="tab" 
-                                                 aria-controls="courses" 
-                                                 aria-selected="currentFragment === 'courses'">
-             <span>FORMATIONS</span>
-            </a>
-          </li>
-          <li id="feed-events-link"class="nav-item"> 
-            <a class="nav-link" id="events-tab" (click)="displayEventsFeed()" 
-                                                role="tab" 
-                                                aria-controls="events" 
-                                                aria-selected="currentFragment === 'events'">
-              ÉVÉNEMENTS
-            </a>
-          </li>
-        </ul>
-    </div>
+      <ul class="nav border feed-nav" role="tablist">
     
+        <li  id="feed-home-link" class="nav-item">
+          <a class="nav-link" id="home-tab" (click)="displayPostsFeed()"
+                                            role="tab" 
+                                            aria-controls="home" 
+                                            aria-selected="checkHome()">
+            <span>NETWORKING</span>
+          </a>
+        </li>
+        <li id="feed-courses-link"class="nav-item">
+          <a class="nav-link" id="courses-tab" (click)="displayCoursesFeed()" 
+                                                role="tab" 
+                                                aria-controls="courses" 
+                                                aria-selected="currentFragment === 'courses'">
+            <span>FORMATIONS</span>
+          </a>
+        </li>
+        <li id="feed-events-link"class="nav-item"> 
+          <a class="nav-link" id="events-tab" (click)="displayEventsFeed()" 
+                                              role="tab" 
+                                              aria-controls="events" 
+                                              aria-selected="currentFragment === 'events'">
+            ÉVÉNEMENTS
+          </a>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>

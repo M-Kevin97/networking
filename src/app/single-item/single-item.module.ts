@@ -20,12 +20,13 @@ import { CreateRatingComponent } from './components/createRating/createRating.co
 import { EditSkillsItemComponent } from './components/edit-skills-item/edit-skills-item.component';
 import { UserHomeComponent } from './components/user-home/user-home.component';
 import { SingleUserComponent } from './pages/single-user/single-user.component';
+import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
   imports: [
     SharedModule,
     RouterModule,
-    SingleItemRoutes
+    SingleItemRoutes,
   ],
   declarations: [
     SingleItemComponent,

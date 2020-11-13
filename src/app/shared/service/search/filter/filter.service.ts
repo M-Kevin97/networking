@@ -1,7 +1,7 @@
 import { filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Database } from 'src/app/core/database/database.enum';
-import { Course, ICourse } from 'src/app/shared/model/item/course';
+import { Course } from 'src/app/shared/model/item/course';
 import { EventItem, IEvent } from 'src/app/shared/model/item/event-item';
 
 @Injectable({

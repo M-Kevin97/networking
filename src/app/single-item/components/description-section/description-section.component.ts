@@ -29,13 +29,13 @@ export class DescriptionSectionComponent implements OnInit {
 
   getDescriptionBeginning() {
     if(this.description){
-      return this.description.substring(0, 200);
+      return this.description.substring(0, 160);
     }
   }
 
   getDescriptionEnding() {
     if(this.description){
-      return this.description.substring(200);
+      return this.description.substring(160);
     }
   }
 

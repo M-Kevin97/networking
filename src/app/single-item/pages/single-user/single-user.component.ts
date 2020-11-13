@@ -1,12 +1,20 @@
+import { ItemService } from 'src/app/shared/service/item/item.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { IHeadUser } from './../../components/edit-head-user/edit-head-user.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from 'src/app/shared/model/user/user';
+import { User, IUser } from 'src/app/shared/model/user/user';
 import { EditHeadUserComponent } from '../../components/edit-head-user/edit-head-user.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { UserService } from 'src/app/shared/service/user/user.service';
+
+enum UserNav {
+  HOME = "home",
+  COURSES = "crs",
+  EVENTS = "evts",
+  NETWORK= "netwrk"
+};
 
 @Component({
   selector: 'app-single-user',
@@ -14,29 +22,35 @@ import { UserService } from 'src/app/shared/service/user/user.service';
   styleUrls: ['./single-user.component.css']
 })
 export class SingleUserComponent implements OnInit, OnDestroy {
-
-  user:User;
-  hasUser:boolean = true;
+  
+  user:User = null;
+  hasUser:boolean = false;
+  isUser:boolean = false;
   currentFragment:string;
   mySubscription: any;
 
-  constructor(private activatedRoute:ActivatedRoute,
-              private authService:AuthService,
-              private userService:UserService,
-              private router:Router,
-              private modalService: NgbModal) { 
+  // variable pour la barre de navigation (Formation, Catégorie, Formateur)
+  activeTab = UserNav.HOME;
 
-    // Code pour rafraichir la page sans ke l'url change
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
 
-    this.mySubscription = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Trick the Router into believing it's last link wasn't previously loaded
-        this.router.navigated = false;
-      }
-    });
+  constructor(private activatedRoute: ActivatedRoute,
+              private authService:    AuthService,
+              private userService:    UserService,
+              private itemService:    ItemService,
+              private router:         Router,
+              private modalService:   NgbModal) { 
+
+    // // Code pour rafraichir la page sans ke l'url change
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return false;
+    // };
+
+    // this.mySubscription = this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     // Trick the Router into believing it's last link wasn't previously loaded
+    //     this.router.navigated = false;
+    //   }
+    // });
   }
 
   ngOnInit() {  
@@ -45,24 +59,42 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     const id = this.activatedRoute.snapshot.params['id'];
     this.getCurrentFragment();
 
-    this.userService.getSingleUserFromDBWithId(id).then(
-      (user:User) => {
-        if(user!==null && user!==undefined) {
-          this.hasUser = true;
-          this.user = User.userFromJson(user);
-          this.user.id = id;
-          console.log(this.user);
-          console.error(this.user.courses);
-          console.error(this.user.events);
+    // if(this.authService.isAuth) {
+
+    //   console.log("Auth user", this.authService.authUser);
+
+    //   this.user = this.authService.authUser;
+    //   this.user ? this.hasUser = true :  this.hasUser = false;
+    //   this.userIsAuth();
+    // } else {
+      this.userService.getSingleUserFromDBWithId(id).then(
+        (user:User) => {
+          if(user!==null && user!==undefined) {
+
+            this.user = user;
+            this.user.id = id;
+
+            this.itemService.getiItemsByIUser(user.getIUser()).then(
+              (val:IUser) => {
+                if(val) {
+                  this.user.courses = val.iCourses;
+                  this.user.events = val.iEvents;
+                  this.hasUser = true;
+                }
+            
+                this.userIsAuth();
+              }
+            );
+          }
+          else {
+              this.hasUser = false;
+          }
+        }).catch(
+        () => {
+          this.hasUser = false;
         }
-        else {
-            this.hasUser = false;
-        }
-      }).catch(
-      () => {
-        this.hasUser = false;
-      }
-    );
+      );
+    //}
   }
 
   getCurrentFragment() {
@@ -72,21 +104,33 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  displayPanel(activeTab){
+    this.activeTab = activeTab;
+  }
+
+  getPanelName() {
+    return UserNav;
+  }
+
   checkHome() {
     return this.currentFragment === 'home' || this.router.url === RouteUrl.USER+'/'+this.user.id;
   }
 
+  onNewCourse() {
+    this.router.navigate([RouteUrl.NEW_COURSE]);
+  }
+
+  onNewEvent() {
+    this.router.navigate([RouteUrl.NEW_EVENT]);
+  }
 
   openHeadUserModal(){
-
-    console.log('getCurrentFragment', this.currentFragment);
 
     const modalRef = this.modalService.open(EditHeadUserComponent, { scrollable: true });
     modalRef.componentInstance.user = this.user;
 
     modalRef.result.then((result:IHeadUser) => {
       if (result) {
-        console.log(result);
 
         this.user.ppLink = result.ppLink;
         this.user.firstname = result.firstname;
@@ -109,37 +153,17 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
       }
     }).catch((error) => {
-      console.log(error);
+      console.error(error);
     });
   }
 
   userIsAuth(){
     if(this.authService.isAuth){
-      if(this.user.id === this.authService.authUser.id){
-        return true;
-      }
-      else return false;
-    }
-    return false;
-  }
 
-  displayUserHome() {
-    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'home'}); 
-  }
+      if(this.user.id === this.authService.authUser.id) this.isUser = true;
+      else this.isUser = false;
 
-  displayUserCourses() {
-
-    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'courses'}); 
-  }
-
-  displayUserEvents() {
-
-    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'events'}); 
-  }
-
-  displayUserNetwork() {
-
-    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'network'}); 
+    } else this.isUser = false;
   }
 
   ngOnDestroy() {

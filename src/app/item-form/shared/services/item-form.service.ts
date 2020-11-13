@@ -32,19 +32,8 @@ export class ItemFormService {
     return this._stepFormSubject;
   }
 
-  addStepForm(stepState:StepState, stepForm: StepForm){
-
-    
-    if(this.mapStepForms.set(stepState, stepForm).has(stepState)){
-      stepForm.status = true;
-     this._stepFormSubject.next(stepState);
-     console.log('addStepForm',stepForm);
-    }
-  }
-
+  // add or update a value to a step (title, category, price, media)
   setFormWithStepState(stepState:StepState, value:any) {
-
-    console.log('setFormWithStepState -- ItemFormService', stepState, value);
 
     const stepForm : StepForm = {
       step : stepState,
@@ -53,6 +42,15 @@ export class ItemFormService {
     };
 
     this.addStepForm(stepState, stepForm);
+  }
+
+  private addStepForm(stepState:StepState, stepForm: StepForm){
+
+    
+    if(this.mapStepForms.set(stepState, stepForm).has(stepState)){
+      stepForm.status = true;
+     this._stepFormSubject.next(stepState);
+    }
   }
 
   getStepFormWithStep(step:StepState){

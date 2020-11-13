@@ -11,7 +11,7 @@ export class UserAvatarComponent implements OnInit, AfterViewInit {
   @ViewChild('circle') circleElement: ElementRef;
 
   @Input()
-  public photoUrl: string;
+  public photoUrl: string = null;
   @Input()
   public name: string = '';
   @Input()

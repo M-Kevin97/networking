@@ -1,4 +1,5 @@
-import { EditHeadItemComponent, IHeadItem } from '../../components/edit-head-item/edit-head-item.component';
+import { SearchService } from './../../../shared/service/search/search.service';
+import { EditHeadItemComponent } from '../../components/edit-head-item/edit-head-item.component';
 import { EditDescriptionItemComponent } from '../../components/edit-description-item/edit-description-item.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { Item } from 'src/app/shared/model/item/item';
 import { ItemService } from 'src/app/shared/service/item/item.service';
 import { SingleItemComponent } from '../../single-item.component';
 import { DatePipe } from '@angular/common';
+import { RouterService } from 'src/app/shared/service/router/router.service';
 
 @Component({
   selector: 'app-single-event',
@@ -21,15 +23,19 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
   event:EventItem;
 
   constructor(private route:ActivatedRoute,
-              itemService:ItemService,
-              authService:AuthService,
-              router:Router,
-              modalService: NgbModal,
-              datePipe:DatePipe) {
+                      itemService:ItemService,
+                      authService:AuthService,
+                      searchService:SearchService,
+                      routerService:RouterService,
+                      router:Router,
+                      modalService: NgbModal,
+                      datePipe:DatePipe) {
 
     super(itemService,
           authService,
           router,
+          searchService,
+          routerService,
           modalService,
           datePipe);
 
@@ -38,127 +44,29 @@ export class SingleEventComponent extends SingleItemComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.event = new EventItem(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-
-    console.log(this.route.snapshot);
-
+    
+    // getting course id from url 
     const id = this.route.snapshot.params['id'];
+
     this.itemService.getSingleItemFromDBById(id,
       (event:EventItem) => {
-        if(event!==null && event!==undefined) {
+
+        if(event) {
+
           this.hasItem = true;
-          this.event = EventItem.eventFromJson(event);
-          this.event.id = id;
-          super.item = this.event;
-          console.log(this.event);
-          console.log(event['authors']);
-          console.log(this.event.iAuthors);
+          super.item = this.event = event;
+          this.isItemAuthor();
+          super.saveView();
         }
         else {
           this.hasItem = false;
         }
       }
-    ).then(
-      () => {
-        this.itemService.getItemsByUserId(this.getMainAuthor().id).then(
-          (items) => {
-            if(items) {
-                var mainAuthorItems: Item[] = Object.keys(items).map(
-                    function(itemIdIndex){
-                    let item, itemJson = items[itemIdIndex];
-            
-                    if(itemJson['type']==='course') {
-                        item = Course.courseFromJson(itemJson);
-                        item.id = itemIdIndex;
-                    }
-                    else if(itemJson['type']==='event') {
-                        item = EventItem.eventFromJson(itemJson);
-                        item.id = itemIdIndex;
-                    }
-        
-                    return item;
-                }
-              );
-
-              this.mainAuthorItems = mainAuthorItems;
-              this.mainAuthorItems.sort((a, b) => a.creationDate < b.creationDate ? -1 : a.creationDate > b.creationDate ? 1 : 0);
-            }
-          }
-        )
-      }
     ).catch(
-      () => {
+      (error) => {
+        console.error(error);
         this.hasItem = false;
       }
     );
   }
-
-  openHeadItemModal(){
-
-    const modalRef = this.modalService.open(EditHeadItemComponent, { scrollable: true });
-    modalRef.componentInstance.item = this.event;
-
-    modalRef.result.then((result:IHeadItem) => {
-      if (result) {
-        console.log(result);
-
-        this.event.title = result.title;
-        this.event.catchPhrase = result.catchPhrase;
-        this.event.price = result.price;
-        this.event.imageLink = result.imageLink;
-
-        if(this.event.catchPhrase === undefined)
-        {
-          this.event.catchPhrase = null;
-        }
-        if(this.event.title === undefined)
-        {
-          this.event.title = null;
-        }
-        if(this.event.price === undefined)
-        {
-          this.event.price = null;
-        }
-        if(this.event.imageLink === undefined)
-        {
-          this.event.imageLink = null;
-        }
-        if(this.event.videoLink === undefined)
-        {
-          this.event.videoLink = null;
-        }
-
-        this.itemService.updateItemPrimaryInfoInDB(this.event);
-
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  openDescriptionItemModal(){
-
-    const modalRef = this.modalService.open(EditDescriptionItemComponent);
-    modalRef.componentInstance.description = this.event.description;
-
-    modalRef.result.then((result) => {
-      if (result) {
-        console.log(result);
-        console.log(this.event);
-
-        this.event.description = result;
-
-        if(this.event.description === undefined)
-        {
-          this.event.description = null;
-        }
-
-        this.itemService.updateItemDescriptionInDB(this.event);
-
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
 }
-

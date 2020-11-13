@@ -2,7 +2,8 @@
 
   <div class="results-info my-4">
     <div class="row results-cat my-3">
-      <h2 *ngIf="categoryName"><span class="catName">{{ categoryName }}</span><span class="results-q"> - {{ getNbResults() }} résultats <span *ngIf="query"> "{{ query }}"</span></span></h2>
+      <!-- <h2 *ngIf="categoryName"><span class="catName">{{ categoryName }}</span><span class="results-q"> - {{ getNbResults() }} résultats <span *ngIf="query"> "{{ query }}"</span></span></h2> -->
+      <h2><span class="results-q">{{ getNbResults() }} résultats pour <span *ngIf="query">"{{ query }}"</span></span></h2>
     </div>
     
     <!-- Afficher les catégories si recherche par catégories -->
@@ -67,7 +68,6 @@
       </a>
     </li>
   </ul>
-
 
   <div class="tab-content">
     <div class="tab-pane fade" id="courses"
