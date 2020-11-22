@@ -203,31 +203,33 @@ export class ResultsComponent implements OnInit, OnDestroy {
     if(res) {
 
       // if items match with the filter 
-      if(this.filterService.filterItem(res)) {
+      if(res.published) {
+        if(this.filterService.filterItem(res)) {
 
-      // attribuate each item to his list (courseList or EventList)
-        if(res instanceof Course) this.coursesList.push(res);
-        else if(res instanceof EventItem) this.eventsList.push(res);
-
-        console.error(res.iAuthors);
-
-        // Creation of the user's list
-        res.iAuthors.forEach(
-          (user) => {
-            // if isn't already in array
-            if(!this.usersList.find(usr => usr.id === user.id)) 
-              this.usersList.push(user);
+          // attribuate each item to his list (courseList or EventList)
+            if(res instanceof Course) this.coursesList.push(res);
+            else if(res instanceof EventItem) this.eventsList.push(res);
+    
+            console.error(res.iAuthors);
+    
+            // Creation of the user's list
+            res.iAuthors.forEach(
+              (user) => {
+                // if isn't already in array
+                if(!this.usersList.find(usr => usr.id === user.id)) 
+                  this.usersList.push(user);
+              }
+            );
+    
+            // Creation of the user's list
+            res.tags.forEach(
+              (tag) => {
+                // if isn't already in array and isn't the query
+                if(!this.tagsList.find(t => t.name === tag.name) && tag.name !== this.query) 
+                  this.tagsList.push(tag);
+              }
+            );
           }
-        );
-
-        // Creation of the user's list
-        res.tags.forEach(
-          (tag) => {
-            // if isn't already in array and isn't the query
-            if(!this.tagsList.find(t => t.name === tag.name) && tag.name !== this.query) 
-              this.tagsList.push(tag);
-          }
-        );
       }
     }
   }
