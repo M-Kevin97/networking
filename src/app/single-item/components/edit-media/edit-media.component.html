@@ -1,0 +1,30 @@
+<form [formGroup]="editMediaForm" 
+      role="form" 
+      class="form-item">
+
+  <div class="body-section">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="fe:picture" 
+            data-inline="false">
+      </span>
+      Image
+    </h5>
+    <hr class="separation-line"> <!-- separation line -->
+
+    <div class="img-modal-course text-center">
+      <img [src]="urlImagePreview" 
+           width="250" 
+           height="250" 
+           alt="Image">
+    </div>
+
+    <input type="file" 
+            class="form-control-file file-input mt-4" 
+            formControlName="imageItem"
+            id="imageItem"
+            accept="image/*"
+            (change)="onPreviewImage($event)">
+
+  </div>
+</form>

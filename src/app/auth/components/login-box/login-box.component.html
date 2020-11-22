@@ -1,6 +1,7 @@
-<div *ngIf="isVerificationEmailSent" class="alert alert-success p-4" role="alert">
-    <p class="text-justify text-success">
-        Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui a été envoyé sur votre boite mail.
+<div *ngIf="errorMessage" 
+     class="alert alert-danger text-center">
+    <p class="text-danger">
+        {{ errorMessage }}
     </p>
 </div>
 
@@ -89,10 +90,6 @@
             Se connecter
         </button>
     </form>
-
-    <p class="text-danger my-2">
-        {{ errorMessage }}
-    </p>
   
     <a [routerLink]="getRoute().PASSWORD_FORGOTTEN"
        routerLinkActive="router-link-active">

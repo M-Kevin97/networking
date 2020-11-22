@@ -1,11 +1,8 @@
-import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase';
 import { Observable, Subject } from 'rxjs';
 import { User } from 'src/app/shared/model/user/user';
 import { UserService } from 'src/app/shared/service/user/user.service';
-
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +10,6 @@ import { UserService } from 'src/app/shared/service/user/user.service';
 export class AuthService {
 
   private isConnected = new Subject<Boolean>();
-
 
   // authUser est l'utilisateur identifé lors de la connexion
   private _authUser: User;
@@ -40,10 +36,8 @@ export class AuthService {
     this._preSignUpUser = value;
   }
 
+  constructor(private userService:UserService) {
 
-  constructor(private userService:UserService,
-              private router:Router) { 
-    
     this._authUser = new User(null,
                               null,
                               null,
@@ -68,10 +62,10 @@ export class AuthService {
     return new Promise (
       (resolve, reject) => {
         firebase.auth().createUserWithEmailAndPassword(mail, password).then(
-          () => {
+          (val) => {
+            console.log('Success!', val);
             resolve();
-          }).catch(
-          (error) => {
+          }).catch((error) => {
             reject(error.code);
           }
         );
@@ -155,6 +149,8 @@ export class AuthService {
     return new Promise (
       (resolve, reject) => {
 
+        console.error('authService emailVerification');
+
         // The client SDK will parse the code from the link for you.
         firebase.auth().signInWithEmailLink(email, window.location.href)
           .then(function(result:firebase.auth.UserCredential) {
@@ -163,6 +159,8 @@ export class AuthService {
             // You can access the new user via result.user
             // Additional user info profile not available via:
             // result.additionalUserInfo.profile == null
+
+            console.error('signInWithEmailLink');
 
             resolve(result);
             // You can check if the user is new or existing:
@@ -179,27 +177,23 @@ export class AuthService {
     );
   }
 
-  signInUser(email:string, password:string){
-
-    return new Promise (
-      (resolve, reject) => {
+  login(email:string, password:string){
         
-        firebase.auth().signInWithEmailAndPassword(email, password).then(
-          (userCredential) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password).then(
+      (userCredential) => {
 
-            if(userCredential.user) {
+        console.warn(userCredential);
 
-              if(userCredential.user.emailVerified) resolve();
-              else {
-                this.sendEmailVerification();
-                reject("auth/email-not-verified");
-              }
-            }
-          }).catch( 
-          (error) => {
-            reject(error);
+        if(userCredential.user) {
+
+          if(userCredential.user.emailVerified){
+            return userCredential.user;
+          } 
+          else {
+            this.sendEmailVerification();
+            return("auth/email-not-verified");
           }
-        );
+        }
       }
     );
   }
@@ -222,6 +216,8 @@ export class AuthService {
 
   authStateChanged(){
 
+    console.log('authStateChangeds');
+
     return new Promise(
       (resolve, reject) => {
         firebase.auth().onAuthStateChanged(
@@ -233,25 +229,25 @@ export class AuthService {
                     if(bool) {
                       this.hasAuthResult = true;
                       this.isAuth = bool;
-                      this.isConnected.next(true);
+                      //this.isConnected.next(true);
                       resolve(true);
                     }
                     else {
                       this.isAuth = false;
-                      this.isConnected.next(false);
+                      //this.isConnected.next(false);
                       resolve(false);
                     }
                   }
                 );
               } else {
                 this.isAuth = false;
-                this.isConnected.next(false);
+                //this.isConnected.next(false);
                 resolve(false);
               }
             } else {
               this.isAuth = false;
               this.hasAuthResult = true;
-              this.isConnected.next(false);
+              //this.isConnected.next(false);
               resolve(false);
             }
           }
@@ -333,8 +329,8 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
-          //url: 'https://netskills.herokuapp.com/auth',
           url: 'https://netskills.herokuapp.com/auth',
+          //url: 'https://localhost:4200/auth',
           // This must be true.
           handleCodeInApp: true,
           // iOS: {
@@ -372,7 +368,13 @@ export class AuthService {
       () => {
         this.isAuth = false;
         this._authUser = null;
-        this.router.navigate([RouteUrl.LOGIN]);
+
+        return true;
+      }
+    ).catch(
+      (error) => {
+        console.error(error);
+        return false;
       }
     );
   }

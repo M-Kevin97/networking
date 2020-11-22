@@ -1,71 +1,24 @@
 #home {
+
+    height: 85vh;
     padding:0;
 }
 
-.sb-section {
-    margin-left: auto;
-    margin-right: auto;
-    padding-top:25vh;
-    width: 68%;
-}
-
-.categories-card-row {
-    width:90%;
-    margin-top: 10vh;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.padding-0{
-    padding-right:0;
-    padding-left:0;
-}
-
-.card-cat {
-
-    height:10em;
-    width:10em;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.card-body {
-
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.card-img {
-
-    height: 60%;
-}
-
-.card-title {
-
-    font-weight: 500;
-    font-size: small;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.card-cat:hover {
-
-    cursor:pointer;
-}
-
 #menu-home {
+
     padding-top: 5vh;
     padding-bottom: 5vh;
     background-color: white;
-    border-bottom:solid 1px #2E7B9C;
 }
 
 .section-menu-home {
+
     margin-top: auto;
     margin-bottom: auto;
 }
 
 .menu-search-home {
+
     margin-top: 5vh;
     margin-bottom: 5vh;
     margin-left: auto;
@@ -73,18 +26,8 @@
     width: 95%;
 }
 
-.section-search-title span {
-    font-size: 1.1em;
-    font-weight: 380;
-    /*text-transform: uppercase;*/
-    width: 90%;
-}
-
-#search-home {
-    height: 83vh;
-}
-
 .subtitle {
+
     font-family: inherit;
 }
 
@@ -107,14 +50,17 @@
 }
 
 .section-search-icon {
+
     font-size: 2.4em;
 }
 
 .section-search:focus, .section-search:hover{
+
     background-color: #F9FAFB
 }
 
 .section-search:focus, .btn-search:hover{
+
     background-color:rgba(224, 221, 221, 0.356);
 }
 

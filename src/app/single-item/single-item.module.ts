@@ -1,4 +1,8 @@
-import { EditCourseContentModalComponent } from './components/edit-course-content-modal/edit-course-content-modal.component';
+import { EditTagsComponent } from './components/edit-tags/edit-tags.component';
+import { EditMediaComponent } from './components/edit-media/edit-media.component';
+import { EditGeneralComponent } from './components/edit-general/edit-general.component';
+import { EditCourseComponent } from './components/edit-course/edit-course.component';
+import { CompletionBoardComponent } from './components/completion-board/completion-board.component';
 import { CourseContentComponent } from './components/course-content/course-content.component';
 import { EditCourseContentComponent } from './components/edit-course-content/edit-course-content.component';
 import { DescriptionSectionComponent } from './components/description-section/description-section.component';
@@ -45,8 +49,12 @@ import { CountdownModule } from 'ngx-countdown';
     GlobalRatingComponent,
     DescriptionSectionComponent,
     EditCourseContentComponent,
-    EditCourseContentModalComponent,
-    CourseContentComponent
+    CourseContentComponent,
+    CompletionBoardComponent,
+    EditCourseComponent,
+    EditGeneralComponent,
+    EditMediaComponent,
+    EditTagsComponent
   ]
 })
 export class SingleItemModule { }

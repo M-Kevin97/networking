@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
@@ -16,36 +16,16 @@ export class HomeComponent implements OnInit {
               private searchService: SearchService,
               private router: Router) {}
 
-  ngOnInit() {
-    this.isAuthentifiedGoToFeedPage();
-  }
+  ngOnInit() { }
 
-  isAuthentifiedGoToFeedPage () {
-    if(this.authService.isAuth) {
-    this.router.navigate(['/feed']);
-    }
-  }
-
-  onSearchCourses(){
-    this.searchService.search(DefautCategory.ID, '', '', ItemResult.COURSES);
-  }
-
-  onSearchEvents(){
-    this.searchService.search(DefautCategory.ID, '', '', ItemResult.EVENTS);
-  }
-
-  goToCreateItems(){
+  goToCreateItems() {
     this.router.navigate([RouteUrl.NEW_COURSE]);
   }
 
-  onSearchByCategory(categoryId: string) {
-
-    if (categoryId) {
-
-      console.warn('onSearchByCategory', categoryId);
-      this.searchService.search(categoryId, '','','');
-    }
+  goToSearchPage() {
+    this.router.navigate([RouteUrl.SEARCH]);
   }
+
 
 }
 

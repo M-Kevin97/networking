@@ -15,6 +15,8 @@ export class TagsInputComponent implements OnInit {
   // input size : lg, sm,
   @Input() size:string = '';
 
+  @Input() background_color:string = 'white';
+
   @Output() tagsEvent:EventEmitter<Tag[]> = new EventEmitter();
 
   tagsDB:Tag[] = [];
@@ -39,11 +41,9 @@ export class TagsInputComponent implements OnInit {
     this.tagService.getAllTagsFromDB(
       (tags) => {
         this.tagsDB = tags;
-        console.log(this.tagsDB)
       }
     );
   }
-
 
   onSuggestTags() {
 
@@ -62,8 +62,6 @@ export class TagsInputComponent implements OnInit {
           this.tagsSuggested = this.tagsSuggested.concat(this.tagsDB.filter(c => this.formatTagName(c.name)
                                                                                     .includes(val) 
                                             && !this.tagsSuggested.find((tagFind) => tagFind.id === c.id))) .slice(0,20);
-
-          console.log(this.tagsSuggested);
         } 
       }
     );
@@ -83,6 +81,7 @@ export class TagsInputComponent implements OnInit {
   setTagsSuggestedWithInputFocusOut() {
 
     this.isInputFocus = false;
+    this.isTagsSuggestedFocus = false;
   }
 
 
@@ -97,8 +96,10 @@ export class TagsInputComponent implements OnInit {
 
   onAddTagSuggested(tagSuggested:Tag) {
 
-    if(tagSuggested && tagSuggested.id 
-        && !this.tags.find((tagFind) => this.formatTagName(tagFind.name) === this.formatTagName(tagSuggested.name))) {
+    if(!this.tags) this.tags = [] 
+
+    if(tagSuggested && tagSuggested.id && !this.tags.find((tagFind) => this.formatTagName(tagFind.name) === this.formatTagName(tagSuggested.name))) {
+
       this.tags.push(tagSuggested);
       this.tagForm.reset();
       // close the tags suggested list
@@ -209,8 +210,6 @@ export class TagsInputComponent implements OnInit {
     }
   }
 
-
-  // check a formated tag is in DB in real time
   isTagsSuggestedList() {
     return (this.isTagsSuggestedFocus || this.isInputFocus);
   }

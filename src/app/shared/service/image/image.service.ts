@@ -69,6 +69,12 @@ export class ImageService {
     );
   }
 
+  deleteImageByRef(ref, cb, error){
+
+    // Delete the file
+    return ref.delete().then(cb).catch(error);
+  }
+
   // /* 
   // Say you want to only limit the height,
   // and have the width resized accordingly to keep the aspect ratio the same. 

@@ -3,7 +3,7 @@ import { RouterService } from './../shared/service/router/router.service';
 import { SearchService } from './../shared/service/search/search.service';
 import { DatePipe } from '@angular/common';
 import { View } from '../shared/model/item/view';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { AuthService } from '../core/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ItemService } from '../shared/service/item/item.service';
@@ -11,17 +11,16 @@ import { Item } from '../shared/model/item/item';
 import { User } from '../shared/model/user/user';
 import { Router } from '@angular/router';
 import { Tag } from '../shared/model/tag/tag';
-import { Course } from '../shared/model/item/course';
-import { EventItem } from '../shared/model/item/event-item';
 import { EditDescriptionItemComponent } from './components/edit-description-item/edit-description-item.component';
 import { EditHeadItemComponent } from './components/edit-head-item/edit-head-item.component';
+import { EDIT_PANE } from './components/edit-course/edit-item-pane';
 
 @Component({
   selector: 'app-single-item',
   templateUrl: './single-item.component.html',
   styleUrls: ['./single-item.component.css']
 })
-export class SingleItemComponent implements OnInit, AfterViewInit{
+export class SingleItemComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   item:Item = null;
   hasItem:boolean = true;
@@ -42,9 +41,15 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
               protected searchService:SearchService,
               protected routerService:RouterService,
               protected modalService: NgbModal,
-              protected datePipe:DatePipe) { }
+              protected datePipe:DatePipe,
+              protected cdRef:ChangeDetectorRef) { }
 
   ngOnInit() { }
+
+  ngAfterViewChecked()
+  {
+    this.cdRef.detectChanges();
+  }
 
   ngAfterViewInit(){
 
@@ -52,7 +57,6 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
       this.backLink = this.routerService.getLastPreviousUrl();
       if(this.routerService.getLastPreviousUrl().includes(RouteUrl.SEARCH)) this.isSearchBackLink = true;
     }
-
   }
 
   saveView() {
@@ -91,59 +95,6 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
     }
   }
 
-  openEditHeadItemModal(){
-
-    if(this.authService.isAuth && this.isAuthor) {
-
-      const modalRef = this.modalService.open(EditHeadItemComponent, { scrollable: true});
-      modalRef.componentInstance.item = this.item;
-
-      modalRef.result.then((result:Item) => {
-        if (result) {
-
-          this.item.title = result.title;
-          this.item.price = result.price;
-          this.item.catchPhrase = result.catchPhrase;
-          this.item.imageLink = result.imageLink;
-          this.item.tags = result.tags;
-
-          this.displayItemUpdatedAlert();
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-  }
-  
-  openDescriptionItemModal() {
-
-    if(this.authService.isAuth && this.isAuthor) {
-
-      const modalRef = this.modalService.open(EditDescriptionItemComponent);
-      modalRef.componentInstance.item = this.item;
-
-      modalRef.result.then((result) => {
-        if (result) {
-          this.item.description = result;
-          this.displayItemUpdatedAlert();
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-  }
-
-  displayItemUpdatedAlert() {
-
-    this.hasBeenUpdated = true;
-    setTimeout (
-      () => {
-        this.hasBeenUpdated = false;
-      }, 3000
-    );
-  }
-
-
   goToUserPage(){
 
     this.router.navigate([RouteUrl.USER, this.item.getMainiAuthor().id]);
@@ -158,4 +109,7 @@ export class SingleItemComponent implements OnInit, AfterViewInit{
     this.router.navigate(['/items']);
   }
 
+  getEditPane() {
+    return EDIT_PANE;
+  }
 }

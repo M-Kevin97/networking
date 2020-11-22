@@ -1,42 +1,60 @@
 .icon-search {
+    
     cursor: pointer;
 
     color: #2E7B9C;
     font-size: 1.3rem;
     background-color: white;
-    border-left: 0;
 
-    border-radius: 0 3rem 3rem 0;
-    -moz-border-radius: 0 3rem 3rem 0;
-    -webkit-border-radius: 0 3rem 3rem 0;
+    border: 1px solid #dee2e6;
+    border-left: 0;
 }
 
 .input-search {
+
+    border: 1px solid #dee2e6;
     border-right: 0;
 
-    border-radius: 3rem 0 0 3rem;
-    -moz-border-radius: 3rem 0 0 3rem;
-    -webkit-border-radius: 3rem 0 0 3rem;
+}
+
+.input-search:focus {
+
+    box-shadow: none;
 }
 
 .suggestions {
 
+    //width: 38.62vw;
+
+    position: absolute;
+    z-index: 5;
+
+    left: 0px;
+    right: 0px;
+
     margin-left: auto;
     margin-right: auto;
-
-    width: 91%;
-
+    
+    text-align: center;
+    
     max-height: 15em;
 
     overflow-y: auto;
+
+    padding-bottom: 0.25em;
+    background-color: white;
 
     border-radius: 0 0 1.5rem 1.5rem;
     -moz-border-radius: 0 0 1.5rem 1.5rem;
     -webkit-border-radius: 0 0 1.5rem 1.5rem;
 
-    -webkit-box-shadow: 0px 2px 4px 1px rgba(155,155,155,0.32); 
-    -moz-box-shadow: 0px 2px 4px 1px rgba(155,155,155,0.32); 
-    box-shadow: 0px 2px 4px 1px rgba(155,155,155,0.32);
+    border: 1px solid #dee2e6;
+    border-top: 0;
+}
+
+.suggestions::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* make scrollbar transparent */
 }
 
 .suggestion:hover {

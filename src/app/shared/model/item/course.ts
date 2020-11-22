@@ -97,6 +97,33 @@ export class Course extends Item {
         this.calculateGlobalRating();
     }
 
+    public static copyCourse(course:Course) {
+
+        return new Course(course.id,
+                            course.type,
+                            course.title,
+                            course.category,
+                            course.tags,
+                            course.catchPhrase,
+                            course.description,
+                            course.price,
+                            course.iAuthors,
+                            course.creationDate,
+                            course.published,
+                            course.modules,
+                            course.searchContent,
+                            course.data,
+                            course.consultationLink,
+                            course.skillsToAcquire,
+                            course.ratings,
+                            course._nbClick,
+                            course.imageLink,
+                            course.videoLink,
+                            course.srcLink,
+                            course.nbRatings,
+                            course.globalNote);
+    }
+
     getICourse(){
 
         const iCourse:IItem = {
@@ -135,11 +162,7 @@ export class Course extends Item {
 
     public static iCoursesFromJson(json: Object): IItem[] {
 
-        console.log('-----------',json);
-
         if(json === null || json === undefined) return null;
-
-        console.log('°°°°°°°°°°°°',json);
 
         var iCrs:IItem[] = [];
         Object.keys(json).map(
@@ -161,11 +184,7 @@ export class Course extends Item {
 
     public static iCourseFromJson(json: Object): IItem {
 
-        console.log('-----------',json);
-
         if(json === null || json === undefined) return null;
-
-        console.log('°°°°°°°°°°°°',json);
 
         if(json['type']==='course') {
 
@@ -196,7 +215,6 @@ export class Course extends Item {
 
         if(json === null || json === undefined) return null;
 
-        console.log(json);
 
         return new Course(json[0],
                           json['type'] || null,
@@ -223,8 +241,6 @@ export class Course extends Item {
 
     public static coursesFromJson(json: Object): Course[] {
 
-        console.log(json);
-
         if(json === null || json === undefined) return null;
 
         var courses: Course[] = Object.keys(json).map(
@@ -238,8 +254,6 @@ export class Course extends Item {
 
             return course;
         });
-
-        console.log('courses',courses);
 
         return courses;
     }

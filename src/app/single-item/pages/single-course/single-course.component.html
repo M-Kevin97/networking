@@ -1,5 +1,6 @@
 <!------------------------------------ Page Single Course ------------------------------------>
-<div *ngIf="hasItem && isAuthor && hasBeenUpdated" class="alert alert-success text-center sticky-top">
+<div *ngIf="hasItem && isAuthor && hasBeenUpdated" 
+     class="alert alert-success text-center sticky-top">
   <span>Vos modifications ont bien été enregistré !</span>
 </div>
 
@@ -14,11 +15,21 @@
   <div class="row item-path">
     <a *ngIf="backLink && isSearchBackLink; else elseLink" 
        [href]="backLink">
-       &#x3C; Retour aux résultats
+      <span class="iconify" 
+            data-icon="eva:arrow-ios-back-fill" 
+            data-inline="false"
+            style="font-size: 1.3em;">
+      </span>
+      <span>Retour aux résultats</span>
     </a>
     <ng-template #elseLink>
       <a [href]="backLink">
-        &#x3C; Retour
+        <span class="iconify" 
+              data-icon="eva:arrow-ios-back-fill" 
+              data-inline="false"
+              style="font-size: 1.3em;">
+        </span>
+        <span>Retour</span>
       </a>
     </ng-template>
   </div>
@@ -32,7 +43,7 @@
           <h2 class="item-title mb-2">
             {{ course.title }}
             <app-button-edit class="ml-5" 
-                             (click)="openEditHeadItemModal()"
+                             (click)="openEditCourseModal(getEditPane().GENERAL)"
                              *ngIf="isAuthor">
             </app-button-edit>
           </h2>
@@ -97,24 +108,29 @@
 
 
       <!-- Start Author section -->
-      <div *ngIf="!isAuthor" class="item-block author-block">
+      <div *ngIf="!isAuthor && !course.published; else Completion" class="item-block author-block">
         <app-card-author [author]="item.getMainiAuthor()">
         </app-card-author>
       </div> <!-- End Author section -->
+
+      <ng-template #Completion [ngIf]="!course.published">
+        <app-completion-board [item]="course">
+        </app-completion-board>
+      </ng-template>
 
       <!-- Start Description section -->
       <div class="item-block description-block">
         <h5 class="title-cat">
           Description
           <app-button-edit class="ml-5" 
-                           (click)="openDescriptionItemModal()"
+                           (click)="openEditCourseModal(getEditPane().GENERAL)"
                            *ngIf="isAuthor">
           </app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="course.description">
         </app-description-section>
-        <span *ngIf="isAuthor && !course.description" (click)="openDescriptionItemModal()">
+        <span *ngIf="isAuthor && (!course.description || !course.description.length)" (click)="openEditCourseModal(getEditPane().GENERAL)">
           Ajouter une description
         </span>
       </div> <!-- End Description section -->
@@ -124,7 +140,7 @@
         <h5 class="title-cat">
           Compétences à acquérir
           <app-button-edit class="ml-5" 
-                           (click)="openSkillsItemModal()"
+                           (click)="openEditCourseModal(getEditPane().SKILLS)"
                            *ngIf="isAuthor">
           </app-button-edit>
         </h5>
@@ -157,7 +173,7 @@
           </div>
         </div>
 
-        <span *ngIf="isAuthor && !course.skillsToAcquire" (click)="openSkillsItemModal()">
+        <span *ngIf="isAuthor && !course.skillsToAcquire  && !course.skillsToAcquire.length" (click)="openEditCourseModal(getEditPane().SKILLS)">
           Ajouter des compétences à acquérir
         </span>
         
@@ -168,14 +184,14 @@
         <h5 class="title-cat">
           Contenu de la formation
           <app-button-edit class="ml-5" 
-                           (click)="openCourseContentModal()"
+                           (click)="openEditCourseModal(getEditPane().MODULES)"
                            *ngIf="isAuthor">
           </app-button-edit>
         </h5>
 
         <hr> <!-- separation line -->
 
-        <span *ngIf="isAuthor && !course.modules" (click)="openCourseContentModal()">
+        <span *ngIf="isAuthor && !course.modules" (click)="openEditCourseModal(getEditPane().MODULES)">
           Ajouter le programme de votre formation
         </span>
 

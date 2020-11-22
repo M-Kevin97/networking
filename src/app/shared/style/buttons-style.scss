@@ -21,3 +21,15 @@
    background-color: #F8F7F6;
    border:solid 0.1rem #2E7B9C;
 }
+
+.btn-standard {
+   
+    background-color: #2E7B9C;
+    color: #F8F7F6;
+}
+
+.btn-standard:hover, .btn-standard:focus, .btn-standard:active { 
+   color: #2E7B9C;
+   background-color: #F8F7F6;
+   border:solid 0.1rem #2E7B9C;
+}

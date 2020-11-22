@@ -17,18 +17,26 @@ export class VisitorGuardService {
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
-      this.AuthSubscription = this.authService.getAuth().subscribe(bool => {
-        if (bool) {
-          this.router.navigate([RouteUrl.FEED]);
-          resolve(false);
-        } else {
-          // clear messages when empty message received
-          //this.router.navigate([RouteUrl.LOGIN]);
+      this.authService.authStateChanged().then(
+        (val) => {
+          console.warn('canActivate', val);
+          if(val) {
+            this.router.navigate([RouteUrl.FEED]);
+            resolve(false);
+          }
+          else {
+            return resolve(true);
+          }
+        }
+      ).catch(
+        (error) => {
+          console.warn('canActivate', error);
+          console.error(error.message);
           resolve(true);
         }
-      });
+      );
     });
   }
 }

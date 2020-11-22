@@ -1,0 +1,24 @@
+@import '../../../shared/style/buttons-style.scss';
+
+.modal-body {
+
+    background-color: #f7f7f7;
+}
+
+.modal-body {
+
+    min-height:75vh;
+}
+
+.s-item-link {
+
+    color: #2E7B9C !important;
+}
+
+.s-item-link.active, .s-item-link.active:hover, 
+.s-item-link.active:focus, .s-item-link.active:active, .s-item-link.active:before  {
+
+    color: white !important;
+    background-color: #2E7B9C !important;
+
+}

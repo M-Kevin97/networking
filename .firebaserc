@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "network-55b29": {
+      "hosting": {
+        "network": [
+          "network-55b29"
+        ]
+      }
+    }
+  }
+}

@@ -1,240 +1,266 @@
-
-
-    <!-- <form [formGroup]="contentCourseForm">
-      <div formArrayName="modules">
-        <div *ngFor="let module of modulesControls.controls; let iModule = index">
-          <div [formGroupName]="iModule">
-
-            <span class="text-center">Module</span>
-            <div>
-              <label [attr.for]="'titleModule'+iModule" class="sr-only">Titre</label>
-              <input type="text" 
-                     formControlName="titleModule"
-                     [attr.id]="'titleModule'+iModule" 
-                     [attr.name]="'titleModule'+iModule" 
-                     [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'titleModule')}"
-                     (click)="shouldShowModuleRequiredError(iModule,'titleModule')"
-                     placeholder="Titre"
-                     autocomplete="off"
-                     required>
-      
-              <label [attr.for]="'descriptionModule'+iModule" class="sr-only">Name </label>
-              <input type="text" 
-                     formControlName="descriptionModule"
-                     [attr.id]="'descriptionModule'+iModule" 
-                     [attr.name]="'descriptionModule'+iModule" 
-                     [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'descriptionModule')}"
-                     (click)="shouldShowModuleRequiredError(iModule, 'descriptionModule')"
-                     placeholder="Description"
-                     autocomplete="off"
-                     required>
-
-              <button *ngIf="!courseModules[iModule]"
-                      type="button" 
-                      class="btn btn-primary" 
-                      (click)="addModule()" 
-                      [disabled]="module.invalid">Add module</button>
-
-              <button *ngIf="courseModules[iModule] && moduleFormIsDisabled(iModule)"
-                      (click)="updateModule(iModule)">Update</button>
-
-              <button *ngIf="courseModules[iModule] && !moduleFormIsDisabled(iModule)"
-                      (click)="saveModule(iModule)">Save</button>
-
-              <button *ngIf="courseModules[iModule]"
-                      (click)="removeModule(iModule)">Remove</button>
-            </div>
-
-            <div formArrayName="chapters">
-              <div *ngFor="let chapter of getChapterControlsWithModuleIndex(iModule).controls; let iChapter = index">
-                <div [formGroupName]="iChapter">
-                  {{ iModule }} {{ iChapter }}
-                  <label [attr.for]="'titleChapter'+iModule+''+iChapter" 
-                          class="sr-only">
-                    Titre
-                  </label>
-                  <input type="text" [attr.id]="'titleChapter'+iModule+''+iChapter" 
-                                     formControlName="titleChapter"
-                                     [ngClass]="{'is-invalid': shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')}"
-                                     (click)="shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')"
-                                     placeholder="Nouvelle section"
-                                     autocomplete="off"
-                                     required>
-          
-                  <button *ngIf="courseModules[iModule] && !courseModules[iModule].chapters[iChapter]"
-                          type="button" 
-                          class="btn btn-primary" 
-                          (click)="addChapter(iModule)" 
-                          [disabled]="chapter.invalid">Add section</button>
-
-                  <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
-                                                        && chapterFormIsDisabled(iModule, iChapter)"
-                          (click)="updateChapter(iModule, iChapter)">Update</button>
-
-                  <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
-                                                        && !chapterFormIsDisabled(iModule, iChapter)"
-                          (click)="saveChapter(iModule, iChapter)">Save</button>
-
-                  <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter]"
-                          (click)="removeChapter(iModule, iChapter)">Remove</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form> -->
-
-    <!-- <p>
-      <button type="button" 
-              (click)="onSubmit()" 
-              [disabled]="!courseModules.length">Créer Modules</button>
-    </p> -->
-
-
-<form [formGroup]="contentCourseForm">
-
-  <div class="accordion" id="accordionCourseModules">
-    <div formArrayName="modules">
-      
-      <div class="card" *ngFor="let module of modulesControls.controls; let iModule = index">
-        <div [formGroupName]="iModule">
-
-          <div class="card-header"
-                [attr.id]="'heading'+iModule"
-                data-toggle="collapse" 
-                [attr.data-target]="'#collapse'+iModule" 
-                attr.aria-expanded="true" 
-                [attr.aria-controls]="'collapse'+iModule">
-
-            <div class="row mb-0">
-              <div class="col-11">
-                <div class="form-group col-12">
-                  <label [attr.for]="'titleModule'+iModule" class="sr-only">
-                    Titre
-                  </label>
-
-                  <input type="text" 
-                          class="form-control mb-3"
-                          formControlName="titleModule"
-                          [attr.id]="'titleModule'+iModule" 
-                          [attr.name]="'titleModule'+iModule" 
-                          [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'titleModule')}"
-                          (click)="shouldShowModuleRequiredError(iModule,'titleModule')"
-                          placeholder="Quelle est le nom de votre module ?"
-                          autocomplete="off"
-                          required>
-
-                </div>
-
-                <div class="form-group col-12">
-                  <label class="sr-only" [attr.for]="'descriptionModule'+iModule">
-                    Description
-                  </label>
-
-                  <textarea type="text" 
-                            class="form-control"
-                            rows="5"
-                            formControlName="descriptionModule"
-                            [attr.id]="'descriptionModule'+iModule" 
-                            [attr.name]="'descriptionModule'+iModule" 
-                            [ngClass]="{'is-invalid': shouldShowModuleRequiredError(iModule, 'descriptionModule')}"
-                            (click)="shouldShowModuleRequiredError(iModule, 'descriptionModule')"
-                            placeholder="Résumez le contenu de votre module"
-                            autocomplete="off"
-                            required>
-                  </textarea>
-                </div>
-  
-                <div class="mt-3">
-                  <button *ngIf="!courseModules[iModule]"
-                          type="button" 
-                          class="btn btn-primary" 
-                          (click)="addModule()" 
-                          [disabled]="module.invalid">Ajouter un module</button>
-    
-                  <button *ngIf="courseModules[iModule] && moduleFormIsDisabled(iModule)"
-                          (click)="updateModule(iModule)">Modifier</button>
-    
-                  <button *ngIf="courseModules[iModule] && !moduleFormIsDisabled(iModule)"
-                          (click)="saveModule(iModule)">Enregistrer</button>
-    
-                  <button *ngIf="courseModules[iModule]"
-                          (click)="removeModule(iModule)">Supprimer</button>
-                </div>
-              </div>
-              <div class="col-1">
-                <span class="iconify module-expand" 
-                      data-icon="ic:round-expand-more" 
-                      data-inline="false"></span>
-
-                <!-- <span class="iconify module-expand" 
-                      data-icon="ic:round-expand-less" 
-                      data-inline="false"></span> -->
-              </div>
-            </div>
-            
-          </div>
-          <div class="card-body py-0">
-      
-            <div [attr.id]="'collapse'+iModule" 
-                  class="collapse show py-0 my-0" 
-                  [attr.aria-labelledby]="'heading'+iModule" 
-                  data-parent="#accordionCourseModules">
-      
-              <div class="my-2 py-0">
-                
-                <div *ngIf="getChapterControlsWithModuleIndex(iModule)" 
-                    formArrayName="chapters">
-                  <div *ngFor="let chapter of getChapterControlsWithModuleIndex(iModule).controls; let iChapter = index">
-                    <div [formGroupName]="iChapter">
-
-                      <div class="form-group">
-                        <label for="titleChapter" class="sr-only">
-                          Nom du chapitre
-                        </label>
-
-                        <input type="text" class="form-control"
-                                          [attr.id]="'titleChapter'+iModule+''+iChapter" 
-                                          formControlName="titleChapter"
-                                          [ngClass]="{'is-invalid': shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')}"
-                                          (click)="shouldShowChapterRequiredError(iModule, iChapter, 'titleChapter')"
-                                          placeholder="Quel est le titre de votre nouveau chapitre"
-                                          autocomplete="off"
-                                          required>
-                      </div>
-
-                      <div class="mb-3">
-                        <button *ngIf="courseModules[iModule] && !courseModules[iModule].chapters[iChapter]"
-                                type="button" 
-                                class="btn btn-primary" 
-                                (click)="addChapter(iModule)" 
-                                [disabled]="chapter.invalid">Ajouter un Chapitre</button>
-
-                        <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
-                                                              && chapterFormIsDisabled(iModule, iChapter)"
-                                (click)="updateChapter(iModule, iChapter)">Modifier</button>
-
-                        <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter] 
-                                                              && !chapterFormIsDisabled(iModule, iChapter)"
-                                (click)="saveChapter(iModule, iChapter)">Enregistrer</button>
-
-                        <button *ngIf="courseModules[iModule] && courseModules[iModule].chapters[iChapter]"
-                                (click)="removeChapter(iModule, iChapter)">Supprimer</button>
-                      </div>
-                    </div>
-
-                    <hr class="my-2">
-
-                  </div>
-                </div>
-    
-              </div>
-      
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="wrapper edit-course">
+  <div *ngIf="activeWarning" class="alert alert-warning text-center" role="alert">
+    <span>{{ warningMessage }}</span>
   </div>
-</form>
+  <form [formGroup]="contentCourseForm">
+    <div class="row container">
+      <div class="col-md-4 col-lg-3">
+
+        <!-- Sidebar -->
+        <nav id="sidebar-modules">
+
+          <div class="sidebar-header my-2">
+            <h5>Modules</h5>
+          </div>
+
+          <div class="nav flex-column nav-pills mb-3" id="v-pills-tab" 
+                                                      role="tablist" 
+                                                      aria-orientation="vertical">
+
+            <ul class="list-modules list-group">
+
+              <li class="list-chapter list-group-item"
+                  *ngFor="let module of newCourseModules; let i = index"
+                  [ngClass]="{'active': activeModule === module}">
+                  
+                <span (click)="onDisplayModule(module)">
+                  <span class="mr-2">{{ (i+1) }}.</span>
+
+                  <small>{{ module.title.substring(0, 4) }}</small>
+
+                  <span class="iconify mx-1" 
+                        data-icon="bx:bxs-pencil" 
+                        data-inline="false">
+                  </span>
+                </span>
+                <span class="pull-right">
+                  <button *ngIf="i !== newCourseModules.length-1"
+                          class="btn btn-light btn-sm"
+                          (click)="onRemoveModule(module, i)">
+
+                    <span class="iconify icon-exit" 
+                          data-inline="false" 
+                          data-icon="eva:close-fill"
+                          tyle="font-size:1.7em; font-weight: bold; cursor: pointer;">
+                    </span>
+                  </button>
+                </span>
+              </li>
+            </ul>
+          </div>
+
+           <!-- Save all the course content -->
+           <button [disabled]="!isLastModuleFilled()"
+                   type="button" 
+                   class="btn btn-success btn-block mt-3"
+                   (click)="onAddModule2()">
+            Créer un module
+          </button>
+
+        </nav>
+      </div>
+
+      <div class="col-md-8 col-lg-9">
+ 
+        <div class="edit-container mb-1">
+          <div class="title mt-2">
+            <div class="heading mb-3">
+              <h5 style="display: inline;" class="mr-4">
+                <span class="iconify mr-2" data-icon="mdi:page-layout-header" 
+                                      data-inline="false"></span>
+                Titre
+                <span class="ml-2">
+                  <button *ngIf="activeModule.title.length"
+                        class="btn btn-light btn-sm mr-1"
+                        (click)="resetField('titleModule')">
+                    <span class="iconify icon-exit" 
+                          data-inline="false" 
+                          data-icon="eva:close-fill"
+                          style="font-size:1.7em; font-weight: bold;">
+                    </span>
+                  </button>
+
+                  <button *ngIf="!isTitModuleFocus"
+                          class="btn btn-info btn-sm"
+                          (click)="activateFieldFocus('titleModule')">
+                    <small>Modifier</small>
+                  </button>
+
+                  <button *ngIf="isTitModuleFocus && activeModule.title.length"
+                          class="btn btn-success btn-sm"
+                          (click)="isTitModuleFocus = true">
+                    <small>Enregistrer</small>
+                  </button>
+                </span>
+              </h5>
+            </div>
+
+            <input  #titleModule
+                    id="titleModule"
+                    formControlName="titleModule"
+                    class="form-control edit-title"
+                    [ngStyle]="{'background-color': isTitModuleFocus ? 'white' : '#F1F1F1'}"
+                    (focus)="activateFieldFocus('titleModule')"
+                    (focusout)="desactivateFieldFocus('titleModule')"
+                    [(ngModel)]="activeModule.title"
+                    (keydown)="onDetectTitleKeyDown($event)"
+                    placeholder="Quelle est le titre de votre module ?"
+                    autocomplete="off"
+                    required/>
+          </div>
+
+          <div class="description mt-4">
+            <div class="heading mb-3">
+              <h5 style="display: inline;" class="mr-4">
+                <span class="iconify mr-2" data-icon="entypo:text" 
+                                      data-inline="false"></span>
+                Description
+                <span class="ml-2">
+                  <button *ngIf="activeModule.description.length"
+                        class="btn btn-light btn-sm mr-1"
+                        (click)="resetField('descriptionModule')">
+
+                    <span class="iconify icon-exit" 
+                          data-inline="false" 
+                          data-icon="eva:close-fill"
+                          style="font-size:1.7em; font-weight: bold;">
+                    </span>
+                  </button>
+
+                  <button *ngIf="!isDescpModuleFocus"
+                          class="btn btn-info btn-sm"
+                          (click)="activateFieldFocus('descriptionModule')">
+                    <small>Modifier</small>
+                  </button>
+
+                  <button *ngIf="isDescpModuleFocus && activeModule.description.length"
+                          class="btn btn-success btn-sm"
+                          (click)="isDescpModuleFocus = true">
+                    <small>Enregistrer</small>
+                  </button>
+                </span>
+              </h5>
+            </div>
+
+            <textarea #descriptionModule
+                      id="descriptionModule"
+                      formControlName="descriptionModule"
+                      class="form-control edit-description" 
+                      [ngStyle]="{'background-color': isDescpModuleFocus ? 'white' : '#F1F1F1'}"
+                      (focus)="activateFieldFocus('descriptionModule')"
+                      (focusout)="desactivateFieldFocus('descriptionModule')"
+                      [(ngModel)]="activeModule.description"
+                      placeholder="Résumez le contenu de votre module" 
+                      required>
+            </textarea>
+
+          </div>
+
+          <div class="chapter mt-4">
+            <div class="chapter-head">
+              <h5>
+                <span class="iconify mr-2" 
+                      data-icon="eva:list-outline" 
+                      data-inline="false"></span>
+                Chapitres
+              </h5>
+            </div>
+
+            <div *ngIf="activeModule.chapters.length" class="my-3">
+
+              <div *ngFor="let chapter of activeModule.chapters; let i = index" 
+                    class="input-group mb-2">
+
+                <div #chaptersModule
+                      type="text" 
+                      class="form-control" 
+                      [ngStyle]="{'background-color': isChaptersModuleFocus[i] ? 'white' : '#F1F1F1'}"
+                      [textContent]="chapter.title"
+                      (keydown)="onDetectSetChapterKeyDown($event, i)"
+                      (input)="chapter.title = $event.target.textContent"
+                      (focus)="onActivateChapter(i)"
+                      (focusout)="onDesactivateChapter(i)"
+                      contenteditable>
+                </div>
+                <div class="input-group-append">
+                  <button *ngIf="!isChaptersModuleFocus[i]"
+                          class="btn btn-outline-info" 
+                          type="button"
+                          (click)="onActivateChapter(i)">
+
+                    <span class="iconify" 
+                          data-icon="bx:bxs-pencil" 
+                          data-inline="false">
+                    </span>
+                  </button>
+                  <button *ngIf="isChaptersModuleFocus[i]"
+                          class="btn btn-outline-success" 
+                          type="button"
+                          (click)="onDesactivateChapter(i)">
+
+                    <span class="iconify" 
+                          data-icon="ant-design:save-outlined" 
+                          data-inline="false">
+                    </span>
+                  </button>
+                  <button class="btn btn-outline-danger" 
+                          type="button"
+                          (click)="onRemoveChapter(i)">
+
+                    <span class="iconify" 
+                          data-inline="false" 
+                          data-icon="eva:close-fill">
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+      
+
+            <div class="input-group mb-3">
+              <input #chapterModule
+                    type="text" 
+                    class="form-control" 
+                    [ngStyle]="{'background-color': isChapterModuleFocus ? 'white' : '#F1F1F1'}"
+                    formControlName = "chapterModule"
+                    id="chapterModule"
+                    (focus)="isChapterModuleFocus = true"
+                    (focusout)="isChapterModuleFocus = false"
+                    (keydown)="onDetectAddChapterKeyDown($event)"
+                    placeholder="Quel est le titre du chapitre ?">  
+              <div class="input-group-append">
+                <button type="button" 
+                        class="btn btn-success" 
+                        (click)="onAddChapter()"
+                        [disabled]="!contentCourseForm.get('chapterModule').value">
+
+                    <span class="iconify" 
+                          data-icon="clarity:add-line"
+                          data-inline="false">
+                    </span>
+                </button>
+              </div>
+            </div>
+      
+          </div>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <button type="button" 
+                      class="btn btn-success mt-3" 
+                      [disabled]="!isActiveModuleFilled()">
+
+                <span class="wrapper-addModule"
+                      (click)="onDetectClick()">
+                  Enregistrer le module
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </form>
+</div>

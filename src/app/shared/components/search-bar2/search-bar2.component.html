@@ -1,50 +1,68 @@
-<form [formGroup]="searchForm" 
-      action="" 
-      class="search-form my-auto nav-search"
-      (ngSubmit)="searchQuery()">
+<div class="row no-gutters sb-section justify-content-center align-items-center">
+  <div class="col-12 sb">
+    <form [formGroup]="searchForm" 
+          action=""
+          class="search-form my-auto nav-search"
+          (ngSubmit)="searchQuery()">
 
-  <div class="form-group has-feedback">
-    <div class="input-group">
+      <div class="form-group has-feedback">
+        <div class="input-group">
 
-      <!-- Search bar-->
-      <input type="text"
-            [ngStyle]="{'height':getHeight()}"
-            formControlName="search"
-            class="form-control input-search search-bar-elem" 
-            name="search" 
-            id="search" 
-            placeholder="Rechercher"
-            (input)="onSuggestTags()"
-            (focus)="setTagsSuggestedWithInputFocus()"
-            (focusout)="setTagsSuggestedWithInputFocusOut()"
-            autocomplete="off">
+          <!-- Search bar-->
+          <input type="text"
+                  formControlName="search"
+                  class="form-control input-search search-bar-elem" 
+                  name="search" 
+                  id="search" 
+                  placeholder="Rechercher"
+                  (input)="onSuggestTags()"
+                  (focus)="setTagsSuggestedWithInputFocus()"
+                  (focusout)="setTagsSuggestedWithInputFocusOut()"
+                  [ngStyle]="{
+                    'height':getHeight(),
+                    'border-radius': tagsSuggested.length && isTagsSuggestedList() ? '1.5rem 0 0 0' : '3rem 0 0 3rem',
+                    '-moz-border-radius': tagsSuggested.length && isTagsSuggestedList()  ? '1.5rem 0 0 0' : '3rem 0 0 3rem',
+                    '-webkit-border-radius': tagsSuggested.length && isTagsSuggestedList() ? '1.5rem 0 0 0' : '3rem 0 0 3rem'
+                  }"
+                  autocomplete="off">
 
-      <!-- append btn search -->
-      <div class="icon-search-b input-group-append">
-        <!-- logo search -->
-        <span class="icon-search input-group-text search-bar-elem" id="basic-addon1"
-                                                                  [ngStyle]="{'height':getHeight()}"
-                                                                  (click)="searchQuery()">
-          <span class="iconify" data-inline="false" data-icon="bi:search"></span>
-        </span>
+          <!-- append btn search -->
+          <div class="icon-search-b input-group-append">
+            <!-- logo search -->
+            <span class="icon-search input-group-text search-bar-elem" 
+                  id="basic-addon1"
+                  [ngStyle]="{
+                    'height':getHeight(),
+                    'border-radius': tagsSuggested.length && isTagsSuggestedList() ? '0 1.5rem 0 0' : '0 3rem 3rem 0',
+                    '-moz-border-radius': tagsSuggested.length && isTagsSuggestedList()  ? '0 1.5rem 0 0' : '0 3rem 3rem 0',
+                    '-webkit-border-radius': tagsSuggested.length && isTagsSuggestedList() ? '0 1.5rem 0 0' : '0 3rem 3rem 0'
+                  }"
+                  (click)="searchQuery()">
+              <span class="iconify" data-inline="false" data-icon="bi:search"></span>
+            </span>
+          </div>
+        </div>
+        <div class="suggestions text-left" 
+             *ngIf="tagsSuggested.length && isTagsSuggestedList()"
+             (mouseout)="setTagsSuggestedFocus(false)" 
+             (mouseenter)="setTagsSuggestedFocus(true)">
+
+          <ul *ngFor="let tagSuggested of tagsSuggested"
+              class="list-group list-group-flush"
+              (click)="searchQueryWithSuggestion(tagSuggested.name)" 
+              (mousedown)="searchQueryWithSuggestion(tagSuggested.name)">
+
+            <li class="list-group-item list-group-item-action suggestion">
+              <span class="iconify my-auto" 
+                    data-icon="heroicons-solid:hashtag" 
+                    data-inline="false" 
+                    style="color: #2E7B9C;">
+              </span>
+              <span>{{ tagSuggested.name }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="suggestions text-left" 
-        *ngIf="tagsSuggested.length && isTagsSuggestedList()"
-        (mouseout)="setTagsSuggestedFocus(false)" 
-        (mouseenter)="setTagsSuggestedFocus(true)">
-
-      <ul *ngFor="let tagSuggested of tagsSuggested"
-          class="list-group list-group-flush"
-          (click)="searchQueryWithSuggestion(tagSuggested.name)" 
-          (mousedown)="searchQueryWithSuggestion(tagSuggested.name)">
-
-        <li class="list-group-item list-group-item-action suggestion">
-          <span class="iconify my-auto" data-icon="heroicons-solid:hashtag" data-inline="false" style="color: #2E7B9C;"></span>
-          <span>{{ tagSuggested.name }}</span>
-        </li>
-        
-      </ul>
-    </div>
+    </form>
   </div>
-</form>
+</div>

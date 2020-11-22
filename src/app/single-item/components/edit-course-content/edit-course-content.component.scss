@@ -1,4 +1,43 @@
+.active, .active:hover, .active:focus, .active:active, .active:before  {
+
+    background-color: #F1F1F1 !important;
+    color: #2E7B9C !important;
+
+    border: 0;
+}
+
+.list-modules {
+    
+    background-color: #F7F7F7;
+}
+
 .module-expand {
+
     font-size: 1.9em;
     color: #2E7B9C;
 }
+
+.edit-course {
+
+    background-color: #F7F7F7;
+}
+
+.wrapper-addModule {
+
+    width: 100%;
+    padding: 5px;
+}
+
+.edit-title {
+
+    font-weight: bold;
+    font-size: large;
+}
+
+
+.edit-description {
+
+    min-width: 100%;
+    min-height: 30vh;
+}
+

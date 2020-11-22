@@ -26,7 +26,7 @@
           <h2 class="item-title">
             {{ event.title }}
             <app-button-edit class="ml-5" 
-                             (click)="openEditHeadItemModal()"
+                             (click)="openEditEventModal(getEditPane().GENERAL)"
                              *ngIf="isAuthor"></app-button-edit>
           </h2>
           <h3 class="item-subtitre">
@@ -75,12 +75,12 @@
         <h5 class="title-cat">
           Description
           <app-button-edit class="ml-5" 
-                           (click)="openDescriptionItemModal()" 
+                           (click)="openEditEventModal(getEditPane().GENERAL)" 
                            *ngIf="isAuthor"></app-button-edit>
         </h5>
         <hr> <!-- separation line -->
         <app-description-section [description]="event.description"></app-description-section>
-        <span *ngIf="!event.description" (click)="openDescriptionItemModal()">
+        <span *ngIf="!event.description" (click)="openEditEventModal(getEditPane().GENERAL)">
           Ajouter une description
         </span>
       </div> <!-- End Description section -->

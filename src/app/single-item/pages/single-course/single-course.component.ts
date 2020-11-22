@@ -1,18 +1,14 @@
-import { EventItem } from 'src/app/shared/model/item/event-item';
+import { EDIT_PANE } from './../../components/edit-course/edit-item-pane';
+import { EditCourseComponent } from './../../components/edit-course/edit-course.component';
 import { SearchService } from './../../../shared/service/search/search.service';
-import { Module } from './../../../shared/model/item/module';
-import { EditCourseContentModalComponent } from './../../components/edit-course-content-modal/edit-course-content-modal.component';
 import { DatePipe } from '@angular/common';
 import { Rating } from 'src/app/shared/model/rating/rating';
 import { SingleItemComponent } from './../../single-item.component';
 import { CreateRatingComponent } from './../../components/createRating/createRating.component';
-import { EditSkillsItemComponent } from './../../components/edit-skills-item/edit-skills-item.component';
-import { EditDescriptionItemComponent } from './../../components/edit-description-item/edit-description-item.component';
 import { AuthService } from './../../../core/auth/auth.service';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditHeadItemComponent } from '../../components/edit-head-item/edit-head-item.component';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Course } from 'src/app/shared/model/item/course';
 import { ItemService } from 'src/app/shared/service/item/item.service';
@@ -50,7 +46,8 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
                       routerService:RouterService,
                       searchService:SearchService,
                       modalService: NgbModal,
-                      datePipe:DatePipe) {
+                      datePipe:DatePipe,
+                      cdRef:ChangeDetectorRef) {
 
     super(itemService,
           authService,
@@ -58,7 +55,8 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
           searchService,
           routerService,
           modalService,
-          datePipe);
+          datePipe,
+          cdRef);
 
 
       super.item = this.course;
@@ -99,22 +97,21 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
     );
   }
 
-  openCourseContentModal() {
+  openEditCourseModal(pane:EDIT_PANE){
 
     if(this.authService.isAuth && this.isAuthor) {
 
-      const modalRef = this.modalService.open(EditCourseContentModalComponent,  { size: 'xl', centered: true });
-      modalRef.componentInstance.courseId = this.course.id;
-      modalRef.componentInstance.courseContent = this.course.modules;
+      const modalRef = this.modalService.open(EditCourseComponent, { size: 'xl' });
+      modalRef.componentInstance.item = this.course;
+      modalRef.componentInstance.activePane = pane;
 
-      modalRef.result.then((result:Module[]) => {
-
-        if (result) {
-
-        if(this.course.modules && this.course.modules.length) this.course.modules.splice(0, this.course.modules.length);
-        this.course.modules = result;
-        }
+      modalRef.result.then((result) => {
+        
+        console.error('modal result');
+        this.item = this.course = Course.copyCourse(this.course);
+        
       }).catch((error) => {
+        this.item = this.course = Course.copyCourse(this.course);
         console.log(error);
       });
     }
@@ -158,26 +155,6 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 /**
 *------------------------------- skills To Acquire
 */  
-
-  openSkillsItemModal(){
-
-    if(this.authService.isAuth && this.isAuthor) {
-
-      const modalRef = this.modalService.open(EditSkillsItemComponent);
-      modalRef.componentInstance.course = this.course;
-
-      modalRef.result.then((result:string[]) => {
-        if (result) {
-
-          this.course.skillsToAcquire = result;
-          this.displayItemUpdatedAlert();
-
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-  }
 
 
   getSkillsBeginning() {

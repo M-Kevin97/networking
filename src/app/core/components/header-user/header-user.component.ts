@@ -77,11 +77,13 @@ export class HeaderUserComponent implements OnInit {
       });
   }
 
-  isHome(){
-    return this.router.url.includes(RouteUrl.HOME.substr(1));
+  isActivate(){
+    return this.router.url.includes(RouteUrl.HOME.substr(1)) 
+           || (this.router.url.includes(RouteUrl.SEARCH.substr(1)) 
+              && !this.router.url.includes(RouteUrl.RESULTS.substr(1)));
   }
 
-  goToHome() {
+  goHome() {
     if (this.authService.isAuth) this.router.navigate([RouteUrl.FEED]);
     else this.router.navigate([RouteUrl.HOME]);
   }
@@ -116,10 +118,21 @@ export class HeaderUserComponent implements OnInit {
 
   onSignOut() {
     this.authService.signOutUser().then(
-      () => {
-        /* Si utilisateur déconnecté, isAuth = false; */
-        console.log(this.authService.isAuth, 'user est déconnecté');
-        this.router.navigate([RouteUrl.HOME]);
+      (bool) => {
+        if(bool) {
+          /* Si utilisateur déconnecté, isAuth = false; */
+          console.log(this.authService.isAuth, 'user est déconnecté');
+          this.router.navigate([RouteUrl.HOME]);
+        }
+        else {
+          console.error('la déconnexion a échoué');
+
+        }
+      }
+    ).catch(
+      (error) => {
+        console.error(error);
+         console.error('la déconnexion a échoué');
       }
     );
   }

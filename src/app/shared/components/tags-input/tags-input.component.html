@@ -1,59 +1,73 @@
-<div class="row justify-content-start mb-3">
-  <div *ngFor="let tag of tags; let i = index" class="col-auto mb-3">
-    <span class="tag py-2 px-3"> 
-      <div class="tag-close" (click)="onRemoveTag(i)">
-        <span class="iconify align-middle" data-icon="ion:close-circle-outline" 
-                                           data-inline="false">
+<div class="row no-gutters justify-content-center align-items-center">
+  <div class="col-12">
+    <div class="row justify-content-start mb-3">
+      <div *ngFor="let tag of tags; let i = index" class="col-auto mb-3">
+        <span class="tag py-2 px-3"> 
+          <div class="tag-close" (click)="onRemoveTag(i)">
+            <span class="iconify align-middle" data-icon="ion:close-circle-outline" 
+                                              data-inline="false">
+            </span>
+          </div>
+          <div class="tag-name">
+            {{ tag.name }}
+          </div>
         </span>
       </div>
-      <div class="tag-name">
-        {{ tag.name }}
+    </div>
+
+    <form [formGroup]="tagForm">
+      <div class="form-group">
+
+        <div class="input-group mt-4"
+            [ngClass]="{'form-control-lg' : size==='lg', 'form-control-sm' : size==='sm'}">
+
+          <input type="text" 
+                  name="tag" 
+                  placeholder="Choisissez / créez un tag" 
+                  formControlName="tag"
+                  class="tagManager form-control"
+                  [ngStyle]="{'background-color': isTagsSuggestedList() ? 'white' : background_color}"
+                  (keydown)="onCheckKey($event.key)"
+                  (keypress)="onAddTag($event.key)"
+                  autocomplete="off"
+                  (input)="onSuggestTags()"
+                  (focus)="setTagsSuggestedWithInputFocus()"
+                  (focusout)="setTagsSuggestedWithInputFocusOut()"
+                  required> 
+
+          <div class="input-group-append">
+            <button type="button" 
+                    class="btn btn-success" 
+                    (click)="onAddTag('Enter')"
+                    [disabled]="!tagForm.get('tag').value">
+
+                <span class="iconify" 
+                      data-icon="clarity:add-line"
+                      data-inline="false">
+                </span>
+            </button>
+          </div>
+        </div>
+        <div class="tags-suggestion border" 
+              *ngIf="tagsSuggested.length && isTagsSuggestedList()"
+              (mouseout)="setTagsSuggestedFocus(false)" 
+              (mouseenter)="setTagsSuggestedFocus(true)">
+        
+          <ul *ngFor="let tagSuggested of tagsSuggested"
+              (click)="onAddTagSuggested(tagSuggested)" 
+              (mousedown)="onAddTagSuggested(tagSuggested)"
+              class="list-group list-group-flush">
+
+            <li class="list-group-item list-group-item-action tagSuggested-li">
+              <span class="iconify my-auto" 
+                    data-icon="heroicons-solid:hashtag" 
+                    data-inline="false" 
+                    style="color: #2E7B9C;"></span>
+              {{ tagSuggested.name }}
+            </li>
+          </ul>
+        </div>
       </div>
-    </span>
+    </form>
   </div>
 </div>
-<form [formGroup]="tagForm">
-  <div class="form-row">
-    <div class="col-9">
-      <input type="text" 
-            name="tag" 
-            placeholder="Choisissez / créez un tag" 
-            formControlName="tag"
-            class="tagManager form-control"
-            [ngClass]="{'form-control-lg' : size==='lg', 'form-control-sm' : size==='sm'}"
-            (keydown)="onCheckKey($event.key)"
-            (keypress)="onAddTag($event.key)"
-            autocomplete="off"
-            (input)="onSuggestTags()"
-            (focus)="setTagsSuggestedWithInputFocus()"
-            (focusout)="setTagsSuggestedWithInputFocusOut()"
-            required>
-
-      <div class="tags-suggestion" 
-          *ngIf="tagsSuggested.length && isTagsSuggestedList()"
-          (mouseout)="setTagsSuggestedFocus(false)" 
-          (mouseenter)="setTagsSuggestedFocus(true)">
-
-        <ul *ngFor="let tagSuggested of tagsSuggested"
-            (click)="onAddTagSuggested(tagSuggested)" 
-            (mousedown)="onAddTagSuggested(tagSuggested)"
-            class="list-group list-group-flush">
-
-          <li class="list-group-item list-group-item-action tagSuggested-li">
-            <span class="iconify my-auto" data-icon="heroicons-solid:hashtag" data-inline="false" style="color: #2E7B9C;"></span>
-            {{ tagSuggested.name }}
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-3">
-      <button type="submit" 
-              [ngClass]="{'btn-lg' : size==='lg', 'btn-sm' : size==='sm'}"
-              class="btn btn-primary mb-2"
-              (click)="onAddTag('Enter')"
-              [disabled]="tagForm.invalid">
-        Créer
-      </button>
-    </div>
-  </div>
-</form>

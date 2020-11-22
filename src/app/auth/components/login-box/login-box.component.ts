@@ -10,7 +10,8 @@ enum AuthErrorCodeManagement {
   EMAIL_INVALID = 'auth/invalid-email',
   USER_DISABLED = 'auth/user-disabled',
   USER_NOT_FOUND = 'auth/user-not-found',
-  WRONG_PASSWORD = 'auth/wrong-password'
+  WRONG_PASSWORD = 'auth/wrong-password',
+  TOO_MANY_REQUESTS = 'auth/too-many-requests',
 }
 
 @Component({
@@ -21,7 +22,7 @@ enum AuthErrorCodeManagement {
 export class LoginBoxComponent implements OnInit {
   
   signInForm: FormGroup;
-  errorMessage: string; 
+  errorMessage: string = ''; 
   
   hidePassword:boolean = true;
 
@@ -54,17 +55,17 @@ export class LoginBoxComponent implements OnInit {
 
   onSignIn(){
     
-    console.log(this.signInForm.value);
-
-    const md5 = new Md5();
     const email = this.signInForm.get('email').value;
+    const md5 = new Md5();
     const password =  md5.appendStr(this.signInForm.get('password').value).end();
     
-    this.authService.signInUser(email, password.toString()).then(
+    this.authService.login(email, password.toString()).then(
       () => {
         this.router.navigate([RouteUrl.FEED]);
-      },
+      }
+    ).catch(
       (error) => {
+        console.error(error);
         this.displayError(error.code);
       }
     );
@@ -146,6 +147,10 @@ export class LoginBoxComponent implements OnInit {
       }
       case AuthErrorCodeManagement.WRONG_PASSWORD: {
         this.errorMessage = "Le mot de passe est invalide, veuillez réessayer";
+        break;
+      }
+      case AuthErrorCodeManagement.TOO_MANY_REQUESTS: {
+        this.errorMessage = "L'accès à ce compte a été temporairement désactivé. Veuillez réessayer plus tard ou réinitialiser votre mot de passe.";
         break;
       }
       default : {

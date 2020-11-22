@@ -77,7 +77,6 @@ export class EventItem extends Item {
     public static getIEventsItemFromJson(json: Object): IEvent[] {
 
         if(json === null || json === undefined) return null;
-        console.log(json);
 
         var evts:IEvent[] = [];
         var events = Object.keys(json).map(
@@ -158,7 +157,6 @@ export class EventItem extends Item {
 
     public static iEventFromJson(json: Object): IEvent {
         if(json === null || json === undefined) return null;
-        console.log(json);
 
         var iEvent:IEvent = {
             consultationLink:json['consultationLink'] || null,

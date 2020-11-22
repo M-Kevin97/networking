@@ -14,7 +14,6 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { CountdownModule } from 'ngx-countdown';
 import { VerificationComponent } from './components/verification/verification.component';
 
-
 @NgModule({
   imports: [
     CoreModule,

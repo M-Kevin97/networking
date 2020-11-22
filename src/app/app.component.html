@@ -1,11 +1,11 @@
 <div class="wrapper">
-    <app-header-user *ngIf="display()"></app-header-user>
 
+    <div class="container-app">
+        <app-header-user *ngIf="display()"></app-header-user>
 
     
-    <router-outlet></router-outlet>
-   
-    
+        <router-outlet></router-outlet>
+    </div>
 
     <app-footer *ngIf="display()"></app-footer>
 </div>

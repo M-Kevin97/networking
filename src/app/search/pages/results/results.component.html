@@ -1,3 +1,33 @@
-<p>
-  results works!
-</p>
+<div class="container-search w-75 mx-auto">
+
+  <div class="results-info my-4">
+    <div class="row results-cat my-3">
+      <!-- <h2 *ngIf="categoryName"><span class="catName">{{ categoryName }}</span><span class="results-q"> - {{ getNbResults() }} résultats <span *ngIf="query"> "{{ query }}"</span></span></h2> -->
+      <h2><span class="results-q">{{ getNbResults() }} résultats pour <span *ngIf="query">"{{ query }}"</span></span></h2>
+    </div>
+    
+    <!-- Afficher les tags associés à la recherche -->
+    <div *ngIf="tagsList" class="categories-section mt-3">
+      <button *ngFor="let tag of tagsList" type="button" 
+                                                      class="btn btn-outline-secondary btn-cat-to-d mr-2"
+                                                      (click)="onSearchByTag(tag.name)">
+        {{ tag.name }} 
+      </button>
+      <hr>
+    </div>
+  </div>
+
+  <!-- section Filter pour la recherche -->
+  <div class="filter-section container-fluid">
+    <app-filter (items)="onAllocateItemList()"
+                [activeTab]="activeTab">
+    </app-filter>
+  </div>
+  
+  <app-search-results [activeTab]="activeTab"
+                      [coursesList]="coursesList"
+                      [eventsList]="eventsList"
+                      [usersList]="usersList">
+  </app-search-results>
+  
+</div>

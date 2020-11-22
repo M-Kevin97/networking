@@ -1,6 +1,13 @@
 <div class="wrapper h-100 w-100">
   <div class="row h-100 align-items-center justify-content-center text-center">
-    <div class="col-5">
+    <div class="col-lg-5 col-md-7 col-sm-10">
+
+      <div class="auth-title mb-5 mx-auto">
+        <!-- À modifier (Image logo Nom de la plateforme)-->
+        <a routerLink='/home' routerLinkActive="router-link-active">
+            <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
+        </a>
+      </div>
 
       <div class="success-message alert alert-success rounded" 
             *ngIf="email && successMessage">
@@ -11,8 +18,9 @@
           {{ successMessage }}
         </p>
 
-        <countdown #countdown [config]="{leftTime: 4}" 
+        <countdown #countdown [config]="{leftTime: 5}" 
                               (event)="onTimerFinished($event)">
+          $!m!:$!s!
         </countdown>
       </div>
 
@@ -22,13 +30,6 @@
         <p class="email-not-verified-text">
           {{ errorMessage }}
         </p>
-      </div>
-
-      <div class="auth-title mb-5 mx-auto">
-        <!-- À modifier (Image logo Nom de la plateforme)-->
-        <a routerLink='/home' routerLinkActive="router-link-active">
-            <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
-        </a>
       </div>
 
       <app-email-box *ngIf="!email"

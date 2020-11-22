@@ -1,58 +1,91 @@
-<!-- Modal -->
-<div class="modal-dialog" role="document">
-  <div class="modal-content"> 
-    <div class="modal-body">
-      <!---------------------------- Compétences ------------------------------>
-      <h4>Compétences à acquérir</h4>
-      <hr class="separation-line"> <!-- separation line -->
+<!---------------------------- Compétences ------------------------------>
+<div class="wrapper">
+  <h5>
+    <span class="iconify mr-2" 
+          data-icon="ic:round-playlist-add-check" 
+          data-inline="false">
+    </span>
+    Compétences à acquérir
+  </h5>
+  <hr class="separation-line"> <!-- separation line -->
 
-      <form [formGroup]="skillItemForm" role="form" class="form-item row justify-content-center align-items-end">
-          <div class="col-8">
-            <input type="text" class="form-control" 
-                               formControlName = "skill"
-                               id="skill"
-                               onkeydown="return (event.key !== ','
-                                                    && event.key !== ';'
-                                                    && event.key !== '='
-                                                    && event.key !== '>'
-                                                    && event.key !== '<'
-                                                    && event.key !== '.'
-                                                    && event.key !== ':'
-                                                    && event.key !== '`'
-                                                    && event.key !== '_'
-                                                    && event.key !== '§')"
-                               placeholder="Saisissez une compétence">   
-          </div>
-          <div class="col-3">
-            <button type="button" class="btn btn-primary border" 
-                                  (click)="onAddSkill()">
-              Ajouter 
-              <span class="iconify" data-inline="false" data-icon="ic:round-add"></span>
-            </button>
-          </div>   
-      </form>
+  <form [formGroup]="skillItemForm" role="form">
 
-      <div *ngIf="skills" class="my-3">
-        <div *ngFor="let skill of skills.reverse(); let i = index" class="row justify-content-center mb-2">
-          <div class="col-9 border rounded my-auto skill-disp">
-            <span>{{ skill }}</span>
-          </div>
-          <div class="col-2">
-            <button class="btn border rounded" (click)="onDeleteSkill(skill)">
-              <span class="iconify" data-inline="false" 
-              data-icon="eva:close-fill"></span>
-            </button>
-          </div>
+    <div class="input-group mb-3">
+      <input #skillInput
+              type="text" 
+              class="form-control" 
+              [ngStyle]="{'background-color': isSkillInputFocus ? 'white' : '#F1F1F1'}"
+              formControlName="skillInput"
+              id="skillInput"
+              (focus)="isSkillInputFocus = true"
+              (focusout)="isSkillInputFocus = false"
+              (keydown)="onDetectAddSkillKeyDown($event)"
+              placeholder="Saisissez une compétence à acquérir">  
+
+      <div class="input-group-append">
+        <button type="button" 
+                class="btn btn-success" 
+                (click)="onAddSkill()"
+                [disabled]="!skillItemForm.get('skillInput').value">
+  
+            <span class="iconify" 
+                  data-icon="clarity:add-line"
+                  data-inline="false">
+            </span>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="skills.length" 
+       class="my-3">
+
+      <div *ngFor="let skill of skills; let i = index" 
+            class="input-group mb-2">
+
+        <div #skillsInput
+              type="text" 
+              class="form-control" 
+              [ngStyle]="{'background-color': isSkillSavedFocus[i] ? 'white' : '#F1F1F1'}"
+              [textContent]="skill"
+              (keydown)="onDetectSetskillSavedKeyDown($event, i)"
+              (focus)="onActivateSkill(i)"
+              (focusout)="onDesactivateSkill(i)"
+              contenteditable>
+        </div>
+        <div class="input-group-append">
+          <button *ngIf="!isSkillSavedFocus[i]"
+                  class="btn btn-outline-info" 
+                  type="button"
+                  (click)="onActivateSkill(i)">
+
+            <span class="iconify" 
+                  data-icon="bx:bxs-pencil" 
+                  data-inline="false">
+            </span>
+          </button>
+          <button *ngIf="isSkillSavedFocus[i]"
+                  class="btn btn-outline-success" 
+                  type="button"
+                  (click)="onDesactivateSkill(i)">
+
+            <span class="iconify" 
+                  data-icon="ant-design:save-outlined" 
+                  data-inline="false">
+            </span>
+          </button>
+          <button class="btn btn-outline-danger" 
+                  type="button"
+                  (click)="onRemoveSkill(i)">
+
+            <span class="iconify" 
+                  data-inline="false" 
+                  data-icon="eva:close-fill">
+            </span>
+          </button>
         </div>
       </div>
-
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" 
-                            (click)="activeModal.close(null)">Annuler</button>
-
-      <button type="button" (click)="passBack()"
-                            [disabled]="!skills">Enregistrer</button>
-    </div>
-  </div>
+  </form>
 </div>
+

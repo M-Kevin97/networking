@@ -1,6 +1,7 @@
+import { RouterService } from './../../service/router/router.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { TagService } from './../../service/tag/tag.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,11 +15,11 @@ import { Tag } from '../../model/tag/tag';
   templateUrl: './search-bar2.component.html',
   styleUrls: ['./search-bar2.component.scss']
 })
-export class SearchBar2Component implements OnInit {
+export class SearchBar2Component implements OnInit, AfterViewInit {
 
   searchForm: FormGroup;
 
-  @Input() height:string;
+  @Input() height:string = '';
 
   sortByName:string = '';
   item:string = '';
@@ -32,13 +33,14 @@ export class SearchBar2Component implements OnInit {
   tagForm: FormGroup;
   errorTag:boolean;
 
-  isInputFocus:boolean = false;
-  isTagsSuggestedFocus:boolean = false;
+  isInputFocus: boolean = false;
+  isTagsSuggestedFocus: boolean = false;
 
   mySubscription: Subscription;
 
-  constructor(private tagService:TagService,
+  constructor(private tagService: TagService,
               private searchService: SearchService,
+              private routerService:  RouterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute) { 
 
@@ -60,8 +62,10 @@ export class SearchBar2Component implements OnInit {
         // Récupération des catégories de la DB
         this.route.queryParams.subscribe(
           (params) => {
-            if(params[SearchQueryName.CATEGORY] || params[SearchQueryName.QUERY] || params[SearchQueryName.ITEM] || params[SearchQueryName.SORT_OPTION]) 
-            {
+            if(params[SearchQueryName.CATEGORY] || params[SearchQueryName.QUERY] 
+                                                || params[SearchQueryName.ITEM] 
+                                                || params[SearchQueryName.SORT_OPTION]) {
+                                                  
               this.query = params[SearchQueryName.QUERY]? params[SearchQueryName.QUERY] : '';
               this.item = params[SearchQueryName.ITEM]? params[SearchQueryName.ITEM] : '';
               this.sortByName = params[SearchQueryName.SORT_OPTION]? params[SearchQueryName.SORT_OPTION] : '';
@@ -77,6 +81,11 @@ export class SearchBar2Component implements OnInit {
       }
     );
   }
+
+  ngAfterViewInit(): void {
+    
+  }
+
 
   // height de la barre de recherche
   getHeight() {
@@ -169,10 +178,12 @@ export class SearchBar2Component implements OnInit {
   setTagsSuggestedWithInputFocusOut() {
 
     this.isInputFocus = false;
+    this.isTagsSuggestedFocus = false;
   }
 
   // check a formated tag is in DB in real time
   isTagsSuggestedList() {
+
     return (this.isTagsSuggestedFocus || this.isInputFocus);
   }
 

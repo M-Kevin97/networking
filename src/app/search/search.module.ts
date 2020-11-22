@@ -1,3 +1,5 @@
+import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { CoreModule } from './../core/core.module';
 import { ResultsComponent } from './pages/results/results.component';
 import { SearchRoutes } from './search.routing';
 import { FilterComponent } from './components/filter/filter.component';
@@ -7,6 +9,7 @@ import { SearchComponent } from './search.component';
 
 @NgModule({
   imports: [
+    CoreModule,
     SharedModule,
     SearchRoutes,
   ],
@@ -14,6 +17,7 @@ import { SearchComponent } from './search.component';
     SearchComponent,
     FilterComponent,
     ResultsComponent,
+    SearchResultsComponent
   ],
   exports: [
     FilterComponent

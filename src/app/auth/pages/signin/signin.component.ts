@@ -12,8 +12,11 @@ import { getTsBuildInfoEmitOutputFilePath } from 'typescript';
 })
 export class SigninComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
+  goHome() {
+    this.router.navigate([RouteUrl.HOME]);
+  }
 }

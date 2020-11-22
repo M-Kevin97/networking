@@ -175,8 +175,6 @@ export class Item {
 
         if(json === null || json === undefined) return null;
 
-        console.log(json);
-
         const location:ILocationEvent = {
 
             location: json['location'],
@@ -193,8 +191,6 @@ export class Item {
     public static  getIDatesFromJson(json: Object): IDatesEvent {
 
         if(json === null || json === undefined) return null;
-
-        console.log(json);
 
         const dates:IDatesEvent = {
             startDate: json['startDate'],

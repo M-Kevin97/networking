@@ -9,19 +9,27 @@ import { FeedComponent } from './feed/feed.component';
 
 const routes: Routes = [
   {
-    path:RouteUrl.HOME.substr(1), component:HomeComponent, canActivate: [VisitorGuardService]
+    path: RouteUrl.HOME.substr(1), 
+    component:  HomeComponent, 
+    canActivate: [VisitorGuardService]
   },
   {
-    path:RouteUrl.SEARCH.substr(1), component:SearchComponent
+    path: RouteUrl.SEARCH.substr(1), 
+    component:  SearchComponent
   },
   {
-    path:RouteUrl.FEED.substr(1), component:FeedComponent, canActivate: [AuthGuardService]
+    path: RouteUrl.FEED.substr(1),  
+    component:  FeedComponent,
+    canActivate: [AuthGuardService]
   },
   {
-    path:'', redirectTo:RouteUrl.HOME.substr(1), pathMatch:'full'
+    path: '', 
+    redirectTo: RouteUrl.HOME.substr(1), 
+    pathMatch:  'full'
   },
   {
-    path:'**', component:PageNotFoundComponent
+    path:'**', 
+    component:  PageNotFoundComponent
   }
 ];
 

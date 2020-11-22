@@ -23,4 +23,9 @@ export interface ISearchQuery {
     NAME = "Toutes les catégories",
     ID = "0",
   };
+
+  export interface ISortOption {
+    name:string,
+    id:string,
+  };
   

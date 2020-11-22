@@ -1,0 +1,11 @@
+@import '../../../shared/style/buttons-style.scss';
+
+.progress-bar {
+
+    background-color: #2E7B9C;
+}
+
+.completion-board {
+    
+    background-color: white;
+}

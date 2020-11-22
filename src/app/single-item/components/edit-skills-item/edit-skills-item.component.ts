@@ -1,9 +1,7 @@
-import { ItemService } from 'src/app/shared/service/item/item.service';
 import { Course } from 'src/app/shared/model/item/course';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Item } from 'src/app/shared/model/item/item';
 
 @Component({
   selector: 'app-edit-skills-item',
@@ -16,8 +14,15 @@ export class EditSkillsItemComponent implements OnInit {
   skills: string[] = [];
   skillItemForm:  FormGroup;
 
+  @ViewChild('skillInput') skillInput:ElementRef;
+  @ViewChildren("skillsInput") skillsInput: QueryList<ElementRef>;
+
+  isSkillInputFocus:boolean = true;
+  isSkillSavedFocus:boolean[] = [];
+
+  oldSkill:string = '';
+
   constructor(private formBuilder:  FormBuilder,
-              private itemService:  ItemService,
               private _NgbActiveModal:  NgbActiveModal) { }
   
   get activeModal() {
@@ -27,23 +32,26 @@ export class EditSkillsItemComponent implements OnInit {
   ngOnInit() {
 
     this.skillItemForm = this.formBuilder.group({
-      skill: [''],
+      skillInput: [''],
     });
 
-    this.skills = Array.from(this.course.skillsToAcquire || []);
+    // reverse for the ccomponent
+    this.skills = Array.from(this.course.skillsToAcquire ? this.course.skillsToAcquire.reverse() : []);
   }
 
-  /**
+    /**
    * Methode permettant d'ajouter dans la liste des compétences acquises,
    * la compétence saisie dans l'input skill
    * */ 
   onAddSkill() {
-    const skill:string = this.skillItemForm.get('skill').value;
 
-    if(skill && skill.length){
+    const skill = this.skillItemForm.get('skillInput');
 
-      this.skills.push(skill);
-      this.skillItemForm.reset();
+    if(skill.value){
+
+      this.skills.unshift(skill.value);
+      this.isSkillSavedFocus.unshift(false);
+      skill.reset();
     }
   }
 
@@ -51,32 +59,74 @@ export class EditSkillsItemComponent implements OnInit {
    * Methode permettant d'ajouter dans la liste des compétences acquises,
    * la compétence saisie dans l'input skill
    * */ 
-  onDeleteSkill(skill:string) {
+  onRemoveSkill(index:number) {
  
-    if (skill && skill.length) {
+    if (index > -1) {
 
-      this.skills.splice(this.skills.findIndex((val) => {skill === val}),1);
+      this.skills.splice(index,1);
+      this.isSkillSavedFocus.splice(index,1);
     } 
   }
-  
-    /**
-   * Methode permettant d'envoyer à au component ayant appeler EDITSKILL,
-   * de récuper les valeurs saisies
-   * */ 
-  passBack(){
 
-    if(this.skills && this.skills.length) {
+  /**
+   * Skill Input
+   */
 
-      this.itemService.updateSkillsToAcquireInDB(this.course.id, this.skills,
-        () => {
-          this.activeModal.close(this.skills);
-        },
-        (error) => {
+  onDetectAddSkillKeyDown(event) {
 
-        }
-      );
+    if(event.which === 13) {
 
+      if (event.preventDefault) {
+        event.preventDefault();
+      } else {
+        event.returnValue = false;
+      }
+
+      this.onAddSkill();
     }
   }
 
+  /**
+   *  SkillsCourse
+   */
+
+
+  onActivateSkill(index:number){
+
+    if(index > -1) {
+
+      this.isSkillSavedFocus[index] = true;
+      this.oldSkill = this.skillsInput.toArray()[index].nativeElement.textContent;
+
+      this.skillsInput.toArray()[index].nativeElement.focus();
+    }
+  }
+
+  onDesactivateSkill(index:number){
+
+    if(index > -1) {
+
+      let skillText = this.skillsInput.toArray()[index].nativeElement.textContent;
+
+      if(!skillText.length) this.skills[index] = this.oldSkill;
+  
+      this.isSkillSavedFocus[index] = false;
+    }
+  }
+
+  onDetectSetskillSavedKeyDown(event, index:number) {
+
+    if(event.which === 13 && event.code === 'Enter') {
+
+      if (event.preventDefault) {
+        event.preventDefault();
+      } else {
+        event.returnValue = false;
+      }
+
+      this.onDesactivateSkill(index);
+      if(index < this.skills.length-1) this.onActivateSkill(index+1);
+      else this.skillInput.nativeElement.focus();
+    }
+  }
 }

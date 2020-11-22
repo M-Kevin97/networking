@@ -55,7 +55,11 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.queryParams.subscribe(
       (params) => {
 
-        if (!params) this.router.navigate([RouteUrl.HOME]);
+        // si pas de params afficher message d'erreur et rediriger vers acceuil
+        if (!params){
+          console.error('no params')
+          //this.router.navigate([RouteUrl.HOME]);
+        }
 
         // Get the action to complete.
         this.mode = params['mode'];
@@ -81,25 +85,30 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Handle the user management action.
       switch (this.mode) {
-        case UserManagementActions.RESET_PASSWORD:
+        case UserManagementActions.RESET_PASSWORD: {
           // Display reset password handler and UI.
           this.handleResetPassword(this.auth, this.actionCode, this.continueUrl, this.lang);
           break;
-        case UserManagementActions.RECOVER_MAIL:
+        }
+        case UserManagementActions.RECOVER_MAIL: {
           // Display email recovery handler and UI.
           this.handleRecoverEmail(this.auth, this.actionCode, this.lang);
           break;
-        case UserManagementActions.VERIFY_EMAIL || UserManagementActions.SIGN_IN:
+        }
+        case UserManagementActions.VERIFY_EMAIL || UserManagementActions.SIGN_IN: {
           // Display email verification handler and UI.
           this.handleVerifyEmail();
           break;
-        case UserManagementActions.SIGN_IN:
+        }
+        case UserManagementActions.SIGN_IN: {
           // Display email verification handler and UI.
           this.handleVerifyEmail();
           break;
+        }
         default:
           // Error: invalid mode.
-          this.router.navigate([RouteUrl.HOME]);
+          console.warn('actionManager', this.mode);
+          //this.router.navigate([RouteUrl.HOME]);
           break;
       }
     }
@@ -111,16 +120,24 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
       
       this.email = event;
 
+      console.error('emailVerification', event);
+
       switch (this.mode) {
         case UserManagementActions.VERIFY_EMAIL: {
 
           this.authService.emailVerification(event).then(
             (val:firebase.auth.UserCredential) => {
+
+              console.error('authService emailVerification', val);
+
               if(val) {
   
-                this.idUser= val.user.uid;
+                this.idUser = val.user.uid;
                 this.isEmailVerified = true;
                 this.authService.preSignUpUser = val;
+
+                console.warn(val);
+
               }
             }
           ).catch(
@@ -136,10 +153,17 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.authService.emailVerification(event).then(
             (val:firebase.auth.UserCredential) => {
+
+              console.error('authService emailVerification', val);
+
               if(val) {
-                this.idUser= val.user.uid;
+  
+                this.idUser = val.user.uid;
                 this.isEmailVerified = true;
                 this.authService.preSignUpUser = val;
+
+                console.warn(val);
+
               }
             }
           ).catch(
@@ -148,7 +172,6 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
               this.displayErrorMessage(error.code);
             }
           );
-
           break;
         }
         case UserManagementActions.RESET_PASSWORD: {
@@ -182,7 +205,7 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onTimerFinished(e:Event){
-    if (e["action"] == "done"){
+    if (e["action"] === 'done'){
       this.router.navigate([RouteUrl.LOGIN]);
     }
   }
@@ -195,7 +218,7 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
           // get email in local storage
           const email = window.localStorage.getItem('netSkillsEmailForSignIn') 
           ? window.localStorage.getItem('netSkillsEmailForSignIn') 
-          : '';
+          : null;
 
           console.warn('handleVerifyEmail');
 
@@ -203,14 +226,14 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
           if(email) this.emailVerification(email);
         } else {
           console.error('email is not verified');
-          this.router.navigate([RouteUrl.HOME]);
+          //this.router.navigate([RouteUrl.HOME]);
         }
       }
     ).catch(
       (error) => {
         console.error(error.message);
         this.displayErrorMessage(error.code);
-        this.router.navigate([RouteUrl.HOME]);
+        //this.router.navigate([RouteUrl.HOME]);
       }
     );
     

@@ -1,0 +1,130 @@
+<form [formGroup]="editGeneralForm" 
+      role="form" 
+      class="form-item">
+
+  <!---------------------------- Titre ------------------------------>
+  <div class="body-section">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="mdi:page-layout-header"
+            data-inline="false">
+      </span>
+      Titre</h5>
+    <hr class="separation-line"> <!-- separation line -->
+    <input #titleItem
+           type="text" 
+           class="form-control edit-title" 
+           [ngClass]="{ 'is-invalid': shouldShowRequiredError('titleItem') }"
+           formControlName="titleItem"
+           id="titleItem"
+           [ngStyle]="{'background-color': isTitleFocus ? 'white' : '#F1F1F1'}"
+           (focus)="activateFieldFocus('titleItem')"
+           (focusout)="desactivateFieldFocus('titleItem')"
+           [(ngModel)]="item.title"
+           placeholder="Quel est le titre ?">
+  </div>
+
+  <!---------------------------- Phrase d'accroche ------------------------------>
+  <div class="body-section mt-4">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="uim:subject" 
+            data-inline="false"></span>
+      Phrase d'accroche
+    </h5>
+    <hr class="separation-line"> <!-- separation line -->
+
+    <input #catchPhraseItem
+           type="text" 
+           class="form-control" 
+           [ngClass]="{ 'is-invalid': shouldShowRequiredError('catchPhraseItem') }"
+           formControlName="catchPhraseItem"
+           id="catchPhraseItem"
+           [ngStyle]="{'background-color': isCatchPhraseFocus ? 'white' : '#F1F1F1'}"
+           (focus)="activateFieldFocus('catchPhraseItem')"
+           (focusout)="desactivateFieldFocus('catchPhraseItem')"
+           [(ngModel)]="item.catchPhrase"
+           placeholder="Quel est votre phrase d'accroche ?">
+  </div>
+
+  <!---------------------------- Prix ------------------------------>
+  <div class="body-section mt-4">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="whh:price" 
+            data-inline="false">
+      </span>
+      Prix
+    </h5>  
+    <hr class="separation-line"> <!-- separation line -->   
+
+    <div class="input-group">
+      <input #priceItem 
+             type="number" 
+             class="form-control" 
+             [ngClass]="{ 'is-invalid': shouldShowRequiredError('priceItem') }"
+             formControlName="priceItem"
+             min="0"
+             id="priceItem"
+             [ngStyle]="{'background-color': isPriceFocus ? 'white' : '#F1F1F1'}"
+             (focus)="activateFieldFocus('priceItem')"
+             (focusout)="desactivateFieldFocus('priceItem')"
+             [(ngModel)]="item.price"
+             placeholder="Quel est le prix ?">
+             
+      <div class="input-group-append">
+          <span class="input-group-text">€</span>
+      </div>
+    </div>                      
+  </div>
+
+  <!---------------------------- Lien ------------------------------>
+  <div class="body-section mt-4">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="ant-design:link-outlined" 
+            data-inline="false">
+      </span>
+      Lien
+    </h5>  
+    <hr class="separation-line"> <!-- separation line -->     
+    <input #linkItem 
+           type="text" 
+           class="form-control"
+           [ngClass]="{ 'is-invalid': shouldShowRequiredError('linkItem') }"
+           formControlName="linkItem"
+           id="linkItem"
+           [ngStyle]="{'background-color': isLinkFocus ? 'white' : '#F1F1F1'}"
+           (focus)="activateFieldFocus('linkItem')"
+           (focusout)="desactivateFieldFocus('linkItem')"
+           placeholder="Quel est le lien d'accès à la formation ?"
+           [(ngModel)]="item.consultationLink"
+           autocomplete="off">                     
+  </div>
+
+  <!---------------------------- Description ------------------------------>
+  <div class="body-section mt-4">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="entypo:text"
+            data-inline="false">
+      </span>
+      Description
+    </h5>
+    <hr class="separation-line"> <!-- separation line -->
+  
+    <textarea #descriptionItem
+              class="form-control" 
+              [ngClass]="{ 'is-invalid': shouldShowRequiredError('descriptionItem') }"
+              formControlName="descriptionItem"
+              placeholder="Résumez le contenu de votre formation"
+              id="descriptionItem"
+              [ngStyle]="{'background-color': isDescriptionFocus ? 'white' : '#F1F1F1'}"
+              (focus)="activateFieldFocus('descriptionItem')"
+              (focusout)="desactivateFieldFocus('descriptionItem')"
+              [(ngModel)]="item.description"
+              rows="8">
+    </textarea>
+  </div>
+
+</form>

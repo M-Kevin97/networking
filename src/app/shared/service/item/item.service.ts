@@ -21,7 +21,8 @@ import { Tag } from '../../model/tag/tag';
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService {
+export class
+ItemService {
 
   items:Item[] = [];
   itemsSubject = new Subject<Item[]>();
@@ -854,8 +855,6 @@ export class ItemService {
     }
   }
 
-
-
   private getiItemFromUser(itemJson){
   
     if(itemJson) {
@@ -940,11 +939,13 @@ export class ItemService {
       videoLink: item.videoLink || null,
       catchPhrase:item.catchPhrase || null,
       consultationLink:item.consultationLink || null,
+
     }).then(
       () => {
-        this.updateTags(item.tags, item.id, cb, error);
+        return item;
       }
-    );
+    ).then(cb)
+     .catch(error);
   }
 
   private updateItemPrimaryInfoInAuthorsDB(item:Course | EventItem) {
@@ -995,6 +996,15 @@ export class ItemService {
     }).catch(error).then(cb);
   }
 
+  updateMediaToAcquireInDB(courseId:string, skills:string[], cb, error){
+
+    var ref = firebase.database().ref(Database.ITEMS).child(courseId);
+    
+    ref.update({
+      skillsToAcquire: skills || null
+    }).catch(error).then(cb);
+  }
+
   // -------- Modules à faire
   // if exist update else add
 
@@ -1005,6 +1015,14 @@ export class ItemService {
         this.addCourseContent(newModules, courseId, cb);
       }
     );
+  }
+
+  updateIsPublished(itemId, isPublished:  boolean, cb, error) {
+    var ref = firebase.database().ref(Database.ITEMS).child(itemId);
+    
+    ref.update({
+      published: isPublished || false
+    }).catch(error).then(cb);
   }
 
   // updateModulesToCourse(newModules:Module[], courseId:string, cb) {

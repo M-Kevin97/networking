@@ -1,45 +1,56 @@
+import { HomeComponent } from './../../../home/home.component';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/service/user/user.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, CanDeactivate, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate{
+export class AuthGuardService implements CanActivate {
 
-  constructor(private router:Router, 
+  AuthSubscription: Subscription;
+
+  constructor(private router:Router,
               private authService:AuthService) { }
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
 
-    if(this.authService.hasAuthResult && this.authService.isAuth) {
+    return new Promise((resolve) => {
 
-      return true;
-    } 
-    else {
-      this.router.navigate([RouteUrl.LOGIN]);
-      return false;
-    } 
+      this.authService.authStateChanged().then(
+        (val) => {
+          console.warn('canActivate', val);
+          if(val) resolve(true);
+          else {
+            this.router.navigate([RouteUrl.LOGIN]);
+            return resolve(false);
+          }
+        }
+      ).catch(
+        (error) => {
+          console.warn('canActivate', error);
+          console.error(error.message);
+          this.router.navigate([RouteUrl.LOGIN]);
+          resolve(false);
+        }
+      );
 
-    // return this.authService.authStateChanged().then(
-    //   (val) => {
-    //     if(val) return true;
-    //     else {
-    //       this.router.navigate([RouteUrl.LOGIN]);
-    //       return false;
-    //     }
-    //   }
-    // ).catch(
-    //   (error) => {
-    //     console.error(error.message);
-    //     this.router.navigate([RouteUrl.LOGIN]);
-    //     return false;
-    //   }
-    // );
+      // this.AuthSubscription = this.authService.getAuth().subscribe(bool => {
+      //   if (bool) {
+      //     resolve(true);
+      //   } else {
+
+      //     this.router.navigate([RouteUrl.HOME]);
+      //   }
+      // });
+    });
+  }
+}
+
     // return new Promise((resolve, reject) => {
     //   firebase.auth().onAuthStateChanged((firebase_user) => {
     //     if (firebase_user) {
@@ -56,5 +67,3 @@ export class AuthGuardService implements CanActivate{
     //     }
     //   });
     // });
-  }
-}
