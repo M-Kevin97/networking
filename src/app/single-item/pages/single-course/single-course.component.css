@@ -1,3 +1,5 @@
+@import "../../../shared/style/buttons-style.scss";
+
 .item-path {
     margin-top: 3vh;
     margin-bottom: 3vh;
@@ -83,25 +85,13 @@
     margin-top: 10vh;
 }
 
-.skills-list > li{
+.check-list > li{
     list-style-type: none;
     margin-bottom: 2.5vh;
 }
 
-.skills-list > li > i{
+.check-list > li > i{
     color: #2E7B9C;
-}
-
-#more-skills {
-    display: none;
-}
-
-#btnSeeMoreSkills {
-
-    margin-left: auto;
-    margin-right: auto;
-    width: 10vw;
-    color:#2E7B9C;
 }
 
 .btn-rating {

@@ -120,7 +120,7 @@ export class Rating {
 
         if(json === null || json === undefined) return null;
 
-        console.log(json);
+        //console.log(json);
 
         var ratings = Object.keys(json).map(
             function(ratingsIdIndex){

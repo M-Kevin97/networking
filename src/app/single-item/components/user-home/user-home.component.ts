@@ -1,3 +1,5 @@
+import { EventItem } from 'src/app/shared/model/item/event-item';
+import { Course } from 'src/app/shared/model/item/course';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
@@ -10,7 +12,9 @@ import { User } from 'src/app/shared/model/user/user';
 })
 export class UserHomeComponent implements OnInit {
 
-  @Input() user:User;
+  @Input() userId:string;
+  @Input() courses:Course[];
+  @Input() events:EventItem[];
 
   constructor(private router:Router) { }
 
@@ -18,25 +22,25 @@ export class UserHomeComponent implements OnInit {
   }
 
   getICoursesLength() {
-    if(this.user.courses){
-      return this.user.courses.length;
+    if(this.courses){
+      return this.courses.length;
     }else { return 0 }
   }
 
   getIEventsLength() {
-    if(this.user.events){
-      return this.user.events.length;
+    if(this.events){
+      return this.events.length;
     } else { return 0 }
   }
 
   displayUserCourses() {
 
-    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'courses'}); 
+    this.router.navigate([RouteUrl.USER, this.userId], {fragment: 'courses'}); 
   }
 
   displayUserEvents() {
 
-    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'events'}); 
+    this.router.navigate([RouteUrl.USER, this.userId], {fragment: 'events'}); 
   }
 
 }

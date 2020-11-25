@@ -1,17 +1,15 @@
 import { Course } from 'src/app/shared/model/item/course';
-import { Component, OnInit, Input, ViewChild, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, QueryList, ViewChildren, ChangeDetectorRef, OnChanges, AfterViewChecked, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-skills-item',
   templateUrl: './edit-skills-item.component.html',
   styleUrls: ['./edit-skills-item.component.css']
 })
-export class EditSkillsItemComponent implements OnInit {
+export class EditSkillsItemComponent implements OnInit, OnChanges, AfterViewChecked {
 
   @Input() course:  Course;
-  skills: string[] = [];
   skillItemForm:  FormGroup;
 
   @ViewChild('skillInput') skillInput:ElementRef;
@@ -23,11 +21,7 @@ export class EditSkillsItemComponent implements OnInit {
   oldSkill:string = '';
 
   constructor(private formBuilder:  FormBuilder,
-              private _NgbActiveModal:  NgbActiveModal) { }
-  
-  get activeModal() {
-    return this._NgbActiveModal;
-  }
+              private cdRef:  ChangeDetectorRef) { }
 
   ngOnInit() {
 
@@ -35,8 +29,22 @@ export class EditSkillsItemComponent implements OnInit {
       skillInput: [''],
     });
 
-    // reverse for the ccomponent
-    this.skills = Array.from(this.course.skillsToAcquire ? this.course.skillsToAcquire.reverse() : []);
+    if(!this.course.skillsToAcquire) this.course.skillsToAcquire = [];
+    else if(this.course.skillsToAcquire && this.course.skillsToAcquire.length) 
+    this.course.skillsToAcquire = this.course.skillsToAcquire.reverse();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+
+    if(!this.course.skillsToAcquire) this.course.skillsToAcquire = [];
+    else if(this.course.skillsToAcquire && this.course.skillsToAcquire.length) 
+    this.course.skillsToAcquire = this.course.skillsToAcquire.reverse();
+  }
+
+  ngAfterViewChecked() {
+
+    this.cdRef.detectChanges();
   }
 
     /**
@@ -49,7 +57,7 @@ export class EditSkillsItemComponent implements OnInit {
 
     if(skill.value){
 
-      this.skills.unshift(skill.value);
+      this.course.skillsToAcquire.unshift(skill.value);
       this.isSkillSavedFocus.unshift(false);
       skill.reset();
     }
@@ -63,7 +71,7 @@ export class EditSkillsItemComponent implements OnInit {
  
     if (index > -1) {
 
-      this.skills.splice(index,1);
+      this.course.skillsToAcquire.splice(index,1);
       this.isSkillSavedFocus.splice(index,1);
     } 
   }
@@ -108,7 +116,7 @@ export class EditSkillsItemComponent implements OnInit {
 
       let skillText = this.skillsInput.toArray()[index].nativeElement.textContent;
 
-      if(!skillText.length) this.skills[index] = this.oldSkill;
+      if(!skillText.length) this.course.skillsToAcquire[index] = this.oldSkill;
   
       this.isSkillSavedFocus[index] = false;
     }
@@ -125,7 +133,7 @@ export class EditSkillsItemComponent implements OnInit {
       }
 
       this.onDesactivateSkill(index);
-      if(index < this.skills.length-1) this.onActivateSkill(index+1);
+      if(index < this.course.skillsToAcquire.length-1) this.onActivateSkill(index+1);
       else this.skillInput.nativeElement.focus();
     }
   }

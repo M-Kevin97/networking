@@ -276,6 +276,7 @@ export class NewElementComponent implements OnInit {
     const courseInstructors = [this.userSelected.getIUser(), this.authService.authUser.getIUser()];
     const courseSrcLink = this.courseForm.get('courseSrcLink').value;
     const courseSkills =  [];
+    const coursePrerequisite =  [];
     const creationDate = this.datePipe.transform(Date.now().toString(), 'dd/MM/yyyy');
     const tags = [];
 
@@ -305,6 +306,7 @@ export class NewElementComponent implements OnInit {
                                          true,
                                          null,
                                          courseSkills,
+                                         coursePrerequisite,
                                          [],
                                          0,
                                          url,
@@ -330,6 +332,7 @@ export class NewElementComponent implements OnInit {
               true,
               null,
               courseSkills,
+              coursePrerequisite,
               [],
               0,
               Database.DEFAULT_IMG_COURSE,
@@ -360,6 +363,7 @@ export class NewElementComponent implements OnInit {
                                   true,
                                   null,
                                   courseSkills,
+                                  coursePrerequisite,
                                   [],
                                   0,
                                   Database.DEFAULT_IMG_COURSE,

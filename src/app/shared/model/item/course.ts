@@ -7,6 +7,12 @@ import { Rating } from '../rating/rating';
 import { IUser } from '../user/user';
 
 export class Course extends Item {
+    public get prerequisites(): string[] {
+        return this._prerequisites;
+    }
+    public set prerequisites(value: string[]) {
+        this._prerequisites = value;
+    }
     public get modules(): Module[] {
         return this._modules;
     }
@@ -68,6 +74,7 @@ export class Course extends Item {
                 data:boolean,
                 consultationLink:string,
                 private _skillsToAcquire: string[],
+                private _prerequisites: string[],
                 private _ratings: Rating[],
                 private _nbClick?: number,
                 imageLink?: string,
@@ -115,6 +122,7 @@ export class Course extends Item {
                             course.data,
                             course.consultationLink,
                             course.skillsToAcquire,
+                            course.prerequisites,
                             course.ratings,
                             course._nbClick,
                             course.imageLink,
@@ -137,7 +145,7 @@ export class Course extends Item {
             tags :              this.tags || null,
             iAuthors:           this.iAuthors || null,
             imageLink:          this.imageLink || null,
-            published:          this.published || null,
+            published:          this.published || false,
             nbRatings:          this.nbRatings || null,
             globalNote:         this.globalNote || null,
             catchPhrase:        this.catchPhrase || null,
@@ -202,7 +210,7 @@ export class Course extends Item {
                 nbRatings:          json['nbRatings'] || null,
                 globalNote:         json['globalNote'] || null,
                 iAuthors:           [],
-                published:          json['published'] || null,
+                published:          json['published'] || false,
                 location:           null,
                 dates:              null
             };
@@ -220,20 +228,21 @@ export class Course extends Item {
                           json['type'] || null,
                           json['title'] || null,
                           null,
-                          Tag.tagsFromJson(json['tags']) || null,
+                          Tag.tagsFromJson(json['tags']) || [],
                           json['catchPhrase'] || null,
                           json['description'] || null,
                           json['price'] || null,
                           [],
                           json['creationDate'] || null,
-                          json['published'] || null,
-                          Module.modulesFromJson(json[Database.MODULES.substr(1)]) || null,
+                          json['published'] || false,
+                          Module.modulesFromJson(json[Database.MODULES.substr(1)]) || [],
                           json['searchContent'] || null,
                           json['data'] || null,
                           json['consultationLink'] || null,
-                          json['skillsToAcquire'] || null,
-                          Rating.ratingsFromJson(json['ratings']) || null,
-                          json['views'] || null,
+                          json['skillsToAcquire'] || [],
+                          json['prerequisites'] || [],
+                          Rating.ratingsFromJson(json['ratings']) || [],
+                          json['views'] || [],
                           json['imageLink'] || null,
                           json['videoLink'] || null,
         );
@@ -247,7 +256,7 @@ export class Course extends Item {
             function(coursesIdIndex){
             let courseJson = json[coursesIdIndex];
         
-            console.log(json);
+            //console.log(json);
 
             var course = Course.courseFromJson(courseJson)
             course.id = coursesIdIndex;

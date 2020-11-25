@@ -18,32 +18,28 @@
     <div class="row justify-content-center">
       <div class="col-10">
 
-        <h3>Résumé</h3>
-        <p>Vous avez terminé toutes les étapes avec succès.</p>
+        <p class="alert alert-success text-center">Vous avez terminé toutes les étapes avec succès.</p>
 
         <div class="row mb-3">
-          <div class="col-4">
-            <img class="border" style="max-width:100%" [src]="getImageFormValue()">
+          <div class="item-c-img col-4">
+            <img [src]="getImageFormValue()">
           </div>
           <div class="col-7">
             <span>{{ getTitleFormValue() }}</span>
   
-  
             <br><hr>
   
-            <span>{{ getPriceFormValue() }}</span>
+            <span>{{ getPriceFormValue() }} €</span>
 
             <br><hr>
+
+            <div *ngFor="let tag of getTagsFormValue(); let i = index" class="col-auto mb-3">
+              <span class="tag py-2 px-3"> 
+                {{ tag.name }}
+              </span>
+            </div>
 
           </div>
-        </div>
-
-        <span>Tags :</span>
-        <hr>
-        <div *ngFor="let tag of getTagsFormValue(); let i = index" class="col-auto mb-3">
-          <span class="tag py-2 px-3"> 
-            {{ tag.name }}
-          </span>
         </div>
 
         <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->

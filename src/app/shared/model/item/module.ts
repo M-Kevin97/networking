@@ -39,7 +39,7 @@ export class Module {
 
         if(json === null || json === undefined) return null;
 
-        console.warn('modulesFromJson', json);
+        //console.warn('modulesFromJson', json);
 
         var modules = Object.keys(json).map(
             function(modulesIdIndex){
@@ -56,7 +56,7 @@ export class Module {
 
     public static moduleFromJson(json:Object):Module{
 
-        console.warn('moduleFromJson', json);
+        //console.warn('moduleFromJson', json);
 
         if(json === null && json === undefined) return null;
 

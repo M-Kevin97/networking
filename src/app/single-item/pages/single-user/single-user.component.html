@@ -126,27 +126,60 @@
         <!-- Tab content home courses-carousel events-carousel -->
         <div class="tab-pane fade" id="home"
                                           role="tabpanel" 
-                                          [ngClass]="{ 'active':activeTab === getPanelName().HOME,
-                                                      'show':activeTab === getPanelName().HOME }"
+                                          [ngClass]="{ 
+                                                      'active':activeTab === getPanelName().HOME,
+                                                      'show':activeTab === getPanelName().HOME 
+                                                    }"
                                           aria-labelledby="pills-course-tab">
-          <app-user-home [user]="user"></app-user-home>
+          <app-user-home [userId]="user.id"
+                         [events]="getItemsByPublishedStatus(user.events, true)"
+                         [courses]="getItemsByPublishedStatus(user.courses, true)">
+          </app-user-home>
         </div>
 
         <!-- Tab content courses list  -->
         <div class="tab-pane fade" id="courses"
                                    role="tabpanel" 
-                                   [ngClass]="{ 'active':activeTab === getPanelName().COURSES,
-                                              'show':activeTab === getPanelName().COURSES }"
+                                   [ngClass]="{ 
+                                              'active':activeTab === getPanelName().COURSES,
+                                              'show':activeTab === getPanelName().COURSES 
+                                            }"
                                    aria-labelledby="pills-course-tab">
 
-          <h5 *ngIf="user.courses && user.courses.length">Formations mises en ligne</h5>
 
-          <app-item-list *ngIf="user.courses && user.courses.length" [items]="user.courses">
-          </app-item-list>
-          
+          <div *ngIf="isUser && user.courses && user.courses.length" 
+               class="row w-100 my-5">
+            <div class="col-12">
+              <h5>
+                En cours de création <span>({{ getItemsByPublishedStatus(user.courses, false).length }})</span>
+              </h5>
+  
+              <hr class="mb-4">
+  
+              <app-item-card-list [items]="getItemsByPublishedStatus(user.courses, false)"
+                                  [isAuthor]="isUser">
+              </app-item-card-list>
+            </div>
+          </div>
+
+          <div *ngIf="user.courses && user.courses.length" 
+               class="row w-100 my-5">
+
+            <div class="col-12">
+
+              <h5>
+                En ligne <span>({{ getItemsByPublishedStatus(user.courses, true).length }})</span>
+              </h5>
+              <hr class="mb-4">
+              <app-item-card-list [items]="getItemsByPublishedStatus(user.courses, true)"
+                                  [isAuthor]="isUser">
+              </app-item-card-list>
+            </div>
+          </div>        
+
           <div *ngIf="!user.courses || !user.courses.length && isUser" 
-              class="create-item create-course text-center">
-            <h5>Créer votre première formation</h5>
+               class="create-item create-course text-center my-5">
+            <h5 class="mb-4">Créer votre première formation</h5>
 
             <!-- create a new course -->
             <button class="btn btn-gen" (click)="onNewCourse()">
@@ -164,11 +197,35 @@
                                                 'show':activeTab === getPanelName().EVENTS }"
                                     aria-labelledby="pills-course-tab">
 
+          <div *ngIf="isUser && user.events && user.events.length" 
+              class="row w-100 my-5">
+               
+            <div class="col-12">
+              <h5>
+                En cours de création <span>({{ getItemsByPublishedStatus(user.events, false).length }})</span>
+              </h5>
+              <hr class="mb-4">
 
-          <h5 *ngIf="user.events && user.events.length">Évènements mis en ligne</h5>
+              <app-item-card-list [items]="getItemsByPublishedStatus(user.events, false)"
+                                  [isAuthor]="isUser">
+              </app-item-card-list>
+            </div>
+          </div>
 
-          <app-item-list *ngIf="user.events || user.events.length" [items]="user.events">
-          </app-item-list>
+          <div *ngIf="user.events && user.events.length"      
+               class="row w-100 my-5">
+               
+            <div class="col-12">
+
+              <h5>
+                En ligne <span>({{ getItemsByPublishedStatus(user.events, true).length }})</span>
+              </h5>
+              <hr class="mb-4">
+              <app-item-card-list [items]="getItemsByPublishedStatus(user.events, true)"
+                                  [isAuthor]="isUser">
+              </app-item-card-list>   
+            </div>  
+          </div>
 
           <div *ngIf="!user.events || !user.events.length && isUser" 
                class="create-item create-event text-center">
@@ -180,21 +237,22 @@
               Créer un événement
             </button>
           </div>
+        </div>
+
+
+        <!-- Tab content network  -->
+        <div class="tab-pane fade" 
+            id="events"
+            role="tabpanel" 
+            [ngClass]="{ 
+              'active':activeTab === getPanelName().NETWORK,
+              'show':activeTab === getPanelName().NETWORK
+              }"
+            aria-labelledby="pills-course-tab">
+          <span>A venir</span>
+        </div>
+
       </div>
-
-      
-
-      <!-- Tab content network  -->
-        <div class="tab-pane fade" id="events"
-                                    role="tabpanel" 
-                                    [ngClass]="{ 'active':activeTab === getPanelName().NETWORK,
-                                                'show':activeTab === getPanelName().NETWORK }"
-                                    aria-labelledby="pills-course-tab">
-        <span>A venir</span>
-      </div>
-
     </div>
-
-
   </div>
 </div><!-- End User Page -->

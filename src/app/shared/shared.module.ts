@@ -1,3 +1,4 @@
+import { ItemCardListComponent } from './components/item/item-card-list/item-card-list.component';
 import { SearchBar2Component } from './components/search-bar2/search-bar2.component';
 import { TagsInputComponent } from './components/tags-input/tags-input.component';
 import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
@@ -56,6 +57,7 @@ import { CountdownModule } from 'ngx-countdown';
     UserAvatarComponent,
     TagsInputComponent,
     SearchBar2Component,
+    ItemCardListComponent,
   ],
   declarations: [
     SharedComponent,
@@ -73,6 +75,7 @@ import { CountdownModule } from 'ngx-countdown';
     UserAvatarComponent,
     TagsInputComponent,
     SearchBar2Component,
+    ItemCardListComponent,
   ],
 })
 export class SharedModule {

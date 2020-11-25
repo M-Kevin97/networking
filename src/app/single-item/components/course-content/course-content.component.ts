@@ -20,7 +20,7 @@ export class CourseContentComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
-    console.log('ngOnInit');
+   // console.log('ngOnInit');
   }
 
   initIsModuleExpandedArray() {
@@ -42,13 +42,13 @@ export class CourseContentComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
 
-    console.log('ngOnChanges', typeof this.courseContent);
+    //console.log('ngOnChanges', typeof this.courseContent);
 
     if(this.courseContent && typeof this.courseContent === 'object') {
       var cont = this.courseContent;
       var resultArray = Object.keys(cont).map(function(key){
         let content = cont[key];
-        console.log(cont[0], content);
+        //console.log(cont[0], content);
         // do something with person
         return content;
       });
@@ -58,7 +58,7 @@ export class CourseContentComponent implements OnInit, OnChanges {
 
       this.initIsModuleExpandedArray();
 
-      console.log(resultArray);
+      //console.log(resultArray);
       this.courseModules.next(resultArray);
 
     } else {

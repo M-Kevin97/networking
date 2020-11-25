@@ -78,6 +78,7 @@ ItemService {
       published: newCourse.published,
       catchPhrase: newCourse.catchPhrase,
       skillsToAcquire: newCourse.skillsToAcquire,
+      prerequisites: newCourse.prerequisites,
       category: newCourse.category.id,
       consultationLink: newCourse.consultationLink,
       subCategory: newCourse.category.subCategories ? newCourse.category.subCategories[0].id : '',
@@ -177,6 +178,7 @@ ItemService {
       published: newCourse.published,
       catchPhrase: newCourse.catchPhrase,
       skillsToAcquire: newCourse.skillsToAcquire,
+      prerequisites: newCourse.prerequisites,
       category: newCourse.category ? newCourse.category.id : '',
       subCategory: newCourse.category && newCourse.category.subCategories ? newCourse.category.subCategories[0].id : '',
       consultationLink: newCourse.consultationLink,
@@ -321,7 +323,7 @@ ItemService {
 
   // ----- Course Modules
 
-  addCourseContent(newModules:Module[], courseId:string, cb) {
+  addCourseContent(newModules:Module[], courseId:string, cb, error) {
 
     var promises = [];
 
@@ -350,12 +352,7 @@ ItemService {
     Promise.all(promises).then((val:Module[]) => {
       return val; 
     }).then(cb)
-    .catch(
-      (error) => {
-        console.error(error);
-        return null;
-      }
-    );
+    .catch(error);
   }
 
   private addModuleWithReference(ref:firebase.database.Reference, newModule:Module) {
@@ -439,6 +436,30 @@ ItemService {
     }
   }
 
+   // ----- Skills to acquire
+   addSkills(itemId:string, newSkills:string[], cb, error) {
+
+    let ref = this.itemsDB.child(itemId);
+
+    ref.update({
+      skillsToAcquire:  newSkills,
+    }).then(cb)
+    .catch(error);
+
+  }
+
+
+   // ----- Prerequisites
+   addPrerequisites(itemId:string, newPrerequisites:string[], cb, error) {
+
+    let ref = this.itemsDB.child(itemId);
+
+    ref.update({
+      prerequisites:  newPrerequisites,
+    })
+    .then(cb)
+    .catch(error);
+  }
 
   // ----------------------------- GET FROM DB ------------------------------
 
@@ -486,7 +507,7 @@ ItemService {
 
               if(iUser.itemId && iUser.itemId.length) {
 
-                await this.getiItemsByIUser(iUser);
+                await this.getiItemsByIUser(iUser, true);
               }
               // if(userItemsJson) {
 
@@ -538,7 +559,9 @@ ItemService {
     }
   }
 
-  public async getiItemsByIUser(iUser:IUser) {
+  public async getiItemsByIUser(iUser:IUser, isPublished?:boolean) {
+
+    console.warn('isPublished', isPublished);
 
     if(iUser && iUser.itemId && iUser.itemId.length) {
 
@@ -561,12 +584,28 @@ ItemService {
 
           if(val && val.length) {
 
-            iUser.iCourses = val.filter(item => item.type ===Database.COURSE.substr(1));
-            iUser.iEvents = val.filter(item => item.type ===Database.EVENT.substr(1));
+            iUser.iCourses = val.filter(
+              (item) => {
+                
+                if(isPublished !== null && isPublished !== undefined) {
+
+                  return item.published === isPublished && item.type === Database.COURSE.substr(1);
+                } else return item.type === Database.COURSE.substr(1);
+              }
+            );
+
+            iUser.iEvents = val.filter(
+              (item) => {
+                if(isPublished !== null && isPublished !== undefined) {
+
+                  return item.published === isPublished && item.type === Database.EVENT.substr(1);
+                } else return item.type === Database.EVENT.substr(1);
+              }
+            );
 
             return iUser; 
-          }
-          else null;
+
+          } else null;
         }
       );
     }
@@ -599,8 +638,6 @@ ItemService {
       );
     }
   }
-
-
 
   private async getSingleItemFromJSONById(itemJson, cb, error){
   
@@ -987,32 +1024,47 @@ ItemService {
     }
   }
 
-  updateSkillsToAcquireInDB(courseId:string, skills:string[], cb, error){
+  updatePrerequisitesInDB(courseId:string, prerequisites:string[], cb, error){
 
-    var ref = firebase.database().ref(Database.ITEMS).child(courseId);
+    // var ref = firebase.database().ref(Database.ITEMS).child(courseId);
     
-    ref.update({
-      skillsToAcquire: skills || null
-    }).catch(error).then(cb);
+      this.removePrerequisites(courseId, 
+        () => {
+          this.addPrerequisites(courseId ,prerequisites,cb, error);
+        },
+      error);
+
+    // ref.update({
+    //   prerequisites: prerequisites || null
+    // }).catch(error).then(cb);
   }
 
-  updateMediaToAcquireInDB(courseId:string, skills:string[], cb, error){
+  updateSkillsToAcquireInDB(courseId:string, skills:string[], cb, error){
 
-    var ref = firebase.database().ref(Database.ITEMS).child(courseId);
+    // var ref = firebase.database().ref(Database.ITEMS).child(courseId);
     
-    ref.update({
-      skillsToAcquire: skills || null
-    }).catch(error).then(cb);
+    // ref.update({
+    //   skillsToAcquire: skills || null
+    // }).catch(error).then(cb);
+
+    this.removeSkills(courseId, 
+      () => {
+        this.addSkills(courseId ,skills, cb, error);
+      },
+    error);
   }
 
   // -------- Modules à faire
   // if exist update else add
 
   // fonction de mise à jour temporaire
-  updateCourseContent(newModules:Module[], courseId:string, cb) {
+  updateCourseContent(newModules:Module[], courseId:string, cb, error) {
     this.removeModules(courseId,
       () =>{
-        this.addCourseContent(newModules, courseId, cb);
+        this.addCourseContent(newModules, courseId, cb, error);
+      },
+      (error) => {
+        console.error(error);
       }
     );
   }
@@ -1175,12 +1227,13 @@ ItemService {
   }
 
   // --- Modules
-  removeModules(courseId:string, cb) {
+  removeModules(courseId:string, cb, error) {
 
     this.itemsDB.child(courseId)
                 .child(Database.MODULES)
                 .remove()
-                .then(cb);
+                .then(cb)
+                .catch(error);
   }
 
 
@@ -1189,6 +1242,25 @@ ItemService {
     TagService.removeTagsWithReference(this.itemsDB.child(itemId), cb);
   }
 
+
+  removeSkills(courseId:string, cb, error) {
+
+    this.itemsDB.child(courseId)
+                .child('skillsToAcquire')
+                .remove()
+                .then(cb)
+                .catch(error);
+  }
+
+  
+  removePrerequisites(courseId:string, cb, error) {
+
+    this.itemsDB.child(courseId)
+                .child('prerequisites')
+                .remove()
+                .then(cb)
+                .catch(error);
+  }
 
   // --------------------------------- Other ----------------------------------------
 

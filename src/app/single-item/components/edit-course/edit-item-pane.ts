@@ -3,5 +3,6 @@ export enum EDIT_PANE {
   MEDIA = 1,
   TAGS = 2,
   SKILLS = 3,
-  MODULES = 4
+  PREREQUISITES = 4,
+  MODULES = 5
 }

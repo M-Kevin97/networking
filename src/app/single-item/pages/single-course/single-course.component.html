@@ -108,15 +108,17 @@
 
 
       <!-- Start Author section -->
-      <div *ngIf="!isAuthor && !course.published; else Completion" class="item-block author-block">
-        <app-card-author [author]="item.getMainiAuthor()">
+      <div *ngIf="!isAuthor" 
+           class="item-block author-block">
+        <app-card-author [author]="course.getMainiAuthor()">
         </app-card-author>
       </div> <!-- End Author section -->
 
-      <ng-template #Completion [ngIf]="!course.published">
+      <!-- Start completion section -->
+      <div class="completion-block">
         <app-completion-board [item]="course">
         </app-completion-board>
-      </ng-template>
+      </div>  <!-- End completion section -->
 
       <!-- Start Description section -->
       <div class="item-block description-block">
@@ -130,10 +132,69 @@
         <hr> <!-- separation line -->
         <app-description-section [description]="course.description">
         </app-description-section>
-        <span *ngIf="isAuthor && (!course.description || !course.description.length)" (click)="openEditCourseModal(getEditPane().GENERAL)">
-          Ajouter une description
-        </span>
+
+        <div class="text-center">
+          <button *ngIf="isAuthor && (!course.description || !course.description.length)"
+                    class="btn btn-sm btn-success"
+                    (click)="openEditCourseModal(getEditPane().GENERAL)">
+            Ajouter une description
+          </button>
+        </div>
       </div> <!-- End Description section -->
+
+      <!-- Start Prerequisites item section -->
+      <div class="item-block prerequisites-block">
+        <h5 class="title-cat">
+          Prérequis
+          <app-button-edit class="ml-5" 
+                            (click)="openEditCourseModal(getEditPane().PREREQUISITES)"
+                            *ngIf="isAuthor">
+          </app-button-edit>
+        </h5>
+
+        <hr> <!-- separation line -->
+
+        <div *ngIf="course.prerequisites">
+
+          <div class="row">
+            <div class="col-6">
+              <ul class="check-list">
+                <li *ngFor="let prerequisite of getListBeginning(course.prerequisites)">
+                  <i id="check" 
+                     class="fa fa-check" 
+                     aria-hidden="true">
+                  </i>
+                  <span class="prerequisite-text">
+                    {{ prerequisite }}
+                  </span> 
+                </li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <ul class="check-list">
+                <li *ngFor="let prerequisite of getListEnding(course.prerequisites)">
+                  <i id="check" 
+                     class="fa fa-check" 
+                     aria-hidden="true">
+                  </i>
+                  <span class="prerequisite-text">
+                    {{ prerequisite }}
+                  </span> 
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button *ngIf="isAuthor && (!course.prerequisites || !course.prerequisites.length)" 
+                    class="btn btn-sm btn-success"
+                    (click)="openEditCourseModal(getEditPane().PREREQUISITES)">
+              Ajouter des prérequis
+          </button>
+        </div>
+        
+      </div> <!-- End Prerequisites item section -->
 
       <!-- Start skills-to-acquire item section -->
       <div class="item-block skills-block">
@@ -149,33 +210,40 @@
 
         <div *ngIf="course.skillsToAcquire">
 
-          <ul class="skills-list">
-            <li *ngFor="let skill of getSkillsBeginning()">
-              <i id="check" class="fa fa-check" aria-hidden="true"></i>
-              <span class="skill-text">
-                {{ skill }}
-              </span> 
-            </li>
-            <li *ngIf="!moreSkillsShowed && checkSkillsLength()" id="skills-dots">...</li>
-          </ul>
-
-          <ul *ngIf="moreSkillsShowed" class="skills-list">
-            <li *ngFor="let skill of getSkillsEnding()">
-              <i id="check" class="fa fa-check" aria-hidden="true"></i>
-              <span class="skill-text">
-                {{ skill }}
-              </span> 
-            </li>
-          </ul>
-
-          <div *ngIf="checkSkillsLength()" (click)="seeMoreSkills()" id="btnSeeMoreSkills">
-            + Voir plus
+          <div class="row">
+            <div class="col-6">
+              <ul class="check-list">
+                <li *ngFor="let skill of getListBeginning(course.skillsToAcquire)">
+                  <i id="check" 
+                     class="fa fa-check" 
+                     aria-hidden="true">
+                  </i>
+                  <span class="skill-text">
+                    {{ skill }}
+                  </span> 
+                </li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <ul class="check-list">
+                <li *ngFor="let skill of getListEnding(course.skillsToAcquire)">
+                  <i id="check" class="fa fa-check" aria-hidden="true"></i>
+                  <span class="skill-text">
+                    {{ skill }}
+                  </span> 
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <span *ngIf="isAuthor && !course.skillsToAcquire  && !course.skillsToAcquire.length" (click)="openEditCourseModal(getEditPane().SKILLS)">
-          Ajouter des compétences à acquérir
-        </span>
+        <div class="text-center">
+          <button *ngIf="isAuthor && (!course.skillsToAcquire || !course.skillsToAcquire.length)" 
+                    class="btn btn-sm btn-success"
+                    (click)="openEditCourseModal(getEditPane().SKILLS)">
+              Ajouter des compétences à acquérir
+          </button>
+        </div>
         
       </div> <!-- End skills-to-acquire item section -->
 
@@ -191,9 +259,14 @@
 
         <hr> <!-- separation line -->
 
-        <span *ngIf="isAuthor && !course.modules" (click)="openEditCourseModal(getEditPane().MODULES)">
-          Ajouter le programme de votre formation
-        </span>
+        <div class="text-center">
+          <button *ngIf="isAuthor && (!course.modules || !course.modules.length)" 
+                  class="btn btn-sm btn-success"
+                  (click)="openEditCourseModal(getEditPane().MODULES)">
+            Ajouter le programme de votre formation
+          </button>
+        </div>
+   
 
         <app-course-content [courseContent]="course.modules">
         </app-course-content>

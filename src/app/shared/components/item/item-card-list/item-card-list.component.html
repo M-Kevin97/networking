@@ -1,0 +1,13 @@
+<div class="row no-glutters item-cards-row">
+  <div *ngFor="let item of items" 
+        class="col-auto mb-4">
+    <app-item-card  [isAuthor]="isAuthor"
+                    [iItem]="item"
+                    [width]="'13rem'"
+                    [height]="">
+    </app-item-card>
+  </div>
+</div>
+
+
+

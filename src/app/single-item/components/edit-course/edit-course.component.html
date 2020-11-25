@@ -100,6 +100,25 @@
 
           <a  *ngIf="isCourse()"
               class="nav-link s-item-link" 
+              [ngClass]="{  'active': activePane === getPane().PREREQUISITES }" 
+              (click)="activePane = getPane().PREREQUISITES"
+              id="v-pills-prerequisites-tab" 
+              data-toggle="pill" 
+              href="#v-pills-prerequisites" 
+              role="tab" 
+              aria-controls="v-pills-prerequisites" 
+              aria-selected="false">
+            Prérequis
+            <span *ngIf="getNotifPrerequisites()"
+                  class="pull-right">
+                <span class="badge badge-danger">1</span>
+                <span class="sr-only">missing</span>
+            </span>
+          </a>
+
+
+          <a  *ngIf="isCourse()"
+              class="nav-link s-item-link" 
               [ngClass]="{  'active': activePane === getPane().SKILLS }" 
               (click)="activePane = getPane().SKILLS"
               id="v-pills-skills-tab" 
@@ -198,6 +217,20 @@
           </app-edit-skills-item>
         </div>
 
+        <div *ngIf="isCourse()"
+             class="tab-pane fade" 
+             [ngClass]="{  
+              'show': activePane === getPane().PREREQUISITES,
+              'active': activePane === getPane().PREREQUISITES
+             }"
+             id="v-pills-prerequisites" 
+             role="tabpanel" 
+             aria-labelledby="v-pills-prerequisites-tab">
+
+          <app-edit-prerequisites [course]="getCourse()">
+          </app-edit-prerequisites>
+        </div>
+
         <div  *ngIf="isCourse()"
               class="tab-pane fade" 
               [ngClass]="{  
@@ -208,7 +241,7 @@
               role="tabpanel" 
               aria-labelledby="v-pills-modules-tab">
 
-          <app-edit-course-content [courseModules]="getCourse().modules"
+          <app-edit-course-content [course]="getCourse()"
                                    [courseId]="newItem.id">
           </app-edit-course-content>
         </div>

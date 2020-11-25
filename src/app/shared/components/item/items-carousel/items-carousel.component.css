@@ -1,3 +1,8 @@
+.c {
+    width: 100%;
+    height: 1vh;
+}
+
 .carousel-item {
 
     flex-grow: 1;
@@ -20,21 +25,37 @@
     width: 15px;
 }
 
-.carousel-control-prev-icon, .carousel-control-next-icon{
+.carousel-item-card {
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.carousel-inner-item-card {
+    
+    margin-left: 0;
+}
+
+.carousel-row {
+
+    margin: 0;
+    padding: 0;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+
     background-color:gray;
-    font-size: xx-large;
-  
-   
+    font-size: xx-large;  
 }
 
 .carousel-control-prev-icon {
+
     position: relative;
     right:10px;
-
-
 }
   
 .carousel-control-next-icon {
+
     position: relative;
     left:10px;  
 }

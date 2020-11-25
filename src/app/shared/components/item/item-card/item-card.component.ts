@@ -1,6 +1,6 @@
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Router } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IItem } from 'src/app/shared/model/item/item';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { SearchService } from 'src/app/shared/service/search/search.service';
@@ -11,8 +11,9 @@ import { ItemService } from 'src/app/shared/service/item/item.service';
   templateUrl: './item-card.component.html',
   styleUrls: ['./item-card.component.css']
 })
-export class ItemCardComponent extends ItemListComponent implements OnInit {
+export class ItemCardComponent extends ItemListComponent implements OnInit, OnChanges {
 
+  @Input() isAuthor:   boolean = false;
   @Input() iItem:   IItem;
   @Input() width:   string;
   @Input() height:  string;
@@ -27,7 +28,11 @@ export class ItemCardComponent extends ItemListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit', this.iItem);
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
   }
 
   getMainAuthor() {

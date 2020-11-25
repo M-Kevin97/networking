@@ -25,13 +25,20 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
                               null,
                               null,
                               null,
-                              null,
+                              [],
                               null,
                               null, 
                               null,
+                              [],
+                              null,
+                              null,
+                              [],
                               null,
                               null,
                               null,
+                              [],
+                              [],
+                              [],
                               null,
                               null,
                               null,
@@ -82,8 +89,10 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
           super.item = this.course = course;
           this.hasItem = true;
 
+          console.warn('Course', course);
+
           this.isItemAuthor();
-          super.saveView();
+          if(!this.isAuthor) super.saveView();
         }
         else {
           this.hasItem = false;
@@ -107,12 +116,11 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 
       modalRef.result.then((result) => {
         
-        console.error('modal result');
         this.item = this.course = Course.copyCourse(this.course);
         
       }).catch((error) => {
         this.item = this.course = Course.copyCourse(this.course);
-        console.log(error);
+        console.error(error);
       });
     }
   }
@@ -142,7 +150,7 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
           this.refreshRatings(true);
         }
       }).catch((error) => {
-        console.log(error);
+        console.error(error);
       });
 
     } else this.router.navigate([RouteUrl.LOGIN]);
@@ -157,38 +165,17 @@ export class SingleCourseComponent extends SingleItemComponent implements OnInit
 */  
 
 
-  getSkillsBeginning() {
-    if(this.course.skillsToAcquire) {
-      return this.course.skillsToAcquire.slice(0,this.getSlice());
+  getListBeginning(list:Array<any>) {
+    if(list && list.length) {
+      
+      return list.slice(0, Math.round(list.length/2));
     }
   }
 
-  getSlice() {
-    if(this.course.skillsToAcquire.length <= 4) 
-    {
-      return this.course.skillsToAcquire.length;
-    }
-    else {
-      return 4;
-    }
-  }
+  getListEnding(list:Array<any>) {
+    if(list && list.length &&list.slice(Math.round(list.length/2))) {
 
-  getSkillsEnding() {
-    if(this.course.skillsToAcquire) {
-      return this.course.skillsToAcquire.slice(this.getSlice());
-    }
-  }
-
-  seeMoreSkills() {
-
-    var btnList = document.getElementById("btnSeeMoreSkills");
-  
-    if (this.moreSkillsShowed === true) {
-      this.moreSkillsShowed = false;
-      btnList.innerHTML = "+ Voir plus";
-    } else {
-      this.moreSkillsShowed = true;
-      btnList.innerHTML = "- Voir moins";
+      return list.slice(Math.round(list.length/2));
     }
   }
 

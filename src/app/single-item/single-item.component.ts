@@ -11,8 +11,6 @@ import { Item } from '../shared/model/item/item';
 import { User } from '../shared/model/user/user';
 import { Router } from '@angular/router';
 import { Tag } from '../shared/model/tag/tag';
-import { EditDescriptionItemComponent } from './components/edit-description-item/edit-description-item.component';
-import { EditHeadItemComponent } from './components/edit-head-item/edit-head-item.component';
 import { EDIT_PANE } from './components/edit-course/edit-item-pane';
 
 @Component({
@@ -55,6 +53,7 @@ export class SingleItemComponent implements OnInit, AfterViewInit, AfterViewChec
 
     if(this.routerService.getLastPreviousUrl()) {
       this.backLink = this.routerService.getLastPreviousUrl();
+      console.error(this.backLink);
       if(this.routerService.getLastPreviousUrl().includes(RouteUrl.SEARCH)) this.isSearchBackLink = true;
     }
   }
@@ -66,8 +65,6 @@ export class SingleItemComponent implements OnInit, AfterViewInit, AfterViewChec
       heure: this.datePipe.transform(Date.now().toString(), 'h:mm:ss'),
       user: this.authService.isAuth ? this.authService.authUser:new User('unknown', null, null, null, null, null, null, null, null, null, null, null, null, null),
     };
-
-    console.error('saveView', view);
 
     this.itemService.addItemView(this.item.id, view, 
       (val)=>{

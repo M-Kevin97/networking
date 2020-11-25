@@ -1,40 +1,49 @@
-<div class="completion-board border rounded p-3">
 
-  <h6 class="mb-4">
-    <span *ngIf="completionBar!==100">Compléter votre formation afin qu'elle soit visible par d'autres utilisateurs </span>
-    <span *ngIf="completionBar===100">Votre formation est complète, vous pouvez la publier</span>
-  </h6>
 
-  <div class="my-3 missingField">
-    <div *ngFor="let msf of missingField">
-      <span class="iconify mr-3 mb-3" 
-            style="color: #2E7B9C;"
-            data-icon="bx:bxs-pencil" 
-            data-inline="false">
-      </span>
-      {{ msf }}
-    </div>
+<div *ngIf="item.published; else Completion">
+  <div class="alert alert-success text-center">
+    <h6>Votre formation est visible par d'autres utilisateurs.</h6>
   </div>
-
-  <div class="progress mb-4" 
-       style="height: 30px;">
-
-    <div class="progress-bar" 
-         role="progressbar" 
-         style="font-size: medium;" 
-         [ngStyle]="{'width':completionBar+'%'}"
-         [attr.aria-valuenow]="completionBar"
-         aria-valuemin="0" 
-         aria-valuemax="100">
-      {{ completionBar+'%' }}
-    </div>
-  </div>
-  <div class="w-100 text-center">
-    <button class="btn btn-success"
-            [disabled]="completionBar!==100"
-            (click)="onPublished()">
-      Publier la formation
-    </button>
-  </div>
-
 </div>
+<ng-template #Completion>
+  <div class="completion-board border rounded p-3">
+
+    <div class="text-center">
+      <h6 class="mb-4">
+        <span *ngIf="completionBar!==100">Compléter votre formation afin qu'elle soit visible par d'autres utilisateurs.</span>
+        <span *ngIf="completionBar===100">Votre formation est complète, vous pouvez la publier.</span>
+      </h6>
+    </div>
+    <div class="my-3 missingField">
+      <div *ngFor="let msf of missingField">
+        <span class="iconify mr-3 mb-3" 
+              style="color: #2E7B9C;"
+              data-icon="bx:bxs-pencil" 
+              data-inline="false">
+        </span>
+        {{ msf }}
+      </div>
+    </div>
+  
+    <div class="progress mb-4" 
+        style="height: 30px;">
+  
+      <div class="progress-bar" 
+          role="progressbar" 
+          style="font-size: medium;" 
+          [ngStyle]="{'width':completionBar+'%'}"
+          [attr.aria-valuenow]="completionBar"
+          aria-valuemin="0" 
+          aria-valuemax="100">
+        {{ completionBar+'%' }}
+      </div>
+    </div>
+    <div class="w-100 text-center">
+      <button class="btn btn-success"
+              [disabled]="completionBar!==100"
+              (click)="onPublished()">
+        Publier la formation
+      </button>
+    </div>
+  </div>
+</ng-template>

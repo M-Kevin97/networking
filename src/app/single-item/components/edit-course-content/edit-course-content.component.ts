@@ -1,45 +1,44 @@
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Module } from './../../../shared/model/item/module';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, OnChanges, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, OnChanges, SimpleChanges, ViewChildren, QueryList, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Chapter } from 'src/app/shared/model/item/chapter';
+import { Course } from 'src/app/shared/model/item/course';
 
 @Component({
   selector: 'app-edit-course-content',
   templateUrl: './edit-course-content.component.html',
   styleUrls: ['./edit-course-content.component.scss']
 })
-export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewInit {
+export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {
 
-  @Input() courseModules:Module[] = [];
-  newCourseModules:Module[] = [];
+  @Input() course:Course;
 
   @Input() courseId:string = '';
-
-  @Output() newCourseContentEvent = new EventEmitter<Module[]>();
   
   contentCourseForm: FormGroup;
 
-  @ViewChild('titleModule') titleModule:ElementRef;
-  @ViewChild('descriptionModule') descpModule:ElementRef;
-  @ViewChild('chapterModule') chapterModule:ElementRef;
-  @ViewChildren("chaptersModule") chaptersModule: QueryList<ElementRef>;
+  @ViewChild('titleModule') titleModule:           ElementRef;
+  @ViewChild('descriptionModule') descpModule:     ElementRef;
+  @ViewChild('chapterModule') chapterModule:       ElementRef;
+  @ViewChildren("chaptersModule") chaptersModule:  QueryList<ElementRef>;
   
 
-  isTitModuleFocus: boolean = false;
-  isDescpModuleFocus: boolean = false;
-  isChapterModuleFocus: boolean = false;
+  isTitModuleFocus:      boolean = false;
+  isDescpModuleFocus:    boolean = false;
+  isChapterModuleFocus:  boolean = false;
   isChaptersModuleFocus: boolean[] = [];
 
-  oldTitleModule: string = '';
+  oldTitleModule:       string = '';
   oldDescriptionModule: string = '';
-  oldChapterModule: string = '';
+  oldChapterModule:     string = '';
 
-  activeModule:Module;
+  activeModule:         Module;
 
-  warningMessage:string = "Veuillez Compléter le module avant de l'enregistrer";
-  activeWarning:boolean = false;
+  warningMessage:       string = "Veuillez Compléter le module avant de l'enregistrer";
+  activeWarning:        boolean = false;
 
-  constructor(private formBuilder:FormBuilder) { 
+  constructor(private formBuilder:FormBuilder,
+              private cdRef:ChangeDetectorRef) { 
 
     this.contentCourseForm = this.formBuilder.group({
       titleModule:        ['',[Validators.required]],
@@ -50,7 +49,7 @@ export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewI
 
   ngOnInit() {
 
-    this.setNewCourseModules();
+    this.initActivePane();
   }
 
   ngAfterViewInit(): void {
@@ -60,55 +59,53 @@ export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewI
     this.activateFieldFocus('titleModule');
   }
 
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
 
     console.warn('ngOnChanges', changes);
-    this.setNewCourseModules();
+    this.initActivePane();
   }
 
-  private setNewCourseModules() {
-    if(this.courseModules && this.courseModules.length) {
+  private initActivePane() {
 
-      this.newCourseModules = Array.from(this.courseModules);
-      this.activeModule = this.newCourseModules[0];
-
-    } else {
-
-      this.newCourseModules = [];
-      this.newCourseModules.push(new Module('', '', '', []));
-      this.activeModule = this.newCourseModules[0];
+    if(this.course.modules && this.course.modules.length) this.activeModule = this.course.modules[0];
+    else {
+      this.course.modules = [];
+      this.activeModule = null;
     }
-
-    this.isTitModuleFocus = true;
   }
-
 
   /*  --------------------------------- content editable --------------------------------- */
 
   activateFieldFocus(fieldName:  string) {
 
-    switch(fieldName) {
-      case 'titleModule': {
-
-        this.isTitModuleFocus = true; 
-        this.oldTitleModule = this.activeModule.title;
-        this.titleModule.nativeElement.focus();
-        break;
-      }
-
-      case 'descriptionModule': {
-
-        this.isDescpModuleFocus = true; 
-        this.oldDescriptionModule = this.activeModule.description;
-        this.descpModule.nativeElement.focus();
-        break;
-      }
-
-      case 'chapterModule': {
-
-        this.isChapterModuleFocus = true; 
-        this.chapterModule.nativeElement.focus();
-        break;
+    if(this.activeModule) {
+      switch(fieldName) {
+        case 'titleModule': {
+  
+          this.isTitModuleFocus = true; 
+          this.oldTitleModule = this.activeModule.title;
+          this.titleModule.nativeElement.focus();
+          break;
+        }
+  
+        case 'descriptionModule': {
+  
+          this.isDescpModuleFocus = true; 
+          this.oldDescriptionModule = this.activeModule.description;
+          this.descpModule.nativeElement.focus();
+          break;
+        }
+  
+        case 'chapterModule': {
+  
+          this.isChapterModuleFocus = true; 
+          this.chapterModule.nativeElement.focus();
+          break;
+        }
       }
     }
   }
@@ -154,25 +151,23 @@ export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewI
     }
   }
   
-  onAddModule2() {
+  onAddModule() {
 
     // create a new module
     let module = new Module('', '', '', []);
 
     // add to the newCourseModules array
-    this.newCourseModules.push(module);
+    this.course.modules.push(module);
 
     // the last module created is active
     this.activeModule = module;    
-    
-    // activate titleModule
-    this.isTitModuleFocus = true;
-    this.titleModule.nativeElement.focus();
   }
 
   isLastModuleFilled() {
 
-    const lastModule = this.newCourseModules[this.newCourseModules.length-1];
+    const lastModule = this.course.modules[this.course.modules.length-1];
+
+    if(!lastModule) return false;
 
     if(lastModule.title && lastModule.title.length 
         && lastModule.description && lastModule.description.length
@@ -237,7 +232,7 @@ export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewI
   onRemoveModule(module:  Module, moduleIndex:  number) {
 
     // if isn't the last module
-    if(moduleIndex !== this.newCourseModules.length-1) {
+    if(moduleIndex !== this.course.modules.length-1) {
 
       // supprimer le module et afficher celui au dessus
       if(module.chapters.length) {
@@ -246,21 +241,25 @@ export class EditCourseContentComponent implements OnInit, OnChanges, AfterViewI
         module.chapters.splice(0, module.chapters.length);
       }    
 
+      this.course.modules.splice(moduleIndex, 1);
+
       // remove element in courseModules Array
-      this.newCourseModules.splice(moduleIndex, 1);
+      this.course.modules.splice(moduleIndex, 1);
     }
   }
 
-  saveCourseContent() {
-    if(this.newCourseModules.length) {
-      if(this.isLastModuleFilled()) {
-        this.courseModules = this.newCourseModules;
-      }
-      else {
-        this.courseModules = this.newCourseModules.slice(0, this.newCourseModules.length-1);
-      }
-    }
-  }
+  // saveCourseContent() {
+  //   if(this.courseModules.length) {
+  //     if(this.isLastModuleFilled()) {
+  //       this.courseModules = this.courseModules;
+  //     }
+  //     else {
+  //       this.courseModules = this.courseModules.slice(0, this.courseModules.length-1);
+  //     }
+
+  //     console.warn('courseModule', this.courseModules);
+  //   }
+  // }
 
   activateWarningMessage() {
 

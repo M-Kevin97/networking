@@ -1,3 +1,30 @@
 .item-card {
+
     cursor: pointer;
+    margin: 0;
+}
+
+/* .item-card:hover, .item-card:focus {
+
+    background-color: rgba(#000000, #000000, #000000, 0.4);
+} */
+
+.card-delete {
+
+    z-index: 5;
+    position: absolute;
+
+    font-size:1.7em; 
+    font-weight: bold;
+    color: rgba(128, 128, 128, 0.3);
+}
+
+.item-card:hover > .card-delete, .item-card:focus > .card-delete {
+    color: gray;
+}
+
+.item-img {
+
+    width: 13rem;
+    height: 8rem;
 }

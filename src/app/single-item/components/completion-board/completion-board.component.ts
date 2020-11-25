@@ -17,9 +17,6 @@ export class CompletionBoardComponent implements OnInit, OnChanges {
 
   @Input() item:  Course | EventItem;
 
-  notifGeneral: number = 0;
-  notifMedia: boolean = false;
-
   missingField: string[] = [];
 
   completionBar:number = 100;
@@ -33,7 +30,7 @@ export class CompletionBoardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     
-    console.error('ngOnChanges', changes);
+    //console.error('ngOnChanges', changes);
     this.missingField.splice(0,  this.missingField.length);
     if(this.item) this.checkCompletion();
   }
@@ -132,6 +129,16 @@ export class CompletionBoardComponent implements OnInit, OnChanges {
         max++;
       }
 
+      if(this.item.prerequisites && this.item.prerequisites.length) {
+       
+        max++;
+      } else {
+
+        this.missingField.push('Des prérequis');
+        count++;
+        max++;
+      }
+
       if(this.item.modules && this.item.modules.length) {
         
         max++;
@@ -176,31 +183,11 @@ export class CompletionBoardComponent implements OnInit, OnChanges {
       () => {
 
       this.item.published = true;
+      if(this.item instanceof Course) this.item = Course.copyCourse(this.item);
     },
     (error) => {
 
       console.error(error);
     });
   }
-
-  setNotifMedia() {
-    if(!this.item.imageLink || !this.item.imageLink.length 
-      && (this.item.imageLink === Database.DEFAULT_IMG_COURSE
-      || this.item.imageLink === Database.DEFAULT_IMG_EVENT)) this.notifMedia = true;
-  }
-
-  getNotifSkills(){
-    if(this.item instanceof Course) {
-      if(this.item.skillsToAcquire && this.item.skillsToAcquire.length) return false;
-      else return true;
-    }
-  }
-
-  getNotifModules(){
-    if(this.item instanceof Course) {
-      if(this.item.modules && this.item.modules.length) return false;
-      else return true;
-    }
-  }
-
 }

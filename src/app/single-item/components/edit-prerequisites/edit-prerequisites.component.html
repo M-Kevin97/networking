@@ -2,32 +2,32 @@
 <div class="wrapper">
   <h5>
     <span class="iconify mr-2" 
-          data-icon="ic:round-playlist-add-check" 
+          data-icon="mi:circle-warning" 
           data-inline="false">
     </span>
-    Compétences à acquérir
+    Prérequis
   </h5>
   <hr class="separation-line"> <!-- separation line -->
 
-  <form [formGroup]="skillItemForm" role="form">
+  <form [formGroup]="prerequisiteItemForm" role="form">
 
     <div class="input-group mb-3">
-      <input #skillInput
+      <input #prerequisiteInput
               type="text" 
               class="form-control" 
-              [ngStyle]="{'background-color': isSkillInputFocus ? 'white' : '#F1F1F1'}"
-              formControlName="skillInput"
-              id="skillInput"
-              (focus)="isSkillInputFocus = true"
-              (focusout)="isSkillInputFocus = false"
-              (keydown)="onDetectAddSkillKeyDown($event)"
+              [ngStyle]="{'background-color': isPrerequisiteInputFocus ? 'white' : '#F1F1F1'}"
+              formControlName="prerequisiteInput"
+              id="prerequisiteInput"
+              (focus)="isPrerequisiteInputFocus = true"
+              (focusout)="isPrerequisiteInputFocus = false"
+              (keydown)="onDetectAddPrerequisiteKeyDown($event)"
               placeholder="Saisissez une compétence à acquérir">  
 
       <div class="input-group-append">
         <button type="button" 
                 class="btn btn-success" 
-                (click)="onAddSkill()"
-                [disabled]="!skillItemForm.get('skillInput').value">
+                (click)="onAddPrerequisite()"
+                [disabled]="!prerequisiteItemForm.get('prerequisiteInput').value">
   
             <span class="iconify" 
                   data-icon="clarity:add-line"
@@ -37,37 +37,37 @@
       </div>
     </div>
 
-    <div *ngIf="course.skillsToAcquire.length" 
+    <div *ngIf="course.prerequisites.length" 
        class="my-3">
 
-      <div *ngFor="let skill of course.skillsToAcquire; let i = index" 
+      <div *ngFor="let prerequisite of course.prerequisites; let i = index" 
             class="input-group mb-2">
 
-        <div #skillsInput
+        <div #prerequisitesInput
               type="text" 
               class="form-control" 
-              [ngStyle]="{'background-color': isSkillSavedFocus[i] ? 'white' : '#F1F1F1'}"
-              [textContent]="skill"
-              (keydown)="onDetectSetskillSavedKeyDown($event, i)"
-              (focus)="onActivateSkill(i)"
-              (focusout)="onDesactivateSkill(i)"
+              [ngStyle]="{'background-color': isPrerequisiteSavedFocus[i] ? 'white' : '#F1F1F1'}"
+              [textContent]="prerequisite"
+              (keydown)="onDetectSetPrerequisiteSavedKeyDown($event, i)"
+              (focus)="onActivatePrerequisite(i)"
+              (focusout)="onDesactivatePrerequisite(i)"
               contenteditable>
         </div>
         <div class="input-group-append">
-          <button *ngIf="!isSkillSavedFocus[i]"
+          <button *ngIf="!isPrerequisiteSavedFocus[i]"
                   class="btn btn-outline-info" 
                   type="button"
-                  (click)="onActivateSkill(i)">
+                  (click)="onActivatePrerequisite(i)">
 
             <span class="iconify" 
                   data-icon="bx:bxs-pencil" 
                   data-inline="false">
             </span>
           </button>
-          <button *ngIf="isSkillSavedFocus[i]"
+          <button *ngIf="isPrerequisiteSavedFocus[i]"
                   class="btn btn-outline-success" 
                   type="button"
-                  (click)="onDesactivateSkill(i)">
+                  (click)="onDesactivatePrerequisite(i)">
 
             <span class="iconify" 
                   data-icon="ant-design:save-outlined" 
@@ -76,7 +76,7 @@
           </button>
           <button class="btn btn-outline-danger" 
                   type="button"
-                  (click)="onRemoveSkill(i)">
+                  (click)="onRemovePrerequisite(i)">
 
             <span class="iconify" 
                   data-inline="false" 

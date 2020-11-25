@@ -37,7 +37,7 @@ export class Tag {
 
         if(json === null || json === undefined) return null;
 
-        console.log(json);
+       // console.log(json);
 
         var tags = Object.keys(json).map(
             function(tagIdIndex){

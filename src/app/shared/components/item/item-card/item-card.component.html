@@ -1,20 +1,30 @@
 <!-- Start Price Card -->
-<div *ngIf="iItem" class="card item-card shadow-sm" 
-                   (click)="onConsultItem()"
-                   [ngStyle]="{'width':width, 'height':height}">  
+<div *ngIf="iItem" 
+     class="card item-card shadow-sm" 
+     [ngStyle]="{'width':width, 'height':height}">  
 
-  <img class="item-img card-img-top" [src]="iItem.imageLink" height="50%" width="100%">
-  <div class="card-body align-items-center">
+  <span *ngIf="isAuthor"
+        class="iconify card-delete " 
+        data-inline="false" 
+        data-icon="eva:close-fill">
+  </span>
+
+  <img class="item-img card-img-top" 
+       [src]="iItem.imageLink" 
+       height=""
+       width="100%"
+       (click)="onConsultItem()">
+
+  <div class="card-body align-items-center"
+       (click)="onConsultItem()">
 
     <p class="card-title" [attr.title]=iItem.title>
       {{ iItem.title.substr(0,20) }}<span *ngIf="iItem.title.substr(20)">...</span>
     </p>
 
-  </div>
-  <div class="card-footer">
     <div class="row justify-content-center align-items-center">
       <div class="col-auto">
-        <!-- rating -->
+        <!-- price -->
         <span class="card-item-price">
           <b>{{ iItem.price }} €</b>
         </span>
@@ -31,5 +41,15 @@
         </app-rating>
       </div>
     </div>
+
+  </div>
+  <div *ngIf="isAuthor && !iItem.published" 
+       class="card-footer">
+
+    <button class="btn btn-block btn-sm btn-success"
+            (click)="onConsultItem()">
+      Publier
+    </button>
+
   </div>
 </div>  <!-- End Card -->

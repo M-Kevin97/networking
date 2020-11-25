@@ -103,7 +103,7 @@ export class TagService {
         return newTag;
     }).catch(
       (error)=>{
-        console.log(error);
+        console.error(error);
         return null;
     });
   }

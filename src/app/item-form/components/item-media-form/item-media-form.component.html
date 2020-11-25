@@ -10,6 +10,10 @@
 
       <form [formGroup]="mediaForm" role="form" class="form-item">
 
+        <div class="item-img text-center mb-4">
+          <img [src]="urlImagePreview">
+        </div>
+
         <input type="file" class="form-control-file" 
                           formControlName="image"
                           id="image"
@@ -21,14 +25,14 @@
       <!-------------------------------- Modal Preview Image ---------------------------->
 
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary mt-3" data-toggle="modal" 
+      <!-- <button type="button" class="btn btn-primary mt-3" data-toggle="modal" 
                                                     data-target="#imageModalPreview"
                                                     *ngIf="urlImagePreview">
         Prévisualiser l'image
-      </button>
+      </button> -->
 
       <!-- Modal -->
-      <div class="modal fade" id="imageModalPreview" tabindex="-1" 
+      <!-- <div class="modal fade" id="imageModalPreview" tabindex="-1" 
                                                     role="dialog" 
                                                     aria-labelledby="exampleModalCenterTitle" 
                                                     aria-hidden="true">
@@ -42,7 +46,7 @@
             </div>
             <div class="modal-body text-center">
 
-              <img class="border" style="max-width:400px" [src]="urlImagePreview">
+              <img class="border" width="20rem" height="15rem" [src]="urlImagePreview">
           
             </div>
             <div class="modal-footer">
@@ -50,7 +54,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
       <ul class="nav nav-item justify-content-between mx-auto mt-5">

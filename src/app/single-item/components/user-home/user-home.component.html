@@ -1,33 +1,35 @@
 <div class="row w-100 justify-content-center user-items-block">
   <!-- Start user courses section -->
-  <div *ngIf="user.courses && user.courses.length" 
+  <div *ngIf="courses && courses.length" 
        class="row user-items-section user-courses-section">
     <div class="col-12">
       <h5 class="title-cat">
         Formations ({{ getICoursesLength() }}) > <a (click)="displayUserCourses()">Tout consulter</a>
       </h5>
       <hr> <!-- separation line -->
-      <app-items-carousel *ngIf="user.courses" [item_type]="'course'" 
-                                               [iItems]="user.courses">
+      <app-items-carousel *ngIf="courses" 
+                          [item_type]="'course'" 
+                          [iItems]="courses">
       </app-items-carousel>
-      <span *ngIf="!user.itemsId">Aucune formations</span>
+      <span *ngIf="getICoursesLength() === 0">Aucune formations</span>
     </div>
 
   </div> <!-- End user courses section -->
 
   <!-- Start user events section -->
-  <div *ngIf="user.events && user.events.length" 
+  <div *ngIf="events && events.length" 
        class="row user-items-section user-events-section">
     <div class="col-12">
       <h5 class="title-cat">
        Événements({{ getIEventsLength() }}) > <a (click)="displayUserEvents()">Tout consulter</a>
       </h5>
       <hr> <!-- separation line -->
-      <app-items-carousel *ngIf="user.itemsId" [item_type]="'event'" 
-                                               [iItems]="user.events">
+      <app-items-carousel *ngIf="events" 
+                          [item_type]="'event'" 
+                          [iItems]="events">
       </app-items-carousel>
 
-      <span *ngIf="!user.itemsId">Aucun événements</span>
+      <span *ngIf="getIEventsLength() === 0">Aucun événements</span>
     </div>
   </div> <!-- End user events section -->
 

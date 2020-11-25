@@ -52,7 +52,7 @@ export class UserService {
         return true;
 
     }).catch((error)=>{
-      console.log(error);
+      console.error(error);
       return false;
     });
   }
@@ -73,7 +73,7 @@ export class UserService {
           function() {
             saved = true;
         }).catch(function(error) {
-          console.log(error);
+          console.error(error);
           saved = false;
         });
       }
@@ -88,7 +88,7 @@ export class UserService {
         ref.child(Database.USERS.substr(1)).set({
           [value.id]: i,
         }).catch(function(error) {
-          console.log(error);
+          console.error(error);
           return false;
         });
       }
@@ -103,7 +103,7 @@ export class UserService {
       return ref.child(Database.USERS.substr(1)).set({
         [iAuthor.id]: index,
       }).catch(function(error) {
-        console.log(error);
+        console.error(error);
         return null;
       });
     }
@@ -113,7 +113,7 @@ export class UserService {
 
     if(item && authorId) {
       
-      console.log('saveCourseInAuthorsDB', item.iAuthors);
+      //console.log('saveCourseInAuthorsDB', item.iAuthors);
 
       let ref = firebase.database().ref(Database.USERS);
       let bool = false;
@@ -155,14 +155,14 @@ export class UserService {
 
     if(item && authorId) {
       
-      console.log('saveCourseInAuthorsDB', item.iAuthors);
+      //console.log('saveCourseInAuthorsDB', item.iAuthors);
 
       let ref = firebase.database().ref(Database.USERS);
 
       let bool = false;
 
       item.iAuthors.forEach(function (value) {
-        console.log('saveCourseInAuthorsDB',value); 
+        //console.log('saveCourseInAuthorsDB',value); 
         
         var refAuthors = ref.child(value.id).child(Database.ITEMS).child(item.id);
 
@@ -200,7 +200,7 @@ export class UserService {
           function() {
             saved = true;
         }).catch(function(error) {
-          console.log(error);
+          console.error(error);
           saved = false;
         });
       }
@@ -241,7 +241,7 @@ export class UserService {
       () => {
         if(user.courses){
           user.courses.forEach(function (value) {
-            console.log('updateUserCourses', value, user.courses);
+            //console.log('updateUserCourses', value, user.courses);
             if(value){
           
               var refCourse = firebase.database().ref(Database.ITEMS)
@@ -256,7 +256,7 @@ export class UserService {
                 title: user.title,
               }).catch(
                 (error) => {
-                  console.log(error);
+                  console.error(error);
                   return false;
                 });
               }
@@ -266,7 +266,7 @@ export class UserService {
           () => {
             if(user.events){
               user.events.forEach(function (value) {
-                console.log('updateUserEvents', value, user.courses);
+                //console.log('updateUserEvents', value, user.courses);
                 if(value){
               
                   var refEvent = firebase.database().ref(Database.ITEMS)
@@ -287,7 +287,7 @@ export class UserService {
           }  
         }).catch(
             (error) => {
-              console.log(error);
+              console.error(error);
               return false;
         }
       );
@@ -299,7 +299,7 @@ export class UserService {
         return ref.child(Database.USERS.substr(1)).update({
           [iAuthor.id]: index,
         }).catch(function(error) {
-          console.log(error);
+          console.error(error);
           return null;
         });
       }
@@ -328,7 +328,7 @@ export class UserService {
 
     return this.usersDB.child(id).once('value').then(
       (user) => {
-        console.log(user.val());
+        //console.log(user.val());
         return User.userFromJson(user.val());
       }
     );
@@ -340,10 +340,10 @@ export class UserService {
     return firebase.database().ref(Database.USERS).child(id).once('value').then(
       (iUserJSON) => {
 
-        console.warn('userItemsJson', iUserJSON.val());
+        // console.warn('userItemsJson', iUserJSON.val());
 
         let iUser = User.iUserFromJson(iUserJSON.val());
-        console.warn('userItemsJson', iUser.itemId);
+        // console.warn('userItemsJson', iUser.itemId);
         return iUser;
       }
     );

@@ -1,3 +1,4 @@
+import { EditPrerequisitesComponent } from './components/edit-prerequisites/edit-prerequisites.component';
 import { EditTagsComponent } from './components/edit-tags/edit-tags.component';
 import { EditMediaComponent } from './components/edit-media/edit-media.component';
 import { EditGeneralComponent } from './components/edit-general/edit-general.component';
@@ -54,7 +55,8 @@ import { CountdownModule } from 'ngx-countdown';
     EditCourseComponent,
     EditGeneralComponent,
     EditMediaComponent,
-    EditTagsComponent
+    EditTagsComponent,
+    EditPrerequisitesComponent
   ]
 })
 export class SingleItemModule { }

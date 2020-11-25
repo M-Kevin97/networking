@@ -93,7 +93,7 @@ export class RatingService {
           return newRating;
       }).catch(
         (error)=>{
-          console.log(error);
+          console.error(error);
           return null;
       });
 
@@ -106,7 +106,7 @@ export class RatingService {
           return newRating;
       }).catch(
         (error)=>{
-          console.log(error);
+          console.error(error);
           return null;
       });
     }
@@ -163,7 +163,7 @@ export class RatingService {
           (rating) => {
             if(rating.val()) {
 
-              console.log(rating.val());
+              //console.log(rating.val());
 
               singleRating = Rating.ratingFromJson(rating.val());
               singleRating.id = key;
@@ -192,7 +192,7 @@ export class RatingService {
                 // getting the single ICourse of a single rating
                 firebase.database().ref(Database.ITEMS).child(ratingCourseId).once('value').then(
                   (itemJson) => {
-                    console.log(itemJson.val());
+                    //console.log(itemJson.val());
             
                     let iCourse:IItem;
                     iCourse = Course.iCourseFromJson(itemJson.val());

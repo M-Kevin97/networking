@@ -21,7 +21,7 @@ export class Chapter {
 
         if(json === null || json === undefined) return null;
 
-        console.log('chaptersFromJson', json);
+        //console.log('chaptersFromJson', json);
 
         var chapters = Object.keys(json).map(
             function(chaptersIdIndex){
@@ -39,7 +39,7 @@ export class Chapter {
 
         if(json === null && json === undefined) return null;
 
-        console.log('chapterFromJson', json);
+        //console.log('chapterFromJson', json);
 
         return new Chapter(json[0],
                            json['title']);

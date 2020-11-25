@@ -64,15 +64,15 @@ export class EditCourseComponent implements OnInit, OnChanges {
                                 null,
                                 null,
                                 null,
+                                [],
+                                null,
+                                null,
+                                [],
                                 null,
                                 null,
                                 null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
+                                [],
+                                [],
                                 null,
                                 null,
                                 null,
@@ -92,7 +92,7 @@ export class EditCourseComponent implements OnInit, OnChanges {
                                    null,
                                    null,
                                    null,
-                                   null,
+                                   [],
                                    null,
                                    null,
                                    null,
@@ -124,8 +124,9 @@ export class EditCourseComponent implements OnInit, OnChanges {
 
     if(this.item instanceof Course && this.newItem instanceof Course){
     this.newItem.modules = this.item.modules || null;
-    this.newItem.skillsToAcquire = this.item.skillsToAcquire || null;
-    this.newItem.ratings = this.item.ratings || null;
+    this.newItem.skillsToAcquire = this.item.skillsToAcquire || [];
+    this.newItem.prerequisites = this.item.prerequisites || [];
+    this.newItem.ratings = this.item.ratings || [];
     this.newItem.nbClick = this.item.nbClick || null;
     this.newItem.nbRatings = this.item.nbRatings || null;
     this.newItem.globalNote = this.item.globalNote || null;
@@ -158,9 +159,10 @@ export class EditCourseComponent implements OnInit, OnChanges {
     this.item.srcLink = this.newItem.srcLink || null;
 
     if(this.item instanceof Course && this.newItem instanceof Course){
-    this.item.modules = this.newItem.modules || null;
-    this.item.skillsToAcquire = this.newItem.skillsToAcquire || null;
-    this.item.ratings = this.newItem.ratings || null;
+    this.item.modules = this.newItem.modules || [];
+    this.item.skillsToAcquire = this.newItem.skillsToAcquire || [];
+    this.item.prerequisites = this.newItem.prerequisites || [];
+    this.item.ratings = this.newItem.ratings || [];
     this.item.nbClick = this.newItem.nbClick || null;
     this.item.nbRatings = this.newItem.nbRatings || null;
     this.item.globalNote = this.newItem.globalNote || null;
@@ -182,7 +184,6 @@ export class EditCourseComponent implements OnInit, OnChanges {
           
             console.error('updateItem', val);
             this.setItem();
-            if(this.item instanceof Course) this.item = Course.copyCourse(this.item);
             this.displayItemUpdatedAlert();
             this.setNotifGeneral();
           },
@@ -214,7 +215,6 @@ export class EditCourseComponent implements OnInit, OnChanges {
                   this.imageService.deleteImageByRef(fileRef,
                     () => {
                       this.setItem();
-                      if(this.item instanceof Course) this.item = Course.copyCourse(this.item);
                       this.displayItemUpdatedAlert();
                       this.setNotifMedia();
                     },
@@ -224,7 +224,6 @@ export class EditCourseComponent implements OnInit, OnChanges {
                   );
                 } else {
                   this.setItem();
-                  if(this.item instanceof Course) this.item = Course.copyCourse(this.item);
                   this.displayItemUpdatedAlert();
                   this.setNotifMedia();
                 }
@@ -242,7 +241,6 @@ export class EditCourseComponent implements OnInit, OnChanges {
           (tags:Tag[]) => {
 
             this.item.tags = tags;
-            if(this.item instanceof Course) this.item = Course.copyCourse(this.item);
             this.setNewItem();
             this.displayItemUpdatedAlert();
           },
@@ -252,22 +250,83 @@ export class EditCourseComponent implements OnInit, OnChanges {
         break;
       }
       case EDIT_PANE.SKILLS: {
-        if(this.newItem instanceof Course) {
-          this.itemService.updateSkillsToAcquireInDB(this.newItem.id, this.newItem.skillsToAcquire, 
-            (skills) => {
-              
-              if(this.item instanceof Course) {
-                this.item.skillsToAcquire = skills;
-                this.item = Course.copyCourse(this.item);
+
+        if(this.newItem instanceof Course && this.item instanceof Course) {
+
+          if(this.newItem.skillsToAcquire && this.newItem.skillsToAcquire.length) 
+            this.newItem.skillsToAcquire = this.newItem.skillsToAcquire.reverse();
+
+          if(!this.item.skillsToAcquire) this.item.skillsToAcquire = [];
+          if(this.item.skillsToAcquire.length && this.newItem.skillsToAcquire && this.newItem.skillsToAcquire.length) {
+
+            this.itemService.updateSkillsToAcquireInDB(this.newItem.id, this.newItem.skillsToAcquire, 
+              () => {
+
+                console.warn('updateSkillsToAcquireInDB', this.newItem);
+                this.setItem();
+                this.setNewItem();
+                this.displayItemUpdatedAlert();
+              },
+              (error) => {
+                console.error(error);
               }
-              
-              this.setNewItem();
-              this.displayItemUpdatedAlert();
-            }, 
-            (error) => {
-              console.error(error);
-            }
-          );
+            );
+          }
+          else if(!this.item.skillsToAcquire.length && this.newItem.skillsToAcquire && this.newItem.skillsToAcquire.length) {
+
+            this.itemService.addSkills(this.newItem.id, this.newItem.skillsToAcquire, 
+              () => {
+
+                console.warn('addSkills', this.newItem);
+                this.setItem();
+                this.setNewItem();
+                this.displayItemUpdatedAlert();
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
+          }
+        }
+
+        break;
+      }
+      case EDIT_PANE.PREREQUISITES: {
+
+        if(this.newItem instanceof Course && this.item instanceof Course) {
+
+          if(this.newItem.prerequisites && this.newItem.prerequisites.length) 
+            this.newItem.prerequisites = this.newItem.prerequisites.reverse();
+
+          if(!this.item.prerequisites) this.item.prerequisites = [];
+          if(this.item.prerequisites.length && this.newItem.prerequisites && this.newItem.prerequisites.length) {
+
+            this.itemService.updatePrerequisitesInDB(this.newItem.id, this.newItem.prerequisites, 
+              () => {
+
+                this.setItem();
+                this.setNewItem();
+                this.displayItemUpdatedAlert();
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
+          }
+          else if(!this.item.prerequisites.length && this.newItem.prerequisites && this.newItem.prerequisites.length) {
+
+            this.itemService.addPrerequisites(this.newItem.id, this.newItem.prerequisites, 
+              () => {
+                
+                this.setItem();
+                this.setNewItem();
+                this.displayItemUpdatedAlert();
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
+          }
         }
 
         break;
@@ -283,6 +342,9 @@ export class EditCourseComponent implements OnInit, OnChanges {
   saveCourseContent() {
     if(this.newItem instanceof Course && this.item instanceof Course) { 
 
+      console.warn('saveCourseContent', EDIT_PANE.MODULES);
+      console.warn('saveCourseContent', this.item.modules, this.newItem.modules);
+
       if(!this.item.modules) this.item.modules = [];
       if(this.item.modules.length && this.newItem.modules && this.newItem.modules.length) this.updateCourseContent();
       else if(!this.item.modules.length && this.newItem.modules && this.newItem.modules.length) this.createCourseContent();
@@ -290,39 +352,47 @@ export class EditCourseComponent implements OnInit, OnChanges {
   }
 
   private createCourseContent() {
+    console.warn('createCourseContent 0');
     if(this.newItem instanceof Course && this.item instanceof Course) { 
-
+      console.warn('createCourseContent 1');
       this.itemService.addCourseContent(this.newItem.modules, this.newItem.id, 
         (val:Module[]) => {
-  
+          console.warn('createCourseContent 2', val);
           // clear chapter elements array
           if(this.newItem instanceof Course && this.item instanceof Course){
 
+            console.warn('createCourseContent 3', val);
             this.item.modules.splice(0, this.item.modules.length);
             this.item.modules = val;
-            this.item = Course.copyCourse(this.item);
             this.setNewItem();
             this.displayItemUpdatedAlert();
           }
-
+        },
+        (error) => {
+          console.error(error);
         }
       );
     }
   }
 
   private updateCourseContent() {
+    console.warn('updateCourseContent 0');
     if(this.newItem instanceof Course && this.item instanceof Course) { 
+      console.warn('updateCourseContent 1');
       this.itemService.updateCourseContent(this.newItem.modules, this.newItem.id, 
         (val:Module[]) => {
-
+          console.warn('updateCourseContent', val);
           if(this.newItem instanceof Course && this.item instanceof Course){
 
+            console.warn('updateCourseContent', val);
             this.item.modules.splice(0, this.item.modules.length);
             this.item.modules = val;
-            this.item = Course.copyCourse(this.item);
             this.setNewItem();
             this.displayItemUpdatedAlert();
           }
+        },
+        (error) => {
+          console.error(error);
         }
       );
     }
@@ -395,6 +465,13 @@ export class EditCourseComponent implements OnInit, OnChanges {
   getNotifSkills(){
     if(this.item instanceof Course) {
       if(this.item.skillsToAcquire && this.item.skillsToAcquire.length) return false;
+      else return true;
+    }
+  }
+
+  getNotifPrerequisites(){
+    if(this.item instanceof Course) {
+      if(this.item.prerequisites && this.item.prerequisites.length) return false;
       else return true;
     }
   }

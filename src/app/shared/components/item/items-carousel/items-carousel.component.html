@@ -2,17 +2,22 @@
     <div id="carouselExampleIndicators" class="carousel slide container" 
                                         data-ride="carousel">
         <div id="w-cart" class="carousel-inner">
+            <div #container class="bg-danger w-100"></div>
             <div class="carousel-item" *ngFor="let line of iItems2d; let i = index"
-                                       [ngClass]="{'active':i===0}">
-                <div class="row justify-content-around">
-                    <div class="col-md-3" *ngFor="let item of line; let j = index" 
-                                          [ngClass]="{'col-6': j !== 2,
-                                                    'd-md-block': j === 2,
-                                                    'd-none': j === 2 }">
-                        <app-item-card [iItem]="item"
-                                       [width]="'100%'"
-                                       [height]="cardItemHeight">
-                        </app-item-card>
+                                       [ngClass]="{'active':i === 0}">
+                <div class="carousel-row row no-glutters justify-content-start">
+                    <div class="carousel-item-card col-auto" 
+                         *ngFor="let item of line; let j = index">
+
+                        <div class="carousel-inner-item-card" 
+                             [ngStyle]="{ 'width': cardItemWidthNet+'rem',
+                                          'margin-right': j!== (line.length-1)? cardItemMarginRight+'rem' : 0+'rem' }">
+
+                            <app-item-card  [iItem]="item"
+                                            [width]="cardItemWidthNet+'rem'"
+                                            [height]="cardItemHeight+'rem'">
+                            </app-item-card>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,4 +45,3 @@
         </a>
     </div> 
 </div>
-<div #container></div>

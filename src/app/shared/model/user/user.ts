@@ -170,7 +170,7 @@ export class User {
         const jsonItems = json['items'];
         let crs = null, evts = null;
 
-        console.warn('userFromJson', jsonItems);
+       // console.warn('userFromJson', jsonItems);
 
         if(jsonItems)  {
             //crs = Course.getICoursesItemFromJson(jsonItems);
