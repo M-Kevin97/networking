@@ -53,7 +53,7 @@
         </div>
 
         <div class="item-features">
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-6">
               <span class="feature-text">
                 <i id="glob" class="fa fa-globe" aria-hidden="true"></i>
@@ -67,7 +67,7 @@
                 Aucune 
               </span>
             </div>
-          </div>
+          </div> -->
           <hr> <!-- separation line -->
           <div class="row">
             <div class="col-6">
@@ -90,7 +90,7 @@
           </div>
         </div>
     
-        <div *ngIf="course.tags" class="course-tags mt-3 mx-3">
+        <div *ngIf="course.tags" class="course-tags mt-4 mx-3">
           <span *ngFor="let tag of course.tags; let i = index" 
                 class="course-tag py-2 px-3 mr-2"
                 (click)="onSearchTag(tag)">

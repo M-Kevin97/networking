@@ -9,8 +9,8 @@
     <!-- Afficher les tags associés à la recherche -->
     <div *ngIf="tagsList" class="categories-section mt-3">
       <button *ngFor="let tag of tagsList" type="button" 
-                                                      class="btn btn-outline-secondary btn-cat-to-d mr-2"
-                                                      (click)="onSearchByTag(tag.name)">
+                                            class="tag-btn btn btn-outline-secondary btn-cat-to-d mr-2"
+                                            (click)="onSearchByTag(tag.name)">
         {{ tag.name }} 
       </button>
       <hr>

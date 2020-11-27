@@ -22,3 +22,15 @@
     font-weight: 350;
 }  
 
+.tag-btn {
+    
+    color: #1f6d8f;
+    border-color: #1f6d8f;
+    background-color: white;
+}
+
+.tag-btn:hover, .tag-btn:active, .tag-btn:focus {
+    
+    color: white;
+    background-color: #1f6d8f;
+}
