@@ -1,20 +1,25 @@
+@import "../../style/auth-style.scss";
+
 h3 {
+
     text-align:center;
     font-size: large;
     font-weight: 800;
 }
 
 h4 {
+
     text-align:center;
     font-size: large;
     font-weight: 400;
 }
 
-label, input {
+label {
     font-size: small;
 }
 
 button {
+
     font-size: medium;
 }
 

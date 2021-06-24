@@ -1,0 +1,56 @@
+.block-sign {
+    
+    min-width: 350px;
+    
+    background-color: white;
+
+    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.input-sign {
+
+    font-weight: 450;
+	font-size: 1rem;
+}
+
+.btn-login, .btn-subscribe {
+   
+    height: 2.7rem;
+
+    /* background-color: #2E7B9C; */
+    color: white;
+
+    border: 0;
+
+    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+
+    font-weight: 550;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.btn-login {
+
+    background-color: #28A745;
+}
+
+.btn-login:hover, .btn-login:focus, .btn-login:active { 
+    background-color: #24913d;
+}
+
+.catch-p {
+
+    color: gray;
+    font-size: larger;
+    font-weight: 450;
+}
+
+.auth-content {
+
+    margin-top: 10vh;
+}

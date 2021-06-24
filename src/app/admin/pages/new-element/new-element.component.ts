@@ -9,7 +9,7 @@ import { Database } from 'src/app/core/database/database.enum';
 import { Category } from 'src/app/shared/model/category/category';
 import { Course } from 'src/app/shared/model/item/course';
 import { CategoryService } from 'src/app/shared/service/category/category.service';
-import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ImageService } from 'src/app/shared/service/media/image/image.service';
 import { User } from 'src/app/shared/model/user/user';
 import { UserService } from 'src/app/shared/service/user/user.service';
 import { ItemService } from 'src/app/shared/service/item/item.service';
@@ -281,6 +281,7 @@ export class NewElementComponent implements OnInit {
     const tags = [];
 
     if(this.imageService.imageToUpload) {
+
       const fileRef = firebase.storage().ref('images').child('courses');
 
       this.imageService.uploadFile(this.imageService.imageToUpload, fileRef).then(
@@ -308,6 +309,7 @@ export class NewElementComponent implements OnInit {
                                          courseSkills,
                                          coursePrerequisite,
                                          [],
+                                         null,
                                          0,
                                          url,
                                          '',
@@ -317,27 +319,28 @@ export class NewElementComponent implements OnInit {
           else 
           {
             this.createCourse(new Course(null,
-              'course',
-              courseTitle,
-              new Category(courseCategory.id, courseCategory.name, [courseSubCategory]),
-              tags,
-              courseCatchPhrase,
-              courseDescription,
-              coursePrice,
-              courseInstructors,
-              creationDate,
-              true,
-              [],
-              null,
-              true,
-              null,
-              courseSkills,
-              coursePrerequisite,
-              [],
-              0,
-              Database.DEFAULT_IMG_COURSE,
-              '',
-              ''));
+                                        'course',
+                                        courseTitle,
+                                        new Category(courseCategory.id, courseCategory.name, [courseSubCategory]),
+                                        tags,
+                                        courseCatchPhrase,
+                                        courseDescription,
+                                        coursePrice,
+                                        courseInstructors,
+                                        creationDate,
+                                        true,
+                                        [],
+                                        null,
+                                        true,
+                                        null,
+                                        courseSkills,
+                                        coursePrerequisite,
+                                        [],
+                                        null,
+                                        0,
+                                        Database.DEFAULT_IMG_COURSE,
+                                        '',
+                                        ''));
           }
         },
         (error) => {
@@ -365,6 +368,7 @@ export class NewElementComponent implements OnInit {
                                   courseSkills,
                                   coursePrerequisite,
                                   [],
+                                  null,
                                   0,
                                   Database.DEFAULT_IMG_COURSE,
                                   '',

@@ -1,7 +1,10 @@
 <div class="row no-gutters justify-content-center align-items-center">
   <div class="col-12">
     <div class="row justify-content-start mb-3">
-      <div *ngFor="let tag of tags; let i = index" class="col-auto mb-3">
+      
+      <div *ngFor="let tag of tags; let i = index" 
+           class="col-auto mb-3">
+
         <span class="tag py-2 px-3"> 
           <div class="tag-close" (click)="onRemoveTag(i)">
             <span class="iconify align-middle" data-icon="ion:close-circle-outline" 
@@ -18,14 +21,14 @@
     <form [formGroup]="tagForm">
       <div class="form-group">
 
-        <div class="input-group mt-4"
-            [ngClass]="{'form-control-lg' : size==='lg', 'form-control-sm' : size==='sm'}">
+        <div class="input-group mt-4">
 
           <input type="text" 
                   name="tag" 
                   placeholder="Choisissez / créez un tag" 
                   formControlName="tag"
                   class="tagManager form-control"
+                  [ngClass]="{'form-control-lg' : size==='lg', 'form-control-sm' : size==='sm'}"
                   [ngStyle]="{'background-color': isTagsSuggestedList() ? 'white' : background_color}"
                   (keydown)="onCheckKey($event.key)"
                   (keypress)="onAddTag($event.key)"

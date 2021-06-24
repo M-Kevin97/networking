@@ -1,0 +1,85 @@
+<div id="create" 
+     class="container-fluid">
+
+  <div class="row justify-content-center">
+
+    <div class="col-lg-6 col-md-8 text-center">
+      <div class="h-logo my-5 mx-auto">
+        <!-- À modifier (Image logo Nom de la plateforme)-->
+        <a routerLink='/home' 
+            routerLinkActive="router-link-active">
+
+          <img src="assets/img/logo_skilleo_1-0.png" 
+                width="150"  
+                class="d-inline-block mb-4" 
+                alt="logo skilleo">
+        </a>
+        <h4 class="catch-p">La solution digitale pour partager vos connaissances</h4>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row menu-create-item justify-content-center mt-3">
+
+    <div class="col-4 d-flex flex-column my-2">
+
+      <div class="card menu-item-option text-center shadow p-3">
+
+        <div>
+        
+          <img class="item-option-img my-4" 
+              src="assets/img/increase-01.png" 
+              width="150"
+              alt="Publier une annonce de formation en ligne ou d'évènement">
+        </div>
+
+        <div class="card-body d-flex flex-column">
+
+          <h6 class="mt-2 mb-5">Publier l'annonce d'une formation en ligne ou d'un évènement</h6>
+
+          <div class="mt-auto">
+            <button class="btn btn-success btn-block"
+                    (click)="onNewItem()">
+              Publier une annonce
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-4 d-flex flex-column my-2">
+
+      <div class="card menu-item-option text-center shadow p-3">
+
+        <div>
+
+          <img class="item-option-img my-4" 
+               src="assets/img/online-course-02.png" 
+               width="150"
+               alt="créer une formation en ligne">
+        </div>
+
+        <div class="card-body d-flex flex-column">
+
+          <h6 class="mt-2 mb-5">Vous ne trouvez pas la formation ou l'évènement qu'il vous faut ?</h6>
+    
+          <div class="mt-auto">
+            <button class=" btn btn-success btn-block"
+                    (click)="goToGForm()">
+              Envoyer une demande
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+      
+    </div>
+
+  </div>
+</div>

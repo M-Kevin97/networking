@@ -1,29 +1,28 @@
 #home {
 
-    height: 85vh;
-    padding:0;
+    height: 91vh;
+    background: linear-gradient(10deg, #4BA3CB, #5271FF);
 }
 
 #menu-home {
 
     padding-top: 5vh;
     padding-bottom: 5vh;
-    background-color: white;
 }
 
 .section-menu-home {
 
     margin-top: auto;
     margin-bottom: auto;
+    
+    color: white;
 }
 
-.menu-search-home {
+.home-service-title {
 
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-    margin-left: auto;
-    margin-right: auto;
-    width: 95%;
+    color: white;
+    // color: #5A79F8;
+    // color: rgb(99, 99, 99);
 }
 
 .subtitle {
@@ -33,18 +32,19 @@
 
 .section-search {
 
-    background-color: white;
-
-    height: 5em;
-    width: 85%;
+    height: 7em;
     cursor: pointer;
 
-    border-radius: 2rem;
-    -moz-border-radius: 2rem;
-    -webkit-border-radius: 2rem;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+
+    border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;;
+    -webkit-border-radius: 0.5rem;
 }
 
 .section-search-img {
+
     width: 8vw;
     height: 8vw;
 }
@@ -56,19 +56,15 @@
 
 .section-search:focus, .section-search:hover{
 
-    background-color: #F9FAFB
+    background-color:rgba(224, 221, 221, 0.192);
 }
 
-.section-search:focus, .btn-search:hover{
-
-    background-color:rgba(224, 221, 221, 0.356);
-}
-
-.section-search-events{
-    margin-top: 10vh;
-    margin-bottom: 10vh;
-}
+// .section-search-events {
+//     margin-top: 10vh;
+//     margin-bottom: 10vh;
+// }
 
 .arrow-search-section {
+    
     font-size: 2em;
 }

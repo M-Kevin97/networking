@@ -11,7 +11,7 @@ import { SharedComponent } from './shared.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ImageService } from './service/image/image.service';
+import { ImageService } from './service/media/image/image.service';
 import { ItemService } from './service/item/item.service';
 import { UserService } from './service/user/user.service';
 import { CourseListComponent } from './components/item/course-list/course-list.component';

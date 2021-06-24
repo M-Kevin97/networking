@@ -28,17 +28,16 @@ ItemService {
   itemsSubject = new Subject<Item[]>();
   itemSubject = new Subject<Item>();
 
-  // Cet attribut sert à récupérer l'id du dernier Item créé
-  private _lastItemCreated: Item = null;
+  /**
+   * The variable 'lastItemCreated' is used for the Item (Event or Course) creation, 
+   * To tell itemForm that the Item has been created  
+   */
+  lastItemCreated:EventItem|Course = null;
 
   private db = firebase.database().ref();
   private itemsDB = this.db.child(Database.ITEMS);
   private itemsViewDB = this.db.child(Database.ITEMS_VIEW);
 
-
-  public get lastItemCreated(): Item {
-    return this._lastItemCreated;
-  }
 
   constructor() {
     //this.getItemsFromDB();
@@ -61,7 +60,7 @@ ItemService {
     let ref = this.itemsDB.child(id);
     newCourse.id = id;
 
-    this._lastItemCreated = newCourse;
+    this.lastItemCreated = newCourse;
 
     newCourse.searchContent = this.setSearchContent(newCourse);
 
@@ -111,15 +110,13 @@ ItemService {
     );
   }
 
-  addNewItemToDB(newItem:Course | EventItem): Promise<Course | EventItem> {
+  addNewItemToDB(newItem:Course | EventItem): Promise <Course | EventItem> {
 
     const id = this.itemsDB.push().key;
     let ref = this.itemsDB.child(id);
     newItem.id = id;
 
-    this._lastItemCreated = newItem;
-
-    newItem.searchContent = this.setSearchContent(newItem);
+    newItem.searchContent = this.setSearchContent(newItem);                                                             
 
     let savePromise = null;
     if(newItem instanceof Course) 
@@ -131,6 +128,7 @@ ItemService {
 
     return savePromise.then(
       () => {
+
         let i = 0;
 
         newItem.iAuthors.forEach(function (user) {
@@ -153,9 +151,15 @@ ItemService {
             return null;
           }
         );
-
       }
-    ).catch(
+    )
+    .then(
+      () => {
+        this.lastItemCreated = newItem;
+        this.lastItemCreated.id = id;
+      }
+    )
+    .catch(
       (error) => {
         console.error(error);
         return null;

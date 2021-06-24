@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
-import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ImageService } from 'src/app/shared/service/media/image/image.service';
 
 export interface IHeadUser {
   firstname:string;

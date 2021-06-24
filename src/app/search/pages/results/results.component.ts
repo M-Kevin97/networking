@@ -234,6 +234,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // formatter la requête (retirer les symboles)
   private filterSingleItemWithQuery(item:Course|EventItem, query:string): boolean {
 
     console.warn(item.searchContent,' includes :',query.toLocaleLowerCase(), 
@@ -309,7 +310,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
       (resolve, reject) => {
         if(items){
                 
-
 
         } else reject([]); 
       }

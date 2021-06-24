@@ -1,4 +1,4 @@
-import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ImageService } from 'src/app/shared/service/media/image/image.service';
 import { EDIT_PANE } from './edit-item-pane';
 import { EventItem } from 'src/app/shared/model/item/event-item';
 import { Course } from 'src/app/shared/model/item/course';
@@ -9,6 +9,8 @@ import { Tag } from 'src/app/shared/model/tag/tag';
 import { Module } from 'src/app/shared/model/item/module';
 import * as firebase from 'firebase';
 import { Database } from 'src/app/core/database/database.enum';
+import { FileService } from 'src/app/shared/service/media/file/file.service';
+import { VideoService } from 'src/app/shared/service/media/video/video.service';
 
 @Component({
   selector: 'app-edit-course',
@@ -30,6 +32,8 @@ export class EditCourseComponent implements OnInit, OnChanges {
 
   constructor(private _NgbActiveModal: NgbActiveModal,
               private imageService: ImageService,
+              private videoService: VideoService,
+              private fileService: FileService,
               private itemService:  ItemService) { }
 
   get activeModal() {
@@ -159,6 +163,7 @@ export class EditCourseComponent implements OnInit, OnChanges {
     this.item.srcLink = this.newItem.srcLink || null;
 
     if(this.item instanceof Course && this.newItem instanceof Course){
+    this.item.supportLink = this.newItem.supportLink || null;
     this.item.modules = this.newItem.modules || [];
     this.item.skillsToAcquire = this.newItem.skillsToAcquire || [];
     this.item.prerequisites = this.newItem.prerequisites || [];
@@ -336,6 +341,49 @@ export class EditCourseComponent implements OnInit, OnChanges {
         this.saveCourseContent();
         break;
       }
+      case EDIT_PANE.SUPPORT: {
+
+        this.updateImage().then(
+          (url: string)=>{
+                
+            if(url && url !==''){
+  
+              this.newItem.imageLink = url;
+  
+              // À modifier dans le futur, pour l'instant la video == null
+              this.newItem.videoLink = null;
+            }
+        
+            this.itemService.updateItemPrimaryInfoInDB(this.newItem, 
+              (val) => {
+                if(this.item.imageLink !== Database.DEFAULT_IMG_COURSE 
+                    && this.item.imageLink !== Database.DEFAULT_IMG_EVENT) {
+
+                  const fileRef = firebase.storage().refFromURL(this.item.imageLink);
+                  this.imageService.deleteImageByRef(fileRef,
+                    () => {
+                      this.setItem();
+                      this.displayItemUpdatedAlert();
+                      this.setNotifMedia();
+                    },
+                    (error) => {
+                      console.error(error);
+                    }
+                  );
+                } else {
+                  this.setItem();
+                  this.displayItemUpdatedAlert();
+                  this.setNotifMedia();
+                }
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
+          }
+        );
+        break;
+      }
     }
   }
 
@@ -479,6 +527,13 @@ export class EditCourseComponent implements OnInit, OnChanges {
   getNotifModules(){
     if(this.item instanceof Course) {
       if(this.item.modules && this.item.modules.length) return false;
+      else return true;
+    }
+  }
+
+  getNotifSupport() {
+    if(this.item instanceof Course) {
+      if(this.item.supportLink && this.item.supportLink.length) return false;
       else return true;
     }
   }

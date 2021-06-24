@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-avatar',

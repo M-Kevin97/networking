@@ -2,16 +2,18 @@
 <nav class="navbar navbar-expand-lg sticky-top">
 
   <!-- Image Logo-->
-  <a (click)="goHome()" class="navbar-brand my-auto">
-    <img src="assets/img/logo.png" 
-         width="90" 
-         height="46" 
+  <a (click)="goHome()" 
+     class="navbar-brand my-auto">
+    <img src="assets/img/logo_skilleo_1-0.png" 
+         width="120" 
+         height="29" 
          class="d-inline-block" 
-         alt="">
+         alt="logo skilleo">
   </a>
 
-  <div *ngIf="!isActivate()" 
-       class="sb-section my-auto">
+  <div *ngIf="!displaySearchBar()"
+       class="sb-section my-auto ml-lg-5 ml-md-5">
+
     <app-search-bar2 [height]="'md'">
     </app-search-bar2>
   </div>
@@ -27,18 +29,19 @@
     <span class="navbar-toggler-icon"></span>
   </button>  
 
-  <div class="nav-items-collapse navbar-collapse-nav collapse navbar-collapse justify-content-end" 
+  <div class="collapse navbar-collapse justify-content-end" 
       id="navbarContent"
       [class.collapse]="collapsed">
 
-    <ul class="navbar-items nav navbar-nav justify-content-end my-auto">
+    <ul class="navbar-nav justify-content-end my-auto">
 
-      <!-- Home => Feed -->
+      <!-- Home / Feed -->
       <li *ngIf="isAuth()" 
-          class="nav-item nav-li">
+          class="nav-li">
 
         <a class="nav-link" 
            (click)="goHome()">
+
           <span class="iconify nav-icon" 
                 data-inline="false" 
                 data-icon="ant-design:home-filled">
@@ -46,7 +49,78 @@
         </a>
       </li>
 
-      <ng-template #popContent> 
+      <li class="nav-li nav-li-publish" 
+          routerLinkActive="router-link-active">
+
+        <div class="d-flex align-items-center nav-li-text"
+             (click)="onNewItem()">
+          Déposer une annonce
+        </div>
+      </li>
+
+      <li class="nav-item li-avatar ml-5" 
+          ngbDropdown 
+          display="dynamic" 
+          placement="bottom-right">
+
+        <a class="nav-link a-avatar" 
+           tabindex="0" 
+           ngbDropdownToggle 
+           id="navbar-user-dd">
+
+          <!-- <div class="row justify-content-center align-items-center nav-avatar">
+
+            <div class="col nav-avatar-col border border-danger"> -->
+              <div class="nav-icon-pp">
+
+                <app-user-avatar [photoUrl] = "getUserPpLink() ? '':getUser().ppLink" 
+                                [name]="getUser().firstname +' '+ getUser().lastname"
+                                [border]="'2px solid #2E7B9C'">
+                </app-user-avatar> 
+
+              </div>
+            <!-- </div>
+
+            <div class="col border border-success">
+
+              <div class="nav-avatar-icon text-center border border-warning">
+                <span class="iconify border" 
+                      data-icon="fluent:navigation-20-filled" 
+                      data-inline="false"></span>
+              </div>
+
+            </div>
+          </div> -->
+        </a>
+
+        <div ngbDropdownMenu 
+             class="dropdown-menu"
+             aria-labelledby="navbar-user-dd">
+
+          <a ngbDropdownItem
+              (click)="goToAuthUserPage()">Mon profil</a>
+
+          <!-- <a ngbDropdownItem 
+            (click)="goToAuthUserPage()">Mon panier</a> -->
+
+          <a ngbDropdownItem
+              (click)="goToAuthUserPage()">Mon tableau de bord</a>
+
+          <!-- <a ngbDropdownItem 
+            (click)="goToAuthUserPage()">Mes formations suivies</a> -->
+
+          <!-- <a ngbDropdownItem 
+            (click)="goToAuthUserPage()">Mon agenda</a> -->
+
+          <div class="dropdown-divider"></div>
+          
+          <a ngbDropdownItem
+             (click)="onSignOut()">Se déconnecter</a>
+
+        </div>
+      </li>
+
+      <!-- <ng-template #popContent> 
         <div class="row">
           <div class="col-6">
           <button class="btn pop-content-btn" 
@@ -69,20 +143,15 @@
           </button>
         </div>
         </div>
-      </ng-template>
+      </ng-template> -->
 
       <!-- Create courses events -->
-      <li class="nav-item nav-li" routerLinkActive="router-link-active" 
-                                  [ngbPopover]="popContent" 
-                                  placement="bottom"
-                                  [autoClose]="'outside'">
-        <a class="nav-link">
-          <span class="iconify nav-icon" 
-                data-inline="false" 
-                data-icon="ic:baseline-add-box"></span>
-          <span class="nav-li-text ml-2">Publier</span>
-        </a>
-      </li>
+      <!-- <li class="nav-li nav-li-publish" 
+          routerLinkActive="router-link-active" 
+          [ngbPopover]="popContent" 
+          placement="bottom"
+          [autoClose]="'outside'"> -->
+
 
       <!-- Notifications -->
       <!-- <li *ngIf="isAuth()" class="nav-item nav-li" routerLinkActive="router-link-active">
@@ -91,46 +160,12 @@
         </a>
       </li> -->
 
-      <!-- Lien mon compte / si user est connecté--> 
-      <li *ngIf="isAuth()" 
-          class="nav-item nav-li" 
-          ngbDropdown 
-          display="dynamic" 
-          placement="bottom-right">
-
-        <div class="nav-link nav-icon-pp"> 
-          <!-- <span class="iconify nav-icon" data-inline="false" data-icon="bi:person-fill"></span> -->
-          <app-user-avatar [photoUrl] = "getUserPpLink() ? '':getUser().ppLink" 
-                            [name]="getUser().firstname +' '+ getUser().lastname"
-                            [border]="'1px solid #2E7B9C'">
-          </app-user-avatar>        
-        </div>
-        <div class="nav-link nav-icon-dd">
-          <a tabindex="0" 
-             ngbDropdownToggle 
-             id="navbarDropdown3" 
-             role="button">
-          </a>    
-        </div>
-            
-        <!-- Drop Down Menu-->
-        <div ngbDropdownMenu 
-             aria-labelledby="navbarDropdown1" 
-             class="dropdown-menu">
-
-          <a ngbDropdownItem 
-             (click)="goToAuthUserPage()">Mon profil</a>
-
-          <div class="dropdown-divider"></div>
-          <a ngbDropdownItem 
-             (click)="onSignOut()">Se déconnecter</a>
-        </div>
-      </li>
     </ul>
 
     <!-- Sign In -->
     <div *ngIf="!isAuth()" 
          class="ml-5 my-auto">
+
       <button class="btn btn-signin" 
               (click)="onSignIn()">
         Se connecter

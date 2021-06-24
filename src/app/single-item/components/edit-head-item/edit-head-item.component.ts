@@ -4,7 +4,7 @@ import { ItemService } from 'src/app/shared/service/item/item.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ImageService } from 'src/app/shared/service/media/image/image.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
 import { Tag } from 'src/app/shared/model/tag/tag';

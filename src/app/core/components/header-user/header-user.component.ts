@@ -77,14 +77,13 @@ export class HeaderUserComponent implements OnInit {
       });
   }
 
-  isActivate(){
-    return this.router.url.includes(RouteUrl.HOME.substr(1)) 
-           || (this.router.url.includes(RouteUrl.SEARCH.substr(1)) 
-              && !this.router.url.includes(RouteUrl.RESULTS.substr(1)));
+  displaySearchBar(){
+    return this.router.url.includes(RouteUrl.SEARCH.substr(1)) 
+              && !this.router.url.includes(RouteUrl.RESULTS.substr(1));
   }
 
   goHome() {
-    if (this.authService.isAuth) this.router.navigate([RouteUrl.FEED]);
+    if (this.authService.isAuth) this.router.navigate([RouteUrl.SEARCH]);
     else this.router.navigate([RouteUrl.HOME]);
   }
 
@@ -96,12 +95,16 @@ export class HeaderUserComponent implements OnInit {
     this.router.navigate([RouteUrl.CART]);
   }
 
+  onNewItem() {
+    this.router.navigate([RouteUrl.CREATE_ITEM]);
+  }
+
   onNewCourse() {
-    this.router.navigate([RouteUrl.NEW_COURSE]);
+    // this.router.navigate([RouteUrl.NEW_COURSE]);
   }
 
   onNewEvent() {
-    this.router.navigate([RouteUrl.NEW_EVENT]);
+    // this.router.navigate([RouteUrl.NEW_EVENT]);
   }
 
   goToAdmin() {

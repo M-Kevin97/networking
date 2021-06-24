@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { Course } from './../../../shared/model/item/course';
+import { EventItem } from './../../../shared/model/item/event-item';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { StepState } from '../state-step.enum';
-import { RouteUrl } from 'src/app/core/router/route-url.enum';
+import { Database } from 'src/app/core/database/database.enum';
 
 
 export interface StepForm {
@@ -16,20 +17,26 @@ export interface StepForm {
 })
 export class ItemFormService {
 
-  private _stepFormSubject = new Subject<StepState>();
+  item: EventItem|Course;
+  isItemReviewed: boolean = false;
+  isCourse: boolean = false;
+  isEvent: boolean = false;
+
+  private _itemFormSubject = new Subject<StepState>();
   private _mapStepForms: Map<string, StepForm> = new Map<string, StepForm>();
 
-  constructor(private router:Router) { }
+  constructor() { }
 
   public get mapStepForms(): Map<string, StepForm> {
     return this._mapStepForms;
   }
+  
   public set mapStepForms(value: Map<string, StepForm>) {
     this._mapStepForms = value;
   }
 
-  public get stepFormSubject() {
-    return this._stepFormSubject;
+  public get itemFormSubject() {
+    return this._itemFormSubject;
   }
 
   // add or update a value to a step (title, category, price, media)
@@ -41,99 +48,123 @@ export class ItemFormService {
       value : value
     };
 
-    this.addStepForm(stepState, stepForm);
+    // this.addStepForm(stepState, stepForm);
   }
 
-  private addStepForm(stepState:StepState, stepForm: StepForm){
+  // private addStepForm(stepState:StepState, stepForm: StepForm){
 
-    
-    if(this.mapStepForms.set(stepState, stepForm).has(stepState)){
-      stepForm.status = true;
-     this._stepFormSubject.next(stepState);
-    }
+  //   if(this.mapStepForms.set(stepState, stepForm).has(stepState)){
+  //     stepForm.status = true;
+  //    this._stepFormSubject.next(stepState);
+  //   }
+  // }
+
+  nextForm() {
+
+    this.itemFormSubject.next(StepState.NEXT);
   }
 
-  getStepFormWithStep(step:StepState){
+  getStepFormWithStep(step:StepState) {
 
     return this.mapStepForms.get(step);
   }
 
-  onBackWithoutSave(){
+  onBackWithoutSave() {
 
-    this._stepFormSubject.next(StepState.BACK);
+    this.itemFormSubject.next(StepState.BACK);
   }
 
-  onStartToTheBeginning(){
+  onStartToTheBeginning() {
 
-    this._stepFormSubject.next(StepState.STARTING);
+    this.itemFormSubject.next(StepState.STARTING);
   }
 
   getValueStepForm(): Observable<StepState> {
 
-    return this._stepFormSubject.asObservable();
+    return this.itemFormSubject.asObservable();
   }
 
-  isMediaFormSkip(bool: boolean){
+  isMediaFormSkip(bool: boolean) {
 
     return bool;
   }
 
-  isCourseFormRoute(routeUrl:string){
 
-    return routeUrl.startsWith(RouteUrl.NEW_COURSE);
+
+  isTypeOk() {
+    return (this.item && this.item.type != ''
+                                      && this.item.type != null
+                                      && this.item.type != undefined
+                                      && (this.item.type === Database.COURSE.substr(1)
+                                          || this.item.type === Database.EVENT.substr(1)));
   }
 
-  isCourse(){
-
-    return this.router.url.startsWith(RouteUrl.NEW_COURSE);
-  }
-
-  isEventFormRoute(routeUrl:string){
-
-    return routeUrl.startsWith(RouteUrl.NEW_EVENT);
-  }
-
-  isEvent(){
-
-    return this.router.url.startsWith(RouteUrl.NEW_EVENT);
+  isTitleOk() {
+    return (this.item && this.item.title != ''
+                      && this.item.title != null
+                      && this.item.title != undefined);
   }
 
 
-  isTitleFormRoute(routeUrl:string){
-
-  return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_TITLE 
-        || routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_TITLE;
-
+  isTagsOk()
+  {
+    return (this.item && this.item.tags
+                      && this.item.tags.length > 0);
   }
 
-  isCategoryFormRoute(routeUrl:string){
-  return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_CATEGORY
-        || routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_CATEGORY;
+  isPriceOk()
+  {
+    return (this.item && this.item.price != null
+                      && this.item.price != undefined
+                      && this.item.price > -1);
   }
 
-  isPriceFormRoute(routeUrl:string){
-  return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_PRICE
-        || routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_PRICE;
+  isMediaOk() {
+    return (this.item && this.item.imageLink != null
+                      && this.item.imageLink != undefined
+                      && this.item.imageLink != '');
   }
 
-  isMediaFormRoute(routeUrl:string){
-  return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_MEDIA
-        ||  routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_MEDIA;
-  }
+  isDatesOk() {
 
-  isDatesFormRoute(routeUrl:string){
-    return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_DATES
-            ||  routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_DATES;
-  }
+    if(this.isEvent && this.item instanceof EventItem){
 
-  isLocationFormRoute(routeUrl:string){
-    return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_LOCATION
-            ||  routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_LOCATION;
+      return (this.item && this.item.dates
+                        && this.item.dates != null
+                        && this.item.dates != undefined);
     }
+  }
 
-  isCompleteFormRoute(routeUrl:string){
-  return routeUrl === RouteUrl.NEW_COURSE + RouteUrl.NEW_COMPLETED
-          ||  routeUrl === RouteUrl.NEW_EVENT + RouteUrl.NEW_COMPLETED;
+  isLocationOk()
+  {
+    if(this.isEvent && this.item instanceof EventItem){
+
+      return (this.item && this.item.location
+                        && this.item.location != null
+                        && this.item.location != undefined);
+    }
+  }
+
+  isReviewOk()
+  {
+    if(this.isCourse) {
+
+      return (this.isTypeOk() && this.isTitleOk()
+                              && this.isTagsOk()
+                              && this.isPriceOk()
+                              && this.isMediaOk()
+                              && this.isItemReviewed);
+
+    } else if(this.isEvent) {
+
+      return (this.isTypeOk() && this.isTitleOk()
+                              && this.isTagsOk()
+                              && this.isMediaOk()
+                              && this.isPriceOk()
+                              && this.isDatesOk()
+                              && this.isLocationOk()
+                              && this.isItemReviewed);
+    }
   }
 
   checkKeyInput(event: KeyboardEvent){
@@ -153,7 +184,8 @@ export class ItemFormService {
   }
 
   clearForm() {
-    this.mapStepForms.clear();
-    this.stepFormSubject.complete()
+    // this.mapStepForms.clear();
+    this.item = null;
+    // this.itemFormSubject.complete();
   }
 }

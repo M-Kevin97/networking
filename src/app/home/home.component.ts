@@ -18,8 +18,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() { }
 
-  goToCreateItems() {
-    this.router.navigate([RouteUrl.NEW_COURSE]);
+  goToCreateCourse() {
+    this.router.navigate([RouteUrl.CREATE_ITEM]);
+  }
+
+  goToCreateEvent() {
+    this.router.navigate([RouteUrl.CREATE_ITEM]);
   }
 
   goToSearchPage() {

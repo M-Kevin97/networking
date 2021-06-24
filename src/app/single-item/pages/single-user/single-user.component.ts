@@ -134,11 +134,11 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
 
   onNewCourse() {
-    this.router.navigate([RouteUrl.NEW_COURSE]);
+    this.router.navigate([RouteUrl.NEW_ITEM]);
   }
 
   onNewEvent() {
-    this.router.navigate([RouteUrl.NEW_EVENT]);
+    this.router.navigate([RouteUrl.NEW_ITEM]);
   }
 
   openHeadUserModal(){

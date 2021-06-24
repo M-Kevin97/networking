@@ -40,6 +40,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "ngx-countdown": "^9.0.1",
+    "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-image-compress": "^11.0.3",
     "path": "^0.12.7",
     "popper.js": "^1.16.1",

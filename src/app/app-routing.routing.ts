@@ -1,3 +1,4 @@
+import { CreateComponent } from './create/create.component';
 import { VisitorGuardService } from './core/guards/visitor/visitor-guard.service';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
 import { RouteUrl } from './core/router/route-url.enum';
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: RouteUrl.SEARCH.substr(1), 
     component:  SearchComponent
+  },
+  {
+    path: RouteUrl.CREATE_ITEM.substr(1), 
+    component:  CreateComponent
   },
   {
     path: RouteUrl.FEED.substr(1),  

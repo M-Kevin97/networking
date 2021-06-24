@@ -38,11 +38,11 @@ export class SidebarUserComponent implements OnInit {
   }
 
   newCourse(){
-    this.router.navigate([RouteUrl.NEW_COURSE]);
+    this.router.navigate([RouteUrl.NEW_ITEM]);
   }
   
   newEvent(){
-    this.router.navigate([RouteUrl.NEW_EVENT]);
+    this.router.navigate([RouteUrl.NEW_ITEM]);
   }
 
 }

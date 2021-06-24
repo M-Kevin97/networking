@@ -6,40 +6,56 @@ import { StepState } from '../../shared/state-step.enum';
 @Component({
   selector: 'app-item-title-form',
   templateUrl: './item-title-form.component.html',
-  styleUrls: ['./item-title-form.component.css']
+  styleUrls: ['./item-title-form.component.scss']
 })
 export class ItemTitleFormComponent implements OnInit {
+
+  public get itemFormService(): ItemFormService {
+    return this._itemFormService;
+  }
 
   titleForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private itemFormService: ItemFormService) {}
+              private _itemFormService: ItemFormService) {}
 
   ngOnInit() {
     this.titleForm = this.formBuilder.group({
       title: ['',[Validators.required]]
     });
 
-    // sinon si l'élément Price a été créé
-    if(this.itemFormService.mapStepForms.has(StepState.TITLE)){
-    if(this.itemFormService.getStepFormWithStep(StepState.TITLE).status){
-        this.onRestoreTitleForm(this.itemFormService.getStepFormWithStep(StepState.TITLE).value);
-      }
-    }
-    // sinon si les éléménts précédents n'ont pas été créé, retourner au début
-    else if (this.itemFormService.mapStepForms.size === 0){
-      this.itemFormService.onStartToTheBeginning();
+    //if the item's type had been created
+    if(this.itemFormService.isTitleOk())  this.onRestoreTitleForm(this.itemFormService.item.title);
+    // else if the earlier elements had not been created, retun to the start
+    else if(!this.itemFormService.isTypeOk()) {
+      
+      this.itemFormService.onBackWithoutSave();
+      // this.itemFormService.onStartToTheBeginning();
     }
     // sinon retourner à l'élément précédent
-    else {
-      this.itemFormService.onBackWithoutSave();
-    }
+    // else {
+    //   this.itemFormService.onBackWithoutSave();
+    // }
+  }
+
+  getTitlePlaceholder() {
+    if(this.itemFormService.isCourse) return "Saisissez le titre de votre formation...";
+    else if(this.itemFormService.isEvent) return "Saisissez le titre de votre évènement...";
   }
 
   onSetTitle() {
 
     const title = this.titleForm.get('title').value;
-    this.itemFormService.setFormWithStepState(StepState.TITLE, title);
+    //this.itemFormService.setFormWithStepState(StepState.TITLE, title);
+
+    this.itemFormService.item.title = title;
+
+    this.itemFormService.nextForm();
+  }
+
+  onBack() {
+    
+    this.itemFormService.onBackWithoutSave()
   }
 
   onRestoreTitleForm(value:string){

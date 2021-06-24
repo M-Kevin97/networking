@@ -6,13 +6,13 @@ import { Subscription } from 'rxjs';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
 import { Database } from 'src/app/core/database/database.enum';
-import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ImageService } from 'src/app/shared/service/media/image/image.service';
 
 
 @Component({
   selector: 'app-item-media-form',
   templateUrl: './item-media-form.component.html',
-  styleUrls: ['./item-media-form.component.css']
+  styleUrls: ['./item-media-form.component.scss']
 })
 export class ItemMediaFormComponent implements OnInit, OnDestroy {
 
@@ -40,20 +40,27 @@ export class ItemMediaFormComponent implements OnInit, OnDestroy {
       image: ['',[Validators.required]]
     });
 
-    // sinon si l'élément media a été créé le supprimé ?
-    if(this.itemFormService.mapStepForms.has(StepState.MEDIA)){
-      if(this.itemFormService.getStepFormWithStep(StepState.MEDIA).status){
-        // this.onRestoreMediaForm(this.itemFormService.getStepFormWithStep(StepState.MEDIA).value);
-      }
-    }
-    // si les éléménts précédents n'ont pas été créé, retourner au début
-    if (this.itemFormService.mapStepForms.size === 0){
-      this.itemFormService.onStartToTheBeginning();
+    // // sinon si l'élément media a été créé le supprimé ?
+    // if(this.itemFormService.mapStepForms.has(StepState.MEDIA)){
+    //   if(this.itemFormService.getStepFormWithStep(StepState.MEDIA).status){
+    //     // this.onRestoreMediaForm(this.itemFormService.getStepFormWithStep(StepState.MEDIA).value);
+    //   }
+    // }
+    // // si les éléménts précédents n'ont pas été créé, retourner au début
+    // if (this.itemFormService.mapStepForms.size === 0){
+    //   this.itemFormService.onStartToTheBeginning();
+    // }
+
+    //if the item's type had been created
+    if(this.itemFormService.isMediaOk())  this.onRestoreMediaForm(this.itemFormService.item.imageLink);
+    // else if the earlier elements had not been created, retun to the start
+    else if(!this.itemFormService.isPriceOk()) {
+      this.itemFormService.onBackWithoutSave();
+    } else {
+      if(this.itemFormService.isCourse) this.urlImagePreview = Database.DEFAULT_IMG_COURSE;
+      else if(this.itemFormService.isEvent) this.urlImagePreview = Database.DEFAULT_IMG_EVENT;
     }
 
-    if(this.itemFormService.isCourse()) this.urlImagePreview = Database.DEFAULT_IMG_COURSE;
-    else if(this.itemFormService.isEvent()) this.urlImagePreview = Database.DEFAULT_IMG_EVENT;
-    
     this.getImagePreviewFromService();
   }
 
@@ -81,7 +88,9 @@ export class ItemMediaFormComponent implements OnInit, OnDestroy {
 
   onSetMedia(){
 
-    this.itemFormService.setFormWithStepState(StepState.MEDIA, this.urlImagePreview);
+    //this.itemFormService.setFormWithStepState(StepState.MEDIA, this.urlImagePreview);
+    this.itemFormService.item.imageLink = this.urlImagePreview;
+    this.itemFormService.nextForm();
   }
 
   onBack() {

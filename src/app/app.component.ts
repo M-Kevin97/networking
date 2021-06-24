@@ -33,8 +33,21 @@ export class AppComponent {
       messagingSenderId: "156096192940",
       appId: "1:156096192940:web:aa59dea901f2da043c5a09"
     };
+    
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+  }
+
+  display()
+  {
+    return (!this.isAuthRoute() && !this.isNewItemRoute()
+                                && !this.router.url.includes(RouteUrl.CREATE_ITEM) 
+                                && !this.router.url.includes(RouteUrl.LANDING_PAGE));
+  }
+
+  isAuth()
+  {
+    return this.authService.isAuth;
   }
 
   private isAuthRoute() {
@@ -43,17 +56,11 @@ export class AppComponent {
                                                      || this.router.url.includes(RouteUrl.PASSWORD_FORGOTTEN));
   }
 
-  display()
-  {
-    return (!this.isAuthRoute() && !this.isNewItemRoute());
-  }
-
-  isAuth()
-  {
-    return this.authService.isAuth;
-  }
-
   isNewItemRoute() {
     return this.router.url.startsWith(RouteUrl.NEW_ITEM);
+  }
+
+  isLandingPageRoute() {
+    return this.router.url.startsWith(RouteUrl.HOME);
   }
 }

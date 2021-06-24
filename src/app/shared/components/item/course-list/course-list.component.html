@@ -1,13 +1,25 @@
-<div *ngIf="course" class="row item-list my-4">
-  <div class="item-list-img item-click col-3"
+<div *ngIf="course" 
+     class="row item-list py-3">
+     
+  <div class="col-3 text-center align-items-center item-click"
        (click)="onConsultCourse(course)">
-    <img *ngIf="course.imageLink" class="img" [src]="course.imageLink">
+
+    <div class="my-auto">
+      <img *ngIf="course.imageLink" 
+           class="item-list-img" 
+           [src]="course.imageLink">
+    </div>
+
   </div>
   <div class="col-7">
-    <div class="item-click" (click)="onConsultCourse(course)">
+
+    <div class="item-click" 
+         (click)="onConsultCourse(course)">
+
       <h5>{{ course.title }}</h5>
       <p>{{ course.catchPhrase }}</p>
     </div>
+
    <app-rating *ngIf="course.globalNote"
                 [style]="0" 
                 [nbRatings]="course.nbRatings" 
@@ -15,6 +27,7 @@
                 (click)="onConsultCourse(course)"
                 [size]="1">
     </app-rating>
+
     <div *ngIf="course.iAuthors.length" class="course-section-auteur">
       <span class="course-author-name">
         <a [href]="'/user/'+course.iAuthors[0].id" class="item-p">

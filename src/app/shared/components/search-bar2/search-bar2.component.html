@@ -2,10 +2,12 @@
   <div class="col-12 sb">
     <form [formGroup]="searchForm" 
           action=""
-          class="search-form my-auto nav-search"
+          class="search-form nav-search"
           (ngSubmit)="searchQuery()">
 
-      <div class="form-group has-feedback">
+      <div class="form-group"
+           style="margin-bottom: 0;">
+
         <div class="input-group">
 
           <!-- Search bar-->
@@ -14,7 +16,7 @@
                   class="form-control input-search search-bar-elem" 
                   name="search" 
                   id="search" 
-                  placeholder="Rechercher"
+                  placeholder="Rechercher les compétences qu'ils vous faut"
                   (input)="onSuggestTags()"
                   (focus)="setTagsSuggestedWithInputFocus()"
                   (focusout)="setTagsSuggestedWithInputFocusOut()"

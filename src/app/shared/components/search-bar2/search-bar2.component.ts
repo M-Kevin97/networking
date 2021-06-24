@@ -91,7 +91,7 @@ export class SearchBar2Component implements OnInit, AfterViewInit {
   getHeight() {
     switch (this.height) {
       case 'lg':
-        return '3.2rem';
+        return '3.6rem';
       case 'md':
         return '2.8rem';
       case 'sm':

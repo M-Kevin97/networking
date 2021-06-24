@@ -61,7 +61,7 @@ export class LoginBoxComponent implements OnInit {
     
     this.authService.login(email, password.toString()).then(
       () => {
-        this.router.navigate([RouteUrl.FEED]);
+        this.router.navigate([RouteUrl.SEARCH]);
       }
     ).catch(
       (error) => {

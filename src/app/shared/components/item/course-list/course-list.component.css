@@ -1,7 +1,15 @@
 .item-list {
 
-    /* height: 10rem; */
+    -webkit-box-shadow: 0px 0px 13px -6px rgba(0,0,0,0.67); 
+    box-shadow: 0px 0px 13px -6px rgba(0,0,0,0.67);
+
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+
     background-color: white;
+
+    height: 25vh;
 }
 
 .item-click {
@@ -10,21 +18,17 @@
 }
 
 .item-list-img {
-/* 
-    height: 90%;
-    width: 90%; */
-
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.item-list-img > img{
-    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    /* border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
     -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
     -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
 
     width: 13rem;
-    height: 8rem;
+    height: 8rem; */
+
+
+    max-width: 100%;
+    max-height: 20vh;
+        
 }
 
 .item-p {

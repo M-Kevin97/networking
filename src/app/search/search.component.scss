@@ -1,22 +1,35 @@
 #search {
 
-  height: 65vh;
+  height: 100%;
 }
 
 .sb-section {
-  margin-top: 18vh;
+
+  margin-top: 3vh;
+  padding-top: 8vh;
+  padding-bottom: 8vh;
+
+  background: linear-gradient(10deg, #5271FF,  #4BA3CB);
+
+  -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+  border-radius: 10px;
+
+  // border-bottom-left-radius: 50% 8%;
+  // border-bottom-right-radius: 50% 8%;
 }
 
 .search-bar {
   
-  width: 80%;
+  width: 85%;
 
   margin-left: auto;
   margin-right: auto;
 }
 
 .categories-card-row {
-  width:90%;
+
+  width:100%;
   margin-top: 6vh;
   margin-left: auto;
   margin-right: auto;
@@ -30,8 +43,9 @@
 
 .card-cat {
 
-  height:10em;
-  width:10em;
+  height: 12em;
+  min-width: 12em;
+
   margin-left: auto;
   margin-right: auto;
 }
@@ -44,15 +58,15 @@
 
 .card-img {
 
-  height: 60%;
+  height: 100%;
 }
 
 .card-title {
 
-  font-weight: 500;
-  font-size: small;
-  margin-left: auto;
-  margin-right: auto;
+  font-weight: 450;
+  font-size: 1.2rem;
+
+  margin-top: 1vh;
 }
 
 .card-cat:hover {

@@ -6,7 +6,7 @@ import { StepState } from '../../shared/state-step.enum';
 @Component({
   selector: 'app-item-price-form',
   templateUrl: './item-price-form.component.html',
-  styleUrls: ['./item-price-form.component.css'],
+  styleUrls: ['./item-price-form.component.scss'],
 })
 export class ItemPriceFormComponent implements OnInit {
 
@@ -25,16 +25,20 @@ export class ItemPriceFormComponent implements OnInit {
       price: ['',Validators.required]
     });
 
-    // sinon si l'élément Price a été créé
-    if(this.itemFormService.mapStepForms.has(StepState.PRICE)){
-      if(this.itemFormService.getStepFormWithStep(StepState.PRICE).status){
-        this.onRestoreTitleForm(this.itemFormService.getStepFormWithStep(StepState.PRICE).value);
-      }
+    //if the item's type had been created
+    if(this.itemFormService.isPriceOk())  this.onRestorePriceForm(this.itemFormService.item.price);
+    // else if the earlier elements had not been created, retun to the start
+    else if(!this.itemFormService.isTagsOk()) {
+      this.itemFormService.onBackWithoutSave();
     }
-    // sinon si les éléménts précédents n'ont pas été créé, retourner au début
-    else if (this.itemFormService.mapStepForms.size === 0){
-      this.itemFormService.onStartToTheBeginning();
-    }
+    // else {
+    //   this.itemFormService.onStartToTheBeginning();
+    // }
+  }
+
+  getPricePlaceholder() {
+    if(this.itemFormService.isCourse) return "Saisissez le titre de votre formation...";
+    else if(this.itemFormService.isEvent) return "Saisissez le titre de votre évènement...";
   }
 
   onSetPrice() {
@@ -44,7 +48,10 @@ export class ItemPriceFormComponent implements OnInit {
     if(n<0) {
       n = 0;
     }
-    this.itemFormService.setFormWithStepState(StepState.PRICE, n);
+    // this.itemFormService.setFormWithStepState(StepState.PRICE, n);
+    this.itemFormService.item.price = n;
+
+    this.itemFormService.nextForm();
   }
 
   onBack() {
@@ -52,7 +59,7 @@ export class ItemPriceFormComponent implements OnInit {
     this.itemFormService.onBackWithoutSave()
   }
 
-  onRestoreTitleForm(value: string){
+  onRestorePriceForm(value: number){
 
     this.priceForm.patchValue({price: value});
   }

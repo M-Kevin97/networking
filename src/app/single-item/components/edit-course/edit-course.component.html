@@ -137,6 +137,24 @@
 
           <a  *ngIf="isCourse()"
               class="nav-link s-item-link" 
+              [ngClass]="{  'active': activePane === getPane().SUPPORT}" 
+              (click)="activePane = getPane().SUPPORT"
+              id="v-pills-support-tab" 
+              data-toggle="pill" 
+              href="#v-pills-support" 
+              role="tab" 
+              aria-controls="v-pills-support" 
+              aria-selected="false">
+            Support
+            <span *ngIf="getNotifSupport()"
+                  class="pull-right">
+                <span class="badge badge-danger">1</span>
+                <span class="sr-only">missing</span>
+            </span>
+          </a>
+
+          <a  *ngIf="isCourse()"
+              class="nav-link s-item-link" 
               [ngClass]="{  'active': activePane === getPane().MODULES }" 
               (click)="activePane = getPane().MODULES; isSideBarCollapsed = true;"
               id="v-pills-modules-tab" 
@@ -157,6 +175,7 @@
       </div>
 
     </nav>
+    
     <div class="pull-right col-lg-9 col-md-8"
          [ngClass]="{ 
             'col-lg-12': isSideBarCollapsed,
@@ -229,6 +248,20 @@
 
           <app-edit-prerequisites [course]="getCourse()">
           </app-edit-prerequisites>
+        </div>
+
+        <div  *ngIf="isCourse()"
+              class="tab-pane fade" 
+              [ngClass]="{  
+                'show': activePane === getPane().SUPPORT,
+                'active': activePane === getPane().SUPPORT
+              }"
+              id="v-pills-support" 
+              role="tabpanel" 
+              aria-labelledby="v-pills-support-tab">
+
+          <app-edit-support [course]="getCourse()">
+          </app-edit-support>
         </div>
 
         <div  *ngIf="isCourse()"

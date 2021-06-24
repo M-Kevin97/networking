@@ -1,0 +1,49 @@
+<!-- Section Type -->
+<div class="row align-items-center justify-content-center pt-5">
+  <div class="col-lg-8 col-md-10 col-sm-12 text-center">
+    <h3 class="head-item-form">Que souhaitez-vous publier ?</h3>
+
+    <form [formGroup]="typeForm" 
+          role="form" 
+          class="form-item form-item-label">
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" 
+                type="radio" 
+                formControlName="type"
+                name="type" 
+                id="courseRadio" 
+                value="course">
+
+        <label class="form-check-label" 
+                for="courseRadio">
+          Une formation
+        </label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" 
+                type="radio" 
+                name="type" 
+                formControlName="type"
+                id="eventRadio" 
+                value="event">
+
+        <label class="form-check-label" 
+                for="eventRadio">
+          Un événement
+        </label>
+      </div>
+    </form>
+    <ul class="nav nav-item btns-item-form justify-content-end mx-auto">
+      <li>
+        <button type="button" id="continue" 
+                              class="btn btn-default btn-next" 
+                              *ngIf="!typeForm.invalid"
+                              (click)="onSetType()">
+          Continuer
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

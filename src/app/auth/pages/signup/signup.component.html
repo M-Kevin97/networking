@@ -1,26 +1,33 @@
 <div class="auth-section h-100 row align-items-center justify-content-center text-center">
     <div class="col-lg-5 col-md-6 col-sm-10">
 
-        <div *ngIf="isVerificationEmailSent" 
-             class="alert alert-success" 
-             role="alert">
-            <p>
-                Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui a été envoyé par mail.
-            </p>
+        <div class="auth-title">
+       
+            <a routerLink='/home' 
+               routerLinkActive="router-link-active">
+
+                <img src="assets/img/logo_skilleo_1-0.png" 
+                     width="200"  
+                     class="d-inline-block mb-4" 
+                     alt="logo skilleo">
+            </a>
         </div>
 
-        <div class="auth-title">
-            <!-- À modifier (Image logo Nom de la plateforme)-->
-            <a routerLink='/home' routerLinkActive="router-link-active">
-                <img src="assets/img/logo.png" width="90" height="60" class="d-inline-block" alt="">
-            </a>
+        <h4 class="catch-p">La solution digitale pour partager vos connaissances</h4>
+
+        <div *ngIf="isVerificationEmailSent" 
+             class="alert alert-success mt-4" 
+             role="alert">
+            <p>
+                Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui vous a été envoyé par mail.
+            </p>
         </div>
     </div>
 
-    <div class="auth-body col-lg-5 col-md-5 col-sm-10">
+    <div class="auth-body col-lg-4 col-md-5 col-sm-10 py-4 px-3">
 
-        <div class="auth-content justify-content-center mt-4">
-            <div class="signup-block align-self-center justify-content-center text-center px-4 py-3 shadow rounded">
+        <div class="auth-content justify-content-center">
+            <div class="signup-block block-sign justify-content-center text-center px-4 py-3 shadow">
 
                 <div class="row btn-sigin-with btn-google-signin rounded shadow-sm w-80" 
                     (click)="onGoogleSignUpWithPopUp()">
@@ -63,7 +70,7 @@
                             Adresse mail
                             <span style="color: rgb(247, 103, 103);">*</span>
                         </label>
-                        <input type="email" class="form-control" 
+                        <input type="email" class="form-control input-sign" 
                                             [ngClass]="{ 'is-invalid': shouldShowRequiredError('email') || shouldShowSignUpError('email') }"
                                             formControlName="email"
                                             id="email" 
@@ -94,7 +101,7 @@
                             Confirmer l'adresse mail
                             <span style="color: rgb(247, 103, 103);">*</span>
                         </label>
-                        <input type="email" class="form-control" 
+                        <input type="email" class="form-control input-sign" 
                                             [ngClass]="{ 'is-invalid': shouldShowRequiredError('confirmEmail') || shouldShowSignUpError('confirmEmail') }"
                                             formControlName="confirmEmail"
                                             id="confirmEmail" 
@@ -113,7 +120,7 @@
                     </div>
             
                     
-                    <button type="submit" class="btn btn-primary btn-lg btn-block mt-3"
+                    <button type="submit" class="btn-subscribe btn btn-primary btn-lg btn-block mt-3"
                                             [disabled] = "signUpForm.invalid || errorConfirmEmailMessage 
                                                                              || errorEmail
                                                                              || errorGeneral"
@@ -125,7 +132,7 @@
                 <hr class="my-3">
 
                 <p><small>Vous avez déjà un compte ?</small></p>
-                <button type="submit" class="btn btn-success btn-lg btn-block"
+                <button type="submit" class="btn-login btn btn-lg btn-block"
                                       (click)="goToSignIn()">
                     Se connecter
                 </button>

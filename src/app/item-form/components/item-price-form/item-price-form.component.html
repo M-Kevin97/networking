@@ -1,41 +1,43 @@
 <!-- Section Price -->
-<div class="tab-pane" role="tabpanel" id="step3">
+<div class="row align-items-center justify-content-center pt-5">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+        <h3 class="head-item-form">
+            Quel est le prix de votre <span *ngIf="itemFormService.isEvent">évènement</span><span *ngIf="itemFormService.isCourse">formation</span> ?
+        </h3>
+        <form [formGroup]="priceForm" role="form" class="form-item">
+            <div class="input-group">
+                <input type="number" 
+                       class="form-control" 
+                       formControlName = "price"
+                       min="0"
+                       id="price" 
+                       pattern="\d+(?:[.,]\d{1,2})?"
+                       onkeydown="return (event.keyCode !== 69 
+                                            && event.keyCode !== 187
+                                            && event.keyCode !== 189)"
+                       aria-label="Amount (to the nearest dollar)"
+                       [placeholder]=getPricePlaceholder()>
 
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <h3 class="head-item-form">Quel est le prix de votre formation ?</h3>
-            <form [formGroup]="priceForm" role="form" class="form-item">
-                <div class="input-group">
-                    <input type="number" class="form-control form-control-lg" formControlName = "price"
-                                                    min="0"
-                                                    id="price" 
-                                                    pattern="\d+(?:[.,]\d{1,2})?"
-                                                    onkeydown="return (event.keyCode !== 69 
-                                                                       && event.keyCode !== 187
-                                                                       && event.keyCode !== 189)"
-                                                    aria-label="Amount (to the nearest dollar)"
-                                                    placeholder="Saisissez le prix de votre formation...">
-                    <div class="input-group-append">
-                        <span class="input-group-text">€</span>
-                    </div>
+                <div class="input-group-append">
+                    <span class="input-group-text">€</span>
                 </div>
-            </form>
-            <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
-                <li>
-                    <button type="button" class="btn btn-default btn-prev" 
-                                          (click)="onBack()">
-                        Précédent
-                    </button>
-                </li>
-                <li>
-                    <button type="button" id="continue" 
-                                          class="btn btn-default btn-next" 
-                                          *ngIf="!priceForm.invalid"
-                                          (click)="onSetPrice()">
-                        Continuer
-                    </button>
-                </li>
-            </ul>
-        </div>
+            </div>
+        </form>
+        <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
+            <li>
+                <button type="button" class="btn btn-default btn-prev" 
+                                        (click)="onBack()">
+                    Précédent
+                </button>
+            </li>
+            <li>
+                <button type="button" id="continue" 
+                                        class="btn btn-default btn-next" 
+                                        *ngIf="!priceForm.invalid"
+                                        (click)="onSetPrice()">
+                    Continuer
+                </button>
+            </li>
+        </ul>
     </div>
 </div>

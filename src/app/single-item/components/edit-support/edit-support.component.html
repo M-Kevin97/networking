@@ -1,0 +1,27 @@
+<form [formGroup]="editSupportForm" 
+      role="form" 
+      class="form-item">
+
+  <div class="body-section">
+    <h5>
+      <span class="iconify mr-2" 
+            data-icon="fe:picture" 
+            data-inline="false">
+      </span>
+      Support de formation
+    </h5>
+    <hr class="separation-line"> <!-- separation line -->
+
+    <span class="iconify" 
+          data-icon="mdi-upload" 
+          data-inline="false">
+    </span>
+
+    <button class="btn btn-success btn-block"
+            (click)="goToGForm()">
+      Télécharger le support de formation
+    </button>
+    <small>Le support peut être sous le format : PDF ou Video </small>
+
+  </div>
+</form>

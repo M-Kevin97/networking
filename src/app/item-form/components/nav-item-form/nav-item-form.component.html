@@ -1,64 +1,117 @@
-<ul class="nav nav-item justify-content-center mx-auto">
-  <!-- Create title  -->
-  <li role="presentation">
-    <a (click)="goToTitleForm()" title="Titre" 
-                                  class="nav-link"
-                                  [ngClass]="isTitleOk() ? 'active' : 'disabled'">
-      <span class="iconify" data-icon="bx:bxs-pencil" data-inline="false"></span>
-    </a>
-  </li>
+<!-- nav -->
+<div class="nav-item-form nav border rounded">
 
-  <!-- Create category  -->
-  <li role="presentation">
-    <a (click)="goToCategoryForm()" title="Tags" 
-                                    class="nav-link"
-                                    [ngClass]="isCategoryOk()? 'active' : 'disabled'">
-      <span class="iconify" data-icon="foundation:list-thumbnails" data-inline="false"></span>
-      </a>
-  </li>
+  <a title="Type"
+     class="nav-link pl-4 active"
+     [ngClass]="isTypeNavOk() ? 'active' : 'disabled'"
+     (click)="goToTypeItemForm()">
 
-  <!-- Create price  -->
-  <li role="presentation">
-    <a (click)="goToPriceForm()" title="Prix" 
-                                  class="nav-link"
-                                  [ngClass]="isPriceOk() ? 'active' : 'disabled'">
-      <span class="iconify" data-icon="zmdi:label" data-inline="false"></span>
-    </a>
-  </li>
+    <span class="iconify mr-2" 
+          data-icon="tabler:select" 
+          data-inline="false"></span>
 
-  <!-- Create media  -->
-  <li role="presentation">
-    <a (click)="goToMediaForm()" title="Image et Vidéo" 
-                                  class="nav-link"
-                                  [ngClass]="isMediaOk() ? 'active' : 'disabled'">
-      <span class="iconify" data-icon="fe:picture" data-inline="false"></span>
-    </a>
-  </li>
+    <span>Type</span>
+  </a>
 
-    <!-- Create date event -->
-    <li role="presentation" *ngIf="isEventForm()">
-      <a (click)="goToDatesForm()" title="Dates" 
-                                    class="nav-link"
-                                    [ngClass]="isDatesOk() ? 'active' : 'disabled'">
-        <span class="iconify" data-icon="bx:bx-calendar" data-inline="false"></span>
-      </a>
-    </li>
+  <a title="Titre"
+     class="nav-link pl-4"
+     [ngClass]="isTitleNavOk() ? 'active' : 'disabled'"
+     (click)="goToTitleForm()">
 
-    <!-- Create location event -->
-    <li role="presentation" *ngIf="isEventForm()">
-      <a (click)="goToLocationForm()" title="Lieu" 
-                                      class="nav-link"
-                                      [ngClass]="isLocationOk() ? 'active' : 'disabled'">
-        <span class="iconify" data-icon="heroicons-solid:location-marker" data-inline="false"></span>
-      </a>
-    </li>
+    <span class="iconify mr-2" 
+          data-icon="bx:bxs-pencil" 
+          data-inline="false"></span>
 
-  <!-- Complete create item -->
-  <li role="presentation">
-    <a (click)="goToCompleteForm()" title="Résumé" 
-                                    class="nav-link"
-                                    [ngClass]="isCompleteOk() ? 'active' : 'disabled'">
-      <span class="iconify" data-icon="el:ok" data-inline="false"></span>
-    </a>
-  </li>
-</ul>  
+    <span>
+      Titre
+    </span>
+  </a>
+      
+  <a title="Tags"
+     class="nav-link pl-4" 
+     [ngClass]="isTagsNavOk() ? 'active' : 'disabled'"
+     (click)="goToTagsForm()">
+
+      <span class="iconify mr-2" 
+            data-icon="foundation:list-thumbnails" 
+            data-inline="false"></span>
+
+      <span>
+        Tags
+      </span>
+  </a>
+
+  <a title="Prix"
+     class="nav-link pl-4"
+     (click)="goToPriceForm()" 
+     [ngClass]="isPriceNavOk() ? 'active' : 'disabled'">
+     
+     <span class="iconify mr-2" 
+           data-icon="zmdi:label" 
+           data-inline="false"></span>
+
+     <span>
+      Prix
+    </span>
+  </a>
+
+
+  <a title="Image"
+     class="nav-link pl-4" 
+     (click)="goToMediaForm()" 
+     [ngClass]="isMediaNavOk() ? 'active' : 'disabled'" 
+     id="v-pills-media-tab">
+
+    <span class="iconify mr-2" 
+          data-icon="fe:picture"
+          data-inline="false"></span>
+
+    <span>
+      Media
+    </span>
+  </a>
+
+  <a *ngIf="itemFormService.isEvent"
+     title="Dates"
+     class="nav-link pl-4" 
+     (click)="goToDatesForm()" 
+     [ngClass]="isDatesNavOk() ? 'active' : 'disabled'">
+
+    <span class="iconify mr-2" 
+          data-icon="bx:bx-calendar" 
+          data-inline="false"></span>
+
+    <span>
+      Dates
+    </span>
+  </a>
+
+  <a *ngIf="itemFormService.isEvent"
+     title="Location"
+     class="nav-link pl-4" 
+     (click)="goToLocationForm()" 
+     [ngClass]="isLocationNavOk() ? 'active' : 'disabled'">
+
+    <span class="iconify mr-2" 
+          data-icon="heroicons-solid:location-marker" 
+          data-inline="false">
+    </span>
+    <span>
+      Lieu
+    </span>
+  </a>
+
+  <a title="Revue"
+    class="nav-link pl-4" 
+    (click)="goToReview()" 
+    [ngClass]="isReviewNavOk() ? 'active' : 'disabled'">
+
+    <span class="iconify mr-2" 
+          data-icon="el:ok" 
+          data-inline="false">
+    </span>
+    <span>
+      Revue
+    </span>
+  </a>
+</div>

@@ -1,0 +1,19 @@
+.icon-exit{
+    width: 5vw;
+    height: 5vw;
+    color: #9A9A9A;
+}
+
+.item-form-body{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+@media only screen and (max-width: 600px) {
+
+
+    .icon-exit{
+        width: 7vw;
+        height: 7vw;
+    }
+}

@@ -26,6 +26,14 @@ export class Course extends Item {
         this._nbClick = value;
     }
 
+    public get supportLink(): string {
+        return this._supportLink;
+    }
+    public set supportLink(value: string) {
+        this._supportLink = value;
+    }
+
+
     public get globalNote(): number {
         return this._globalNote;
     }
@@ -76,6 +84,7 @@ export class Course extends Item {
                 private _skillsToAcquire: string[],
                 private _prerequisites: string[],
                 private _ratings: Rating[],
+                private _supportLink: string, 
                 private _nbClick?: number,
                 imageLink?: string,
                 videoLink?: string,
@@ -107,29 +116,30 @@ export class Course extends Item {
     public static copyCourse(course:Course) {
 
         return new Course(course.id,
-                            course.type,
-                            course.title,
-                            course.category,
-                            course.tags,
-                            course.catchPhrase,
-                            course.description,
-                            course.price,
-                            course.iAuthors,
-                            course.creationDate,
-                            course.published,
-                            course.modules,
-                            course.searchContent,
-                            course.data,
-                            course.consultationLink,
-                            course.skillsToAcquire,
-                            course.prerequisites,
-                            course.ratings,
-                            course._nbClick,
-                            course.imageLink,
-                            course.videoLink,
-                            course.srcLink,
-                            course.nbRatings,
-                            course.globalNote);
+                          course.type,
+                          course.title,
+                          course.category,
+                          course.tags,
+                          course.catchPhrase,
+                          course.description,
+                          course.price,
+                          course.iAuthors,
+                          course.creationDate,
+                          course.published,
+                          course.modules,
+                          course.searchContent,
+                          course.data,
+                          course.consultationLink,
+                          course.skillsToAcquire,
+                          course.prerequisites,
+                          course.ratings,
+                          course.supportLink,
+                          course.nbClick,
+                          course.imageLink,
+                          course.videoLink,
+                          course.srcLink,
+                          course.nbRatings,
+                          course.globalNote);
     }
 
     getICourse(){
@@ -242,6 +252,7 @@ export class Course extends Item {
                           json['skillsToAcquire'] || [],
                           json['prerequisites'] || [],
                           Rating.ratingsFromJson(json['ratings']) || [],
+                          json['supportLink'] || null,
                           json['views'] || [],
                           json['imageLink'] || null,
                           json['videoLink'] || null,

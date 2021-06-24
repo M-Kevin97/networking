@@ -1,8 +1,15 @@
 
-<div *ngFor="let item of items; let isLast = last;" class="item-list my-3">
-  <app-course-list *ngIf="isCourse(item)" [course]=item></app-course-list>
-  <app-event-list *ngIf="isEvent(item)" [event]=item></app-event-list>
-  <hr class="separator-line" *ngIf="!isLast"> <!-- separation line -->
+<div *ngFor="let item of items; let isLast = last;" 
+     class="item-list my-3 py-1">
+  <app-course-list *ngIf="isCourse(item)" 
+                   [course]=item>
+  </app-course-list>
+  <app-event-list *ngIf="isEvent(item)" 
+                  [event]=item>
+  </app-event-list>
+
+  <!-- separation line -->
+  <!-- <hr class="separator-line" *ngIf="!isLast"> -->
 </div>
 
 

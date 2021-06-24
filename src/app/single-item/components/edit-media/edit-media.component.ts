@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Course } from 'src/app/shared/model/item/course';
 import { EventItem } from 'src/app/shared/model/item/event-item';
 import { Item } from 'src/app/shared/model/item/item';
-import { ImageService } from 'src/app/shared/service/image/image.service';
+import { ImageService } from 'src/app/shared/service/media/image/image.service';
 import { ItemService } from 'src/app/shared/service/item/item.service';
 
 @Component({

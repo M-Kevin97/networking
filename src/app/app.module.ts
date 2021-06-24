@@ -12,6 +12,7 @@ import { ItemFormModule } from './item-form/item-form.module';
 import { SearchModule } from './search/search.module';
 import { SharedModule } from './shared/shared.module';
 import { SingleItemModule } from './single-item/single-item.module';
+import { CreateComponent } from './create/create.component';
 
 // Web app's Firebase configuration
 var firebaseConfig = {
@@ -27,9 +28,10 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 @NgModule({
-   declarations: [
+   declarations: [		
       AppComponent,
       HomeComponent,
+      CreateComponent
    ],
    imports: [
       SharedModule,

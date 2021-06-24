@@ -1,51 +1,88 @@
 <!-- Section Price -->
-<div class="tab-pane" role="tabpanel" id="step3">
+<div class="row align-items-center justify-content-center">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+        <h3 class="head-item-form">
+          Quelle est la date de votre évènement ?
+        </h3>        
+        
+        <form [formGroup]="datesForm" role="form" class="form-item">
 
-  <div class="row justify-content-center">
-      <div class="col-8">
-          <h3 class="head-item-form">Quelle est la date de votre évènement ?</h3>
-          <form [formGroup]="datesForm" role="form" class="form-item">
+          <!-- start of event date & hour -->
+          <div class="form-group row">
 
-            <div class="form-group row">
-              <label for="startDate" class="col-2 col-form-label">Du :</label>
-              <div class="col-10">
-                <input class="form-control" type="datetime-local" 
-                                            formControlName = "startDate"
-                                            [min]="getTodayDate()"
-                                            [value]="getTodayDate()" 
-                                            id="startDate">
-              </div>
+            <!-- event's start date -->
+            <div class="col-7">
+              <label for="startDate">Date de début:</label>
+              <input id="startDate"
+                     class="form-control" 
+                     type="date" 
+                     formControlName="startDate"
+                     [min]="currentDate"
+                     [value]="currentDate">
             </div>
 
-            <div class="form-group row"  *ngIf="getStartDate()">
-              <label for="endDate" class="col-2 col-form-label">Au :</label>
-              <div class="col-10">
-                <input class="form-control" type="datetime-local" 
-                                            formControlName = "endDate"
-                                            [min]="getStartDate()"
-                                            [value]="getStartDate()" 
-                                            id="endDate">
-              </div>
-              <span *ngIf="!checkDates()">La date de fin est inférieur à la date de début</span>
+            <!-- event's start hour -->
+            <div class="col-5">
+              <label for="startTime">Heure de début:</label>
+              <input class="form-control"  
+                     id="startTime"
+                     type="time" 
+                     formControlName="startTime"
+                     [value]="currentTime">
             </div>
-          </form>
+          </div>
 
-          <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
-          <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
-            <li>
-              <button type="button" class="btn btn-default btn-prev" 
-                                    (click)="onBack()">
-                Précédent
-              </button>
-            </li>
-            <li>
-                <button type="button" id="continue" class="btn btn-default btn-next" 
-                                                    *ngIf="!datesForm.invalid && checkDates()"
-                                                    (click)="onSetDates()">
-                  Continuer
-                </button>
-            </li>
-          </ul>
-      </div>
-  </div>
+          <!-- end of event date & hour -->
+          <div class="form-group row mt-5">
+           
+            <!-- event's end date -->
+            <div class="col-7">
+              <label for="endDate">Date de fin :</label>
+              <input class="form-control" 
+                     type="date" 
+                     formControlName="endDate"
+                     [min]="getStartDate()"
+                     [value]="getStartDate()" 
+                     id="endDate">
+            </div>
+
+            <!-- event's end hour -->
+            <div class="col-5">
+              <label for="endTime">Heure de fin :</label>
+              <input class="form-control" 
+                     type="time" 
+                     formControlName = "endTime"
+                     [min]="getStartTime()"
+                     [value]="getDefaultEndTime(getStartTime())" 
+                     id="endHour">
+            </div>
+          </div>
+
+        </form>
+
+        <p class="alert alert-danger text-center" 
+           *ngIf="!checkDates()">
+          La date de fin doit être supérieur à la date de début
+        </p>
+
+        <!-------------------------------- Buttons "Save" / "Skip" / "Back" ---------------------------->
+        <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
+          <li>
+            <button type="button" 
+                    class="btn btn-default btn-prev" 
+                    (click)="onBack()">
+              Précédent
+            </button>
+          </li>
+          <li>
+            <button type="button"
+                    id="continue" 
+                    class="btn btn-default btn-next" 
+                    *ngIf="!datesForm.invalid && checkDates()"
+                    (click)="onSetDates()">
+              Continuer
+            </button>
+          </li>
+        </ul>
+    </div>
 </div>

@@ -1,0 +1,70 @@
+<!-- Section Categories -->
+<div class="row align-items-center justify-content-center pt-5">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+        <h3 class="head-item-form">Choisissez / créez vos tags ! </h3>
+
+        <div class="input-tags mt-5">
+            <app-tags-input [tags]="tags"
+                            (tagsEvent)="tags = $event">
+            </app-tags-input>
+        </div>
+
+        <!-- <form [formGroup]="categoryForm" role="form" class="form-item">
+            <div class="cat-select">
+                <label class="sr-only" for="category">Catégorie</label>
+                <select class="form-control form-control-lg mt-5" formControlName="category"  
+                                                                    (change)="onSelectCategory($event.target.value)"
+                                                                    [(ngModel)]="categorySelected"
+                                                                    id="category" 
+                                                                    required>
+
+                    <option value="" 
+                            [selected]="categorySelected ? false : true"
+                            disabled>
+                        Choisissez une catégorie...
+                    </option>
+                    <option *ngFor="let cat of this.categoriesValues" [ngValue]="cat" 
+                                                                        [selected]="categorySelected ? true : false"> 
+                        {{ cat.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="subCat-select" *ngIf="categorySelected">
+                <label class="sr-only" for="subCategory">Sous-catégorie</label>
+                <select class="form-control form-control-lg mt-5" formControlName="subCategory"  
+                                                                    (change)="onSelectSubCategory($event.target.value)"
+                                                                    id="subCategory" 
+                                                                    [(ngModel)]="subCategorySelected"
+                                                                    required>
+                    <option value="" 
+                            [selected]="subCategorySelected ? true : null"
+                            disabled>
+                        Choisissez une sous-catégorie...
+                    </option>
+                    <option *ngFor="let subCat of this.categorySelected.subCategories" 
+                            [ngValue]="subCat"
+                            [selected]="subCategorySelected ? true : false"> 
+                        {{ subCat.name }}
+                    </option>
+                </select>
+            </div>
+        </form> -->
+
+        <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
+            <li>
+                <button type="button" class="btn btn-default btn-prev" 
+                                        (click)="onBack()">
+                    Précédent
+                </button>
+            </li>
+            <li>
+                <button type="button" id="continue" 
+                                        class="btn btn-default btn-next" 
+                                        *ngIf="tags.length"
+                                        (click)="onSetTags()">
+                    Continuer
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,35 +1,44 @@
-<div class="tab-pane" role="tabpanel" id="step1">
-  <!-- Section title -->
-  <div class="row justify-content-center">
-    <div class="col-8">
-      <h3 class="head-item-form ">Quel est le titre de votre formation ?</h3>
-      <form [formGroup]="titleForm" role="form" class="form-item">
-        <input type="text" class="form-control form-control-lg" 
-                           formControlName = "title"
-                           id="title"
-                           onkeydown="return (event.key !== '\''
-                                              && event.key !== ','
-                                              && event.key !== ';'
-                                              && event.key !== '='
-                                              && event.key !== '>'
-                                              && event.key !== '<'
-                                              && event.key !== '.'
-                                              && event.key !== ':'
-                                              && event.key !== '`'
-                                              && event.key !== '_'
-                                              && event.key !== '§')"
-                           placeholder="Saisissez le titre de votre formation...">
-      </form>
-      <ul class="nav nav-item btns-item-form justify-content-end mx-auto">
-        <li>
+<!-- Section title -->
+<div class="row align-items-center justify-content-center pt-5">
+  <div class="col-lg-8 col-md-10 col-sm-12">
+    <h3 class="head-item-form">
+      Quel est le titre de votre <span *ngIf="itemFormService.isEvent">évènement</span><span *ngIf="itemFormService.isCourse">formation</span> ?
+    </h3>
+    <form [formGroup]="titleForm" 
+          role="form" 
+          class="form-item">
+
+      <input type="text" class="form-control" 
+                          formControlName = "title"
+                          id="title"
+                          onkeydown="return (event.key !== '\''
+                                            && event.key !== ','
+                                            && event.key !== ';'
+                                            && event.key !== '='
+                                            && event.key !== '>'
+                                            && event.key !== '<'
+                                            && event.key !== '.'
+                                            && event.key !== ':'
+                                            && event.key !== '`'
+                                            && event.key !== '_'
+                                            && event.key !== '§')"
+                          [placeholder]=getTitlePlaceholder()>
+    </form>
+    <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
+      <li>
+          <button type="button" class="btn btn-default btn-prev" 
+                                (click)="onBack()">
+              Précédent
+          </button>
+      </li>
+      <li>
           <button type="button" id="continue" 
                                 class="btn btn-default btn-next" 
                                 *ngIf="!titleForm.invalid"
                                 (click)="onSetTitle()">
-            Continuer
+              Continuer
           </button>
-        </li>
-      </ul>
-    </div>
+      </li>
+    </ul>
   </div>
 </div>

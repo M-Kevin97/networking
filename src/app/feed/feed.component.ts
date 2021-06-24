@@ -19,11 +19,11 @@ export class FeedComponent implements OnInit {
   }
 
   newCourse(){
-  this.router.navigate([RouteUrl.NEW_COURSE]);
+  // this.router.navigate([RouteUrl.NEW_COURSE]);
   }
 
   newEvent(){
-  this.router.navigate([RouteUrl.NEW_EVENT]);
+  // this.router.navigate([RouteUrl.NEW_EVENT]);
   }
 
   goToAdmin(){

@@ -1,4 +1,6 @@
 export enum StepState{
+    NEXT = 'next',
+    TYPE = 'type',
     TITLE = 'title',
     CATEGORIES = 'categories',
     TAGS = 'tags',
@@ -6,7 +8,7 @@ export enum StepState{
     MEDIA = 'media',
     DATES = 'dates',
     LOCATION = 'location',
-    COMPLETE = 'complete',
+    REVIEW = 'review',
     COMPLETED = 'completed',
     BACK = 'back',
     STARTING = 'starting'
