@@ -5,35 +5,35 @@
 .iconify { 
     width: 4vw; 
     height: 4vw; 
-    color: #9A9A9A;
+    color: black;
     display: inline-block;
 
     border-radius: 50%;
-    border: 0.3vw #9A9A9A solid;
+    border: 0.3vw black solid;
 
     padding: 0.4em 0.4em;
 }
 
 .nav-item-form > .active > .iconify {
-    color: #2E7B9C;
-    border-color: #2E7B9C;
+    color: #179661;
+    border-color: #179661;
 } 
 
 .nav-item-form > .active > .iconify:hover,
 .nav-item-form > .active > .iconify:focus {
-    color: #73bddd;
-    border-color: #73bddd;
+    color: #e5e89d;
+    border-color: #e5e89d;
 } 
 
 @media only screen and (max-width: 600px) {
     .iconify { 
         width: 9vw; 
         height: 9vw; 
-        color: #9A9A9A;
+        color: black;
         display: inline-block;
     
         border-radius: 50%;
-        border: .6vw #9A9A9A solid;
+        border: .6vw black solid;
     
         padding: 0.3em 0.3em;
     }

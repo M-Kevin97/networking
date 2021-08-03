@@ -1,0 +1,19 @@
+@import '/src/app/shared/style/buttons-style.scss';
+
+.iconify {
+
+    color: black;
+    background-color: white;
+
+    padding: 0;
+    margin: 0;
+
+    height: 30px;
+    width: 30px;
+}
+
+.iconify:hover, .iconify:focus, .iconify:active {
+
+    color: #179661;
+}
+

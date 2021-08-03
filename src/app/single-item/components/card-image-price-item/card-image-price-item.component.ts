@@ -8,7 +8,7 @@ import { Course } from 'src/app/shared/model/item/course';
 @Component({
   selector: 'app-card-image-price-item',
   templateUrl: './card-image-price-item.component.html',
-  styleUrls: ['./card-image-price-item.component.css']
+  styleUrls: ['./card-image-price-item.component.scss']
 })
 export class CardImagePriceItemComponent implements OnInit {
 

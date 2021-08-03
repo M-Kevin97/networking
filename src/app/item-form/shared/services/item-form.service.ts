@@ -93,10 +93,10 @@ export class ItemFormService {
 
   isTypeOk() {
     return (this.item && this.item.type != ''
-                                      && this.item.type != null
-                                      && this.item.type != undefined
-                                      && (this.item.type === Database.COURSE.substr(1)
-                                          || this.item.type === Database.EVENT.substr(1)));
+                      && this.item.type != null
+                      && this.item.type != undefined
+                      && (this.item.type === Database.COURSE.substr(1)
+                          || this.item.type === Database.EVENT.substr(1)));
   }
 
   isTitleOk() {

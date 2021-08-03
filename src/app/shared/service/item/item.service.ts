@@ -62,7 +62,7 @@ ItemService {
 
     this.lastItemCreated = newCourse;
 
-    newCourse.searchContent = this.setSearchContent(newCourse);
+    newCourse.searchContent = this.setItemSearchContent(newCourse);
 
     return ref.set({
       type: Database.COURSE.substr(1),
@@ -116,7 +116,7 @@ ItemService {
     let ref = this.itemsDB.child(id);
     newItem.id = id;
 
-    newItem.searchContent = this.setSearchContent(newItem);                                                             
+    newItem.searchContent = this.setItemSearchContent(newItem);                                                             
 
     let savePromise = null;
     if(newItem instanceof Course) 
@@ -503,6 +503,9 @@ ItemService {
       const ratingsJson:string = itemJson.val()[Database.RATINGS.substring(1)];
 
       let requestUsers = Object.keys(usersJson).map((key) => {
+
+        console.warn('requestUsers key : ', key);
+
         return new Promise((resolve) => {
           //asyncFunction(item, resolve);
           UserService.getiUserFromDBWithId(key).then(
@@ -900,6 +903,8 @@ ItemService {
   
     if(itemJson) {
 
+      // console.warn('getiItemFromUser iItem : ', itemJson.val());
+
       let iItem: IItem = null;
 
       if(itemJson.val()[Database.ITEM_TYPE.substr(1)] === Database.COURSE.substr(1)) 
@@ -970,7 +975,7 @@ ItemService {
 
     var ref = firebase.database().ref(Database.ITEMS).child(item.id);
 
-    item.searchContent = this.setSearchContent(item);
+    item.searchContent = this.setItemSearchContent(item);
 
     ref.update({
       searchContent:item.searchContent || null,
@@ -1017,7 +1022,7 @@ ItemService {
 
     if(item && item.description && item.description.length) {
 
-      item.searchContent = this.setSearchContent(item);
+      item.searchContent = this.setItemSearchContent(item);
 
       var ref = firebase.database().ref(Database.ITEMS).child(item.id);
       ref.update({
@@ -1210,7 +1215,7 @@ ItemService {
       const storageRef =  firebase.storage().refFromURL(item.imageLink);
       storageRef.delete().then(
         () => {
-          console.log('Photo supprimée');
+          // console.log('Photo supprimée');
         }
       ).catch(
         (error) => {
@@ -1268,7 +1273,7 @@ ItemService {
 
   // --------------------------------- Other ----------------------------------------
 
-  private setSearchContent(item:Course | EventItem|Item) {
+  private setItemSearchContent(item:Course | EventItem|Item) {
 
     if(!item) return null
 
@@ -1292,5 +1297,4 @@ ItemService {
 
     return searchContent.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
   }
-
 }

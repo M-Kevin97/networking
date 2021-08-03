@@ -1,7 +1,7 @@
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IUser, User } from '../../model/user/user';
+import { IUser, User } from 'src/app/shared/model/user/user';
 import { Database } from 'src/app/core/database/database.enum';
 
 @Component({
@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit {
 
   getTheSartOfDescription(user:User|IUser) {
     
-    return user.bio ? user.bio.substring(0,30) : '';
+    return user.bio ? user.bio.substring(0,140) : '';
   }
 
   userHasPpLink(user:User|IUser) {

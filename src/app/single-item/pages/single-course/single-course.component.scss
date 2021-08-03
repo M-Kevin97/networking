@@ -1,12 +1,12 @@
 @import "../../../shared/style/buttons-style.scss";
+@import "../../../shared/style/color.scss";
 
 .item-path {
     margin-top: 3vh;
     margin-bottom: 3vh;
 }
 
-.sticky
-{
+.sticky {
    position: sticky;
    top: 18vh;
 }
@@ -20,13 +20,13 @@
     align-items: center;
     text-align: center;
 
-    border-radius: 40px 40px 0 0;
-    -moz-border-radius: 40px 40px 0 0;
-    -webkit-border-radius: 40px 40px 0 0;
+    // border-radius: 40px 40px 0 0;
+    // -moz-border-radius: 40px 40px 0 0;
+    // -webkit-border-radius: 40px 40px 0 0;
   
-    -webkit-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
-    -moz-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
-    box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32);
+    // -webkit-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
+    // -moz-box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32); 
+    // box-shadow: 0px -2px 4px 1px rgba(155,155,155,0.32);
 
     margin-bottom: 5vh ;
     padding-bottom: 3vh;
@@ -59,42 +59,29 @@
     text-decoration: none;
 }
 
-.course-tags {
+.btn-tags {
     
     align-items: center;
     text-align: left;
-}
-
-.course-tag {
-
-    border: 1px solid #2E7B9C;
-
-    border-radius: 500px;
-    -moz-border-radius: 500px;
-    -webkit-border-radius: 500px;
-
-    cursor: pointer;
-}
-
-.course-tag:hover, .course-tag:focus {
-
-    background-color: whitesmoke;
 }
 
 .item-block {
     margin-top: 10vh;
 }
 
-.check-list > li{
+.check-list > li {
+
     list-style-type: none;
     margin-bottom: 2.5vh;
 }
 
 .check-list > li > i{
-    color: #2E7B9C;
+
+    color: #179661;
 }
 
 .btn-rating {
+
     color: white;
     background-color: #fcc632;
     font-weight: 500;

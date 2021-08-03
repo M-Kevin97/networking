@@ -6,9 +6,13 @@
            class="col-auto mb-3">
 
         <span class="tag py-2 px-3"> 
-          <div class="tag-close" (click)="onRemoveTag(i)">
-            <span class="iconify align-middle" data-icon="ion:close-circle-outline" 
-                                              data-inline="false">
+
+          <div class="tag-close" 
+               (click)="onRemoveTag(i)">
+
+            <span class="iconify align-middle" 
+                  data-icon="ion:close-circle-outline" 
+                  data-inline="false">
             </span>
           </div>
           <div class="tag-name">
@@ -51,6 +55,7 @@
             </button>
           </div>
         </div>
+
         <div class="tags-suggestion border" 
               *ngIf="tagsSuggested.length && isTagsSuggestedList()"
               (mouseout)="setTagsSuggestedFocus(false)" 
@@ -62,13 +67,17 @@
               class="list-group list-group-flush">
 
             <li class="list-group-item list-group-item-action tagSuggested-li">
+
               <span class="iconify my-auto" 
                     data-icon="heroicons-solid:hashtag" 
                     data-inline="false" 
-                    style="color: #2E7B9C;"></span>
+                    style="color: black;">
+              </span>
               {{ tagSuggested.name }}
             </li>
+
           </ul>
+          
         </div>
       </div>
     </form>

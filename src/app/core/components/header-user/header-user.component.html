@@ -4,11 +4,10 @@
   <!-- Image Logo-->
   <a (click)="goHome()" 
      class="navbar-brand my-auto">
-    <img src="assets/img/logo_skilleo_1-0.png" 
+    <img src="assets/img/wyskill_logo_sm.png" 
          width="120" 
-         height="29" 
          class="d-inline-block" 
-         alt="logo skilleo">
+         alt="logo wyskill">
   </a>
 
   <div *ngIf="!displaySearchBar()"
@@ -16,18 +15,24 @@
 
     <app-search-bar2 [height]="'md'">
     </app-search-bar2>
-  </div>
+  </div> 
 
-  <!-- Button toggle dev navbar -->
-  <button class="navbar-toggler" type="button" 
-                                  data-toggle="collapse" 
-                                  data-target="#navbarContent" 
-                                  aria-controls="navbarContent" 
-                                  [attr.aria-expanded]="!collapsed" 
-                                  aria-label="Toggle navigation" 
-                                  (click)="collapsed = !collapsed">
-    <span class="navbar-toggler-icon"></span>
-  </button>  
+    <!-- Button toggle dev navbar -->
+  <button class="navbar-toggler" 
+          type="button" 
+          data-toggle="collapse" 
+          data-target="#navbarContent" 
+          aria-controls="navbarContent" 
+          [attr.aria-expanded]="!collapsed" 
+          aria-label="Toggle navigation" 
+          (click)="collapsed = !collapsed">
+
+    <span class="iconify" 
+        data-icon="fontisto:nav-icon-a" 
+        data-inline="false" 
+        style="color: black;">
+    </span>
+  </button> 
 
   <div class="collapse navbar-collapse justify-content-end" 
       id="navbarContent"
@@ -53,12 +58,14 @@
           routerLinkActive="router-link-active">
 
         <div class="d-flex align-items-center nav-li-text"
-             (click)="onNewItem()">
-          Déposer une annonce
+             (click)="onNewItem()"
+             style="font-weight: 500;">
+          Partager ses compétences
         </div>
       </li>
 
       <li class="nav-item li-avatar ml-5" 
+          *ngIf="isAuth()"
           ngbDropdown 
           display="dynamic" 
           placement="bottom-right">
@@ -73,9 +80,9 @@
             <div class="col nav-avatar-col border border-danger"> -->
               <div class="nav-icon-pp">
 
-                <app-user-avatar [photoUrl] = "getUserPpLink() ? '':getUser().ppLink" 
-                                [name]="getUser().firstname +' '+ getUser().lastname"
-                                [border]="'2px solid #2E7B9C'">
+                <app-user-avatar [photoUrl] = "getUserPpLink() ? '' : getUser().ppLink" 
+                                 [name]="getUser().firstname +' '+ getUser().lastname"
+                                 [border]="'2px solid black'">
                 </app-user-avatar> 
 
               </div>
@@ -166,7 +173,7 @@
     <div *ngIf="!isAuth()" 
          class="ml-5 my-auto">
 
-      <button class="btn btn-signin" 
+      <button class="btn btn-signin bg-main-color elem" 
               (click)="onSignIn()">
         Se connecter
       </button>

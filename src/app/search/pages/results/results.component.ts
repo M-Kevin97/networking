@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/shared/service/user/user.service';
 import { FilterService } from 'src/app/shared/service/search/filter/filter.service';
 import { IUser } from 'src/app/shared/model/user/user';
 import { Course } from 'src/app/shared/model/item/course';
@@ -38,9 +39,11 @@ export class ResultsComponent implements OnInit, OnDestroy {
   itemsList:Array<Course|EventItem> = [];
   coursesList:Array<Course> = [];
   eventsList:Array<EventItem> = [];
+  usersSearchedList:Array<IUser> = [];
   usersList:Array<IUser> = [];
 
   constructor(private itemService:ItemService,
+              private userService:UserService,
               private searchService:SearchService,
               private filterService:FilterService,
               private categoryService:CategoryService,
@@ -51,14 +54,14 @@ export class ResultsComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     // lancer la recherche 
-    console.error('SearchComponent ngOnInit', this.searchService.currentSearchQuery);
+    // console.error('SearchComponent ngOnInit', this.searchService.currentSearchQuery);
 
     this.getSearchQueryFromService();
 
     this.mySubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-      console.info('poiuytrezsdfghjk***********:',this.searchService.currentSearchQuery);
-      console.info('URL:', this.previousRouteService.getLastPreviousUrl(), 'eeee', this.previousRouteService.getCurrentUrl());
+      // console.info('poiuytrezsdfghjk***********:',this.searchService.currentSearchQuery);
+      // console.info('URL:', this.previousRouteService.getLastPreviousUrl(), 'eeee', this.previousRouteService.getCurrentUrl());
         if(this.previousRouteService.getLastPreviousUrl().includes(RouteUrl.RESULTS) 
             && this.previousRouteService.getCurrentUrl() !== this.previousRouteService.getLastPreviousUrl()) {
           if(this.searchService.currentSearchQuery) this.searchService.searchSubject.next(this.searchService.currentSearchQuery);
@@ -67,7 +70,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     });
 
     if(!this.previousRouteService.getPreviousUrl().includes(RouteUrl.RESULTS)) {
-      console.info('poiuytrezsdfghjk%%%%%%%%%%%:',this.searchService.currentSearchQuery);
+      // console.info('poiuytrezsdfghjk%%%%%%%%%%%:',this.searchService.currentSearchQuery);
       if(this.searchService.currentSearchQuery) this.searchService.searchSubject.next(this.searchService.currentSearchQuery);
     }
 
@@ -82,19 +85,20 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   getSearchQueryFromService(){
 
-    console.log('getSearchQueryFromService');
+    // console.log('getSearchQueryFromService');
     
     this.searchSubscription = this.searchService.searchSubject
     .subscribe(
       (data:ISearchQuery) => {
         if(data) {
-          console.error('getSearchQueryFromService', data);
-          this.searchCourses(data);
+          // console.error('getSearchQueryFromService', data);
+
+          this.searchUsers(data);
         }
       },
       (err: string) => console.error('Observer got an error: ' + err),
       () => {
-        console.log('Observer got a complete notification');
+        // console.log('Observer got a complete notification');
       }
     );
   }
@@ -113,19 +117,58 @@ export class ResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // methode pour rechercher des formations dans la DB en fonction de la categorie choisie et des mots clés
-  searchCourses(eventQuery:ISearchQuery) {
-
-    let categoryId:string = eventQuery.categoryId;
-    this.query = eventQuery.query;
-
-    console.error('searchCourses',eventQuery);
+  // methode pour rechercher des utilisateurs dans la DB en fonction de la categorie choisie et des mots clés
+  searchUsers(eventQuery:ISearchQuery) { 
 
     this.tagsList = [];
     this.itemsList = [];
     this.coursesList = [];
     this.eventsList = [];
     this.usersList = [];
+    this.usersSearchedList = [];
+
+    // console.error('searchCourses', eventQuery);
+
+        // Getting the users form the 
+    this.userService.getiUsersFromDB().then(
+      (iUsers:IUser[]) => {
+
+        if(iUsers!==null && iUsers!==undefined) {
+
+          let promise =  new Promise<void>((resolve, reject) => {
+            
+            iUsers.forEach(
+              (iUser, index, array) => {
+  
+                if(eventQuery.query) {
+  
+                  if(!this.filterWithQuery(iUser.searchContent, this.query)) this.usersSearchedList.push(iUser);
+  
+                } else this.usersSearchedList.push(iUser);
+
+                if (index === array.length -1) resolve();
+              }
+            );
+          });
+
+          promise.then(
+            () => {
+              // console.error('usersSearchedList', this.usersSearchedList);
+              this.searchCourses(eventQuery);
+          });
+        }
+      }
+    );
+  }
+
+
+  // methode pour rechercher des formations dans la DB en fonction de la categorie choisie et des mots clés
+  searchCourses(eventQuery:ISearchQuery) {
+
+    let categoryId:string = eventQuery.categoryId;
+    this.query = eventQuery.query;
+
+    // console.error('searchCourses',eventQuery);
 
     // choisir les résultats à afficher
     switch(eventQuery.item) { 
@@ -194,7 +237,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
       if(query) {
 
-        if(!this.filterSingleItemWithQuery(result, this.query)) this.allocateItem(result);
+        if(!this.filterWithQuery(result.searchContent, this.query)) this.allocateItem(result);
       } else this.allocateItem(result);
     }
   }
@@ -210,12 +253,14 @@ export class ResultsComponent implements OnInit, OnDestroy {
             if(res instanceof Course) this.coursesList.push(res);
             else if(res instanceof EventItem) this.eventsList.push(res);
     
-            console.error(res.iAuthors);
+            // console.error(res.iAuthors);
     
             // Creation of the user's list
             res.iAuthors.forEach(
               (user) => {
                 // if isn't already in array
+                this.usersList = Array.from(this.usersSearchedList);
+
                 if(!this.usersList.find(usr => usr.id === user.id)) 
                   this.usersList.push(user);
               }
@@ -234,11 +279,13 @@ export class ResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // formatter la requête (retirer les symboles)
-  private filterSingleItemWithQuery(item:Course|EventItem, query:string): boolean {
 
-    console.warn(item.searchContent,' includes :',query.toLocaleLowerCase(), 
-                                          'res : ',item.searchContent.includes(query.toLocaleLowerCase()));
+
+  // formatter la requête (retirer les symboles)
+  private filterWithQuery(searchContent:string, query:string): boolean {
+
+    // console.warn('°°°°°°°°°°°°°°°°°°',searchContent, ' includes :', query.toLocaleLowerCase(), 
+    //                                       'res : ',searchContent.includes(query.toLocaleLowerCase()));
 
     const regex =  /[ !@§_#$%&:=\-+.,£€<>^¨°\‘\“\`\'\"*\[\](){}¡∞≠æ®†Úºîœß◊©≈‹«πµ¬ﬁ¶;~ƒ∂≤≥›÷…•¿±\\ø¢√∫ı\/?]/;
 
@@ -247,7 +294,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
     let counts:number[] = [];
 
-    for(let keyword of splittedArray) counts.push(item.searchContent.split(keyword).length - 1); 
+    for(let keyword of splittedArray) counts.push(searchContent.split(keyword).length - 1); 
 
     // si 
     return !counts.reduce((a, b) => a + b, 0);
@@ -256,6 +303,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   onAllocateItemList(){
 
+    this.tagsList = [];
+    this.itemsList = [];
     this.coursesList = [];
     this.eventsList = [];
     this.usersList = [];

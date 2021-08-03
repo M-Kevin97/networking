@@ -1,3 +1,4 @@
+import { IUser } from 'src/app/shared/model/user/user';
 import { filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Database } from 'src/app/core/database/database.enum';
@@ -15,6 +16,7 @@ export class FilterService {
   ratingMin:string='0';
 
   itemList:Array<Course | EventItem> = [];
+  userList:Array<IUser> = [];
 
   constructor() { }
 

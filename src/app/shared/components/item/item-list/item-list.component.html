@@ -1,6 +1,7 @@
 
-<div *ngFor="let item of items; let isLast = last;" 
-     class="item-list my-3 py-1">
+<div *ngFor="let item of items; let isLast = last;"
+      class="my-3 py-1">
+
   <app-course-list *ngIf="isCourse(item)" 
                    [course]=item>
   </app-course-list>

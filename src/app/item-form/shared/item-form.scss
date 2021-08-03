@@ -1,3 +1,5 @@
+@import '/src/app/shared/style/buttons-style.scss';
+
 .head-item-form {
     font-size: 2.1rem;
     font-weight: 550;
@@ -22,11 +24,7 @@
     width: 15vw;
 
     color: white;
-    background-color: #28A745;
-}
-
-.btn-next:hover, .btn-next:focus, .btn-next:active { 
-    background-color: #24913d;
+    // background-color: #28A745;
 }
 
 .btn-prev {

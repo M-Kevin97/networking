@@ -1,7 +1,30 @@
-<div class="row w-100 justify-content-center user-items-block">
+<div class="row w-100 justify-content-center user-items-block my-5">
+
+  <!-- Start user presentation section -->
+  <div *ngIf="user.isBooster && user.presentationLink" 
+       class="row user-items-section justify-content-center text-center mb-5">
+
+    <div class="col-12">
+
+      
+      <video controls width="60%">
+
+        <source [src]="user.presentationLink"
+                type="video/mp4">
+
+        Sorry, your browser doesn't support embedded videos.
+
+      </video>
+
+<!-- 
+      <h5 *ngIf="!user.presentationLink">Ajouter une vidéo de présentation</h5> -->
+    </div>
+  </div> <!-- End user courses section -->
+
   <!-- Start user courses section -->
   <div *ngIf="courses && courses.length" 
        class="row user-items-section user-courses-section">
+
     <div class="col-12">
       <h5 class="title-cat">
         Formations ({{ getICoursesLength() }}) > <a (click)="displayUserCourses()">Tout consulter</a>
@@ -13,7 +36,6 @@
       </app-items-carousel>
       <span *ngIf="getICoursesLength() === 0">Aucune formations</span>
     </div>
-
   </div> <!-- End user courses section -->
 
   <!-- Start user events section -->

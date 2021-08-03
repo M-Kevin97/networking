@@ -1,18 +1,20 @@
+@import '/src/app/shared/style/color.scss';
+
 .icon-search {
     
     cursor: pointer;
 
-    color: #5271FF;
+    color: black;
     font-size: 1.3rem;
     background-color: white;
 
-    border: 1px solid #dee2e6;
+    border: 1px solid black;
     border-left: 0;
 }
 
 .input-search {
 
-    border: 1px solid #dee2e6;
+    border: 1px solid black;
     border-right: 0;
 
     font-weight: 400;
@@ -51,7 +53,7 @@
     -moz-border-radius: 0 0 1.5rem 1.5rem;
     -webkit-border-radius: 0 0 1.5rem 1.5rem;
 
-    border: 1px solid #dee2e6;
+    border: 1px solid black;
     border-top: 0;
 }
 
@@ -61,5 +63,5 @@
 }
 
 .suggestion:hover {
-    color: #2E7B9C;
+    color: #179661;
 }

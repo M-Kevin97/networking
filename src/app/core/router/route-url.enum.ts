@@ -6,7 +6,7 @@ export enum RouteUrl {
     SIGNUP = '/signup',
     SIGNUP_WITH = '/signup/join',
     FEED = '/feed',
-    INSTRUCTOR = '/instructor',
+    BOOSTER = '/booster',
     ADMIN = '/admin',
     ADMIN_NEW_ELEMENT = '/new',
     SEARCH = '/search',

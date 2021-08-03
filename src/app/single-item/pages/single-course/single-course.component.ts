@@ -17,7 +17,7 @@ import { RouterService } from 'src/app/shared/service/router/router.service';
 @Component({
   selector: 'app-single-course',
   templateUrl: './single-course.component.html',
-  styleUrls: ['./single-course.component.css']
+  styleUrls: ['./single-course.component.scss']
 })
 export class SingleCourseComponent extends SingleItemComponent implements OnInit, AfterViewInit {
 

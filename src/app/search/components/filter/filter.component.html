@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="mt-4">
-    <button class="btn-template-ok btn btn-primary" 
+    <button class="btn-template-ok btn btn-animation" 
             (click)="onSetPriceRange()"
             type="button">
       Valider
@@ -112,7 +112,7 @@
           </label>
         </div>
         <div class="mt-4">
-          <button class="btn-template-ok btn btn-primary"
+          <button class="btn-template-ok btn btn-animation"
                   (click)="onSetRatingRange()"
                   type="button">
             Valider
@@ -139,13 +139,14 @@
 
 <div class="container-filter mt-3">
   <div class="filter-row">
-    <h5 *ngIf="!isUserList()" class="filter-text mr-3">
+    <h5 *ngIf="!isUserList()" 
+        class="filter-text mr-3">
       Filtres
     </h5>
     <!-- Prix -->
     <button *ngIf="!isUserList()"
             type="button" 
-            class="btn-filter btn btn-outline-secondary"
+            class="btn-filter btn btn-outline-secondary black"
             [ngbPopover]="popContentPrice" 
             placement="bottom"
             [autoClose]="'outside'"
@@ -156,7 +157,7 @@
     <!-- Notes Course -->
     <button *ngIf="isCourseList()"
             type="button" 
-            class="btn-filter btn btn-outline-secondary ml-3"
+            class="btn-filter btn btn btn-outline-secondary black ml-3"
             [ngbPopover]="popContentRate" 
             placement="bottom"
             [autoClose]="'outside'"
@@ -167,7 +168,7 @@
     <!-- Dates Event -->
     <button *ngIf="isEventList()"
             type="button" 
-            class="btn-filter btn btn-outline-secondary ml-3"
+            class="btn-filter btn btn btn-outline-secondary black ml-3"
             [ngbPopover]="popContentDate" 
             placement="bottom"
             [autoClose]="'outside'"
@@ -179,7 +180,7 @@
     <!-- Location Event -->
     <button *ngIf="isEventList()"
           type="button" 
-          class="btn-filter btn btn-outline-secondary ml-3"
+          class="btn-filter btn btn btn-outline-secondary black ml-3"
           [ngbPopover]="popContentLocation" 
           placement="bottom"
           [autoClose]="'outside'"

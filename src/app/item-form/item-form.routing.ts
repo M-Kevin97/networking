@@ -20,11 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     children: 
     [
-      {
-        path:RouteUrl.NEW_TYPE.substr(1), 
-        component:ItemTypeFormComponent,
-        canActivate: [AuthGuardService]
-      },
+      // {
+      //   path:RouteUrl.NEW_TYPE.substr(1), 
+      //   component:ItemTypeFormComponent,
+      //   canActivate: [AuthGuardService]
+      // },
       {
         path:RouteUrl.NEW_TITLE.substr(1), 
         component:ItemTitleFormComponent,
@@ -61,7 +61,8 @@ const routes: Routes = [
         canActivate: [AuthGuardService]
       },
       {
-        path:'', redirectTo:RouteUrl.NEW_ITEM+RouteUrl.NEW_TYPE, pathMatch:'full'
+        // path:'', redirectTo:RouteUrl.NEW_ITEM+RouteUrl.NEW_TYPE, pathMatch:'full'
+        path:'', redirectTo:RouteUrl.NEW_ITEM+RouteUrl.NEW_TITLE, pathMatch:'full'
       }
     ]
   },

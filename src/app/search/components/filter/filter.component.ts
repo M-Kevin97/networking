@@ -15,7 +15,7 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap/popover/popover';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit, OnDestroy {
 

@@ -63,19 +63,24 @@ export class SignupWithComponent implements OnInit {
     const role = this.roleSelect === this.roleInit ? this.roles[this.roles.length-1]: this.roleSelect;
 
     let user:User = new User(id, 
-                              this.firstname, 
-                              this.lastname,
-                              this.mail,
-                              this.password,
-                              this.ppLink,
-                              null,
-                              null,
-                              null,
-                              role,
-                              UserLevel.STANDARD,
-                              false,
-                              [],
-                              []);
+                             this.firstname, 
+                             this.lastname,
+                             null,
+                             this.mail,
+                             this.password,
+                             this.ppLink,
+                             null,
+                             null,
+                             null,
+                             null,
+                             null,
+                             role,
+                             UserLevel.STANDARD,
+                             false,
+                             [],
+                             []);
+
+      user.setSearchContent();
 
       
     this.authService.createAccountWith(user).then(

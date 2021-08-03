@@ -37,12 +37,15 @@ export class UserService {
     return this.usersDB.child(newUser.id).set({
         data: newUser.data,
         firstname: newUser.firstname, 
-        lastname: newUser.lastname, 
+        lastname: newUser.lastname,
+        isBooster: newUser.isBooster, 
         mail: newUser.mail, 
         password: newUser.password, 
         tel: newUser.tel, 
         title: newUser.title,
         bio: newUser.bio,
+        presentationLink: newUser.presentationLink,
+        searchContent: newUser.searchContent,
         ppLink: newUser.ppLink,
         accessLevel: newUser.accessLevel,
         role: newUser.role
@@ -67,6 +70,7 @@ export class UserService {
         ref.child(Database.AUTHORS).child(value.id).set({
           firstname: value.firstname,
           lastname: value.lastname,
+          isBooster: value.isBooster,
           title: value.title,
           ppLink: value.ppLink,
         }).then(
@@ -195,6 +199,7 @@ export class UserService {
           firstname: value.firstname,
           lastname: value.lastname,
           title: value.title,
+          isBooster: value.isBooster,
           ppLink: value.ppLink,
         }).then(
           function() {
@@ -224,11 +229,14 @@ export class UserService {
     this.usersDB.child(user.id).update({
       firstname: user.firstname,
       lastname: user.lastname,
+      isBooster: user.isBooster,
       ppLink: user.ppLink,
       title: user.title,
       mail: user.mail,
       tel: user.tel,
       bio: user.bio,
+      presentationLink: user.presentationLink,
+      searchContent: user.searchContent,
     }).then(
       () => {
         firebase.auth().currentUser.updateEmail(user.mail);
@@ -252,6 +260,7 @@ export class UserService {
               refCourse.update({
                 firstname: user.firstname,
                 lastname: user.lastname,
+                isBooster: user.isBooster,
                 ppLink: user.ppLink,
                 title: user.title,
               }).catch(
@@ -278,6 +287,7 @@ export class UserService {
                   refEvent.update({
                     firstname: user.firstname,
                     lastname: user.lastname,
+                    isBooster: user.isBooster,
                     ppLink: user.ppLink,
                     title: user.title,
                   });
@@ -316,6 +326,16 @@ export class UserService {
     );
   }
 
+  getiUsersFromDB() {
+     
+    return this.usersDB.once('value').then(
+      (data) => {
+        return data.val() ? User.iUsersFromJson(data.val()) : [];
+      }
+    );
+  }
+
+
   public static getUserByMail(email:string, cb){
     return firebase.database().ref(Database.USERS)
                               .orderByChild('email')
@@ -323,6 +343,7 @@ export class UserService {
                               .once('value')
                               .then(cb);
   }
+
 
   getSingleUserFromDBWithId(id:string){ 
 

@@ -65,9 +65,12 @@ export class VerificationComponent implements OnInit {
     let user:User = new User(this.idUser, 
                               firstname, 
                               lastname,
+                              false,
                               this.emailUser,
                               this.password,
                               Database.DEFAULT_PP_USER,
+                              null,
+                              null,
                               null,
                               null,
                               null,
@@ -76,6 +79,8 @@ export class VerificationComponent implements OnInit {
                               false,
                               [],
                               []);
+
+    user.setSearchContent();
       
     this.authService.createAccountWith(user).then(
       (val) => {

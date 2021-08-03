@@ -1,0 +1,40 @@
+@import '/src/app/shared/style/buttons-style.scss';
+@import '/src/app/shared/style/color.scss';
+
+.icon-star {
+
+    color: #179661;
+    font-size: 1.6em;
+}
+
+.filter-text {
+    display: inline-block;
+}
+
+.btn-filter {
+
+    color: black;
+    border-color: black;
+    background-color: white;
+
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+}
+
+.btn-filter:hover, .btn-filter:focus {
+
+    background-color: white;
+    color: #179661;
+    border-color: #179661;
+}
+
+.btn-template-ok {
+    background-color: #179661;
+    width: 55%;
+    margin-right: 5%;
+}
+
+.btn-template-cancel {
+    width: 40%;
+}

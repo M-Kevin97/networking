@@ -36,11 +36,32 @@
 
 .btn-login {
 
-    background-color: #28A745;
+    background-color: #179661;
+    color: white;
+}
+
+.btn-subscribe {
+
+    background-color: black;
+    color: white;
 }
 
 .btn-login:hover, .btn-login:focus, .btn-login:active { 
-    background-color: #24913d;
+
+    background-color: #179661;
+
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.btn-subscribe:hover, .btn-subscribe:focus, .btn-subscribe:active { 
+
+    background-color: rgb(51, 51, 51);
+
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .catch-p {

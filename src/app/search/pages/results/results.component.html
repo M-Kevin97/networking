@@ -7,10 +7,18 @@
     </div>
     
     <!-- Afficher les tags associés à la recherche -->
-    <div *ngIf="tagsList" class="categories-section mt-3">
-      <button *ngFor="let tag of tagsList" type="button" 
-                                            class="tag-btn btn btn-outline-secondary btn-cat-to-d mr-2"
-                                            (click)="onSearchByTag(tag.name)">
+    <div *ngIf="tagsList" 
+         class="categories-section mt-3">
+      <button *ngFor="let tag of tagsList"
+              type="button" 
+              class="tag-btn btn black btn-outline-secondary btn-cat-to-d mr-2"
+              (click)="onSearchByTag(tag.name)">
+
+        <span class="iconify my-auto" 
+              data-icon="heroicons-solid:hashtag" 
+              data-inline="false">
+        </span>
+
         {{ tag.name }} 
       </button>
       <hr>
@@ -18,11 +26,11 @@
   </div>
 
   <!-- section Filter pour la recherche -->
-  <div class="filter-section container-fluid">
+  <!-- <div class="filter-section container-fluid">
     <app-filter (items)="onAllocateItemList()"
                 [activeTab]="activeTab">
     </app-filter>
-  </div>
+  </div> -->
   
   <app-search-results [activeTab]="activeTab"
                       [coursesList]="coursesList"

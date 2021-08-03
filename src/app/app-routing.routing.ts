@@ -12,21 +12,17 @@ const routes: Routes = [
   {
     path: RouteUrl.HOME.substr(1), 
     component:  HomeComponent, 
-    canActivate: [VisitorGuardService]
-  },
-  {
-    path: RouteUrl.SEARCH.substr(1), 
-    component:  SearchComponent
+    // canActivate: [VisitorGuardService]
   },
   {
     path: RouteUrl.CREATE_ITEM.substr(1), 
     component:  CreateComponent
   },
-  {
-    path: RouteUrl.FEED.substr(1),  
-    component:  FeedComponent,
-    canActivate: [AuthGuardService]
-  },
+  // {
+  //   path: RouteUrl.FEED.substr(1),  
+  //   component:  FeedComponent,
+  //   canActivate: [AuthGuardService]
+  // },
   {
     path: '', 
     redirectTo: RouteUrl.HOME.substr(1), 

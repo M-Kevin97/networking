@@ -51,6 +51,9 @@ export class AuthService {
                               null,
                               null,
                               null,
+                              null,
+                              null,
+                              null,
                               null);
   }
 
@@ -64,7 +67,7 @@ export class AuthService {
         firebase.auth().createUserWithEmailAndPassword(mail, password).then(
           (val) => {
             console.log('Success!', val);
-            resolve();
+            resolve(val);
           }).catch((error) => {
             reject(error.code);
           }
@@ -80,7 +83,7 @@ export class AuthService {
         if(user) {
           this.userService.addNewUserToDB(user).then(
             (bool) => {
-              if(bool) resolve();
+              if(bool) resolve(bool);
               else reject();
             }
           ).catch(
@@ -124,7 +127,7 @@ export class AuthService {
           // Save the email locally so you don't need to ask the user for it again
           // if they open the link on the same device.
           window.localStorage.setItem('netSkillsEmailForSignIn', email);
-          resolve();
+          resolve(email);
         })
         .catch(function(error) {
           // Some error occurred, you can inspect the code: error.code
@@ -282,7 +285,7 @@ export class AuthService {
 
         user.updatePassword(newPassword).then(function() {
           // Update successful.
-          resolve();
+          resolve(user);
         }).catch(function(error) {
           // An error happened.
           reject(error);
@@ -305,7 +308,7 @@ export class AuthService {
           function() {
 
           // Password reset has been confirmed and new password updated.
-          resolve();
+          resolve(newPassword);
     
           // TODO: If a continue URL is available, display a button which on
           // click redirects the user back to the app via continueUrl with
@@ -352,7 +355,7 @@ export class AuthService {
         
         auth.sendPasswordResetEmail(email, actionCodeSettings).then(function() {
           // Email sent.
-          resolve();
+          resolve(email);
 
         }).catch(function(error) {
           // An error happened.

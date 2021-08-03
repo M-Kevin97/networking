@@ -41,12 +41,15 @@
       <div class="heading px-2">
         <div class="title-section mt-3">
           <h2 class="item-title mb-2">
+
             {{ course.title }}
+
             <app-button-edit class="ml-5" 
                              (click)="openEditCourseModal(getEditPane().GENERAL)"
                              *ngIf="isAuthor">
             </app-button-edit>
           </h2>
+          
           <h3 class="item-subtitle">
             {{ course.catchPhrase }}
           </h3>
@@ -90,15 +93,17 @@
           </div>
         </div>
     
-        <div *ngIf="course.tags" class="course-tags mt-4 mx-3">
+        <div *ngIf="course.tags" 
+             class="btn-tags mt-4 mx-3">
+             
           <span *ngFor="let tag of course.tags; let i = index" 
-                class="course-tag py-2 px-3 mr-2"
+                class="btn-tag py-2 px-3 mr-2"
                 (click)="onSearchTag(tag)">
 
-            <span class="iconify" 
+            <span class="iconify black" 
                   data-icon="heroicons-solid:hashtag" 
                   data-inline="false" 
-                  style="color: #2E7B9C; font-size: 1.1em;">
+                  style="font-size: 1.1em;">
             </span>
 
             <span class="item-p item-click">{{ tag.name }}</span>

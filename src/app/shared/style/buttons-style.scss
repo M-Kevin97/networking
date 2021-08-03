@@ -2,7 +2,7 @@
    
     height: 2.7rem;
 
-    background-color: #2E7B9C;
+    background-color: #179661;
     color: #F8F7F6;
 
     border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
@@ -17,19 +17,57 @@
 }
 
 .btn-gen:hover, .btn-gen:focus, .btn-gen:active { 
-   color: #2E7B9C;
+   color: #179661;
    background-color: #F8F7F6;
-   border:solid 0.1rem #2E7B9C;
+   border:solid 0.1rem #179661;
 }
 
 .btn-standard {
    
-    background-color: #2E7B9C;
+    background-color: #179661;
     color: #F8F7F6;
 }
 
 .btn-standard:hover, .btn-standard:focus, .btn-standard:active { 
-   color: #2E7B9C;
+    
+   color: #179661;
    background-color: #F8F7F6;
-   border:solid 0.1rem #2E7B9C;
+   border:solid 0.1rem #179661;
+}
+
+.btn-tag {
+
+    border: 1px solid #179661;
+
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+
+    cursor: pointer;
+}
+
+.btn-tag:hover, .btn-tag:focus, .btn-tag:active {
+
+    background-color: #179661;
+}
+
+.card-tag {
+
+    min-height: 32vh;
+
+    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.card-tag:hover, .card-tag:focus {
+
+    cursor: pointer;
+}
+
+.btn-animation:hover, .btn-animation:focus {
+
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    transform: scale(1.05);
 }

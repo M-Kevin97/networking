@@ -53,15 +53,15 @@
         <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
             <li>
                 <button type="button" class="btn btn-default btn-prev" 
-                                        (click)="onBack()">
+                                      (click)="onBack()">
                     Précédent
                 </button>
             </li>
             <li>
                 <button type="button" id="continue" 
-                                        class="btn btn-default btn-next" 
-                                        *ngIf="tags.length"
-                                        (click)="onSetTags()">
+                                      class="btn btn-standard" 
+                                      *ngIf="tags.length"
+                                      (click)="onSetTags()">
                     Continuer
                 </button>
             </li>

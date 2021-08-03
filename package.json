@@ -34,7 +34,7 @@
     "@popperjs/core": "^2.4.4",
     "@types/jquery": "^3.3.38",
     "blueimp-canvas-to-blob": "^3.27.0",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^5.0.2",
     "express": "^4.17.1",
     "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",

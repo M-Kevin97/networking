@@ -1,0 +1,19 @@
+@import '/src/app/shared/components/item/item-list/item-list.component.scss';
+@import '/src/app/shared/style/buttons-style.scss';
+
+.user-img {
+
+    height: 20vh;
+    width:  20vh;
+}
+
+.user-img > img{
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.item-p {
+    font-size: 0.8rem;
+}

@@ -12,7 +12,7 @@ import { User } from 'src/app/shared/model/user/user';
 })
 export class UserHomeComponent implements OnInit {
 
-  @Input() userId:string;
+  @Input() user:User;
   @Input() courses:Course[];
   @Input() events:EventItem[];
 
@@ -35,12 +35,12 @@ export class UserHomeComponent implements OnInit {
 
   displayUserCourses() {
 
-    this.router.navigate([RouteUrl.USER, this.userId], {fragment: 'courses'}); 
+    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'courses'}); 
   }
 
   displayUserEvents() {
 
-    this.router.navigate([RouteUrl.USER, this.userId], {fragment: 'events'}); 
+    this.router.navigate([RouteUrl.USER, this.user.id], {fragment: 'events'}); 
   }
 
 }

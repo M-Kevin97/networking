@@ -1,4 +1,6 @@
-<div *ngIf="hasUser" class="container row justify-content-center mx-auto">
+<div *ngIf="hasUser" 
+     class="container row justify-content-center mx-auto">
+
   <div class="col-11">
 
     <!-- Start user Page Head section -->
@@ -32,18 +34,23 @@
         <div class="user-info">
           <h5 class="user-name">
             {{ user.firstname }} {{ user.lastname }}
+
+            <app-icon-booster [isBooster]="isBooster">
+            </app-icon-booster>
+
             <app-button-edit class="ml-5" 
                               (click)="openHeadUserModal()"
                               *ngIf="isUser">
             </app-button-edit>
           </h5>
           <h6>{{ user.title }}</h6>
-          <app-description-section [description]="user.bio"></app-description-section>
+          <app-description-section [description]="user.bio">
+          </app-description-section>
         </div> <!-- End user ID section -->
       </div>  <!-- End user Info section -->
 
       <!-- Start user contact section -->
-      <div class="row w-100 user-contact my-3">
+      <!-- <div class="row w-100 user-contact my-3">
         <div class="col-6 text-center net-post"> 
           <span class="networkers mr-5"><b>12 Networkers</b></span>    
           <span class="user-posts"><b>20 Posts</b></span> 
@@ -62,7 +69,8 @@
             </button>
           </div>
         </div>
-      </div> <!-- End user contact section -->
+      </div>  -->
+      <!-- End user contact section -->
 
       <ul id="user-home-link" class="nav user-nav nav-pills nav-justified mt-4">
 
@@ -111,7 +119,7 @@
                               aria-controls="pills-category" 
                               aria-selected="false">
 
-            <span>NETWORK</span>
+            <span>COMMUNAUTÉ</span>
           </a>
         </li>
       </ul>
@@ -120,50 +128,39 @@
     </div> <!-- End user Page Head section -->
 
     <!-- Tab content (home / courses / events / network) -->
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content" 
+         id="myTabContent">
 
       <div class="tab-content">
         <!-- Tab content home courses-carousel events-carousel -->
-        <div class="tab-pane fade" id="home"
-                                          role="tabpanel" 
-                                          [ngClass]="{ 
-                                                      'active':activeTab === getPanelName().HOME,
-                                                      'show':activeTab === getPanelName().HOME 
-                                                    }"
-                                          aria-labelledby="pills-course-tab">
-          <app-user-home [userId]="user.id"
+        <div class="tab-pane fade" 
+             id="home"
+             role="tabpanel" 
+             [ngClass]="{ 
+                          'active':activeTab === getPanelName().HOME,
+                          'show':activeTab === getPanelName().HOME 
+                        }"
+             aria-labelledby="pills-course-tab">
+
+          <app-user-home [user]="user"
                          [events]="getItemsByPublishedStatus(user.events, true)"
                          [courses]="getItemsByPublishedStatus(user.courses, true)">
           </app-user-home>
         </div>
 
         <!-- Tab content courses list  -->
-        <div class="tab-pane fade" id="courses"
-                                   role="tabpanel" 
-                                   [ngClass]="{ 
-                                              'active':activeTab === getPanelName().COURSES,
-                                              'show':activeTab === getPanelName().COURSES 
-                                            }"
-                                   aria-labelledby="pills-course-tab">
+        <div class="tab-pane fade" 
+             id="courses"
+             role="tabpanel" 
+             [ngClass]="{ 
+                      'active':activeTab === getPanelName().COURSES,
+                      'show':activeTab === getPanelName().COURSES 
+                    }"
+             aria-labelledby="pills-course-tab">
 
-
-          <div *ngIf="isUser && user.courses && user.courses.length" 
-               class="row w-100 my-5">
-            <div class="col-12">
-              <h5>
-                En cours de création <span>({{ getItemsByPublishedStatus(user.courses, false).length }})</span>
-              </h5>
-  
-              <hr class="mb-4">
-  
-              <app-item-card-list [items]="getItemsByPublishedStatus(user.courses, false)"
-                                  [isAuthor]="isUser">
-              </app-item-card-list>
-            </div>
-          </div>
 
           <div *ngIf="user.courses && user.courses.length" 
-               class="row w-100 my-5">
+              class="row w-100 my-5">
 
             <div class="col-12">
 
@@ -175,7 +172,22 @@
                                   [isAuthor]="isUser">
               </app-item-card-list>
             </div>
-          </div>        
+          </div>     
+
+          <div *ngIf="isUser && user.courses && user.courses.length" 
+               class="row w-100 justify-content-center my-5">
+
+            <div class="col-12">
+
+              <h5>
+                En cours de création <span>({{ getItemsByPublishedStatus(user.courses, false).length }})</span>
+              </h5>
+              <hr class="mb-4">
+              <app-item-card-list [items]="getItemsByPublishedStatus(user.courses, false)"
+                                  [isAuthor]="isUser">
+              </app-item-card-list>
+            </div>
+          </div>   
 
           <div *ngIf="!user.courses || !user.courses.length && isUser" 
                class="create-item create-course text-center my-5">
@@ -187,7 +199,6 @@
             </button>
           </div>
 
-
         </div>
     
         <!-- Tab content events list  -->
@@ -196,6 +207,22 @@
                                     [ngClass]="{ 'active':activeTab === getPanelName().EVENTS,
                                                 'show':activeTab === getPanelName().EVENTS }"
                                     aria-labelledby="pills-course-tab">
+
+
+          <div *ngIf="user.events && user.events.length"      
+               class="row w-100 my-5">
+                
+            <div class="col-12">
+
+              <h5>
+                À venir <span>({{ getItemsByPublishedStatus(user.events, true).length }})</span>
+              </h5>
+              <hr class="mb-4">
+              <app-item-card-list [items]="getItemsByPublishedStatus(user.events, true)"
+                                  [isAuthor]="isUser">
+              </app-item-card-list>   
+            </div>  
+          </div>
 
           <div *ngIf="isUser && user.events && user.events.length" 
               class="row w-100 my-5">
@@ -210,21 +237,6 @@
                                   [isAuthor]="isUser">
               </app-item-card-list>
             </div>
-          </div>
-
-          <div *ngIf="user.events && user.events.length"      
-               class="row w-100 my-5">
-               
-            <div class="col-12">
-
-              <h5>
-                En ligne <span>({{ getItemsByPublishedStatus(user.events, true).length }})</span>
-              </h5>
-              <hr class="mb-4">
-              <app-item-card-list [items]="getItemsByPublishedStatus(user.events, true)"
-                                  [isAuthor]="isUser">
-              </app-item-card-list>   
-            </div>  
           </div>
 
           <div *ngIf="!user.events || !user.events.length && isUser" 
@@ -249,7 +261,9 @@
               'show':activeTab === getPanelName().NETWORK
               }"
             aria-labelledby="pills-course-tab">
-          <span>A venir</span>
+
+          <h5 class="text-center">À venir</h5>
+
         </div>
 
       </div>

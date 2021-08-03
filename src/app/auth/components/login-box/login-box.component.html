@@ -84,26 +84,26 @@
             </div> -->
 
             <button type="submit" class="btn-login btn-lg btn-block"
-                                [disabled] = "signInForm.invalid || errorEmail || errorPassword"
-                                (click)="onSignIn()">
+                                  [disabled] = "signInForm.invalid || errorEmail || errorPassword"
+                                  (click)="onSignIn()">
                 Se connecter
             </button>
         </form>
         
         <a [routerLink]="getRoute().PASSWORD_FORGOTTEN"
             routerLinkActive="router-link-active">
-            Mot de passe oublié ?
+            <small>Mot de passe oublié ?</small>
         </a>
 
         <hr class="my-4">
 
         <button type="submit" 
-                class="btn-subscribe btn btn-primary btn-lg btn-block"
+                class="btn-subscribe btn btn-lg btn-block"
                 (click)="goToSignUp()">
-            Créer un compte
+            Rejoindre
         </button>
         <p>
-            <small>C'est facile, rapide et sécurisé</small>
+            <small>Rejoindre la communauté</small>
         </p>
     </div>
 </div>

@@ -26,17 +26,19 @@
     </form>
     <ul class="nav nav-item btns-item-form justify-content-between mx-auto">
       <li>
-          <button type="button" class="btn btn-default btn-prev" 
-                                (click)="onBack()">
-              Précédent
+          <button type="button" 
+                  class="btn btn-default btn-prev" 
+                  (click)="onCloseForm()">
+            Quitter
           </button>
       </li>
       <li>
-          <button type="button" id="continue" 
-                                class="btn btn-default btn-next" 
-                                *ngIf="!titleForm.invalid"
-                                (click)="onSetTitle()">
-              Continuer
+          <button type="button" 
+                  id="continue" 
+                  class="btn btn-standard" 
+                  *ngIf="!titleForm.invalid"
+                  (click)="onSetTitle()">
+            Continuer
           </button>
       </li>
     </ul>

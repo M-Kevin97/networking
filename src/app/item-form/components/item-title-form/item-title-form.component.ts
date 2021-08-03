@@ -1,7 +1,10 @@
+import { ItemService } from 'src/app/shared/service/item/item.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ItemFormService } from '../../shared/services/item-form.service';
 import { StepState } from '../../shared/state-step.enum';
+import { Router } from '@angular/router';
+import { RouteUrl } from 'src/app/core/router/route-url.enum';
 
 @Component({
   selector: 'app-item-title-form',
@@ -17,7 +20,9 @@ export class ItemTitleFormComponent implements OnInit {
   titleForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private _itemFormService: ItemFormService) {}
+              private itemService: ItemService,
+              private _itemFormService: ItemFormService,
+              private router: Router) {}
 
   ngOnInit() {
     this.titleForm = this.formBuilder.group({
@@ -56,6 +61,13 @@ export class ItemTitleFormComponent implements OnInit {
   onBack() {
     
     this.itemFormService.onBackWithoutSave()
+  }
+
+  onCloseForm() {
+
+    this.itemFormService.clearForm();
+    this.itemService.lastItemCreated = null;
+    this.router.navigate([RouteUrl.CREATE_ITEM]);
   }
 
   onRestoreTitleForm(value:string){

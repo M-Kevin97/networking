@@ -2,17 +2,14 @@ import { Database } from 'src/app/core/database/database.enum';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
-import { Category } from 'src/app/shared/model/category/category';
 import { DefautCategory, ItemResult } from 'src/app/shared/model/ISearchQuery';
-import { CategoryService } from 'src/app/shared/service/category/category.service';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header-user',
   templateUrl: './header-user.component.html',
-  styleUrls: ['./header-user.component.css']
+  styleUrls: ['./header-user.component.scss']
 })
 export class HeaderUserComponent implements OnInit {
 
@@ -54,7 +51,7 @@ export class HeaderUserComponent implements OnInit {
       return this.authService.authUser.ppLink === Database.DEFAULT_PP_USER;
     }
 
-    return null;
+    return false;
   }
 
   goToTrainingSearching() {
@@ -77,14 +74,18 @@ export class HeaderUserComponent implements OnInit {
       });
   }
 
+  /**
+   * Don't display search bar on search/RESULT page, home page 
+   */
   displaySearchBar(){
-    return this.router.url.includes(RouteUrl.SEARCH.substr(1)) 
-              && !this.router.url.includes(RouteUrl.RESULTS.substr(1));
+    return this.router.url.includes(RouteUrl.HOME.substr(1));
   }
 
   goHome() {
-    if (this.authService.isAuth) this.router.navigate([RouteUrl.SEARCH]);
-    else this.router.navigate([RouteUrl.HOME]);
+    // if (this.authService.isAuth) this.router.navigate([RouteUrl.SEARCH]);
+    // else this.router.navigate([RouteUrl.HOME]);
+
+    this.router.navigate([RouteUrl.HOME]);
   }
 
   goToAuthUserPage() {

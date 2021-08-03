@@ -1,22 +1,5 @@
 <ul class="nav search-nav nav-pills nav-justified my-5">
-  <li class="nav-item">
-    <a class="nav-link text-center" 
-       id="pills-category-tab" 
-       [ngClass]="{ 'active':activeTab === getPanelName().COURSES}" 
-       (click)="displayPanel(getPanelName().COURSES)"
-       data-toggle="pill" 
-       role="tab" 
-       aria-controls="pills-category" 
-       aria-selected="false">
 
-      <span class="iconify search-nav-icon" 
-            data-inline="false" 
-            data-icon="whh:student">
-      </span>
-      <br>
-      <span>Formations ({{ coursesList.length }})</span>
-    </a>
-  </li>
   <li class="nav-item">
     <a class="nav-link text-center" 
        id="pills-category-tab" 
@@ -35,6 +18,26 @@
       <span>Événements ({{ eventsList.length }})</span>
     </a>
   </li>
+
+  <li class="nav-item">
+    <a class="nav-link text-center" 
+       id="pills-category-tab" 
+       [ngClass]="{ 'active':activeTab === getPanelName().COURSES}" 
+       (click)="displayPanel(getPanelName().COURSES)"
+       data-toggle="pill" 
+       role="tab" 
+       aria-controls="pills-category" 
+       aria-selected="false">
+
+      <span class="iconify search-nav-icon" 
+            data-inline="false" 
+            data-icon="whh:student">
+      </span>
+      <br>
+      <span>Formations ({{ coursesList.length }})</span>
+    </a>
+  </li>
+ 
   <li class="nav-item">
     <a class="nav-link text-center" 
        id="pills-category-tab" 
@@ -44,12 +47,13 @@
        role="tab" 
        aria-controls="pills-category" 
        aria-selected="false">
+       
        <span class="iconify search-nav-icon" 
              data-icon="gridicons:multiple-users" 
              data-inline="false">
        </span>
        <br>
-      <span>Utilisateurs ({{ usersList.length }})</span>
+      <span>Communauté ({{ usersList.length }})</span>
     </a>
   </li>
 </ul>

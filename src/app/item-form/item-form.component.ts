@@ -47,7 +47,8 @@ export class ItemFormComponent implements OnInit, OnDestroy {
                                       (step: StepState) => {
 
                                         if(step === StepState.NEXT) this.nextForm();
-                                        if(step === StepState.STARTING) this.router.navigate([RouteUrl.NEW_ITEM + RouteUrl.NEW_TYPE]);
+                                        // if(step === StepState.STARTING) this.router.navigate([RouteUrl.NEW_ITEM + RouteUrl.NEW_TYPE]);
+                                        if(step === StepState.STARTING) this.router.navigate([RouteUrl.NEW_ITEM + RouteUrl.NEW_TITLE]);
                                         if(step === StepState.BACK) this.goBack();
                                       },
                                       (error) => { 
@@ -62,7 +63,7 @@ export class ItemFormComponent implements OnInit, OnDestroy {
 
     this.itemFormService.clearForm();
     this.itemService.lastItemCreated = null;
-    this.router.navigate([RouteUrl.HOME]);
+    this.router.navigate([RouteUrl.CREATE_ITEM]);
   }
 
   // to know in which step the user is and go to the next
@@ -70,11 +71,11 @@ export class ItemFormComponent implements OnInit, OnDestroy {
 
     switch(this.router.url)
     {
-      case RouteUrl.NEW_ITEM+RouteUrl.NEW_TYPE : 
-      {
-        this.goToTitleForm();
-        break;
-      }
+      // case RouteUrl.NEW_ITEM+RouteUrl.NEW_TYPE : 
+      // {
+      //   this.goToTitleForm();
+      //   break;
+      // }
 
       case RouteUrl.NEW_ITEM+RouteUrl.NEW_TITLE : 
       {
@@ -136,10 +137,10 @@ export class ItemFormComponent implements OnInit, OnDestroy {
     else console.error('no item\'s type created');
   }
 
-  goToTypeForm(){
+  // goToTypeForm(){
 
-    this.router.navigate([RouteUrl.NEW_ITEM + RouteUrl.NEW_TYPE]);
-  }
+  //   this.router.navigate([RouteUrl.NEW_ITEM + RouteUrl.NEW_TYPE]);
+  // }
 
   goToTitleForm(){
 
@@ -190,11 +191,11 @@ export class ItemFormComponent implements OnInit, OnDestroy {
     
     switch(this.router.url)
     {
-      case RouteUrl.NEW_ITEM+RouteUrl.NEW_TITLE : 
-      {
-        this.goToTypeForm();
-        break;
-      }
+      // case RouteUrl.NEW_ITEM+RouteUrl.NEW_TITLE : 
+      // {
+      //   this.goToTypeForm();
+      //   break;
+      // }
 
       case RouteUrl.NEW_ITEM+RouteUrl.NEW_TAGS : 
       {

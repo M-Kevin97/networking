@@ -16,7 +16,7 @@ import { EDIT_PANE } from './components/edit-course/edit-item-pane';
 @Component({
   selector: 'app-single-item',
   templateUrl: './single-item.component.html',
-  styleUrls: ['./single-item.component.css']
+  styleUrls: ['./single-item.component.scss']
 })
 export class SingleItemComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
@@ -63,7 +63,23 @@ export class SingleItemComponent implements OnInit, AfterViewInit, AfterViewChec
     let view:View =  {
       date: this.datePipe.transform(Date.now().toString(), 'dd/MM/yyyy'),
       heure: this.datePipe.transform(Date.now().toString(), 'h:mm:ss'),
-      user: this.authService.isAuth ? this.authService.authUser:new User('unknown', null, null, null, null, null, null, null, null, null, null, null, null, null),
+      user: this.authService.isAuth ? this.authService.authUser:new User('unknown', 
+                                                                         null, 
+                                                                         null,
+                                                                         null, 
+                                                                         null, 
+                                                                         null,
+                                                                         null,
+                                                                         null, 
+                                                                         null, 
+                                                                         null, 
+                                                                         null, 
+                                                                         null, 
+                                                                         null, 
+                                                                         null, 
+                                                                         null, 
+                                                                         null,
+                                                                         null),
     };
 
     this.itemService.addItemView(this.item.id, view, 

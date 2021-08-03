@@ -1,14 +1,35 @@
-#home {
+@import '/src/app/shared/style/color.scss';
+@import '/src/app/shared/style/buttons-style.scss';
 
-    height: 91vh;
-    background: linear-gradient(10deg, #4BA3CB, #5271FF);
-}
+// #home {
+
+//     // height: 91vh;
+// }
 
 #menu-home {
 
     padding-top: 5vh;
     padding-bottom: 5vh;
 }
+
+.sb-section {
+
+    height: 45vh;
+    // background: linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(23,150,97,1) 50%, rgba(23,150,97,1) 0%);
+    // background: linear-gradient(190deg, #179661, #e6e89d38);
+
+    // padding-top: 5vh;
+    // padding-bottom: 5vh;
+}
+
+// .sb-section-bg-img {
+
+//      background-image: url('/assets/img/background_md.jpg');
+//     // background: linear-gradient(90deg, rgba(23, 150, 97, 0) 0%, rgb(255, 255, 255) 100%);
+//      background-repeat: no-repeat;
+//      background-size: contain;
+//      background-size: 100% 100%;
+// }
 
 .section-menu-home {
 
@@ -67,4 +88,47 @@
 .arrow-search-section {
     
     font-size: 2em;
+}
+
+.search-bar {
+
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-c-section {
+
+    width: 80%;
+}
+
+.become-booster-section {
+
+    background-color: black;
+    color: white;
+    height: 40vh;
+}
+
+.btn-become-booster {
+
+    font-size: 1.3rem;
+
+    /* background-color: #2E7B9C; */
+    // color: black;
+
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+
+    font-weight: 550;
+
+    margin: auto;
+}
+
+
+.btn-become-mentor:hover {
+
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    transform: scale(1.1)
 }

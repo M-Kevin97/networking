@@ -21,7 +21,7 @@ enum UserNav {
 @Component({
   selector: 'app-single-user',
   templateUrl: './single-user.component.html',
-  styleUrls: ['./single-user.component.css']
+  styleUrls: ['./single-user.component.scss']
 })
 export class SingleUserComponent implements OnInit, OnDestroy {
   
@@ -29,6 +29,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   hasUser:boolean = false;
    // To know if user that consult the page belongs to the him/her
   isUser:boolean = false;
+  isBooster:boolean = false;
   currentFragment:string;
   mySubscription: any;
 
@@ -56,7 +57,24 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {  
-    this.user = new User(null,null,null,null,null,null,null,null,null,null,null, null, null, null);
+    this.user = new User(null, 
+                         null, 
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null);
 
     const id = this.activatedRoute.snapshot.params['id'];
     this.getCurrentFragment();
@@ -76,12 +94,14 @@ export class SingleUserComponent implements OnInit, OnDestroy {
             this.user = user;
             this.user.id = id;
 
+            console.warn(user);
+
             this.itemService.getiItemsByIUser(user.getIUser()).then(
               (val:IUser) => {
                 if(val) {
-                  console.warn(val.iCourses);
-                  console.warn(this.getItemsByPublishedStatus(val.iCourses, true));
-                  console.warn(this.getItemsByPublishedStatus(val.iCourses, false));
+                  // console.warn(val.iCourses);
+                  // console.warn(this.getItemsByPublishedStatus(val.iCourses, true));
+                  // console.warn(this.getItemsByPublishedStatus(val.iCourses, false));
 
                   this.user.courses = val.iCourses;
                   this.user.events = val.iEvents;
@@ -177,7 +197,11 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   userIsAuth(){
     if(this.authService.isAuth){
 
-      if(this.user.id === this.authService.authUser.id) this.isUser = true;
+      if(this.user.id === this.authService.authUser.id) {
+
+        this.isUser = true;
+        if(this.user.isBooster)this.isBooster = true;
+      } 
       else this.isUser = false;
 
     } else this.isUser = false;

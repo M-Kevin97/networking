@@ -1,4 +1,4 @@
-import { HomeComponent } from './../../../home/home.component';
+import { HomeComponent } from '../../../home/home.component';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserService } from 'src/app/shared/service/user/user.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';

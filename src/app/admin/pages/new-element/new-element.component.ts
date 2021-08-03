@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { UserLevel } from 'src/app/shared/model/UserLevel.enum';
-import { UserSelectComponent } from 'src/app/shared/components/user-select/user-select.component';
+import { UserSelectComponent } from 'src/app/shared/components/user/user-select/user-select.component';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
 import * as firebase from 'firebase';
@@ -401,20 +401,27 @@ export class NewElementComponent implements OnInit {
     const userTitle = this.userForm.get('userTitle').value;
     const userBio = this.userForm.get('userBio').value;
 
-    this.userService.addNewUserToDB(new User(null, 
-                                             userFirstname,
-                                             userLastname,
-                                             null,
-                                             null,
-                                             null,
-                                             null,
-                                             userTitle,
-                                             userBio,
-                                             "Autre",
-                                             UserLevel.STANDARD,
-                                             true,
-                                             [],
-                                             [])).then(
+    let newUser =  new User(null, 
+                            userFirstname,
+                            userLastname,
+                            true,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            userTitle,
+                            userBio,
+                            "Autre",
+                            UserLevel.STANDARD,
+                            true,
+                            [],
+                            []);
+                      
+    newUser.setSearchContent();
+
+    this.userService.addNewUserToDB(newUser).then(
                                               (val) => {
                                                 if(val) {
                                                   // display form values on success

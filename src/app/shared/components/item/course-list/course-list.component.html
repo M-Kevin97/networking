@@ -1,26 +1,24 @@
-<div *ngIf="course" 
-     class="row item-list py-3">
-     
-  <div class="col-3 text-center align-items-center item-click"
+<div class="item-list row align-items-center justify-content-center btn-animation item-click">
+  <div class="col-3 text-center item-click"
        (click)="onConsultCourse(course)">
 
     <div class="my-auto">
       <img *ngIf="course.imageLink" 
-           class="item-list-img" 
-           [src]="course.imageLink">
+          class="item-list-img" 
+          [src]="course.imageLink">
     </div>
 
   </div>
   <div class="col-7">
 
     <div class="item-click" 
-         (click)="onConsultCourse(course)">
+      (click)="onConsultCourse(course)">
 
       <h5>{{ course.title }}</h5>
       <p>{{ course.catchPhrase }}</p>
     </div>
 
-   <app-rating *ngIf="course.globalNote"
+    <app-rating *ngIf="course.globalNote"
                 [style]="0" 
                 [nbRatings]="course.nbRatings" 
                 [globalNote]="course.globalNote"
@@ -28,37 +26,48 @@
                 [size]="1">
     </app-rating>
 
-    <div *ngIf="course.iAuthors.length" class="course-section-auteur">
+    <div *ngIf="course.iAuthors.length" 
+         class="course-section-auteur">
+
       <span class="course-author-name">
-        <a [href]="'/user/'+course.iAuthors[0].id" class="item-p">
+        <a [href]="'/user/'+course.iAuthors[0].id" 
+           class="item-p">
           {{ course.iAuthors[0].firstname }} {{ course.iAuthors[0].lastname }}
         </a>
       </span>
     </div>
     <hr class="separator-line"> <!-- separation line -->
     <!-- <span *ngIf="course.category" class="course-category">
-      <a class="item-p item-click" (click)="onConsultCategory(course.category.id)">
-        {{ course.category.name }}
-      </a>
-      <span> &bull; 
-        <a *ngFor="let subCat of course.category.subCategories" class="item-p item-click" 
-                                                                (click)="onConsultCategory(subCat.id)">
-          {{ subCat.name }}
-        </a>
-      </span>
+    <a class="item-p item-click" (click)="onConsultCategory(course.category.id)">
+    {{ course.category.name }}
+    </a>
+    <span> &bull; 
+    <a *ngFor="let subCat of course.category.subCategories" class="item-p item-click" 
+                                                            (click)="onConsultCategory(subCat.id)">
+      {{ subCat.name }}
+    </a>
+    </span>
     </span> -->
-    <div *ngIf="course.tags" class="course-tags">
-      <span class="iconify mr-1 my-auto" data-icon="heroicons-solid:hashtag" 
-                                         data-inline="false" 
-                                         style="color: #2E7B9C;">
+    <div *ngIf="course.tags" 
+         class="course-tags">
+      <span class="iconify mr-1 my-auto" 
+            data-icon="heroicons-solid:hashtag" 
+            data-inline="false" 
+            style="color: #179661;">
       </span>
-      <span *ngFor="let tag of course.tags; let i = index" class="course-tag">
-        <span class="item-p item-click" (click)="onConsultTag(tag)">{{ tag.name }}</span>
+      <span *ngFor="let tag of course.tags; let i = index" 
+            class="course-tag">
+            
+        <span class="item-p item-click" 
+              (click)="onConsultTag(tag)">{{ tag.name }}
+        </span>
+      
         <span *ngIf="course.tags.length > 1 && course.tags.length-1 > i">&nbsp;&bull;&nbsp;</span>
       </span> 
     </div>
   </div>
-   <div class="col-2 align-self-center item-click" 
+
+  <div class="col-2 align-self-center item-click" 
        (click)="onConsultCourse(course)">
 
     <h4 class="course-price">
@@ -67,5 +76,3 @@
 
   </div>
 </div>
-
-

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from '../../model/user/user';
+import { User } from 'src/app/shared/model/user/user';
 
 @Component({
   selector: 'app-user-select',

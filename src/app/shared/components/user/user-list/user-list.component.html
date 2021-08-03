@@ -1,0 +1,37 @@
+<div *ngFor="let user of users" 
+      class="item-list row align-items-center justify-content-center item-click btn-animation my-3 py-1"
+      (click)="onConsultUser(user)">
+
+  <div class="col-3">
+
+    <div class="user-img">
+
+      <app-user-avatar  [photoUrl] = "userHasPpLink(user) ? '':user.ppLink" 
+                        [name]="user.firstname +' '+ user.lastname">
+      </app-user-avatar> 
+
+    </div>
+
+  </div>
+  <div class="col-7 align-items-center">  
+    <h5>
+      {{ user.firstname }} {{ user.lastname }}
+      
+      <app-icon-booster [isBooster]="user.isBooster">
+      </app-icon-booster>
+    </h5>
+    <h6>
+      {{ user.title }} 
+    </h6>
+
+    <!-- <div class="item-section-title">
+      <span class="booster-title">
+          
+      </span>
+    </div> -->
+    <p class="mt-3">
+      {{ getTheSartOfDescription(user) }}...
+    </p>
+  </div>
+</div>
+
