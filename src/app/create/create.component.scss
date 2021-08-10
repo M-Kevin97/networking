@@ -1,8 +1,9 @@
 @import '/src/app/shared/style/color.scss';
+@import '/src/app/shared/style/buttons-style.scss';
 
 #create {
 
-    height: 100vh;
+    min-height: 91vh;
 }
 
 .catch-p {
@@ -11,41 +12,51 @@
     font-weight: 450;
 }
 
-.item-option-btn {
-
-    margin-top: auto;
-}
-
 .menu-item-option {
 
-    min-height: 55vh;
+    width: 95%;
+    min-height: 45vh;
+
+    margin-bottom: 4vh;
 
     -webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
     border-radius: 10px;
 }
 
-.menu-item-option:hover, .menu-item-option:focus {
+.menu-item-option-title {
 
-    cursor: pointer;
-
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    transform: scale(1.1)
+    font-size: 1.2rem;
 }
 
-.btn-new-item {
+.item-option-img {
 
-    color: white;
-
-    -webkit-border-radius: 500px;
-	-moz-border-radius: 500px;
-    border-radius: 500px;
+    width: 60%;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
 }
 
-.btn-new-item:hover {
+.menu-item-option-bottom {
 
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    transform: scale(1.1)
+    margin-top: auto;
+    margin-bottom: 0;
+}
+
+/*
+    sm
+*/
+@media only screen and (max-width: 576px)
+{
+
+    .menu-item-option {
+
+        width: 90%;
+        min-height: 35vh;
+    }
+
+    .item-option-img {
+
+        width: 50%;
+    }
+    
 }

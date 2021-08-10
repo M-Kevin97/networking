@@ -1,7 +1,6 @@
 import { AdminModule } from './admin/admin.module';
 import { NgModule } from '@angular/core';
 import * as firebase from 'firebase';
-import { AdminComponent } from './admin/admin.component';
 import { AppRoutingRoutes } from './app-routing.routing';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';

@@ -1,109 +1,108 @@
-<div style="min-width: 350px;">
-    <div *ngIf="errorMessage" 
-        class="alert alert-danger text-center">
-        <p class="text-danger">
-            {{ errorMessage }}
-        </p>
-    </div>
 
-    <div class="block-sign signin-block text-center px-4 py-4 shadow">
+<div *ngIf="errorMessage" 
+    class="alert alert-danger text-center">
+    <p class="text-danger">
+        {{ errorMessage }}
+    </p>
+</div>
 
-        <form [formGroup]="signInForm" class="signin-form">
-            <div class="form-group mb-3">
-                <label for="email" class="sr-only">
-                    Adresse mail
-                    <span style="color: rgb(247, 103, 103);">*</span>
-                </label>
-                <input type="email" class="form-control form-control-lg input-sign" 
-                                    [ngClass]="{ 'is-invalid': shouldShowRequiredError('email') || shouldShowSignInError('email') }"
-                                    formControlName="email"
-                                    id="email" 
-                                    aria-describedby="emailHelp" 
-                                    placeholder="Email"
-                                    type="input"
-                                    (click)="(shouldShowRequiredError('email') || shouldShowSignInError('email'))"
-                                    tabindex="1" 
-                                    autocapitalize="off" 
-                                    autocorrect="off" 
-                                    autofocus="autofocus"
-                                    autocomplete="email"
-                                    required>
-                <small id="emailHelp" class="form-text text-muted">
-                    Nous ne partagerons jamais votre e-mail.
-                </small>
-            </div>
+<div class="block-sign signin-block text-center px-4 py-4 shadow">
 
-            <div class="form-group mb-4">
-                <label for="password" class="sr-only">
-                    Mot de passe
-                    <span style="color: rgb(247, 103, 103);">*</span>
-                </label>
-                <div class="input-group">
-                    <input [type]="hidePassword ? 'password' : 'text'" 
-                            class="form-control form-control-lg input-sign" 
-                            [ngClass]="{ 'is-invalid': shouldShowRequiredError('password') || shouldShowSignInError('password') }"
-                            formControlName="password"
-                            id="password" 
-                            (keyup)="checkPassword()"
-                            (keydown)="forbidOtherCharacters($event.key)"
-                            minlength="8"
-                            maxlength="30"
-                            aria-describedby="passwordHelp" 
-                            placeholder="Mot de passe"
-                            type="input"
-                            (click)="(shouldShowRequiredError('password') || shouldShowSignInError('password'))"
-                            autocomplete="current-password"
-                            ng-hide="true"
-                            required>
-            
-                    <div class="input-group-append" *ngIf="hidePassword" (click)="hidePassword = !hidePassword">
-                        <div class="input-group-text">
-                            <span class="iconify" 
-                                    data-icon="ic:outline-visibility-off" 
-                                    data-inline="false">
-                            </span>  
-                        </div>
-                    </div>
-            
-                    <div class="input-group-append" *ngIf="!hidePassword" (click)="hidePassword = !hidePassword">
-                        <div class="input-group-text">
-                            <span class="iconify" 
-                                    data-icon="ic:outline-visibility" 
-                                    data-inline="false">
-                            </span>
-                        </div>
-                    </div>
-                </div>                  
-            </div>
-            
-            <!-- <div class="custom-control custom-checkbox">
-                <label for="RememberMe">Se souvenir de moi ?</label>
-                <input type="checkbox" class="form-control form-control-lg custom-control-input" 
-                                        formControlName = "rememberMe"
-                                        id="RememberMe">
-            </div> -->
+    <form [formGroup]="signInForm" class="signin-form">
+        <div class="form-group mb-3">
+            <label for="email" class="sr-only">
+                Adresse mail
+                <span style="color: rgb(247, 103, 103);">*</span>
+            </label>
+            <input type="email" class="form-control form-control-lg input-sign" 
+                                [ngClass]="{ 'is-invalid': shouldShowRequiredError('email') || shouldShowSignInError('email') }"
+                                formControlName="email"
+                                id="email" 
+                                aria-describedby="emailHelp" 
+                                placeholder="Email"
+                                type="input"
+                                (click)="(shouldShowRequiredError('email') || shouldShowSignInError('email'))"
+                                tabindex="1" 
+                                autocapitalize="off" 
+                                autocorrect="off" 
+                                autofocus="autofocus"
+                                autocomplete="email"
+                                required>
+            <small id="emailHelp" class="form-text text-muted">
+                Nous ne partagerons jamais votre e-mail.
+            </small>
+        </div>
 
-            <button type="submit" class="btn-login btn-lg btn-block"
-                                  [disabled] = "signInForm.invalid || errorEmail || errorPassword"
-                                  (click)="onSignIn()">
-                Se connecter
-            </button>
-        </form>
+        <div class="form-group mb-4">
+            <label for="password" class="sr-only">
+                Mot de passe
+                <span style="color: rgb(247, 103, 103);">*</span>
+            </label>
+            <div class="input-group">
+                <input [type]="hidePassword ? 'password' : 'text'" 
+                        class="form-control form-control-lg input-sign" 
+                        [ngClass]="{ 'is-invalid': shouldShowRequiredError('password') || shouldShowSignInError('password') }"
+                        formControlName="password"
+                        id="password" 
+                        (keyup)="checkPassword()"
+                        (keydown)="forbidOtherCharacters($event.key)"
+                        minlength="8"
+                        maxlength="30"
+                        aria-describedby="passwordHelp" 
+                        placeholder="Mot de passe"
+                        type="input"
+                        (click)="(shouldShowRequiredError('password') || shouldShowSignInError('password'))"
+                        autocomplete="current-password"
+                        ng-hide="true"
+                        required>
         
-        <a [routerLink]="getRoute().PASSWORD_FORGOTTEN"
-            routerLinkActive="router-link-active">
-            <small>Mot de passe oublié ?</small>
-        </a>
+                <div class="input-group-append" *ngIf="hidePassword" (click)="hidePassword = !hidePassword">
+                    <div class="input-group-text">
+                        <span class="iconify" 
+                                data-icon="ic:outline-visibility-off" 
+                                data-inline="false">
+                        </span>  
+                    </div>
+                </div>
+        
+                <div class="input-group-append" *ngIf="!hidePassword" (click)="hidePassword = !hidePassword">
+                    <div class="input-group-text">
+                        <span class="iconify" 
+                                data-icon="ic:outline-visibility" 
+                                data-inline="false">
+                        </span>
+                    </div>
+                </div>
+            </div>                  
+        </div>
+        
+        <!-- <div class="custom-control custom-checkbox">
+            <label for="RememberMe">Se souvenir de moi ?</label>
+            <input type="checkbox" class="form-control form-control-lg custom-control-input" 
+                                    formControlName = "rememberMe"
+                                    id="RememberMe">
+        </div> -->
 
-        <hr class="my-4">
-
-        <button type="submit" 
-                class="btn-subscribe btn btn-lg btn-block"
-                (click)="goToSignUp()">
-            Rejoindre
+        <button type="submit" class="btn-login btn-lg btn-block"
+                                [disabled] = "signInForm.invalid || errorEmail || errorPassword"
+                                (click)="onSignIn()">
+            Se connecter
         </button>
-        <p>
-            <small>Rejoindre la communauté</small>
-        </p>
-    </div>
+    </form>
+    
+    <a [routerLink]="getRoute().PASSWORD_FORGOTTEN"
+        routerLinkActive="router-link-active">
+        <small>Mot de passe oublié ?</small>
+    </a>
+
+    <hr class="my-4">
+
+    <button type="submit" 
+            class="btn-subscribe btn btn-lg btn-block"
+            (click)="goToSignUp()">
+        Rejoindre
+    </button>
+    <p>
+        <small>Rejoindre la communauté</small>
+    </p>
 </div>

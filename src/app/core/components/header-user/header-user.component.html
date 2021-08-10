@@ -64,6 +64,27 @@
         </div>
       </li>
 
+      <li *ngIf="!isAuth()"
+          class="nav-li nav-li-publish" 
+          routerLinkActive="router-link-active">
+
+        <div class="d-flex align-items-center nav-li-text"
+            (click)="onSignUp()"
+            style="font-weight: 500;">
+          Rejoindre
+        </div>
+      </li>
+
+      <li *ngIf="!isAuth()"
+          class="nav-li" 
+          routerLinkActive="router-link-active">
+
+        <button class="btn btn-gen btn-animation" 
+                (click)="onSignIn()">
+          Se connecter
+        </button>
+      </li>
+
       <li class="nav-item li-avatar ml-5" 
           *ngIf="isAuth()"
           ngbDropdown 
@@ -127,6 +148,17 @@
         </div>
       </li>
 
+      
+      <!-- Sign In -->
+      <!-- <li *ngIf="!isAuth()" 
+          class="ml-5 my-auto">
+
+        <button class="btn btn-signin bg-main-color elem" 
+                (click)="onSignIn()">
+          Se connecter
+        </button>
+      </li> -->
+
       <!-- <ng-template #popContent> 
         <div class="row">
           <div class="col-6">
@@ -170,14 +202,14 @@
     </ul>
 
     <!-- Sign In -->
-    <div *ngIf="!isAuth()" 
+    <!-- <div *ngIf="!isAuth()" 
          class="ml-5 my-auto">
 
       <button class="btn btn-signin bg-main-color elem" 
               (click)="onSignIn()">
         Se connecter
       </button>
-    </div>
+    </div> -->
 
   </div>
 </nav>

@@ -50,9 +50,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  goToCreateItemPage() {
+
+    this.router.navigate([RouteUrl.CREATE_ITEM]);
+  }
+
   goToSearchPage() {
 
     this.router.navigate([RouteUrl.SEARCH]);
+  }
+
+  goToSignUpPage() {
+
+    this.router.navigate([RouteUrl.SIGNUP]);
   }
 
   goToLink(url:string) {

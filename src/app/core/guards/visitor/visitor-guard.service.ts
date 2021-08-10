@@ -23,7 +23,7 @@ export class VisitorGuardService {
         (val) => {
           console.warn('canActivate', val);
           if(val) {
-            this.router.navigate([RouteUrl.FEED]);
+            this.router.navigate([RouteUrl.SEARCH]);
             resolve(false);
           }
           else {

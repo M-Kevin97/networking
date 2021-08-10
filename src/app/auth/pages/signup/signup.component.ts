@@ -39,6 +39,10 @@ export class SignupComponent implements OnInit {
     this.initForm();
   }
 
+  goHome() {
+    this.router.navigate([RouteUrl.HOME]);
+  }
+
   initForm(){
     this.signUpForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],

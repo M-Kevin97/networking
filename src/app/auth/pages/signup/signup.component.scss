@@ -7,8 +7,6 @@
 }
 
 h3 {
-
-    text-align:center;
     text-transform: uppercase;
     font-size: large;
     font-weight: 800;
@@ -22,6 +20,14 @@ label, input {
 button {
 
     font-size: medium;
+}
+
+.home-menu {
+
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+
+    height: 25vh;
 }
 
 .signup-block-signin {

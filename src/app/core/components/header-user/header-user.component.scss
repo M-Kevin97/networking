@@ -1,4 +1,5 @@
 @import '/src/app/shared/style/color.scss';
+@import '/src/app/shared/style/buttons-style.scss';
 
 .navbar {
 
@@ -182,34 +183,33 @@
     -webkit-border-radius: 0 3rem 3rem 0;
 }
 
-.btn-signin {
+// .btn-signin {
    
-    height: 2.7rem;
+//     height: 2.7rem;
 
-    /* background-color: #2E7B9C; */
-    color: white;
+//     color: white;
 
-    border-radius: 500px;
-    -moz-border-radius: 500px;
-    -webkit-border-radius: 500px;
+//     border-radius: 500px;
+//     -moz-border-radius: 500px;
+//     -webkit-border-radius: 500px;
 
-    font-weight: 550;
+//     font-weight: 550;
 
-    margin-top: auto;
-    margin-bottom: auto;
-}
+//     margin-top: auto;
+//     margin-bottom: auto;
+// }
 
-.btn-signin:hover, .btn-signin:focus, .btn-signin:active { 
+// .btn-signin:hover, .btn-signin:focus, .btn-signin:active { 
 
-    background: linear-gradient(190deg, #179661, #e5e89d);
-    border-radius: 500px;
-    -moz-border-radius: 500px;
-    -webkit-border-radius: 500px;
+//     background: linear-gradient(190deg, #179661, #e5e89d);
+//     border-radius: 500px;
+//     -moz-border-radius: 500px;
+//     -webkit-border-radius: 500px;
 
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    transform: scale(1.1)
-}
+//     -webkit-transform: scale(1.1);
+//     -moz-transform: scale(1.1);
+//     transform: scale(1.1)
+// }
 
 .nav-categories {
     background-color: white;

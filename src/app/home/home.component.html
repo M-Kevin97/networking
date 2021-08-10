@@ -1,38 +1,46 @@
-<div id="home" 
+<div id="home"
      class="container-fluid">
 
-  <div class="row sb-section sb-section-bg-img bg-shade-color justify-content-center pt-5">
+  <div class="home-main-section">
+    <div class="row justify-content-center align-items-center">
 
-    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+      <div class="col-lg-7 col-md-12 col-sm-12">
 
-      <h2 style="color: white; font-size: 3rem;"
-          class="mb-3">Boostez votre évolution</h2>
+        <h2 class="main-title main-color">
+          Boostez votre évolution grâce à une communauté en ligne
+        </h2>
 
-      <h5 class="mb-5" style="color: white;">Trouvez tout ce qu'il vous faut !</h5>
-    </div>
+        <div class="home-img-box text-center">
+          <img  class="home-img" 
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Fbackground_md-min.jpg?alt=media&token=a0efd402-7d0c-4323-a5de-add47c0edb02" 
+                alt="Wyskill accueil">
+        </div>
+      </div>
 
-    <div class="col-lg-12 col-md-12 col-sm-12 pb-5 align-self-end text-center">
-      <div class="search-bar">
+      <div class="home-login-col col-lg-4 col-md-12 col-sm-12">
 
-        <app-search-bar2 [height]="'lg'"></app-search-bar2>
+        <div class="home-login-box">
+          <app-login-box></app-login-box>
+        </div>
 
       </div>
+
     </div>
   </div>
 
-  <!-- <hr class="my-4" 
-      style="color: black;">  -->
+  <hr class="home-section-separation"> 
 
-  <div class="pl-5 my-5 mx-auto">
-    <h5 class="home-c-section mt-5 mb-3" 
-        style="font-size: 1.5rem;">Rechercher par thématique</h5>
 
-    <div class="row align-items-center justify-content-center">
+  <div class="home-section">
+
+    <h3 class="home-section-title tags-section-title">Trouvez ce qu'il vous faut pour réussir</h3>
+
+    <div class="card-tag-row row align-items-center justify-content-start">
 
       <!-- Card Tag Immobilier -->
-      <div class="col-lg-2 col-md-5 my-2">
+      <div class="col-lg-3 col-md-4">
 
-        <div class="card card-tag btn-animation py-2 px-3 mr-2 shadow"
+        <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
              (click)="onSearchByTag('Immobilier')">
 
         <!--   <img class="card-img"
@@ -41,18 +49,17 @@
                alt="Tag Immobilier"/> -->
 
         <img  class="card-img" 
-              src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/icon%2Ftags%2Freal-estate.png?alt=media&token=73f3e3c8-35ba-40ec-b35b-9ae0347955b9" 
-              style="height: 9rem;"
-              alt="Tag Business en ligne">
+              src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Freal-estate.png?alt=media&token=48106fc8-3832-4924-bf94-2e1824fc4ad2" 
+              alt="Tag Immobilier">
 
-          <h6 class="card-title text-center">Immobilier</h6>
+          <h6 class="card-title">Immobilier</h6>
         </div> 
       </div>
  
       <!-- Card Tag Business en ligne -->  
-      <div class="col-lg-2 col-md-5 my-2">
+      <div class="col-lg-3 col-md-4">
 
-        <div class="card card-tag  btn-animation py-2 px-3 mr-2 shadow" 
+        <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow" 
               (click)="onSearchByTag('Business en ligne')">
 
           <!-- <img  class="card-img border border-warning" 
@@ -61,19 +68,18 @@
                 alt="Tag Business en ligne"> -->
 
           <img  class="card-img" 
-                src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/icon%2Ftags%2Fcommerce-en-ligne.png?alt=media&token=c69f3abb-c7c2-4f82-8dc0-e2203a86fe9f" 
-                style="height: 9rem;"
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fcommerce-en-ligne.png?alt=media&token=ebdbb08d-f60e-4b85-8ac9-8919602283d6" 
                 alt="Tag Business en ligne">
                 
 
-          <h6 class="card-title text-center">Business en ligne</h6>
+          <h6 class="card-title">Business en ligne</h6>
         </div>
       </div>
 
       <!-- Card Tag Marketing -->
-      <div class="col-lg-2 col-md-5 my-2">
+      <div class="col-lg-3 col-md-4">
 
-        <div class="card card-tag  btn-animation py-2 px-3 mr-2 shadow"
+        <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
               (click)="onSearchByTag('Marketing')">
 
           <!-- <img class="card-img"
@@ -82,18 +88,17 @@
                alt="Tag Marketing"/> -->
 
           <img  class="card-img" 
-                src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/icon%2Ftags%2Fmarketing-en-ligne.png?alt=media&token=a9bed6f5-e77e-4053-87f1-383e84b01645" 
-                style="height: 9rem;"
-                alt="Tag Business en ligne">
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fle-marketing-numerique.png?alt=media&token=5a2b55e7-d8c7-4c0b-af80-ec9026dfb830" 
+                alt="Tag Marketing">
 
-          <h6 class="card-title text-center">Marketing</h6>
+          <h6 class="card-title">Marketing</h6>
         </div> 
       </div>
   
       <!-- Card Tag Développement personnel -->
-      <div class="col-lg-2 col-md-5 my-2">
+      <div class="col-lg-3 col-md-4">
 
-        <div class="card card-tag btn-animation py-2 px-3 mr-2 shadow"
+        <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
               (click)="onSearchByTag('Developpement personnel')">
 
           <!-- <img  class="card-img" 
@@ -102,18 +107,17 @@
                 alt="Tag Developpement personnel"> -->
 
           <img  class="card-img" 
-                src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/icon%2Ftags%2Fpersonal-development.png?alt=media&token=2ec89894-28d2-49a1-bb79-e22820297347" 
-                style="height: 9rem;"
-                alt="Tag Business en ligne">
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fpersonal-development.png?alt=media&token=fb3dce47-f759-42a1-8c18-f28fc928e808" 
+                alt="Tag Développement personnel">
 
-            <h6 class="card-title text-center">Développement personnel</h6>
+            <h6 class="card-title">Développement personnel</h6>
         </div>
       </div>
 
       <!-- Card Tag Trading -->
-      <div class="col-lg-2 col-md-5 my-2">
+      <div class="col-lg-3 col-md-4">
 
-        <div class="card card-tag btn-animation py-2 px-3 mr-2 shadow"
+        <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
              (click)="onSearchByTag('Trading')">
 
           <!-- <img  class="card-img" 
@@ -122,62 +126,142 @@
                 alt="Tag Trading"/> -->
 
           <img  class="card-img" 
-                src="https://firebasestorage.googleapis.com/v0/b/network-55b29.appspot.com/o/icon%2Ftags%2Ftrading.png?alt=media&token=a0749be0-a24e-4beb-87a9-1fb1915b1b91" 
-                style="height: 9rem;"
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Ftrading.png?alt=media&token=4fdf5d2b-5e10-41bf-911d-61ac30dd1d9b" 
+                alt="Tag Trading">
+
+            <h6 class="card-title">Trading</h6>
+        </div>
+      </div>
+    </div>
+
+     
+    <!-- pill Tags row mobile -->
+    <div class="pill-row row">
+
+      <!-- pill Tag Immobilier -->
+      <div class="col-lg-2 col-md-4 my-2">
+              
+        <div class="pill-tag px-2 shadow"
+             (click)="onSearchByTag('Immobilier')">
+
+          <img  class="pill-img" 
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Freal-estate.png?alt=media&token=48106fc8-3832-4924-bf94-2e1824fc4ad2" 
                 alt="Tag Business en ligne">
 
-            <h6 class="card-title text-center">Trading</h6>
+          <span class="pill-title">Immobilier</span>
+        </div>
+      </div>
+
+      <!-- pill Tag Business en ligne -->
+      <div class="col-lg-2 my-2">
+              
+        <div class="pill-tag px-2 shadow"
+             (click)="onSearchByTag('Business en ligne')">
+
+          <img  class="pill-img" 
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fcommerce-en-ligne.png?alt=media&token=ebdbb08d-f60e-4b85-8ac9-8919602283d6" 
+                alt="Tag Business en ligne">
+
+          <span class="pill-title">Business en ligne</span>
+        </div>
+      </div>
+
+      <!-- pill Tag Marketing -->
+      <div class="col-lg-2 my-2">
+              
+        <div class="pill-tag px-2 shadow"
+             (click)="onSearchByTag('Marketing')">
+
+          <img  class="pill-img" 
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fle-marketing-numerique.png?alt=media&token=5a2b55e7-d8c7-4c0b-af80-ec9026dfb830" 
+                alt="Tag Marketing">
+
+          <span class="pill-title">Marketing</span>
+        </div>
+      </div>
+
+      <!-- pill Tag Développement personnel -->
+      <div class="col-lg-2 my-2">
+              
+        <div class="pill-tag px-2 shadow"
+             (click)="onSearchByTag('Développement personnel')">
+
+          <img  class="pill-img" 
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fpersonal-development.png?alt=media&token=fb3dce47-f759-42a1-8c18-f28fc928e808" 
+                alt="Tag Développement personnel">
+
+          <span class="pill-title">Développement personnel</span>
+        </div>
+      </div>
+
+      <!-- pill Tag Trading -->
+      <div class="col-lg-2 my-2">
+              
+        <div class="pill-tag px-2 shadow"
+             (click)="onSearchByTag('Trading')">
+
+          <img  class="pill-img" 
+                src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Ftrading.png?alt=media&token=4fdf5d2b-5e10-41bf-911d-61ac30dd1d9b" 
+                alt="Tag Trading">
+
+          <span class="pill-title">Trading</span>
         </div>
       </div>
 
     </div>
   </div>
 
+  <hr class="home-section-separation"> 
 
-  <!-- New booster section -->
-  <div  *ngIf="iBoosters && iBoosters.length >0"
-        class="my-5 mx-auto">
+  <div class="home-section home-mobile-section">
+    <div class="row align-items-center justify-content-center home-section">
+      <div class="home-section-img col-lg-4 col-md-10 col-sm-10 text-center">
 
-    <hr class="my-4" 
-        style="color: black;">
-
-    <h5 class="pl-5 mt-5 mb-3" 
-        style="font-size: 1.5rem;">Découvrir les boosteurs</h5>
-
-    <div class="row align-items-center justify-content-center">
-
-      <!-- Boosters : User list -->
-      <div  class="home-c-section">
-
-        <app-user-list *ngIf="iBoosters" [users]="iBoosters">
-        </app-user-list>
+        <img  class="img-s d-inline-block"
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDY0IDY0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48bGluZWFyR3JhZGllbnQgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBpZD0iU1ZHSURfMV8iIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMzIiIHgyPSIzMiIgeTE9IjYzIiB5Mj0iMSI+PHN0b3Agc3RvcC1vcGFjaXR5PSIxIiBzdG9wLWNvbG9yPSIjZTVlODlkIiBvZmZzZXQ9IjAiPjwvc3RvcD48c3RvcCBzdG9wLW9wYWNpdHk9IjEiIHN0b3AtY29sb3I9IiMxNzk2NjEiIG9mZnNldD0iMC41MjUwOTY1MjUwOTY1MjUiPjwvc3RvcD48L2xpbmVhckdyYWRpZW50PjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTU3LjE4OSAyNy41OTRjMS43MDMtMS4yNzggMi44MTEtMy4zMDYgMi44MTEtNS41OTQgMC0zLjg1OS0zLjE0MS03LTctN3MtNyAzLjE0MS03IDdjMCAyLjM2NCAxLjE4MSA0LjQ1NCAyLjk4MSA1LjcyMi0xLjAzNS4zMDEtMi4wNDMuNjkxLTMuMDA2IDEuMTczLTEuNDQ4LjcyMy0zLjA2NyAxLjEwNS00LjY4MyAxLjEwNWgtLjI5MnYtN2gtMnYtNGgtN2MtMS42NTQgMC0zIDEuMzQ2LTMgM3YxMWgtOXYtOS4xMThjNi4zMzItMS4wMTIgMTEtNi40MTggMTEtMTIuOTI3di02LjQ1NWMwLTEuOTMtMS41Ny0zLjUtMy41LTMuNXMtMy41IDEuNTctMy41IDMuNXY1LjVjMCAzLjMwOS0yLjY5MSA2LTYgNmgtLjExMWMxLjMwMS0xLjI3MiAyLjExMS0zLjA0MiAyLjExMS01IDAtMy44NTktMy4xNDEtNy03LTdzLTcgMy4xNDEtNyA3YzAgMi4yMzYgMS4wNTggNC4yMjYgMi42OTYgNS41MDktNC40NTYgMS40MDYtNy42OTYgNS41NzctNy42OTYgMTAuNDkxdjUuOTgyYzAgMS4zNC41MjIgMi41OTggMS40NzMgMy41NDMuOTQ0Ljk0MSAyLjIwNCAxLjQ3NCAzLjUyNyAxLjQ1NnYxNS4wMTljMCAyLjIwNiAxLjc5NCA0IDQgNCAxLjIwMSAwIDIuMjY2LS41NDIgMy0xLjM4Mi43MzQuODQgMS43OTkgMS4zODIgMyAxLjM4Mi43MzIgMCAxLjQwOS0uMjEyIDItLjU1NnY2LjU1Nmg2di0yMmgyMnYyaC0xLjExN2MtMi4xNTUgMC00LjA2MiAxLjM3NC00Ljc0MyAzLjQxOWwtMy45NTUgMTEuODY3Yy0uMTIzLjM2Ny0uMTg1Ljc0OC0uMTg1IDEuMTMzIDAgMS45NzUgMS42MDYgMy41ODEgMy41ODEgMy41ODFoLjU1OWMxLjU0NSAwIDIuOTEtLjk4NCAzLjM5Ni0yLjQ0OGwyLjQ2NC03LjM5djkuODM4aDZ2LThoOWMxLjEwMyAwIDItLjg5NyAyLTJ2LTJjMC0xLjEwMy0uODk3LTItMi0yaC0uMTExYzEuMzAxLTEuMjcyIDIuMTExLTMuMDQyIDIuMTExLTV2LThjMC0zLjgzOS0yLjQyLTcuMTE0LTUuODExLTguNDA2em0tOS4xODktNS41OTRjMC0yLjc1NyAyLjI0My01IDUtNXM1IDIuMjQzIDUgNS0yLjI0MyA1LTUgNS01LTIuMjQzLTUtNXptLTkgOGgtMi41Yy0xLjkzIDAtMy41IDEuNTctMy41IDMuNSAwIC41MzkuMTMzIDEuMDQ0LjM1MSAxLjVoLTEuMzUxYy0uNTUyIDAtMS0uNDQ4LTEtMXYtOS4xODRjLjMxNC4xMTIuNjQ4LjE4NCAxIC4xODRoN3ptLTctOWg1djJoLTVjLS41NTIgMC0xLS40NDgtMS0xcy40NDgtMSAxLTF6bS02LTExdi01LjVjMC0uODI3LjY3My0xLjUgMS41LTEuNXMxLjUuNjczIDEuNSAxLjV2Ni40NTVjMCA1Ljc3Ni00LjMzOCAxMC41MjYtMTAuMDkxIDExLjA0OWwtLjkwOS4wODN2Ny43MjljLTEuMTYxLS40MTQtMi0xLjUxNC0yLTIuODE2di05aDJjNC40MTEgMCA4LTMuNTg5IDgtOHptLTE4IDFjMC0yLjc1NyAyLjI0My01IDUtNXM1IDIuMjQzIDUgNS0yLjI0MyA1LTUgNS01LTIuMjQzLTUtNXptLTQuMTE2IDI0LjEwOGMtLjU3MS0uNTY3LS44ODQtMS4zMjItLjg4NC0yLjEyNnYtNS45ODJjMC00LjI3NSAyLjk5OC03Ljg1NSA3LTguNzY4djguNzY4YzAgMS4zMDItLjgzOSAyLjQwMi0yIDIuODE2di01LjgxNmgtMnYxMS45ODJjLS43OTkgMC0xLjU1LS4zMS0yLjExNi0uODc0em0xMi4xMTYgMTkuODkyYy0xLjEwMyAwLTItLjg5Ny0yLTJ2LTE5aC0ydjE5YzAgMS4xMDMtLjg5NyAyLTIgMnMtMi0uODk3LTItMnYtMjEuMTAxYzIuMjc5LS40NjUgNC0yLjQ4NCA0LTQuODk5di05aDJ2OWMwIDIuNDE0IDEuNzIxIDQuNDM0IDQgNC44OTl2Ny4xMDEgMTRjMCAxLjEwMy0uODk3IDItMiAyem02IDZoLTJ2LTgtMTJoMnptMi0yMmgtNHYtNGg5LjE4NGMuNDE0IDEuMTYxIDEuNTE0IDIgMi44MTYgMmg0LjUuMDA2IDcuNzg2YzEuOTI1IDAgMy44NTQtLjQ1NSA1LjU3Ny0xLjMxNmwuMTMxLS4wNjZ2My4zODJoLTR6bTIwLjgyNCAxMS4zNjctMy4xODYgOS41NTNjLS4yMTQuNjQ1LS44MTcgMS4wOC0xLjQ5OCAxLjA4aC0uNTU5Yy0uODcyIDAtMS41ODEtLjcwOS0xLjU4MS0xLjU4MSAwLS4xNy4wMjctLjMzOC4wODEtLjVsMy45NTUtMTEuODY3Yy40MS0xLjIyOCAxLjU1NC0yLjA1MiAyLjg0Ny0yLjA1MmgxLjExN3Y0LjE0OWMtLjU0Mi4yMTEtLjk4NC42NDItMS4xNzYgMS4yMTh6bTUuMTc2IDEwLjYzM2gtMnYtMjBoMnYzem0xMS0xMHYyaC05di0yaDR6bTAtN2MwIDIuNzU3LTIuMjQzIDUtNSA1aC00di01LTUtNC4zODJsMS40NDctLjcyNC0uODk1LTEuNzg5LTMuNTc4IDEuNzg5Yy0xLjQ0Ny43MjQtMy4wNjYgMS4xMDYtNC42ODIgMS4xMDZoLTcuNzg2LS4wMDZjLS44MjcgMC0xLjUtLjY3My0xLjUtMS41cy42NzMtMS41IDEuNS0xLjVoMi41IDIgLjI5MmMxLjkyNSAwIDMuODU0LS40NTUgNS41NzctMS4zMTYgMi4yMDMtMS4xMDIgNC42NjktMS42ODQgNy4xMzEtMS42ODQgMy44NTkgMCA3IDMuMTQxIDcgN3ptLTIxLjQxNC0zMSAyLjI5MyAyLjI5M2MuNDQ5LjQ0OSAxLjA3MS43MDcgMS43MDcuNzA3IDEuMzMxIDAgMi40MTQtMS4wODMgMi40MTQtMi40MTR2LS41ODZoOGMxLjY1NCAwIDMtMS4zNDYgMy0zdi02YzAtMS42NTQtMS4zNDYtMy0zLTNoLTE2Yy0xLjY1NCAwLTMgMS4zNDYtMyAzdjZjMCAxLjY1NCAxLjM0NiAzIDMgM3ptLTIuNTg2LTN2LTZjMC0uNTUyLjQ0OC0xIDEtMWgxNmMuNTUyIDAgMSAuNDQ4IDEgMXY2YzAgLjU1Mi0uNDQ4IDEtMSAxaC0xMHYyLjU4NmMwIC4zMzgtLjQ2OC41MzEtLjcwNy4yOTNsLTIuODc5LTIuODc5aC0yLjQxNGMtLjU1MiAwLTEtLjQ0OC0xLTF6bTEwLTJoLTJ2LTJoMnptNCAwaC0ydi0yaDJ6bS04IDBoLTJ2LTJoMnoiIGZpbGw9InVybCgjU1ZHSURfMV8pIiBkYXRhLW9yaWdpbmFsPSJ1cmwoI1NWR0lEXzFfKSIgc3R5bGU9IiI+PC9wYXRoPjwvZz48L3N2Zz4=" 
+              width="150" 
+              alt="image devenir boosteur">
 
       </div>
-    </div>
-  </div>
-
-
-  <div class="row become-booster-section justify-content-center align-items-center">
-    <div class="col-lg-5 col-md-10 col-sm-10 text-center">
-      
-      <img  class="d-inline-block"
-            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDY0IDY0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48bGluZWFyR3JhZGllbnQgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBpZD0iU1ZHSURfMV8iIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMzIiIHgyPSIzMiIgeTE9IjYzIiB5Mj0iMSI+PHN0b3Agc3RvcC1vcGFjaXR5PSIxIiBzdG9wLWNvbG9yPSIjZTVlODlkIiBvZmZzZXQ9IjAiPjwvc3RvcD48c3RvcCBzdG9wLW9wYWNpdHk9IjEiIHN0b3AtY29sb3I9IiMxNzk2NjEiIG9mZnNldD0iMC41MjUwOTY1MjUwOTY1MjUiPjwvc3RvcD48L2xpbmVhckdyYWRpZW50PjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTU3LjE4OSAyNy41OTRjMS43MDMtMS4yNzggMi44MTEtMy4zMDYgMi44MTEtNS41OTQgMC0zLjg1OS0zLjE0MS03LTctN3MtNyAzLjE0MS03IDdjMCAyLjM2NCAxLjE4MSA0LjQ1NCAyLjk4MSA1LjcyMi0xLjAzNS4zMDEtMi4wNDMuNjkxLTMuMDA2IDEuMTczLTEuNDQ4LjcyMy0zLjA2NyAxLjEwNS00LjY4MyAxLjEwNWgtLjI5MnYtN2gtMnYtNGgtN2MtMS42NTQgMC0zIDEuMzQ2LTMgM3YxMWgtOXYtOS4xMThjNi4zMzItMS4wMTIgMTEtNi40MTggMTEtMTIuOTI3di02LjQ1NWMwLTEuOTMtMS41Ny0zLjUtMy41LTMuNXMtMy41IDEuNTctMy41IDMuNXY1LjVjMCAzLjMwOS0yLjY5MSA2LTYgNmgtLjExMWMxLjMwMS0xLjI3MiAyLjExMS0zLjA0MiAyLjExMS01IDAtMy44NTktMy4xNDEtNy03LTdzLTcgMy4xNDEtNyA3YzAgMi4yMzYgMS4wNTggNC4yMjYgMi42OTYgNS41MDktNC40NTYgMS40MDYtNy42OTYgNS41NzctNy42OTYgMTAuNDkxdjUuOTgyYzAgMS4zNC41MjIgMi41OTggMS40NzMgMy41NDMuOTQ0Ljk0MSAyLjIwNCAxLjQ3NCAzLjUyNyAxLjQ1NnYxNS4wMTljMCAyLjIwNiAxLjc5NCA0IDQgNCAxLjIwMSAwIDIuMjY2LS41NDIgMy0xLjM4Mi43MzQuODQgMS43OTkgMS4zODIgMyAxLjM4Mi43MzIgMCAxLjQwOS0uMjEyIDItLjU1NnY2LjU1Nmg2di0yMmgyMnYyaC0xLjExN2MtMi4xNTUgMC00LjA2MiAxLjM3NC00Ljc0MyAzLjQxOWwtMy45NTUgMTEuODY3Yy0uMTIzLjM2Ny0uMTg1Ljc0OC0uMTg1IDEuMTMzIDAgMS45NzUgMS42MDYgMy41ODEgMy41ODEgMy41ODFoLjU1OWMxLjU0NSAwIDIuOTEtLjk4NCAzLjM5Ni0yLjQ0OGwyLjQ2NC03LjM5djkuODM4aDZ2LThoOWMxLjEwMyAwIDItLjg5NyAyLTJ2LTJjMC0xLjEwMy0uODk3LTItMi0yaC0uMTExYzEuMzAxLTEuMjcyIDIuMTExLTMuMDQyIDIuMTExLTV2LThjMC0zLjgzOS0yLjQyLTcuMTE0LTUuODExLTguNDA2em0tOS4xODktNS41OTRjMC0yLjc1NyAyLjI0My01IDUtNXM1IDIuMjQzIDUgNS0yLjI0MyA1LTUgNS01LTIuMjQzLTUtNXptLTkgOGgtMi41Yy0xLjkzIDAtMy41IDEuNTctMy41IDMuNSAwIC41MzkuMTMzIDEuMDQ0LjM1MSAxLjVoLTEuMzUxYy0uNTUyIDAtMS0uNDQ4LTEtMXYtOS4xODRjLjMxNC4xMTIuNjQ4LjE4NCAxIC4xODRoN3ptLTctOWg1djJoLTVjLS41NTIgMC0xLS40NDgtMS0xcy40NDgtMSAxLTF6bS02LTExdi01LjVjMC0uODI3LjY3My0xLjUgMS41LTEuNXMxLjUuNjczIDEuNSAxLjV2Ni40NTVjMCA1Ljc3Ni00LjMzOCAxMC41MjYtMTAuMDkxIDExLjA0OWwtLjkwOS4wODN2Ny43MjljLTEuMTYxLS40MTQtMi0xLjUxNC0yLTIuODE2di05aDJjNC40MTEgMCA4LTMuNTg5IDgtOHptLTE4IDFjMC0yLjc1NyAyLjI0My01IDUtNXM1IDIuMjQzIDUgNS0yLjI0MyA1LTUgNS01LTIuMjQzLTUtNXptLTQuMTE2IDI0LjEwOGMtLjU3MS0uNTY3LS44ODQtMS4zMjItLjg4NC0yLjEyNnYtNS45ODJjMC00LjI3NSAyLjk5OC03Ljg1NSA3LTguNzY4djguNzY4YzAgMS4zMDItLjgzOSAyLjQwMi0yIDIuODE2di01LjgxNmgtMnYxMS45ODJjLS43OTkgMC0xLjU1LS4zMS0yLjExNi0uODc0em0xMi4xMTYgMTkuODkyYy0xLjEwMyAwLTItLjg5Ny0yLTJ2LTE5aC0ydjE5YzAgMS4xMDMtLjg5NyAyLTIgMnMtMi0uODk3LTItMnYtMjEuMTAxYzIuMjc5LS40NjUgNC0yLjQ4NCA0LTQuODk5di05aDJ2OWMwIDIuNDE0IDEuNzIxIDQuNDM0IDQgNC44OTl2Ny4xMDEgMTRjMCAxLjEwMy0uODk3IDItMiAyem02IDZoLTJ2LTgtMTJoMnptMi0yMmgtNHYtNGg5LjE4NGMuNDE0IDEuMTYxIDEuNTE0IDIgMi44MTYgMmg0LjUuMDA2IDcuNzg2YzEuOTI1IDAgMy44NTQtLjQ1NSA1LjU3Ny0xLjMxNmwuMTMxLS4wNjZ2My4zODJoLTR6bTIwLjgyNCAxMS4zNjctMy4xODYgOS41NTNjLS4yMTQuNjQ1LS44MTcgMS4wOC0xLjQ5OCAxLjA4aC0uNTU5Yy0uODcyIDAtMS41ODEtLjcwOS0xLjU4MS0xLjU4MSAwLS4xNy4wMjctLjMzOC4wODEtLjVsMy45NTUtMTEuODY3Yy40MS0xLjIyOCAxLjU1NC0yLjA1MiAyLjg0Ny0yLjA1MmgxLjExN3Y0LjE0OWMtLjU0Mi4yMTEtLjk4NC42NDItMS4xNzYgMS4yMTh6bTUuMTc2IDEwLjYzM2gtMnYtMjBoMnYzem0xMS0xMHYyaC05di0yaDR6bTAtN2MwIDIuNzU3LTIuMjQzIDUtNSA1aC00di01LTUtNC4zODJsMS40NDctLjcyNC0uODk1LTEuNzg5LTMuNTc4IDEuNzg5Yy0xLjQ0Ny43MjQtMy4wNjYgMS4xMDYtNC42ODIgMS4xMDZoLTcuNzg2LS4wMDZjLS44MjcgMC0xLjUtLjY3My0xLjUtMS41cy42NzMtMS41IDEuNS0xLjVoMi41IDIgLjI5MmMxLjkyNSAwIDMuODU0LS40NTUgNS41NzctMS4zMTYgMi4yMDMtMS4xMDIgNC42NjktMS42ODQgNy4xMzEtMS42ODQgMy44NTkgMCA3IDMuMTQxIDcgN3ptLTIxLjQxNC0zMSAyLjI5MyAyLjI5M2MuNDQ5LjQ0OSAxLjA3MS43MDcgMS43MDcuNzA3IDEuMzMxIDAgMi40MTQtMS4wODMgMi40MTQtMi40MTR2LS41ODZoOGMxLjY1NCAwIDMtMS4zNDYgMy0zdi02YzAtMS42NTQtMS4zNDYtMy0zLTNoLTE2Yy0xLjY1NCAwLTMgMS4zNDYtMyAzdjZjMCAxLjY1NCAxLjM0NiAzIDMgM3ptLTIuNTg2LTN2LTZjMC0uNTUyLjQ0OC0xIDEtMWgxNmMuNTUyIDAgMSAuNDQ4IDEgMXY2YzAgLjU1Mi0uNDQ4IDEtMSAxaC0xMHYyLjU4NmMwIC4zMzgtLjQ2OC41MzEtLjcwNy4yOTNsLTIuODc5LTIuODc5aC0yLjQxNGMtLjU1MiAwLTEtLjQ0OC0xLTF6bTEwLTJoLTJ2LTJoMnptNCAwaC0ydi0yaDJ6bS04IDBoLTJ2LTJoMnoiIGZpbGw9InVybCgjU1ZHSURfMV8pIiBkYXRhLW9yaWdpbmFsPSJ1cmwoI1NWR0lEXzFfKSIgc3R5bGU9IiI+PC9wYXRoPjwvZz48L3N2Zz4=" 
-            width="150" 
-            alt="image devenir boosteur">
-      
-    </div>
-
-    <div class="col-lg-7 col-md-10 col-sm-10">
-      <h3 class="mb-3 text-center">Devenez un boosteur</h3>
-
-      <p class="mb-5">Mettez vos compétences à la disposition d’apprenants, guidez des porteurs de projet sur le chemin de la réussite.</p>
-      <div class="text-center">
-        <button class="btn btn-become-booster bg-shade-color white btn-animation" 
-                (click)="goToLink('https://calendly.com/wyskill/discover')">
-          Prenons rendez-vous
+      <div class="home-section-txt col-lg-8 col-md-10 col-sm-10">
+        <h3 class="home-section-title">Agrandissez votre réseau sur Wyskill</h3>
+  
+        <h3 class="home-section-subtitle">Connectez-vous avec des personnes qui peuvent vous aider.</h3>
+  
+        <button class="btn btn-gen-outline" 
+                (click)="goToSignUpPage()">
+          Commencer
         </button>
       </div>
     </div>
   </div>
 
+  <div class="home-section become-booster-section home-mobile-section">
+    <div class="row justify-content-center align-items-center">
+      <div class="home-section-img col-lg-4 col-md-10 col-sm-10 text-center">
+        
+        <img  class="img-s d-inline-block"
+              src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fteam.png?alt=media&token=e19fd6e0-3ef1-40a0-ba90-24b42b4a5ed0" 
+              width="150" 
+              alt="Wyskill Agrandissez votre réseau">   
+     
+      </div>
+  
+      <div class="home-section-txt col-lg-8 col-md-10 col-sm-10">
+        
+        <h3 class="home-section-title">
+          Transmettez vos compétences
+        </h3>
+  
+        <h3 class="home-section-subtitle">
+          Mettez vos compétences à la disposition d’apprenants, guidez des porteurs de projet sur le chemin de la réussite.
+        </h3>
+        
+        <button class="btn btn-gen" 
+                (click)="goToCreateItemPage()">
+          Transmettez vos compétences
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,25 +1,50 @@
 .btn-gen {
-   
-    height: 2.7rem;
 
     background-color: #179661;
     color: #F8F7F6;
 
-    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
-    -moz-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
-    -webkit-border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+    border: solid 0.1rem #179661;
 
-    text-transform: uppercase;
-    font-weight: 500;
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
 
-    margin-top: auto;
-    margin-bottom: auto;
+    font-weight: 450;
+    font-size: 1rem;
 }
 
 .btn-gen:hover, .btn-gen:focus, .btn-gen:active { 
+
    color: #179661;
-   background-color: #F8F7F6;
-   border:solid 0.1rem #179661;
+   background-color: transparent;
+}
+
+.btn-gen-outline {
+
+    color: #179661;
+
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+
+    font-weight: 450;
+    font-size: 1.3rem;
+
+    border: solid 0.1rem #179661;
+}
+
+.btn-gen-outline:hover, .btn-gen-outline:focus, .btn-gen-outline:active  {
+
+    background-color: #179661;
+    color: #F8F7F6;
+
+    border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+
+    font-weight: 450;
+
+    border: solid 0.1rem #179661;
 }
 
 .btn-standard {

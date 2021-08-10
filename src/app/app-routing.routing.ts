@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: RouteUrl.HOME.substr(1), 
     component:  HomeComponent, 
-    // canActivate: [VisitorGuardService]
+    canActivate: [VisitorGuardService]
   },
   {
     path: RouteUrl.CREATE_ITEM.substr(1), 
@@ -25,7 +25,7 @@ const routes: Routes = [
   // },
   {
     path: '', 
-    redirectTo: RouteUrl.HOME.substr(1), 
+    redirectTo: RouteUrl.SEARCH.substr(1), 
     pathMatch:  'full'
   },
   {

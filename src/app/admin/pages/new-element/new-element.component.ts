@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { UserLevel } from 'src/app/shared/model/UserLevel.enum';
-import { UserSelectComponent } from 'src/app/shared/components/user/user-select/user-select.component';
+import { UserSelectComponent } from 'src/app/shared/components/user-select/user-select.component';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
 import * as firebase from 'firebase';

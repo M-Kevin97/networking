@@ -60,8 +60,9 @@ export class LoginBoxComponent implements OnInit {
     const password =  md5.appendStr(this.signInForm.get('password').value).end();
     
     this.authService.login(email, password.toString()).then(
-      () => {
-        this.router.navigate([RouteUrl.SEARCH]);
+      (user) => {
+        console.error('user login : ',user);
+        if(user) this.router.navigate([RouteUrl.SEARCH]);
       }
     ).catch(
       (error) => {

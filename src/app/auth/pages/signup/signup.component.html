@@ -1,19 +1,6 @@
-<div class="auth-section h-100 row align-items-center justify-content-center text-center">
-    <div class="col-lg-5 col-md-6 col-sm-10">
-
-        <div class="auth-title">
-       
-            <a routerLink='/home' 
-               routerLinkActive="router-link-active">
-
-                <img src="assets/img/wyskill_logo_sm.png"   
-                     width="200"  
-                     class="d-inline-block mb-4" 
-                     alt="logo Wyskill">
-            </a>
-        </div>
-
-        <h4 class="main-color mb-5">Boostez votre évolution</h4>
+<div class="auth-section h-100 row align-items-center justify-content-center">
+  
+    <div class="auth-body col-lg-4 col-md-5 col-sm-10 py-4 px-3 text-center">
 
         <div *ngIf="isVerificationEmailSent" 
              class="alert alert-success mt-4" 
@@ -22,12 +9,22 @@
                 Pour finaliser, votre inscription, veuillez cliquer sur le lien de confirmation qui vous a été envoyé par mail.
             </p>
         </div>
-    </div>
-
-    <div class="auth-body col-lg-4 col-md-5 col-sm-10 py-4 px-3">
 
         <div class="auth-content justify-content-center">
-            <div class="signup-block block-sign justify-content-center text-center px-4 py-3 shadow">
+
+            <div class="auth-title mb-4">
+    
+                <img src="assets/img/wyskill_logo_sm.png"
+                     width="150"  
+                     class="d-inline-block mb-4" 
+                     (click)="goHome()" 
+                     alt="logo Wyskill">
+    
+                <h4 class="main-color mb-5">Boostez votre évolution</h4>
+                
+            </div>
+
+            <div class="signup-block block-sign justify-content-center text-center px-4 py-4 shadow">
 
                 <div class="row btn-sigin-with btn-google-signin rounded shadow-sm w-80" 
                     (click)="onGoogleSignUpWithPopUp()">
@@ -50,11 +47,6 @@
                 </div> -->
 
                 <hr class="mx-auto w-75 my-3">
-
-                <div class="signup-title mb-3">
-                    <h3>Rejoignez la communauté</h3>
-                    <small>C'est facile, rapide et sécurisé</small>
-                </div>
 
                 <form [formGroup]="signUpForm" 
                       class="signup-form" 

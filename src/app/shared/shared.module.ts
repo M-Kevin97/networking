@@ -2,8 +2,8 @@ import { IconBoosterComponent } from './components/user/booster/icon-booster/ico
 import { ItemCardListComponent } from './components/item/item-card-list/item-card-list.component';
 import { SearchBar2Component } from './components/search-bar2/search-bar2.component';
 import { TagsInputComponent } from './components/tags-input/tags-input.component';
-import { UserAvatarComponent } from './components/user/user-avatar/user-avatar.component';
-import { UserSelectComponent } from './components/user/user-select/user-select.component';
+import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
+import { UserSelectComponent } from './components/user-select/user-select.component';
 import { CategoriesSelectComponent } from './components/categories-select/categories-select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, ModuleWithProviders } from '@angular/core';
@@ -23,7 +23,7 @@ import { ItemCardComponent } from './components/item/item-card/item-card.compone
 import { RatingListComponent } from './components/rating/rating-list/rating-list.component';
 import { RatingComponent } from './components/rating/rating/rating.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { UserListComponent } from './components/user/user-list/user-list.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({

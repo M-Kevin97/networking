@@ -78,7 +78,8 @@ export class HeaderUserComponent implements OnInit {
    * Don't display search bar on search/RESULT page, home page 
    */
   displaySearchBar(){
-    return this.router.url.includes(RouteUrl.HOME.substr(1));
+    return this.router.url.includes(RouteUrl.HOME.substr(1)) 
+           || this.router.url.includes(RouteUrl.SEARCH.substr(1));
   }
 
   goHome() {
@@ -114,6 +115,10 @@ export class HeaderUserComponent implements OnInit {
 
   isAuth() {
     return this.authService.isAuth;
+  }
+
+  onSignUp() {
+    if (!this.isAuth()) this.router.navigate([RouteUrl.SIGNUP]);
   }
 
   onSignIn() {

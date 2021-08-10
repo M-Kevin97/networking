@@ -11,3 +11,11 @@ footer {
 .footer-link:hover {
     color: #179661;
 }
+
+@media (max-width: 768px) {
+
+    .footer-link{
+        
+        margin-bottom: 5vh;
+    }
+}

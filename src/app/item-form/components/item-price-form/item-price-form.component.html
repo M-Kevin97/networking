@@ -4,7 +4,10 @@
         <h3 class="head-item-form">
             Quel est le prix de votre <span *ngIf="itemFormService.isEvent">évènement</span><span *ngIf="itemFormService.isCourse">formation</span> ?
         </h3>
-        <form [formGroup]="priceForm" role="form" class="form-item">
+        <form [formGroup]="priceForm" 
+              role="form" 
+              class="form-item">
+              
             <div class="input-group">
                 <input type="number" 
                        class="form-control" 
