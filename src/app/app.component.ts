@@ -41,8 +41,7 @@ export class AppComponent {
   display()
   {
     return (!this.isAuthRoute() && !this.isNewItemRoute()
-                                && !this.router.url.includes(RouteUrl.CREATE_ITEM) 
-                                && !this.router.url.includes(RouteUrl.LANDING_PAGE));
+                                && !this.router.url.includes(RouteUrl.CREATE_ITEM));
   }
 
   isAuth()

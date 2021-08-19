@@ -23,12 +23,15 @@
 
     <!-- promote an event -->
     <!-- <div class="col-3 d-flex flex-column my-2"
-         (click)="onSetType('event')"> -->
+         (click)="onSetType('event')"> 
+        
+         (click)="goToLink('https://calendly.com/wyskill/discover')
+        -->
 
     <div class="col-lg-3 col-md-5 col-sm-10 d-flex flex-column my-2">
 
-      <div class="menu-item-option btn-animation text-center shadow p-3"
-           (click)="goToLink('https://calendly.com/wyskill/discover')">
+      <div class="menu-item-option btn-animation text-center shadow p-3"     
+           (click)="onSetType('event')">
 
         <h5 class="menu-item-option-title">Promouvoir un événement</h5>
 
@@ -78,12 +81,15 @@
 
     <!-- create a online course -->
     <!-- <div class="col-3 d-flex flex-column my-2"
-         (click)="onSetType('course')"> -->
+         (click)="onSetType('course')"> 
+        
+            (click)="goToLink('https://calendly.com/wyskill/discover')"
+        -->
 
     <div class="col-lg-3 col-md-5 col-sm-10 d-flex flex-column my-2">
 
       <div class="menu-item-option btn-animation text-center shadow p-3"
-           (click)="goToLink('https://calendly.com/wyskill/discover')">
+           (click)="onSetType('course')">
 
         <h5 class="menu-item-option-title">Créer une formation</h5>
 
@@ -101,7 +107,7 @@
     </div>
 
     <!-- Become a mentor / a coach -->
-    <div class="col-lg-3 col-md-5 col-sm-10 d-flex flex-column my-2">
+    <!-- <div class="col-lg-3 col-md-5 col-sm-10 d-flex flex-column my-2">
 
       <div class="menu-item-option btn-animation text-center shadow p-3"
            (click)="goToLink('https://calendly.com/wyskill/discover')">
@@ -121,7 +127,7 @@
           </h6>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </div>

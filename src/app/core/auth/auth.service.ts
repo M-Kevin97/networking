@@ -107,7 +107,8 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
-          url: 'https://netskills.herokuapp.com/auth',
+          // url: 'https://netskills.herokuapp.com/auth',
+          url: 'https://wyskill.com/auth',
           // This must be true.
           handleCodeInApp: true,
           // iOS: {
@@ -126,7 +127,7 @@ export class AuthService {
           // The link was successfully sent. Inform the user.
           // Save the email locally so you don't need to ask the user for it again
           // if they open the link on the same device.
-          window.localStorage.setItem('netSkillsEmailForSignIn', email);
+          window.localStorage.setItem('wyskillEmailForSignIn', email);
           resolve(email);
         })
         .catch(function(error) {
@@ -158,7 +159,7 @@ export class AuthService {
         firebase.auth().signInWithEmailLink(email, window.location.href)
           .then(function(result:firebase.auth.UserCredential) {
             // Clear email from storage.
-            window.localStorage.removeItem('netSkillsEmailForSignIn');
+            window.localStorage.removeItem('wyskillEmailForSignIn');
             // You can access the new user via result.user
             // Additional user info profile not available via:
             // result.additionalUserInfo.profile == null
@@ -332,8 +333,9 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
-          url: 'https://netskills.herokuapp.com/auth',
-          //url: 'https://localhost:4200/auth',
+          // url: 'https://netskills.herokuapp.com/auth',
+          // url: 'https://localhost:4200/auth',
+          url: 'https://wyskill.com/auth',
           // This must be true.
           handleCodeInApp: true,
           // iOS: {

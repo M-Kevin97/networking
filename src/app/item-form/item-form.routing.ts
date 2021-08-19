@@ -8,15 +8,14 @@ import { ItemPriceFormComponent } from './components/item-price-form/item-price-
 import { ItemReviewFormComponent } from './components/item-review-form/item-review-form.component';
 import { ItemTagsFormComponent } from './components/item-tags-form/item-tags-form.component';
 import { ItemTitleFormComponent } from './components/item-title-form/item-title-form.component';
-import { ItemTypeFormComponent } from './components/item-type-form/item-type-form.component';
 import { ItemFormComponent } from './item-form.component';
 
 
 
 const routes: Routes = [
   {  
-    path:RouteUrl.NEW_ITEM.substr(1), 
-    component:ItemFormComponent,
+    path: RouteUrl.NEW_ITEM.substr(1), 
+    component:  ItemFormComponent,
     canActivate: [AuthGuardService],
     children: 
     [
@@ -62,7 +61,9 @@ const routes: Routes = [
       },
       {
         // path:'', redirectTo:RouteUrl.NEW_ITEM+RouteUrl.NEW_TYPE, pathMatch:'full'
-        path:'', redirectTo:RouteUrl.NEW_ITEM+RouteUrl.NEW_TITLE, pathMatch:'full'
+        path:'', 
+        redirectTo:RouteUrl.NEW_ITEM+RouteUrl.NEW_TITLE, 
+        pathMatch:'full'
       }
     ]
   },

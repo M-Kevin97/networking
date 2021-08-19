@@ -6,10 +6,12 @@ footer {
 .footer-link {
     color: black;
     text-decoration: none;
+    
 }
 
 .footer-link:hover {
     color: #179661;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

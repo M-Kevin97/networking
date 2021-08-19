@@ -1,0 +1,50 @@
+<div id="terms">
+  <div class="row">
+    <div class="col-3">
+
+      <nav  data-toggle-icon="" 
+            data-close-icon="" 
+            data-full-width="">
+
+        <ul class="terms-menu border">
+          <li class="terms-menu-item">
+            <a  [routerLink]=""
+                (click)="goToLegalNotice()" 
+                class="hfe-menu-item">
+              Mentions légales
+            </a>
+          </li>
+          <li class="terms-menu-item">
+            <a  [routerLink]=""
+                (click)="goToConfidentiality()" 
+                class="hfe-menu-item">
+              Politique de confidentialité
+            </a>
+          </li>
+          <li class="terms-menu-item">
+            <a  [routerLink]=""
+                (click)="goToGeneralTerms()" 
+                class="hfe-menu-item">
+              Conditions d'utilisation générales
+            </a>
+          </li>
+          <li class="terms-menu-item">
+            <a  [routerLink]=""
+                (click)="goToBoosterTerms()" 
+                class="hfe-menu-item">
+              Conditions d'utilisation du Boosteur
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+    <div class="col-9">
+
+      <div class="terms-body">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</div>

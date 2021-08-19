@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteUrl } from '../../router/route-url.enum';
+import { RouteUrl } from '../core/router/route-url.enum';
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  selector: 'app-terms',
+  templateUrl: './terms.component.html',
+  styleUrls: ['./terms.component.scss']
 })
-export class FooterComponent implements OnInit {
+export class TermsComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   goToLegalNotice() {
 
