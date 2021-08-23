@@ -26,10 +26,10 @@ enum UserNav {
 export class SingleUserComponent implements OnInit, OnDestroy {
   
   user:User = null;
-  hasUser:boolean = false;
+  userFound:boolean = false;
+  
    // To know if user that consult the page belongs to the him/her
   isUser:boolean = false;
-  isBooster:boolean = false;
   currentFragment:string;
   mySubscription: any;
 
@@ -84,15 +84,20 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     //   console.log("Auth user", this.authService.authUser);
 
     //   this.user = this.authService.authUser;
-    //   this.user ? this.hasUser = true :  this.hasUser = false;
+    //   this.user ? this.userFound = true :  this.userFound = false;
     //   this.userIsAuth();
+
     // } else {
+
       this.userService.getSingleUserFromDBWithId(id).then(
         (user:User) => {
           if(user!==null && user!==undefined) {
 
             this.user = user;
             this.user.id = id;
+            this.userFound = true;
+                        
+            this.userIsAuth();
 
             console.warn(user);
 
@@ -105,19 +110,17 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
                   this.user.courses = val.iCourses;
                   this.user.events = val.iEvents;
-                  this.hasUser = true;
+                  //this.userFound = true;
                 }
-            
-                this.userIsAuth();
               }
             );
           }
           else {
-              this.hasUser = false;
+              this.userFound = false;
           }
         }).catch(
         () => {
-          this.hasUser = false;
+          this.userFound = false;
         }
       );
     //}
@@ -127,11 +130,21 @@ export class SingleUserComponent implements OnInit, OnDestroy {
    * Status is if the courses is published (verified or not)
    */
   getItemsByPublishedStatus(items: IItem[], isPublished:  boolean) {
-    return items.filter(
-      (item) => {
-          return item.published === isPublished;
-      }
-    );
+
+    if (items && items.length) {
+
+      return items.filter(
+        (item) => {
+            return item.published === isPublished;
+        }
+      );
+
+    } else {
+
+      return [];
+
+    }
+    
   }
 
   getCurrentFragment() {
@@ -195,12 +208,17 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
 
   userIsAuth(){
+
+    alert(this.authService.isAuth);
+    alert(this.user.id + ' -> ' + this.authService.authUser.id);
+
     if(this.authService.isAuth){
+
+      alert('this.user.id' + ' -> ' + 'this.authService.authUser.id');
 
       if(this.user.id === this.authService.authUser.id) {
 
         this.isUser = true;
-        if(this.user.isBooster)this.isBooster = true;
       } 
       else this.isUser = false;
 

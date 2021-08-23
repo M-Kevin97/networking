@@ -77,23 +77,23 @@ export class AuthService {
   }
 
   // Create an account with Google and maybe Facebook
-  createAccountWith(user:User) {
-    return new Promise (
-      (resolve, reject) => {
-        if(user) {
-          this.userService.addNewUserToDB(user).then(
-            (bool) => {
-              if(bool) resolve(bool);
-              else reject();
-            }
-          ).catch(
-            (error) => {
-              reject(error.code);
-            }
-          );
-        }
-      }
-    );
+  createAccountWith(user:User, cb) {
+
+    // alert('createAccountWith :' + user);
+
+    if(user) {
+
+      // alert('createAccountWith :' + user);
+      return this.userService.addNewUserToDB(user).then(cb);
+      //   (bool) => {
+      //     return bool;
+      //   }
+      // ).catch(
+      //   (error) => {
+      //     return false;
+      //   }
+      // );
+    }
   }
 
   sendEmailVerification(){
@@ -107,8 +107,11 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
+
+          // url: 'http://localhost:4200/auth',
           // url: 'https://netskills.herokuapp.com/auth',
           url: 'https://wyskill.com/auth',
+
           // This must be true.
           handleCodeInApp: true,
           // iOS: {
@@ -277,22 +280,13 @@ export class AuthService {
     );
   }
 
-  updatePasswordWith(newPassword:string, user?:firebase.User){
-    return new Promise(
-      (resolve, reject) => { 
-        if(!newPassword && !newPassword.length) reject();
-        
-        if(!user) user = firebase.auth().currentUser;
+  updatePasswordWith(newPassword:string, cb, user?:firebase.User){
 
-        user.updatePassword(newPassword).then(function() {
-          // Update successful.
-          resolve(user);
-        }).catch(function(error) {
-          // An error happened.
-          reject(error);
-        });
-      }
-    );
+    if(!user) user = firebase.auth().currentUser;
+
+    // alert('auth service, updatePasswordWith ' + newPassword + ' ' + user.email + '' + user.emailVerified);
+
+    return user.updatePassword(newPassword).then(cb);
   }
 
   confirmPasswordReset(actionCode:any, newPassword:string) {
@@ -333,9 +327,11 @@ export class AuthService {
         var actionCodeSettings = {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
+
           // url: 'https://netskills.herokuapp.com/auth',
-          // url: 'https://localhost:4200/auth',
-          url: 'https://wyskill.com/auth',
+          //  url: 'https://localhost:4200/auth',
+           url: 'https://wyskill.com/auth',
+
           // This must be true.
           handleCodeInApp: true,
           // iOS: {

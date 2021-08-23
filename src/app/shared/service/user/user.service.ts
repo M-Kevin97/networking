@@ -34,7 +34,9 @@ export class UserService {
 
     if(!newUser.id) newUser.id = this.usersDB.push().key;
 
-    return this.usersDB.child(newUser.id).set({
+    const refUser = this.usersDB.child(newUser.id);
+
+    return refUser.set({
         data: newUser.data,
         firstname: newUser.firstname, 
         lastname: newUser.lastname,
@@ -52,6 +54,7 @@ export class UserService {
     }).then(
       () => {
 
+        alert('addNewUserToDB');
         return true;
 
     }).catch((error)=>{

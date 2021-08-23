@@ -13,6 +13,7 @@ import { SearchModule } from './search/search.module';
 import { SharedModule } from './shared/shared.module';
 import { SingleItemModule } from './single-item/single-item.module';
 import { CreateComponent } from './create/create.component';
+import { GetstartedModule } from './getstarted/getstarted.module';
 
 // Web app's Firebase configuration
 var firebaseConfig_test = {
@@ -56,6 +57,7 @@ firebase.initializeApp(firebaseConfig_prod);
       SingleItemModule,
       FeedModule,
       TermsModule,
+      GetstartedModule,
       AppRoutingRoutes,
    ],
    providers: [

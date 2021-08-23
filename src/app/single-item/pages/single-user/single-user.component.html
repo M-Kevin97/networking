@@ -1,5 +1,4 @@
-<div *ngIf="hasUser" 
-     class="container row justify-content-center mx-auto">
+<div class="container row justify-content-center mx-auto">
 
   <div class="col-11">
 
@@ -35,7 +34,7 @@
           <h5 class="user-name">
             {{ user.firstname }} {{ user.lastname }}
 
-            <app-icon-booster [isBooster]="isBooster">
+            <app-icon-booster [isBooster]="user.isBooster">
             </app-icon-booster>
 
             <app-button-edit class="ml-5" 

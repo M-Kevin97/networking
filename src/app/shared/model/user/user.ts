@@ -190,6 +190,9 @@ export class User {
 
     setSearchContent() {
     
+        if(!this.searchContent)
+        this.searchContent = '';
+
         if(this.firstname)
             this.searchContent = this.searchContent.concat(this.firstname);
         if(this.lastname)

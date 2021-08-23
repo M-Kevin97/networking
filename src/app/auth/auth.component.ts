@@ -22,22 +22,22 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
   // firebase authentification
   auth = firebase.auth();
   // The action to complete.
-  mode:any;
+  mode: any;
   // The one-time code
-  actionCode:any;
+  actionCode: any;
   // (Optional) The continue URL
-  continueUrl:any;
+  continueUrl:  any;
   // (Optional) The language code
-  lang:any;
+  lang: any;
 
   // Message sent by the operation (email verification / password reset)
-  successMessage:string = '';
-  errorMessage:string = '';
+  successMessage: string = '';
+  errorMessage: string = '';
 
   // email variable to start the different operation
-  isEmailVerified:boolean = false;
-  email:string = '';
-  idUser:string = '';
+  isEmailVerified:  boolean = false;
+  email:  string = '';
+  idUser: string = '';
 
   constructor(private router: Router,
               private route: ActivatedRoute,

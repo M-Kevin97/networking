@@ -43,6 +43,7 @@ export class VerificationComponent implements OnInit {
   }
 
   initForm(){
+
     this.verificationForm = this.formBuilder.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
@@ -57,6 +58,8 @@ export class VerificationComponent implements OnInit {
   }
 
   private finishVerification() {
+
+    // alert('finishVerification');
 
     const firstname = this.verificationForm.get('firstname').value;
     const lastname = this.verificationForm.get('lastname').value;
@@ -78,28 +81,39 @@ export class VerificationComponent implements OnInit {
                               UserLevel.STANDARD,
                               false,
                               [],
+                              [],
                               []);
 
     user.setSearchContent();
+
+
       
-    this.authService.createAccountWith(user).then(
+    this.authService.createAccountWith(user,
       (val) => {
 
-        this.authService.signOutUser().then(
-          () => {
-              const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez vous connecter.'; 
-              this.successMessage.next(verificationSuccessMessage); 
-            }
-        ).catch(
-          (error) => {
-            console.error(error.message);
-            //this.sendErrorMessage('');
-          }
-        );
+        console.error('finishVerification authService.createAccountWith : '+val);
+        // alert('verification createAccountWith');
+
+        const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez vous connecter.'; 
+        this.successMessage.next(verificationSuccessMessage); 
+
+        // this.authService.signOutUser().then(
+        //   () => {
+        //       const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez vous connecter.'; 
+        //       this.successMessage.next(verificationSuccessMessage); 
+        //     }
+        // ).catch(
+        //   (error) => {
+        //     // console.error(error.message);
+        //     this.errorMessage.next(error.message);
+        //     //this.sendErrorMessage('');
+        //   }
+        // );
       }
     ).catch(
       (error) => {
         console.error(error);
+        this.errorMessage.next(error.message);
         //this.displayError(error.code);
       }
     );
@@ -120,12 +134,17 @@ export class VerificationComponent implements OnInit {
   onUpdatePassword() {
 
     if(this.password) {
-      this.authService.updatePasswordWith(this.password).then(
+
+      // alert(this.password);
+
+      this.authService.updatePasswordWith(this.password,
         () => {
+          // alert('password updated');
           this.finishVerification();
         }
       ).catch(
         (error) => {
+          // alert(error.message);
           this.checkPasswordError(error.code);
         }
       );

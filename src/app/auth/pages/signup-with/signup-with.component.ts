@@ -83,7 +83,7 @@ export class SignupWithComponent implements OnInit {
       user.setSearchContent();
 
       
-    this.authService.createAccountWith(user).then(
+    this.authService.createAccountWith(user,
       (val) => {
         this.authService.signOutUser().then(
           () => {

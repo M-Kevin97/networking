@@ -46,25 +46,26 @@ export class SignupComponent implements OnInit {
   initForm(){
     this.signUpForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      confirmEmail: ['', [Validators.required, Validators.email]],
+      // confirmEmail: ['', [Validators.required, Validators.email]],
     });
   }
 
-  checkConfirmEmail() {
-    const email:string = this.signUpForm.get(['email']).value;
-    const confirmEmail:string = this.signUpForm.get(['confirmEmail']).value;
+  // Ne sert pas à grand chose
+  // checkConfirmEmail() {
+  //   const email:string = this.signUpForm.get(['email']).value;
+  //   const confirmEmail:string = this.signUpForm.get(['confirmEmail']).value;
 
-    if(email && confirmEmail) {
+  //   if(email && confirmEmail) {
 
-      if(email !== confirmEmail) {
-        this.errorConfirmEmail = true;
-        this.errorConfirmEmailMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
-      } else {
-        this.errorConfirmEmail = false;
-        this.errorConfirmEmailMessage = "";
-      }
-    }
-  }
+  //     if(email !== confirmEmail) {
+  //       this.errorConfirmEmail = true;
+  //       this.errorConfirmEmailMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
+  //     } else {
+  //       this.errorConfirmEmail = false;
+  //       this.errorConfirmEmailMessage = "";
+  //     }
+  //   }
+  // }
 
   shouldShowRequiredError(controlName) {
 
@@ -113,7 +114,7 @@ export class SignupComponent implements OnInit {
       return;
     }*/
   
-    const email:string = this.signUpForm.get('confirmEmail').value;
+    const email:string = this.signUpForm.get('email').value;
     const password:string = this.generatePassword(); 
 
     this.authService.createAccountWithEmailAndPassword(email, password).then(

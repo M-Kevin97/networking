@@ -46,8 +46,7 @@ export class PasswordBoxComponent implements OnInit {
     if(!pwd.length) {
       this.errorPassword = true;
       this.errorPasswordMessageEmpty = 'Le mot de passe doit contenir au moins 8 caractères majuscules et minuscules, un chiffre ainsi que des symboles (tels que @ & ! ? $ #).';
-    }
-    else {
+    } else {
       this.errorPasswordMessageEmpty = '';
       if(!(pwd.length >= 8 && pwd.length <= 50)) {
         this.errorPassword = true;
@@ -83,6 +82,7 @@ export class PasswordBoxComponent implements OnInit {
     const confPwd:string = this.passwordForm.get(['confirmPassword']).value;
 
     this.errorConfirmPassword = false;
+
     if(this.errorPassword) {
       this.errorConfirmPassword = true;
       this.errorConfirmPasswordMessage = "Veuillez saisir un mot de passe correct";
@@ -114,6 +114,8 @@ export class PasswordBoxComponent implements OnInit {
   }
 
   sendPassword() {
+
+    // alert('sendPassword');
 
     const md5 = new Md5();
     const pwd = (md5.appendStr(this.passwordForm.get('confirmPassword').value).end()).toString();

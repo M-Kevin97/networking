@@ -14,7 +14,9 @@
             Prénom
             <span style="color: rgb(247, 103, 103);">*</span>
         </label>
-        <ng-template #popFirstNameContent><div class="text-danger field-error-class">Quel est votre prénom ?</div></ng-template>
+        <ng-template #popFirstNameContent>
+          <div class="text-danger field-error-class">Quel est votre prénom ?</div>
+        </ng-template>
         <input type="text" class="form-control input-sign" 
                             [ngClass]="{ 'is-invalid': shouldShowRequiredError('firstname') }"
                             formControlName="firstname"
@@ -56,7 +58,7 @@
     </div>
   </form>
 
-  <div class="form-group mb-3">
+  <!-- <div class="form-group mb-3">
     <label class="sr-only" for="role">Activité</label>
     <div class="input-group">
       <div class="input-group-prepend">
@@ -90,7 +92,7 @@
           </option>
       </select>
     </div>
-  </div>
+  </div> -->
       
   <app-password-box (password)="password = $event">
   </app-password-box>
@@ -99,6 +101,6 @@
           class="btn-subscribe btn btn-primary btn-lg btn-block"
           [disabled]="!password.length && verificationForm.invalid"
           (click)="onUpdatePassword()">
-    Créer un compte
+    Rejoindre Wyskill 
   </button>
 </div>
