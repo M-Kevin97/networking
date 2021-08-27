@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { FeedModule } from './feed/feed.module';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './landing-page/home/home.component';
 import { ItemFormModule } from './item-form/item-form.module';
 import { SearchModule } from './search/search.module';
 import { SharedModule } from './shared/shared.module';
@@ -38,7 +38,7 @@ var firebaseConfig_prod = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig_prod);
+firebase.initializeApp(firebaseConfig_test);
 // firebase.analytics();
 
 @NgModule({

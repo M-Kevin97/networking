@@ -93,4 +93,8 @@ export class CreateComponent implements OnInit {
     window.open(url, "_blank");
   }
 
+  goToManager() {
+    this.router.navigate([RouteUrl.MANAGER]);
+  }
+
 }

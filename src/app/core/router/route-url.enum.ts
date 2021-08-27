@@ -1,16 +1,21 @@
 export enum RouteUrl {
 
-    // Page
+    // landing-page
     HOME = '/home',
-    FEED = '/feed',
+    MANAGER = '/manager',
+    BOOSTER = '/booster',
+
+    // Single page
     COURSE ='/course',
     EVENT = '/event',
     USER = '/user',
-    BOOSTER = '/booster',
 
     // Admin
     ADMIN = '/admin',
     ADMIN_NEW_ELEMENT = '/new',
+
+    // Feed
+    FEED = '/feed',
 
     // Search
     SEARCH = '/search',
@@ -41,5 +46,5 @@ export enum RouteUrl {
     GENERAL_TERMS = '/general',
     BOOSTER_TERMS = '/booster',
     CONFIDENTIALITY = '/confidentiality',
-    LEGAL_NOTICE = '/legal',
+    LEGAL_NOTICE = '/legal',    
 }

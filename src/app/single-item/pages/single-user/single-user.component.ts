@@ -209,12 +209,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
   userIsAuth(){
 
-    alert(this.authService.isAuth);
-    alert(this.user.id + ' -> ' + this.authService.authUser.id);
-
     if(this.authService.isAuth){
-
-      alert('this.user.id' + ' -> ' + 'this.authService.authUser.id');
 
       if(this.user.id === this.authService.authUser.id) {
 

@@ -55,6 +55,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate([RouteUrl.CREATE_ITEM]);
   }
 
+  goToLPManager() {
+
+    this.router.navigate([RouteUrl.MANAGER]);
+  }
+
   goToSearchPage() {
 
     this.router.navigate([RouteUrl.SEARCH]);
