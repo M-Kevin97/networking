@@ -339,6 +339,7 @@ export class UserService {
      
     return this.usersDB.once('value').then(
       (data) => {
+        console.error(data.val());
         return data.val() ? User.iUsersFromJson(data.val()) : [];
       }
     );

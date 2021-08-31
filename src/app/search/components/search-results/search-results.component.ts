@@ -24,7 +24,7 @@ export class SearchResultsComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.warn('ngOnChanges :',changes);
+  
   }
   
   displayPanel(activeTab){

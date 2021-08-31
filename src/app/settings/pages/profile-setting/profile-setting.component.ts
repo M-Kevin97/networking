@@ -156,6 +156,8 @@ export class ProfileSettingComponent implements OnInit {
           this.user.mail = mail;
           // this.user.tel = tel;
           this.user.title = title;
+
+          this.user.setSearchContent();
       
           this.userService.updateUser(this.user).then(
             () => {
@@ -175,6 +177,8 @@ export class ProfileSettingComponent implements OnInit {
       this.user.mail = mail;
       // this.user.tel = tel;
       this.user.title = title;
+
+      this.user.setSearchContent();
 
       this.userService.updateUser(this.user).then(
         () => {

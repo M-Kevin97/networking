@@ -21,10 +21,16 @@
                                                     width="110px"
                                                     *ngIf="!user.ppLink"> -->
 
-          <app-user-avatar [photoUrl]="user.ppLink" 
+          <!-- <app-user-avatar [photoUrl]="user.ppLink" 
                            [name]="user.getName()" 
                            alt="photo de profil utilisateur">
-          </app-user-avatar>
+          </app-user-avatar> -->
+
+          <app-user-avatar  [photoUrl] = "!user.ppLink && user.ppLink === '' ? null : user.ppLink" 
+                            [name]="user.firstname && user.lastname ? user.firstname +' '+ user.lastname : 'null'"
+                            [border]="'2px solid black'">
+          </app-user-avatar> 
+
         </div>
       </div> <!-- End user PP section -->
       <!-- Start user Info section -->

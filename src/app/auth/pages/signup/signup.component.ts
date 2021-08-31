@@ -105,10 +105,13 @@ export class SignupComponent implements OnInit {
       return;
     }*/
   
-     const email: string = this.signUpForm.get('email').value;
+    const email: string = this.signUpForm.get('email').value;
     //const password:string = this.generatePassword(); 
 
-    this.authService.createAccountWithEmailAndPassword(email, this.password).then(
+    const md5 = new Md5();
+    const pwd = (md5.appendStr(this.password).end()).toString();
+
+    this.authService.createAccountWithEmailAndPassword(email, pwd).then(
       (val:firebase.auth.UserCredential) => {
 
         // this.authService.preSignUpUser = new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -116,9 +119,6 @@ export class SignupComponent implements OnInit {
         // this.authService.preSignUpUser.mail = email;
 
         // this.signUpForm.reset();
-
-        const md5 = new Md5();
-        const pwd = (md5.appendStr(this.password).end()).toString();
 
         let user:User = new User(val.user.uid, 
                                   null, 
@@ -139,6 +139,7 @@ export class SignupComponent implements OnInit {
                                   [],
                                   []);
 
+        user.setSearchContent();
 
         this.createUserAccountWith(user);
 
