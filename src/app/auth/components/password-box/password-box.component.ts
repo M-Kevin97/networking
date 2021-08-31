@@ -93,7 +93,7 @@ export class PasswordBoxComponent implements OnInit {
         this.errorConfirmPasswordMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
   
       } else {
-        
+
         this.errorConfirmPassword = false;
         this.errorPassword = false;
         this.sendPassword();
@@ -125,9 +125,11 @@ export class PasswordBoxComponent implements OnInit {
 
     // alert('sendPassword');
 
-    const md5 = new Md5();
-    const pwd = (md5.appendStr(this.passwordForm.get('confirmPassword').value).end()).toString();
+    // const md5 = new Md5();
+    // const pwd = (md5.appendStr(this.passwordForm.get('confirmPassword').value).end()).toString();
     
+    const pwd = (this.passwordForm.get('confirmPassword').value).toString();
+
     if(!pwd) {
       this.errorConfirmPassword = false;
       this.errorConfirmPasswordMessage = "Veuillez confirmer le mot de passe.";

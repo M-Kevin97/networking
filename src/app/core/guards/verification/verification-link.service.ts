@@ -15,19 +15,21 @@ export class VerificationLinkService implements CanActivate {
     canActivate(): Observable<boolean> | Promise<boolean> | boolean {
       return new Promise((resolve, reject) => {
 
-        this.authService.isEmailVerificationLink().then(
-          (bool) => {
-            if(bool) {
-              resolve(true);
-            }
-            else this.router.navigate([RouteUrl.HOME]);
-          }
-        ).catch(
-          (error) => {
-            console.error(error.message);
-            this.router.navigate([RouteUrl.HOME]);
-          }
-        );
+        resolve(true);
+
+        // this.authService.isEmailVerificationLink().then(
+        //   (bool) => {
+        //     if(bool) {
+        //       resolve(true);
+        //     }
+        //     else this.router.navigate([RouteUrl.HOME]);
+        //   }
+        // ).catch(
+        //   (error) => {
+        //     console.error(error.message);
+        //     this.router.navigate([RouteUrl.HOME]);
+        //   }
+        // );
       }
     );
   }

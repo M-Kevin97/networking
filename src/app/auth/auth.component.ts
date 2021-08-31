@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import { User } from 'src/app/shared/model/user/user';
 import { UserLevel } from 'src/app/shared/model/UserLevel.enum';
 
+
 enum UserManagementActions {
   RESET_PASSWORD = 'resetPassword',
   RECOVER_MAIL = 'recoverEmail',
@@ -94,23 +95,20 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
           this.handleResetPassword(this.auth, this.actionCode, this.continueUrl, this.lang);
           break;
         }
+        
         case UserManagementActions.RECOVER_MAIL: {
           // Display email recovery handler and UI.
           this.handleRecoverEmail(this.auth, this.actionCode, this.lang);
           break;
         }
+
         case UserManagementActions.VERIFY_EMAIL : {
 
           // Display email verification handler and UI.
           this.handleVerifyEmail();
           break;
         }
-          case UserManagementActions.SIGN_IN: {
 
-            // Display email verification handler and UI.
-            this.handleVerifyEmail();
-            break;
-        }
         default:
           // Error: invalid mode.
           // console.warn('actionManager', this.mode);
@@ -121,69 +119,48 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  emailVerification(event) {
+  // emailVerification(event) {
 
-    if(event) {
+  //   if(event) {
       
-      this.email = event;
+  //     this.email = event;
 
-      switch (this.mode) {
+  //     switch (this.mode) {
 
-        case UserManagementActions.VERIFY_EMAIL : {
+  //       case UserManagementActions.VERIFY_EMAIL : {
 
-          this.authService.emailVerification(event).then(
-            (val:firebase.auth.UserCredential) => {
+  //         this.authService.emailVerification(event).then(
+  //           (val:firebase.auth.UserCredential) => {
 
-              if(val) {
+  //             if(val) {
   
-                this.idUser = val.user.uid;
-                this.isEmailVerified = true;
-                this.authService.preSignUpUser = val;
-              }
-            }
-          ).catch(
-            (error) => {
-              console.error(error);
-              this.displayErrorMessage(error.code);
-            }
-          );
+  //               this.idUser = val.user.uid;
+  //               this.isEmailVerified = true;
+  //               this.authService.preSignUpUser = val;
+  //             }
+  //           }
+  //         ).catch(
+  //           (error) => {
+  //             console.error(error);
+  //             this.displayErrorMessage(error.code);
+  //           }
+  //         );
 
-          break;
-        }
-        case UserManagementActions.SIGN_IN: {
+  //         break;
+  //       }
 
-          this.authService.emailVerification(event).then(
-            (val:firebase.auth.UserCredential) => {
+  //       case UserManagementActions.RESET_PASSWORD: {
 
-              if(val) {
-  
-                this.idUser = val.user.uid;
-                this.authService.preSignUpUser = val;
-                this.isEmailVerified = true;
-                
-                // this.createUserAccount();
-                this.goToUserFeed();
-              }
-            }
-          ).catch(
-            (error) => {
-              console.error(error);
-              this.displayErrorMessage(error.code);
-            }
-          );
-          break;
-        }
-        case UserManagementActions.RESET_PASSWORD: {
+  //         break;
+  //       }
+        
+  //       case UserManagementActions.RECOVER_MAIL: {
 
-          break;
-        }
-        case UserManagementActions.RECOVER_MAIL: {
-
-          break;
-        }
-      }
-    }
-  }
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
 
 
   createUserAccount() {
@@ -276,39 +253,46 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private handleVerifyEmail() {
 
-    this.authService.isEmailVerificationLink().then(
+    this.authService.checkIfEmailVerified().then(
       (bool) => {
 
-        if(bool) {
-
-          // get email in local storage
-          let email : string = null;
-
-          if(window.localStorage.getItem('wyskillEmailForSignIn')) {
-
-            email = window.localStorage.getItem('wyskillEmailForSignIn');
-            this.gotLocalStorage = true;
-          } else  {
-
-            email = null;
-            this.gotLocalStorage = false;
-          }
-
-          // if has email verify link
-          if(email) this.emailVerification(email);
-
-        } else {
-          // console.error('email is not verified');
-          //this.router.navigate([RouteUrl.HOME]);
-        }
-      }
-    ).catch(
-      (error) => {
-        console.error(error.message);
-        this.displayErrorMessage(error.code);
-        //this.router.navigate([RouteUrl.HOME]);
+        if(bool) this.goToUserSettings();
       }
     );
+
+    // this.authService.isEmailVerificationLink().then(
+    //   (bool) => {
+
+    //     if(bool) {
+
+    //       // get email in local storage
+    //       let email : string = null;
+
+    //       if(window.localStorage.getItem('wyskillEmailForSignIn')) {
+
+    //         email = window.localStorage.getItem('wyskillEmailForSignIn');
+    //         this.gotLocalStorage = true;
+    //       } else  {
+
+    //         email = null;
+    //         this.gotLocalStorage = false;
+    //       }
+
+    //       // if has email verify link
+    //       if(email) this.emailVerification(email);
+
+    //     } else {
+    //       // console.error('email is not verified');
+    //       //this.router.navigate([RouteUrl.HOME]);
+    //     }
+    //   }
+    // ).catch(
+    //   (error) => {
+    //     console.error(error.message);
+    //     this.displayErrorMessage(error.code);
+    //     //this.router.navigate([RouteUrl.HOME]);
+    //   }
+    // );
     
     // // Localize the UI to the selected language as determined by the lang
     // // parameter.
@@ -402,6 +386,7 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
       this.router.navigate([RouteUrl.GET_STARTED]);
     }
   }
+
 
   goToUserSettings() {
 

@@ -57,17 +57,21 @@ export class LoginBoxComponent implements OnInit {
   onSignIn(){
     
     const email = this.signInForm.get('email').value;
-    const md5 = new Md5();
-    const password =  md5.appendStr(this.signInForm.get('password').value).end();
+    // const md5 = new Md5();
+    // const password =  md5.appendStr(this.signInForm.get('password').value).end();
     
-    this.authService.login(email, password.toString()).then(
+    const password = this.signInForm.get('password').value;
+
+    alert(password);
+
+    this.authService.login(email, password).then(
       (user) => {
-        console.error('user login : ',user);
+
         if(user) this.router.navigate([RouteUrl.USER_HOME]);
       }
     ).catch(
       (error) => {
-        console.error(error);
+        // console.error(error);
         this.displayError(error.code);
       }
     );

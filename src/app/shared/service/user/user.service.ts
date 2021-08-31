@@ -36,6 +36,8 @@ export class UserService {
 
     const refUser = this.usersDB.child(newUser.id);
 
+    console.warn(newUser);
+
     return refUser.set({
         data: newUser.data,
         firstname: newUser.firstname, 
@@ -54,11 +56,11 @@ export class UserService {
     }).then(
       () => {
 
-        return true;
+        return newUser;
 
     }).catch((error)=>{
       console.error(error);
-      return false;
+      return null;
     });
   }
 

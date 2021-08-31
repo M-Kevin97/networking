@@ -23,7 +23,7 @@ export class AuthGuardService implements CanActivate {
 
       this.authService.authStateChanged().then(
         (val) => {
-          console.warn('canActivate', val);
+          // console.warn('canActivate', val);
           if(val) resolve(true);
           else {
             this.router.navigate([RouteUrl.LOGIN]);
@@ -32,8 +32,8 @@ export class AuthGuardService implements CanActivate {
         }
       ).catch(
         (error) => {
-          console.warn('canActivate', error);
-          console.error(error.message);
+          // console.warn('canActivate', error);
+          // console.error(error.message);
           this.router.navigate([RouteUrl.LOGIN]);
           resolve(false);
         }

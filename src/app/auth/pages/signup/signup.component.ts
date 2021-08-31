@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { User } from 'src/app/shared/model/user/user';
 import { UserLevel } from 'src/app/shared/model/UserLevel.enum';
+import { Md5 } from 'ts-md5';
 
 
 @Component({
@@ -55,22 +57,6 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  // Ne sert pas à grand chose
-  // checkConfirmEmail() {
-  //   const email:string = this.signUpForm.get(['email']).value;
-  //   const confirmEmail:string = this.signUpForm.get(['confirmEmail']).value;
-
-  //   if(email && confirmEmail) {
-
-  //     if(email !== confirmEmail) {
-  //       this.errorConfirmEmail = true;
-  //       this.errorConfirmEmailMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
-  //     } else {
-  //       this.errorConfirmEmail = false;
-  //       this.errorConfirmEmailMessage = "";
-  //     }
-  //   }
-  // }
 
   shouldShowRequiredError(controlName) {
 
@@ -119,23 +105,58 @@ export class SignupComponent implements OnInit {
       return;
     }*/
   
-    const email:string = this.signUpForm.get('email').value;
+     const email: string = this.signUpForm.get('email').value;
     //const password:string = this.generatePassword(); 
 
     this.authService.createAccountWithEmailAndPassword(email, this.password).then(
-      (val) => {
+      (val:firebase.auth.UserCredential) => {
 
         // this.authService.preSignUpUser = new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
         // this.authService.preSignUpUser.mail = email;
 
-        this.signUpForm.reset();
-        this.authService.sendEmailVerification().then(
-          (user)=>{
-            this.isVerificationEmailSent = true;
-            this.createUserAccount(user);
-          }
-        );
+        // this.signUpForm.reset();
+
+        const md5 = new Md5();
+        const pwd = (md5.appendStr(this.password).end()).toString();
+
+        let user:User = new User(val.user.uid, 
+                                  null, 
+                                  null,
+                                  false,
+                                  val.user.email,
+                                  pwd,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  UserLevel.STANDARD,
+                                  false,
+                                  [],
+                                  [],
+                                  []);
+
+
+        this.createUserAccountWith(user);
+
+        // this.authService.sendEmailVerification().then(
+        //   (user) => {
+
+        //     this.isVerificationEmailSent = true;
+
+        //   }
+        // );
+
+        // this.authService.sendEmailVerification().then(
+        //   (user:firebase.User)=>{
+
+        //     this.isVerificationEmailSent = true;
+        //     this.createUserAccount(user);
+        //   }
+        // );
       },
       (error) => {
 
@@ -145,40 +166,17 @@ export class SignupComponent implements OnInit {
   }
 
 
-  createUserAccount(aUser:any) {
-
-   
-    let user:User = new User( aUser.uid, 
-                              null, 
-                              null,
-                              false,
-                              aUser.email,
-                              this.password,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              UserLevel.STANDARD,
-                              false,
-                              [],
-                              [],
-                              []);
-
-    user.setSearchContent();
-
+  createUserAccountWith(user:User) {
       
     this.authService.createAccountWith(user,
-      (val) => {
-
      
+      (val:User) => {
 
+        this.goToUserSettings();
         // console.error('finishVerification authService.createAccountWith : '+val);
         // alert('verification createAccountWith');
 
-        const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez maintenant vous connecter.'; 
+        // const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez maintenant vous connecter.'; 
         //this.successMessage.next(verificationSuccessMessage); 
 
         // this.authService.signOutUser().then(
@@ -199,10 +197,6 @@ export class SignupComponent implements OnInit {
         console.error(error);
         //this.errorMessage.next(error.message);
         //this.displayError(error.code);
-      }
-    ).then(
-      () => {
-        this.authService.authStateChanged();
       }
     );
   }
@@ -397,4 +391,18 @@ export class SignupComponent implements OnInit {
       } 
     }
   }
+
+
+  goToGeneralTerms() {
+    
+    this.router.navigate([RouteUrl.TERMS+RouteUrl.GENERAL_TERMS]);
+  }
+
+
+  goToConfidentiality() {
+
+    this.router.navigate([RouteUrl.TERMS+RouteUrl.CONFIDENTIALITY]);
+  }
+
+
 }

@@ -53,8 +53,6 @@ export class SearchBar2Component implements OnInit, AfterViewInit {
 
   ngOnInit() { 
 
-    console.log('SearchBarComponent ngOnInit');
-
     this.tagService.getAllTagsFromDB(
       (tags) => {
         this.tagsDB = tags;
@@ -69,8 +67,6 @@ export class SearchBar2Component implements OnInit, AfterViewInit {
               this.query = params[SearchQueryName.QUERY]? params[SearchQueryName.QUERY] : '';
               this.item = params[SearchQueryName.ITEM]? params[SearchQueryName.ITEM] : '';
               this.sortByName = params[SearchQueryName.SORT_OPTION]? params[SearchQueryName.SORT_OPTION] : '';
-
-              console.error('route.queryParams', this.query);
 
               this.fillSearchForm();
               this.searchQuery();

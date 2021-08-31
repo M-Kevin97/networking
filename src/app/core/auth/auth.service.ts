@@ -66,8 +66,7 @@ export class AuthService {
     return new Promise (
       (resolve, reject) => {
         firebase.auth().createUserWithEmailAndPassword(mail, password).then(
-          (val) => {
-            // console.log('Success!', val);
+          (val:firebase.auth.UserCredential) => {
             resolve(val);
           }).catch((error) => {
             reject(error.code);
@@ -85,7 +84,12 @@ export class AuthService {
     if(user) {
 
       // alert('createAccountWith :' + user);
-      return this.userService.addNewUserToDB(user).then(cb);
+      return this.userService.addNewUserToDB(user).then(
+        (user:User) => {
+          this._authUser = user;
+          return user;
+        }
+      ).then(cb);
       //   (bool) => {
       //     return bool;
       //   }
@@ -97,7 +101,8 @@ export class AuthService {
     }
   }
 
-  sendEmailVerification(){
+
+  sendEmailVerification() {
 
     return new Promise (
       (resolve, reject) => {
@@ -110,82 +115,58 @@ export class AuthService {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
 
-          //  url: 'https://localhost:4200/auth',
+            // url: 'https://localhost:4200/auth',
           // url: 'https://netskills.herokuapp.com/auth',
           url: 'https://wyskill.com/auth',
 
           // This must be true.
           handleCodeInApp: true,
-          // iOS: {
-          //   bundleId: 'com.example.ios'
-          // },
-          // android: {
-          //   packageName: 'com.example.android',
-          //   installApp: true,
-          //   minimumVersion: '12'
-          // },
-          //dynamicLinkDomain: 'example.page.link'
         };
 
-        firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-        .then(function() {
+        user.sendEmailVerification(actionCodeSettings).then(function() {
 
           // The link was successfully sent. Inform the user.
+          // console.error('The link was successfully sent');
+
           // Save the email locally so you don't need to ask the user for it again
           // if they open the link on the same device.
-          window.localStorage.setItem('wyskillEmailForSignIn', email);
+          // window.localStorage.setItem('wyskillEmailForSignIn', email);
           resolve(user);
         })
         .catch(function(error) {
           // Some error occurred, you can inspect the code: error.code
-          console.error(error.message);
+          // console.error(error.message);
           reject(error);
         });
       }
     );
   }
 
-  isEmailVerificationLink() {
+
+
+  checkIfEmailVerified() {
     return new Promise (
       (resolve, reject) => {
-        if (firebase.auth().isSignInWithEmailLink(window.location.href)) resolve(true);
-        else reject(false);
+
+        let user = firebase.auth().currentUser;
+
+        if(user) resolve(user.emailVerified);
+        else resolve(false);
+
+        // if (firebase.auth().isSignInWithEmailLink(window.location.href)) resolve(true);
+        // else reject(false);
       }
     );
   }
 
-
-  emailVerification(email:string){
-    return new Promise (
-      (resolve, reject) => {
-
-        console.error('authService emailVerification');
-
-        // The client SDK will parse the code from the link for you.
-        firebase.auth().signInWithEmailLink(email, window.location.href)
-          .then(function(result:firebase.auth.UserCredential) {
-            // Clear email from storage.
-            window.localStorage.removeItem('wyskillEmailForSignIn');
-            // You can access the new user via result.user
-            // Additional user info profile not available via:
-            // result.additionalUserInfo.profile == null
-
-            console.error('signInWithEmailLink');
-
-            resolve(result);
-            // You can check if the user is new or existing:
-            // if(result.additionalUserInfo.isNewUser) resolve(result);
-            // else reject();
-
-          }).catch(function(error) {
-            // Some error occurred, you can inspect the code: error.code
-            // Common errors could be invalid email and invalid or expired OTPs.
-            reject(error);
-          }
-        );
-      }
-    );
-  }
+  // isEmailVerificationLink() {
+  //   return new Promise (
+  //     (resolve, reject) => {
+  //       if (firebase.auth().isSignInWithEmailLink(window.location.href)) resolve(true);
+  //       else reject(false);
+  //     }
+  //   );
+  // }
 
 
   login(email:string, password:string){
@@ -193,15 +174,13 @@ export class AuthService {
     return firebase.auth().signInWithEmailAndPassword(email, password).then(
       (userCredential) => {
 
-        console.warn(userCredential);
-
         if(userCredential.user) {
 
           if(userCredential.user.emailVerified){
             return userCredential.user;
           } 
           else {
-            this.sendEmailVerification();
+            // this.sendEmailVerification();
             return("auth/email-not-verified");
           }
         }
@@ -229,6 +208,7 @@ export class AuthService {
 
     return new Promise(
       (resolve, reject) => {
+
         firebase.auth().onAuthStateChanged(
           (user) => {
 
@@ -337,8 +317,8 @@ export class AuthService {
           // URL must be whitelisted in the Firebase Console.
 
           // url: 'https://netskills.herokuapp.com/auth',
-          //  url: 'https://localhost:4200/auth',
-           url: 'https://wyskill.com/auth',
+          // url: 'https://localhost:4200/auth',
+            url: 'https://wyskill.com/auth',
 
           // This must be true.
           handleCodeInApp: true,
@@ -365,7 +345,7 @@ export class AuthService {
 
         }).catch(function(error) {
           // An error happened.
-          console.error(error.message);
+          // console.error(error.message);
           reject(error);
         });
       }
@@ -382,7 +362,7 @@ export class AuthService {
       }
     ).catch(
       (error) => {
-        console.error(error);
+        // console.error(error);
         return false;
       }
     );
