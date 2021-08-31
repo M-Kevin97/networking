@@ -129,8 +129,6 @@ export class ItemFormComponent implements OnInit, OnDestroy {
   }
 
   createNewItem() {
-    
-    alert('createNewItem');
 
     if(this.itemFormService.isTypeOk() && this.itemFormService.isCourse) this.createNewCourse();
     else if(this.itemFormService.isTypeOk() && this.itemFormService.isEvent) this.createNewEvent();

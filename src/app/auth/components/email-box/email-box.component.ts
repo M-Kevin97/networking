@@ -20,14 +20,15 @@ export class EmailBoxComponent implements OnInit {
   }
 
   initForm(){
+
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
   }
 
   onConfirmEmail() {
+
     const email = this.emailForm.get('email').value;
-    console.log(email);
     if(email) this.email.next(email);
   }
 

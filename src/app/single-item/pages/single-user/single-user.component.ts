@@ -167,45 +167,52 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
 
   onNewCourse() {
+
     this.router.navigate([RouteUrl.NEW_ITEM]);
   }
 
   onNewEvent() {
+
     this.router.navigate([RouteUrl.NEW_ITEM]);
   }
 
-  openHeadUserModal(){
+  goToUserSettings() {
 
-    const modalRef = this.modalService.open(EditHeadUserComponent, { scrollable: true });
-    modalRef.componentInstance.user = this.user;
-
-    modalRef.result.then((result:IHeadUser) => {
-      if (result) {
-
-        this.user.ppLink = result.ppLink;
-        this.user.firstname = result.firstname;
-        this.user.lastname = result.lastname;
-        this.user.bio = result.bio;
-        this.user.mail = result.mail;
-        this.user.tel = result.tel;
-        this.user.title = result.title;
-        
-        if(!this.user.ppLink) this.user.ppLink = null;
-        if(!this.user.firstname) this.user.firstname = null;
-        if(!this.user.lastname) this.user.lastname = null;
-        if(!this.user.title) this.user.title = null;
-        if(!this.user.bio) this.user.bio = null;
-        if(!this.user.mail) this.user.mail = null;
-        if(!this.user.tel) this.user.tel = null;
-        
-
-        this.userService.updateInfoUser(this.user);
-
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+    this.router.navigate([RouteUrl.SETTINGS + RouteUrl.PROFILE_SETTINGS]);
   }
+
+  // openHeadUserModal(){
+
+  //   const modalRef = this.modalService.open(EditHeadUserComponent, { scrollable: true });
+  //   modalRef.componentInstance.user = this.user;
+
+  //   modalRef.result.then((result:IHeadUser) => {
+  //     if (result) {
+
+  //       this.user.ppLink = result.ppLink;
+  //       this.user.firstname = result.firstname;
+  //       this.user.lastname = result.lastname;
+  //       this.user.bio = result.bio;
+  //       this.user.mail = result.mail;
+  //       this.user.tel = result.tel;
+  //       this.user.title = result.title;
+        
+  //       if(!this.user.ppLink) this.user.ppLink = null;
+  //       if(!this.user.firstname) this.user.firstname = null;
+  //       if(!this.user.lastname) this.user.lastname = null;
+  //       if(!this.user.title) this.user.title = null;
+  //       if(!this.user.bio) this.user.bio = null;
+  //       if(!this.user.mail) this.user.mail = null;
+  //       if(!this.user.tel) this.user.tel = null;
+        
+
+  //       this.userService.updateUser(this.user);
+
+  //     }
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   });
+  // }
 
   userIsAuth(){
 

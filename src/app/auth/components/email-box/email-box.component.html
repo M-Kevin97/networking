@@ -1,20 +1,22 @@
-<div class="signin-block text-center px-4 py-3 rounded shadow">
-  <div class="signin-title mt-3 mb-3">
-      <h5>Saisissez votre adresse mail :</h5>
-  </div>
-  <form [formGroup]="emailForm" class="signin-form">
-      <div class="form-group mb-4">
-          <input type="email" class="form-control form-control-lg input-sign" 
-                              formControlName = "email"
-                              id="email" 
-                              aria-describedby="emailHelp" 
-                              placeholder="Email">
-      </div>
+<div class="signin-block text-center mt-5 px-4 py-3 rounded shadow">
 
-      <button type="submit" class="btn-login btn btn-primary btn-lg btn-block"
-                            [disabled] = "emailForm.invalid"
-                            (click)="onConfirmEmail()">
-          Confirmer
-      </button>
-  </form>
+    <form [formGroup]="emailForm" 
+          class="signin-form">
+
+        <div class="form-group mb-4">
+
+            <input type="email" class="form-control form-control-lg input-sign" 
+                                formControlName = "email"
+                                id="email" 
+                                aria-describedby="emailHelp" 
+                                placeholder="Email">
+        </div>
+
+        <button type="submit"   class="btn-login btn-lg btn-block"
+                                [disabled] = "emailForm.invalid"
+                                (click)="onConfirmEmail()">
+            Confirmer
+        </button>
+
+    </form>
 </div>

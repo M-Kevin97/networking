@@ -54,7 +54,6 @@ export class UserService {
     }).then(
       () => {
 
-        alert('addNewUserToDB');
         return true;
 
     }).catch((error)=>{
@@ -227,9 +226,9 @@ export class UserService {
     }
   }
 
-  updateInfoUser(user:User) {
+  updateUser(user:User) {
 
-    this.usersDB.child(user.id).update({
+    return this.usersDB.child(user.id).update({
       firstname: user.firstname,
       lastname: user.lastname,
       isBooster: user.isBooster,
@@ -242,6 +241,7 @@ export class UserService {
       searchContent: user.searchContent,
     }).then(
       () => {
+
         firebase.auth().currentUser.updateEmail(user.mail);
         firebase.auth().signInWithEmailAndPassword(firebase.auth().currentUser.email, user.password)
                        .then(function(userCredential) {
@@ -250,7 +250,9 @@ export class UserService {
       }
     ).then(
       () => {
+
         if(user.courses){
+
           user.courses.forEach(function (value) {
             //console.log('updateUserCourses', value, user.courses);
             if(value){
@@ -276,7 +278,9 @@ export class UserService {
         }
         }).then(
           () => {
+
             if(user.events){
+
               user.events.forEach(function (value) {
                 //console.log('updateUserEvents', value, user.courses);
                 if(value){

@@ -1,3 +1,4 @@
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Md5 } from 'ts-md5';
@@ -83,30 +84,37 @@ export class PasswordBoxComponent implements OnInit {
 
     this.errorConfirmPassword = false;
 
-    if(this.errorPassword) {
-      this.errorConfirmPassword = true;
-      this.errorConfirmPasswordMessage = "Veuillez saisir un mot de passe correct";
-    }
-    else if(pwd.length && !confPwd.length) {
+    if(confPwd.length && pwd.length) {
 
-        this.errorConfirmPassword = true;
-        this.errorConfirmPasswordMessage = "Veuillez confirmer votre mot de passe.";
-    }
-    else if(!confPwd.length && !pwd.length) {
-
-      this.errorConfirmPassword = true;
-      this.errorConfirmPasswordMessage = "Veuillez saisir votre mot de passe.";
-    }
-    else if(confPwd.length && pwd.length) {
       if(confPwd !== pwd) {
 
+        this.password.next(null);
         this.errorConfirmPassword = true;
         this.errorConfirmPasswordMessage = "Les mots de passe ne sont pas identiques, veuillez réessayer.";
   
       } else {
+        
         this.errorConfirmPassword = false;
         this.errorPassword = false;
         this.sendPassword();
+      }
+    }
+    else {
+
+      this.password.next(null);
+      this.errorConfirmPassword = true;
+
+      if(this.errorPassword) {
+
+        this.errorConfirmPasswordMessage = "Veuillez saisir un mot de passe correct";
+      }
+      else if(pwd.length && !confPwd.length) {
+
+        this.errorConfirmPasswordMessage = "Veuillez confirmer votre mot de passe.";
+      }
+      else if(!confPwd.length && !pwd.length) {
+
+        this.errorConfirmPasswordMessage = "Veuillez saisir votre mot de passe.";
       }
     }
 

@@ -15,7 +15,7 @@ export interface ISearchQuery {
   export enum SearchQueryName {
     QUERY = "k",
     CATEGORY = "cat",
-    ITEM = "i",
+    ITEM = "t",
     SORT_OPTION = 's_o'
   };
   

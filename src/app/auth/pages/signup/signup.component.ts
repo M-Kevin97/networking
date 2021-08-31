@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { User } from 'src/app/shared/model/user/user';
+import { UserLevel } from 'src/app/shared/model/UserLevel.enum';
 
 
 @Component({
@@ -24,6 +25,8 @@ export class SignupComponent implements OnInit {
   errorConfirmEmailMessage:string = ''; 
   errorConfirmEmail:boolean =false;
 
+  password: string = null;
+
   isVerificationEmailSent:boolean = false;
 
   hasSelected:boolean = false;
@@ -37,6 +40,8 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    if(this.authService.emailPreAuth) this.signUpForm.patchValue({email: this.authService.emailPreAuth});
+
   }
 
   goHome() {
@@ -115,10 +120,10 @@ export class SignupComponent implements OnInit {
     }*/
   
     const email:string = this.signUpForm.get('email').value;
-    const password:string = this.generatePassword(); 
+    //const password:string = this.generatePassword(); 
 
-    this.authService.createAccountWithEmailAndPassword(email, password).then(
-      () => {
+    this.authService.createAccountWithEmailAndPassword(email, this.password).then(
+      (val) => {
 
         // this.authService.preSignUpUser = new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
@@ -126,8 +131,9 @@ export class SignupComponent implements OnInit {
 
         this.signUpForm.reset();
         this.authService.sendEmailVerification().then(
-          ()=>{
+          (user)=>{
             this.isVerificationEmailSent = true;
+            this.createUserAccount(user);
           }
         );
       },
@@ -137,6 +143,72 @@ export class SignupComponent implements OnInit {
       }
     );
   }
+
+
+  createUserAccount(aUser:any) {
+
+   
+    let user:User = new User( aUser.uid, 
+                              null, 
+                              null,
+                              false,
+                              aUser.email,
+                              this.password,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              UserLevel.STANDARD,
+                              false,
+                              [],
+                              [],
+                              []);
+
+    user.setSearchContent();
+
+      
+    this.authService.createAccountWith(user,
+      (val) => {
+
+     
+
+        // console.error('finishVerification authService.createAccountWith : '+val);
+        // alert('verification createAccountWith');
+
+        const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez maintenant vous connecter.'; 
+        //this.successMessage.next(verificationSuccessMessage); 
+
+        // this.authService.signOutUser().then(
+        //   () => {
+        //       const verificationSuccessMessage = 'Bienvenue, \n Votre compte a bien été créé, vous pouvez vous connecter.'; 
+        //       this.successMessage.next(verificationSuccessMessage); 
+        //     }
+        // ).catch(
+        //   (error) => {
+        //     // console.error(error.message);
+        //     this.errorMessage.next(error.message);
+        //     //this.sendErrorMessage('');
+        //   }
+        // );
+      }
+    ).catch(
+      (error) => {
+        console.error(error);
+        //this.errorMessage.next(error.message);
+        //this.displayError(error.code);
+      }
+    ).then(
+      () => {
+        this.authService.authStateChanged();
+      }
+    );
+  }
+  
+
+
 
   onGoogleSignUpWithPopUp() {
 
@@ -271,9 +343,14 @@ export class SignupComponent implements OnInit {
   //   });
   // }
 
-
   goToSignIn() {
+
     this.router.navigate([RouteUrl.LOGIN]);
+  }
+
+  goToUserSettings() {
+
+    this.router.navigate([RouteUrl.SETTINGS + RouteUrl.PROFILE_SETTINGS]);
   }
   
   resetMailError() {
@@ -294,21 +371,21 @@ export class SignupComponent implements OnInit {
 
       case 'auth/email-already-in-use':{
         console.warn('checkErrorAuth2',errorCode);
-        this.errorEmailMessage = 'L\'adresse mail existe déjà';
+        this.errorEmailMessage = 'L\'adresse mail existe déjà.';
         this.errorEmail = true;
         this.resetGeneralError();
         break;
       }
       case 'auth/invalid-email': {
         console.warn('checkErrorAuth3',errorCode);
-        this.errorEmailMessage = 'L\'adresse mail n\'est pas valide';
+        this.errorEmailMessage = 'L\'adresse mail n\'est pas valide.';
         this.errorEmail = true;
         this.resetGeneralError();
         break;
       }
       case 'auth/operation-not-allowed': {
         console.warn('checkErrorAuth4',errorCode);
-        this.errorGeneralMessage = 'Votre compte n\'est pas activé, veuillez confirmer votre inscription';
+        this.errorGeneralMessage = 'Votre compte n\'est pas activé, veuillez confirmer votre inscription en cliquant sur le lien d\'activation que vous avez reçu par mail.';
         this.errorGeneral = true;
         this.resetMailError();
         break;

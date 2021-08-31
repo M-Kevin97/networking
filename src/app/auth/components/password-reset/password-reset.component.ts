@@ -48,8 +48,6 @@ export class PasswordResetComponent implements OnInit {
 
   private checkError(errorCode:string) {
 
-    console.warn('checkErrorAuth',errorCode);
-
     switch (errorCode){
 
       case 'auth/weak-password': {

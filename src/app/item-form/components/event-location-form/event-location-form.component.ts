@@ -16,7 +16,7 @@ export class EventLocationFormComponent implements OnInit {
     return this._itemFormService;
   }
 
-  isLocationFormCollapsed = true;
+  isLocationFormCollapsed = false;
   isLinkFormCollapsed = true;
   
 
@@ -57,15 +57,15 @@ export class EventLocationFormComponent implements OnInit {
 
   displayLinkForm() {
 
-    this.isLinkFormCollapsed = !this.isLinkFormCollapsed ;
-    // this.isLocationFormCollapsed = true;
+    this.isLinkFormCollapsed = true ;
+    this.isLocationFormCollapsed = !this.isLinkFormCollapsed;
   }
 
 
   displayLocationForm() {
 
-    this.isLocationFormCollapsed = !this.isLocationFormCollapsed;
-    // this.isLinkFormCollapsed = true;
+    this.isLocationFormCollapsed = true;
+    this.isLinkFormCollapsed = !this.isLocationFormCollapsed;
   }
 
   isFormSelectedFilled():boolean {
@@ -85,13 +85,17 @@ export class EventLocationFormComponent implements OnInit {
 
   onSetLocation() {
 
-    const location: ILocationEvent = {
-      location: this.locationForm.get('location').value,
-      address: this.locationForm.get('address').value,
-      zip: this.locationForm.get('zip').value,
-      city: this.locationForm.get('city').value,
-      country: this.locationForm.get('country').value,
-    };
+    let location: ILocationEvent = null;
+
+    if(this.isLocationFormCollapsed) {
+       location = {
+        location: this.locationForm.get('location').value,
+        address: this.locationForm.get('address').value,
+        zip: this.locationForm.get('zip').value,
+        city: this.locationForm.get('city').value,
+        country: this.locationForm.get('country').value,
+      };
+    }
 
     // this.itemFormService.setFormWithStepState(StepState.LOCATION, location);
     if(this.itemFormService.item instanceof EventItem) {

@@ -1,0 +1,512 @@
+@import '/src/app/shared/style/color.scss';
+@import '/src/app/shared/style/buttons-style.scss';
+
+/*
+
+    Small	sm	≥576px
+    Medium	md	≥768px
+    Large	lg	≥992px
+    Extra large	xl	≥1200px
+
+*/
+
+#lp {
+
+    padding: 0;
+    margin: 0;
+}
+
+.lp-main-section {
+
+    min-height: 80vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    // background: linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(23,150,97,1) 50%, rgba(23,150,97,1) 0%);
+    // background: linear-gradient(190deg, #179661, #e6e89d38);
+
+    // padding-top: 5vh;
+    // padding-bottom: 5vh;
+}
+
+.form-section {
+
+    height: 80vh;
+    width: 100%;
+
+    // background: linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(23,150,97,1) 50%, rgba(23,150,97,1) 0%);
+    // background: linear-gradient(190deg, #179661, #e6e89d38);
+
+    // padding-top: 5vh;
+    // padding-bottom: 5vh;
+}
+
+.lp-form-main-title {
+
+    color: white;
+
+    margin-top: 10vh;
+    margin-bottom: 12vh;
+}
+
+.lp-main-form-section {
+
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lp-main-form {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.lp-section {
+
+    min-height: 45vh;
+    width: 100%;
+
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.lp-section-title {
+
+    font-size: 2.8rem;
+    font-weight: 600;
+
+    margin-bottom: 3vh;
+}
+
+.lp-section-subtitle {
+
+    font-size: 1.2rem;
+    font-weight: 400;
+
+    margin-bottom: 5vh;
+}
+
+.lp-section-separation {
+
+    width: 80%;
+    color: rgb(177, 167, 167);
+
+    margin-top: 4vh;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lp-login-box {
+
+    width: 370px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lp-img-box {
+
+    width: 100%;    
+}
+
+.lp-img {
+
+    width: 70%;
+
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Fbackground_md-min.jpg?alt=media&token=a0efd402-7d0c-4323-a5de-add47c0edb02');
+    // background: linear-gradient(90deg, rgba(23, 150, 97, 0) 0%, rgb(255, 255, 255) 100%);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+
+    -webkit-border-radius: 0 0 500px 500px;
+    -moz-border-radius: 0 0 500px 500px;
+    border-radius: 0 0 500px 500px;
+}
+
+// .lp-section-superposition {
+
+//     height: 100%;
+//     background-color: rgba(0,0,0,0.45);
+//     padding: 0;
+//     margin: 0;
+// }
+
+.pill-row {
+
+    display: none;
+}
+
+.card-tag-row {
+
+    display: flex;
+}
+
+.card-tag-box {
+
+    text-align: center;
+    cursor: pointer;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.become-booster-section {
+
+    // background-color: black;
+    // color: white;
+
+    margin-bottom: 3vh;
+}
+
+
+/*
+    sm
+*/
+@media only screen and (max-width: 576px)
+{
+    .main-title {
+
+        font-size: 7.5vw; 
+        margin-top: 3vh;
+        padding-left: 5vw;
+    }
+
+    .lp-img {
+
+        width: 90%;
+        margin-top: 5vh;
+
+        -webkit-border-radius: 10px 10px 10px 10px;
+        -moz-border-radius: 10px 10px 10px 10px;
+        border-radius: 10px 10px 10px 10px;
+    }
+
+    .lp-section {
+
+        min-height: 30vh;
+        width: 100%;
+    
+        padding-top: 5vh;
+        padding-bottom: 5vh;
+    }
+    
+    .lp-section-title {
+    
+        font-size: 7.2vw; ;
+        margin-bottom: 3vh;
+    }
+    
+    .lp-section-subtitle {
+    
+        font-size: 1.2rem;
+        margin-bottom: 5vh;
+    }
+    
+    .lp-section-separation {
+    
+        width: 80%;
+        margin-top: 6vh;
+    }
+
+    .lp-section-text {
+
+        margin-left: 5vw;
+    }
+    
+    .lp-login-box {
+    
+        width: 90%;
+        margin-top: 5vh;
+    }
+
+    .card-tag-row {
+
+        display: none;
+        cursor: pointer;
+    }
+
+    .pill-row {
+
+        display: flex;
+        margin-left: 2vh;
+        margin-right: 2vh;
+    }
+
+    .pill-tag {
+
+        display: inline-block;
+
+        margin-top: 2.5vw;
+        margin-bottom: 2.5vw;
+        margin-left: 2vw;
+
+        -webkit-border-radius: 500px;
+        -moz-border-radius: 500px;
+        border-radius: 500px;
+    }
+
+    .pill-img {
+
+        width: 20vw;
+    }
+
+    .pill-title {
+
+        text-align: center;
+        font-size: 4vw;
+        font-weight: 500;
+        margin-left: 4vw;
+        margin-right: 4vw;
+    }
+
+    .img-s {
+
+        margin-bottom: 5vh;
+    }
+
+    .lp-mobile-section {
+
+        text-align: center;
+    }
+
+    .become-booster-section {
+
+        // background-color: black;
+        // color: white;
+    
+        padding-bottom: 3vh;
+    }
+}
+
+/*
+    md
+*/
+@media only screen and (min-width: 768px) 
+{
+
+    .lp-main-section {
+
+        width: 100%;
+    }
+
+    .lp-main-form-section {
+
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .lp-form-main-title {
+
+        color: white;
+    
+        margin-top: 10vh;
+        margin-bottom: 12vh;
+    }
+
+    .lp-main-form {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    .main-title {
+
+        font-size: 4.5vw; 
+        font-weight: 600;
+    
+        margin-top: 4vh;
+    
+        padding-left: 5vw;
+    }
+
+    .lp-login-box {
+    
+        width: 80%;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+    }
+
+    .lp-section {
+
+        width: 100%;
+    }
+
+    .lp-mobile-section {
+
+        text-align: center;
+    }
+
+    .lp-section-title {
+
+        font-size: 5.5vw;
+
+    }
+
+    .card-tag-row {
+
+        display: flex;
+        margin-left: 4vh;
+        margin-right: 4vh;
+
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+    .pill-row {
+
+        display: none;
+    }
+
+    .card-tag-box {
+
+        margin-bottom: 3vh;
+        text-align: center;
+
+        min-height: 15vh;
+
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+    .card-title {
+
+        font-size: 1.2vw;
+    }
+
+    .pill-img {
+
+        width: 15vw;
+    }
+
+}
+
+
+ /*
+    lg
+*/
+@media only screen and (min-width: 1024px) {
+
+    .lp-main-section {
+
+        min-height: 40vh;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .lp-section-bg-img {
+
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Fbackground_md-min.jpg?alt=media&token=a0efd402-7d0c-4323-a5de-add47c0edb02');
+       // background: linear-gradient(90deg, rgba(23, 150, 97, 0) 0%, rgb(255, 255, 255) 100%);
+        background-repeat: no-repeat;
+       -webkit-background-size: cover;
+       -moz-background-size: cover;
+       -o-background-size: cover;
+       background-size: cover;
+   }
+   
+   .lp-section-superposition {
+   
+       height: 100%;
+       background-color: rgba(0,0,0,0.45);
+       padding: 0;
+       margin: 0;
+   }
+
+    .lp-main-form-section {
+
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .lp-main-form {
+
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    .main-title {
+
+        color: white;
+        font-size: 5.2vw; 
+        font-weight: 600;
+
+        margin-top: 10vh;
+        margin-bottom: 10vh;
+    }
+
+    .tags-section-title {
+
+        padding-left: 5vw;
+    }
+
+    .lp-section {
+
+        min-height: 35vh;
+        text-align: start;
+
+        padding-top: 6vh;
+        padding-bottom: 6vh;
+    }
+
+    .lp-section-title {
+
+        font-size: 2.3rem;
+        margin-bottom: 3vh;
+    }
+    
+    .lp-section-subtitle {
+    
+        font-size: 1.2rem;
+        margin-bottom: 5vh;
+    }
+
+    .card-tag-row {
+
+        display: flex;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .card-tag-col {
+
+        height: 10vh;
+        margin-bottom: 2vh;
+    }
+
+    .card-tag-box {
+
+        min-height: 26vh;
+
+        text-align: center;
+        cursor: pointer;
+
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+    .card-img {
+
+        width: 90%;
+        margin-bottom: 2vh;
+        display: inline;
+    }
+    
+    .card-title {
+        font-size: 1.2vw;
+    }
+    
+}

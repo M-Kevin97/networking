@@ -36,11 +36,17 @@
 
             <app-icon-booster [isBooster]="user.isBooster">
             </app-icon-booster>
-
+<!-- 
             <app-button-edit class="ml-5" 
                               (click)="openHeadUserModal()"
                               *ngIf="isUser">
+            </app-button-edit> -->
+
+            <app-button-edit class="ml-5" 
+                             (click)="goToUserSettings()"
+                             *ngIf="isUser">
             </app-button-edit>
+
           </h5>
           <h6>{{ user.title }}</h6>
           <app-description-section [description]="user.bio">

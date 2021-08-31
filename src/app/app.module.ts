@@ -1,3 +1,6 @@
+import { SettingsModule } from './settings/settings.module';
+import { UserHomeComponent } from './landing-page/user-home/user-home.component';
+import { CrmComponent } from './landing-page/crm/crm.component';
 import { TermsModule } from './terms/terms.module';
 import { AdminModule } from './admin/admin.module';
 import { NgModule } from '@angular/core';
@@ -45,18 +48,22 @@ firebase.initializeApp(firebaseConfig_test);
    declarations: [		
       AppComponent,
       HomeComponent,
+      CrmComponent,
+      UserHomeComponent,
       CreateComponent
    ],
    imports: [
       SharedModule,
       CoreModule,
       AuthModule,
+      GetstartedModule,
       AdminModule,
       SearchModule,
       ItemFormModule,
       SingleItemModule,
       FeedModule,
       TermsModule,
+      SettingsModule,
       GetstartedModule,
       AppRoutingRoutes,
    ],

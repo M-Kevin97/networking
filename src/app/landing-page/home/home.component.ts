@@ -4,6 +4,7 @@ import { RouteUrl } from 'src/app/core/router/route-url.enum';
 import { SearchService } from 'src/app/shared/service/search/search.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ItemResult, SearchQueryName } from 'src/app/shared/model/ISearchQuery';
 
 @Component({
   selector: 'app-home',
@@ -56,13 +57,23 @@ export class HomeComponent implements OnInit {
   }
 
   goToLPManager() {
-
+  
     this.router.navigate([RouteUrl.MANAGER]);
   }
 
   goToSearchPage() {
 
     this.router.navigate([RouteUrl.SEARCH]);
+  }
+
+  goToSearchCoursesPage() {
+
+    this.router.navigate([RouteUrl.SEARCH] , { queryParams: { [SearchQueryName.ITEM] : [ItemResult.COURSES] } });
+  }
+
+  goToSearchEventsPage() {
+
+    this.router.navigate([RouteUrl.SEARCH] , { queryParams: { [SearchQueryName.ITEM] : [ItemResult.EVENTS] } });
   }
 
   goToSignUpPage() {

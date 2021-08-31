@@ -38,17 +38,17 @@ export class FeedComponent implements OnInit {
   this.router.navigate([RouteUrl.USER, this.auth.authUser.id], {fragment: 'events'});
   }
 
-  displayCoursesFeed() {
-    this.router.navigate([RouteUrl.FEED, this.auth.authUser.id], {fragment: 'courses'}); 
-  }
+  // displayCoursesFeed() {
+  //   this.router.navigate([RouteUrl.FEED, this.auth.authUser.id], {fragment: 'courses'}); 
+  // }
 
-  displayEventsFeed() {
-    this.router.navigate([RouteUrl.FEED, this.auth.authUser.id], {fragment: 'events'}); 
-  }
+  // displayEventsFeed() {
+  //   this.router.navigate([RouteUrl.FEED, this.auth.authUser.id], {fragment: 'events'}); 
+  // }
 
-  displayPostsFeed() {
-    this.router.navigate([RouteUrl.FEED, this.auth.authUser.id], {fragment: 'posts'}); 
-  }
+  // displayPostsFeed() {
+  //   this.router.navigate([RouteUrl.FEED, this.auth.authUser.id], {fragment: 'posts'}); 
+  // }
 
   getAllCourses() {
     //this.itemService.getItemsFromDB();

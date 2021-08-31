@@ -1,3 +1,124 @@
-<p>
-  getstarted works!
-</p>
+<div class="getstarted-section h-100 row justify-content-center align-items-center text-center">
+  <div class="getstarted-body col-lg-4 col-md-5 col-sm-10 px-5">
+      <div class="getstarted-content">
+        <div class="getstarted-title mb-4">
+          <a routerLink='/home' 
+              routerLinkActive="router-link-active">
+
+            <img src="assets/img/wyskill_logo_sm.png"
+                  width="150"  
+                  class="d-inline-block mb-4"  
+                  alt="logo Wyskill">
+          </a> 
+
+            <h4 class="main-color mb-5">Boostez votre évolution</h4>
+            
+        </div>
+
+        <div class="set-profile-section text-center px-4 py-4 rounded shadow">
+
+          <div class="welcome mb-3">  
+            <h4 class="mail-user">Bienvenue !</h4>
+          </div>
+        
+          <form [formGroup]="startedForm" 
+                class="verification-form" 
+                autocomplete="off">
+        
+            <div class="form-group">
+              <label for="firstname" class="sr-only">
+                  Prénom
+                  <span style="color: rgb(247, 103, 103);">*</span>
+              </label>
+              <ng-template #popFirstNameContent>
+                <div class="text-danger field-error-class">Quel est votre prénom ?</div>
+              </ng-template>
+              <input type="text" class="form-control input-sign" 
+                                  [ngClass]="{ 'is-invalid': shouldShowRequiredError('firstname') }"
+                                  formControlName="firstname"
+                                  id="firstname" 
+                                  placeholder="Prénom"
+                                  type="input"
+                                  placement="top"
+                                  triggers="manual" 
+                                  [ngbPopover]=popFirstNameContent
+                                  container="body"
+                                  #popoverFirstName="ngbPopover"
+                                  (click)="shouldShowRequiredError('firstname') && popoverFirstName.open()"
+                                  [autoClose]="'outside'"
+                                  required>
+            </div>
+
+
+            <div class="form-group">
+              <label for="lastname" class="sr-only">
+                  Nom
+                  <span style="color: rgb(247, 103, 103);">*</span>
+              </label>
+              <ng-template #popLastNameContent>
+                  <div class="text-danger field-error-class">Quel est votre nom ?</div>
+              </ng-template>
+              <input type="text" class="form-control input-sign" 
+                                  formControlName="lastname"
+                                  [ngClass]="{ 'is-invalid': shouldShowRequiredError('lastname') }"
+                                  id="lastname" 
+                                  placeholder="Nom"
+                                  type="input"
+                                  placement="top"
+                                  triggers="manual" 
+                                  [ngbPopover]=popLastNameContent
+                                  container="body"
+                                  #popoverLastName="ngbPopover"
+                                  (click)="shouldShowRequiredError('lastname') && popoverLastName.open()"
+                                  [autoClose]="'outside'"
+                                  required>
+            </div>
+          </form>
+        
+          <!-- <div class="form-group mb-3">
+            <label class="sr-only" for="role">Activité</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                  <div class="input-group-text input-sign"
+                          type="div"
+                          placement="bottom"
+                          triggers="mouseenter:mouseleave"
+                          ngbPopover="Cette information ne sera pas visible par les autres utilisateurs."
+                          container="body"
+                          #popoverRoleInfo="ngbPopover"
+                          [autoClose]="'outside'">
+        
+                          
+                      <span class="iconify" 
+                              data-icon="clarity:help-info-solid" 
+                              data-inline="false">
+                      </span>
+                  </div>
+              </div>
+              <select class="form-control form-control-sm" 
+                      id="role" 
+                      (change)="onChangeSelectRole($event.target.value)">
+        
+        
+                  <option value="roleInit" disabled selected>
+                      {{ roleInit }}
+                  </option>
+                  <option *ngFor="let role of roles; let i = index"
+                          [value]="roles[i]">
+                      {{ roles[i] }}
+                  </option>
+              </select>
+            </div>
+          </div> -->
+              
+          <button type="submit" 
+                  class="btn-login btn btn-lg btn-block"
+                  [disabled]="startedForm.invalid"
+                  (click)="onStart()">
+            Continuer
+          </button>
+        </div>
+
+      </div>
+  </div>
+</div>

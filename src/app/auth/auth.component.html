@@ -12,12 +12,13 @@
                     class="d-inline-block mb-4"  
                     alt="logo Wyskill">
             </a> 
+
+            <h4 class="main-color mb-5">Boostez votre évolution</h4>
+
           </div>
 
-      <h4 class="catch-p">La solution digitale pour booster votre évolution</h4>
-
-      <div class="success-message alert alert-success rounded" 
-            *ngIf="email && successMessage">
+      <div class="alert alert-success text-center" 
+           *ngIf="email && successMessage">
 
         <h3>Félicitations !</h3>
 
@@ -25,9 +26,8 @@
           {{ successMessage }}
         </p>
 
-        <countdown #countdown [config]="{leftTime: 5}" 
+        <countdown #countdown [config]="{leftTime: 6, format: ''}" 
                               (event)="onTimerFinished($event)">
-          $!m!:$!s!
         </countdown>
       </div>
 
@@ -39,23 +39,23 @@
         </p>
       </div>
 
-      <app-email-box *ngIf="!email"
+      <app-email-box *ngIf="!gotLocalStorage"
                      (email)="emailVerification($event)">
       </app-email-box>
 
-      <app-verification *ngIf="(mode === 'verifyEmail' || mode === 'signIn') && isEmailVerified"
+      <!-- <app-verification *ngIf="(mode === 'verifyEmail' || mode === 'signIn') && isEmailVerified"
                         (successMessage)="successMessage = $event"
                         (errorMessage)="errorMessage = $event"
                         [emailUser]="email"
                         [idUser]="idUser">
-      </app-verification>
+      </app-verification> -->
 
-      <app-password-reset *ngIf="mode === 'resetPassword' && email"
+      <!-- <app-password-reset *ngIf="mode === 'resetPassword' && email"
                           [actionCode]='actionCode'
                           (successMessage)="successMessage = $event"
                           (errorMessage)="errorMessage = $event"
                           [emailUser]="email">
-      </app-password-reset>
+      </app-password-reset> -->
 
     </div>
   </div>

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NavTermsComponent } from './nav-terms.component';
+import { PreAuthComponent } from './pre-auth.component';
 
-describe('NavTermsComponent', () => {
-  let component: NavTermsComponent;
-  let fixture: ComponentFixture<NavTermsComponent>;
+describe('PreAuthComponent', () => {
+  let component: PreAuthComponent;
+  let fixture: ComponentFixture<PreAuthComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavTermsComponent ]
+      declarations: [ PreAuthComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NavTermsComponent);
+    fixture = TestBed.createComponent(PreAuthComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

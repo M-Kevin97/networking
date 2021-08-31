@@ -1,4 +1,3 @@
-import { NavTermsComponent } from './nav-terms/nav-terms.component';
 import { TermsRoutes } from './terms.routing';
 import { SharedModule } from './../shared/shared.module';
 import { LegalNoticeComponent } from './pages/legal-notice/legal-notice.component';
@@ -15,7 +14,6 @@ import { TermsComponent } from './terms.component';
     GeneralTermsOfUseComponent,
     ConfidentialityComponent,
     LegalNoticeComponent,
-    NavTermsComponent,
   ],
   imports: [
     SharedModule,

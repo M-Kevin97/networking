@@ -1,44 +1,95 @@
-<div id="home"
+<div id="lp"
      class="container-fluid">
 
-  <div class="home-main-section">
-    <div class="row justify-content-center align-items-center">
+     <div class="lp-main-section form-section lp-section-bg-img">
+      <div class="row lp-section-superposition  no-gutters justify-content-center">
 
-      <div class="col-lg-7 col-md-12 col-sm-12">
+      <div class="col-lg-12 col-md-12 col-sm-12">
 
-        <h1 class="main-title main-color">
-          Boostez votre évolution grâce à une communauté en ligne
-        </h1>
+        <div class="lp-main-form-section">
 
-        <div class="home-img-box text-center">
-          <img  class="home-img" 
+          <h1 class="lp-form-main-title main-title">
+            Boostez votre évolution grâce à Wyskill
+          </h1>
+
+          <div class="lp-main-form">
+            <app-pre-auth></app-pre-auth>
+          </div>
+        </div>
+
+        <!-- <div class="lp-img-box text-center">
+          <img  class="lp-img" 
                 src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Fbackground_md-min.jpg?alt=media&token=a0efd402-7d0c-4323-a5de-add47c0edb02" 
                 alt="Wyskill accueil">
-        </div>
+        </div> -->
       </div>
+<!-- 
+      <div class="lp-login-col col-lg-4 col-md-12 col-sm-12">
 
-      <div class="home-login-col col-lg-4 col-md-12 col-sm-12">
-
-        <div class="home-login-box">
+        <div class="lp-login-box">
           <app-login-box></app-login-box>
         </div>
+
+      </div> -->
+
+    </div>
+  </div>
+
+
+  <!-- <hr class="lp-section-separation">  -->
+
+
+  <div class="lp-section lp-mobile-section">
+    <div class="row align-items-center justify-content-center lp-section">
+
+      <div class="lp-section-img col-lg-6 col-md-10 col-sm-10 text-center">
+
+        <img  class="img-s d-inline-block"
+              src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fonline-course.png?alt=media&token=cee9c329-5f4c-4d65-bfe9-cab5763b6560" 
+              width="150" 
+              alt="Trouvez la bonne formation wyskill">
+
+        <h2 class="lp-section-title">Trouvez les bonnes formations</h2>
+
+        <button class="btn btn-gen-outline" 
+                (click)="goToSearchCoursesPage()">
+          Rechercher des formation
+        </button>
+
+      </div>
+
+      <div class="lp-section-img col-lg-6 col-md-10 col-sm-10 text-center">
+
+        <img  class="img-s d-inline-block"
+              src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fcalendar.png?alt=media&token=9344c889-48ec-4850-9458-10caf1e27c61" 
+              width="150" 
+              alt="Participez à des événements wyskill">
+
+        <h2 class="lp-section-title">Participez à des événements</h2>
+        <!-- <h3 class="lp-section-subtitle">Trouvez ce qu'il vous faut pour réussir</h3> -->
+
+        <button class="btn btn-gen-outline" 
+                (click)="goToSearchEventsPage()">
+          Rechercher des événements
+        </button>
 
       </div>
 
     </div>
   </div>
 
-  <hr class="home-section-separation"> 
+
+  <hr class="lp-section-separation"> 
 
 
-  <div class="home-section">
+  <div class="lp-section">
 
-    <h2 class="home-section-title tags-section-title">Trouvez ce qu'il vous faut pour réussir</h2>
+    <h2 class="lp-section-title tags-section-title">Rechercher par thématique</h2>
 
     <div class="card-tag-row row align-items-center justify-content-start">
 
       <!-- Card Tag Immobilier -->
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-2 col-md-4">
 
         <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
              (click)="onSearchByTag('Immobilier')">
@@ -57,7 +108,7 @@
       </div>
  
       <!-- Card Tag Business en ligne -->  
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-2 col-md-4">
 
         <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow" 
               (click)="onSearchByTag('Business en ligne')">
@@ -77,7 +128,7 @@
       </div>
 
       <!-- Card Tag Marketing -->
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-2 col-md-4">
 
         <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
               (click)="onSearchByTag('Marketing')">
@@ -96,7 +147,7 @@
       </div>
   
       <!-- Card Tag Développement personnel -->
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-2 col-md-4">
 
         <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
               (click)="onSearchByTag('Developpement personnel')">
@@ -115,7 +166,7 @@
       </div>
 
       <!-- Card Tag Trading -->
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-2 col-md-4">
 
         <div class="card-tag-box btn-animation py-2 px-3 mr-2 shadow"
              (click)="onSearchByTag('Trading')">
@@ -211,22 +262,24 @@
     </div>
   </div>
 
-  <hr class="home-section-separation"> 
 
-  <div class="home-section home-mobile-section">
-    <div class="row align-items-center justify-content-center home-section">
-      <div class="home-section-img col-lg-4 col-md-10 col-sm-10 text-center">
+  <hr class="lp-section-separation"> 
+
+
+  <div class="lp-section lp-mobile-section">
+    <div class="row align-items-center justify-content-center lp-section">
+      <div class="lp-section-img col-lg-4 col-md-10 col-sm-10 text-center">
 
         <img  class="img-s d-inline-block"
               src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fteam.png?alt=media&token=e19fd6e0-3ef1-40a0-ba90-24b42b4a5ed0" 
               width="150" 
-              alt="image devenir boosteur">
+              alt="Agrandissez votre réseau sur Wyskill">
 
       </div>
-      <div class="home-section-txt col-lg-8 col-md-10 col-sm-10">
-        <h2 class="home-section-title">Agrandissez votre réseau sur Wyskill</h2>
+      <div class="lp-section-txt col-lg-8 col-md-10 col-sm-10">
+        <h2 class="lp-section-title">Agrandissez votre réseau sur Wyskill</h2>
   
-        <h3 class="home-section-subtitle">Connectez-vous avec des personnes qui peuvent vous aider.</h3>
+        <h3 class="lp-section-subtitle">Connectez-vous avec des personnes qui peuvent vous aider.</h3>
   
         <button class="btn btn-gen-outline" 
                 (click)="goToSignUpPage()">
@@ -236,11 +289,45 @@
     </div>
   </div>
 
-  <hr class="home-section-separation"> 
 
-  <div class="home-section become-booster-section home-mobile-section">
-    <div class="row justify-content-center align-items-center">
-      <div class="home-section-img col-lg-4 col-md-10 col-sm-10 text-center">
+  <hr class="lp-section-separation">
+
+
+  <div class="lp-section lp-mobile-section">
+    <div class="row justify-content-center align-items-center lp-section">
+      <div class="lp-section-img col-lg-4 col-md-10 col-sm-10 text-center">
+      
+        <img  class="img-s d-inline-block"
+              src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Ftutor.png?alt=media&token=539fdec9-41df-472c-ac98-c27ae97b3aa7" 
+              width="150" 
+              alt="image devenir boosteur">
+      
+    </div>
+
+    <div class="lp-section-txt col-lg-8 col-md-10 col-sm-10">
+
+      <h2 class="lp-section-title">
+        Devenez un boosteur
+      </h2>
+
+      <h3 class="lp-section-subtitle">
+        Partager votre expertise à travers des formations et des événements.
+      </h3>
+      
+      <button class="btn btn-gen" 
+              (click)="goToCreateItemPage()">
+        Devenir un boosteur
+      </button>
+
+    </div>
+  </div>
+
+
+  <hr class="lp-section-separation"> 
+
+  <div class="lp-section become-booster-section lp-mobile-section">
+    <div class="row justify-content-center align-items-center lp-section">
+      <div class="lp-section-img col-lg-4 col-md-10 col-sm-10 text-center">
         
         <img  class="img-s d-inline-block"
               src="https://firebasestorage.googleapis.com/v0/b/wyskill-5890c.appspot.com/o/images%2Fsite%2Ficon%2Fproduct.png?alt=media&token=40be911d-3a74-4b99-8d0f-87977b52e4b8" 
@@ -249,13 +336,13 @@
      
       </div>
   
-      <div class="home-section-txt col-lg-8 col-md-10 col-sm-10">
+      <div class="lp-section-txt col-lg-8 col-md-10 col-sm-10">
         
-        <h2 class="home-section-title">
+        <h2 class="lp-section-title">
           Wyskill Manager, la solution tout-en-un pour gérer votre centre de formation
         </h2>
   
-        <h3 class="home-section-subtitle">
+        <h3 class="lp-section-subtitle">
           Créez.  Communiquez.  Supervisez.  Optimisez.
           <br/>
           Gérer vos formations en ligne et vos événements grâce à Wyskill Manager.
@@ -269,18 +356,18 @@
     </div>
   </div>
 
-  <!-- <hr class="home-section-separation"> 
+  <!-- <hr class="lp-section-separation"> 
 
-  <div class="home-section become-booster-section home-mobile-section">
+  <div class="lp-section become-booster-section lp-mobile-section">
     <div class="row justify-content-center align-items-center">
   
-      <div class="home-section-txt col-lg-8 col-md-10 col-sm-10">
+      <div class="lp-section-txt col-lg-8 col-md-10 col-sm-10">
         
-        <h2 class="home-section-title">
+        <h2 class="lp-section-title">
           Boostez votre évolution grâce à une communauté en ligne
         </h2>
         
-        <div class="home-auth-box">
+        <div class="lp-auth-box">
           <app-login-box></app-login-box>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { PreAuthComponent } from './components/pre-auth/pre-auth.component';
 import { SignupWithComponent } from './pages/signup-with/signup-with.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { PasswordForgottenComponent } from './pages/password-forgotten/password-forgotten.component';
@@ -31,10 +32,12 @@ import { VerificationComponent } from './components/verification/verification.co
     PasswordBoxComponent,
     PasswordForgottenComponent,
     PasswordResetComponent,
-    SignupWithComponent
+    SignupWithComponent,
+    PreAuthComponent
   ],
   exports: [
-    LoginBoxComponent
+    LoginBoxComponent,
+    PreAuthComponent
   ]
 })
 export class AuthModule { }

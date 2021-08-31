@@ -1,0 +1,28 @@
+.settings-menu {
+
+    margin: 2rem;
+    list-style: none;
+}
+
+.settings-menu li {
+
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.settings-menu-item {
+
+    text-decoration: none;
+    color: black;
+}
+
+.settings-menu-item:hover, .settings-menu-item:active, .settings-menu-item:focus {
+
+    text-decoration: none;
+    color: #179661;
+}
+
+.settings-body {
+
+    padding: 2rem;
+}

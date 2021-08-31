@@ -9,14 +9,14 @@
     </p>
     <p class="text-center">
       <button class="btn btn-outline-primary"
-              [ngClass]="!isLinkFormCollapsed ? 'active' : 'disabled'"
+              [disabled]="isLinkFormCollapsed"
               type="button" 
               (click)="displayLinkForm()">
         Événement en ligne
       </button>
 
       <button class="btn btn-outline-primary ml-5"
-              [ngClass]="!isLocationFormCollapsed ? 'active' : 'disabled'" 
+              [disabled]="isLocationFormCollapsed" 
               type="button" 
               (click)="displayLocationForm()">
         Événement en présentiel
@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col">
 
-        <div *ngIf="!isLinkFormCollapsed" class="my-3">
+        <div *ngIf="isLinkFormCollapsed" class="my-3">
 
           <!-- link form for the online event -->
           <p class="text-center">
@@ -34,7 +34,7 @@
           </p>
         </div>
 
-        <div *ngIf="!isLocationFormCollapsed"
+        <div *ngIf="isLocationFormCollapsed"
               class="mt-2">
 
           <hr *ngIf="!isLocationFormCollapsed && !isLinkFormCollapsed"
@@ -95,8 +95,9 @@
       </li>
       <li>
         <button type="button" id="continue" 
-                              class="btn btn-default btn-next" 
-                              *ngIf="!locationForm.invalid"
+                              class="btn btn-standard" 
+                              *ngIf="!locationForm.invalid || isLinkFormCollapsed"
+                              [disabled]="locationForm.invalid && !isLinkFormCollapsed"
                               (click)="onSetLocation()">
           Continuer
         </button>

@@ -50,7 +50,7 @@ export class SearchService {
 
   private searchByCategory(event:ISearchQuery) {
     if(event.categoryId && event.sortBy && event.item){
-      this.router.navigate([RouteUrl.RESULTS], { 
+      this.router.navigate([RouteUrl.SEARCH], { 
         queryParams: { 
           [SearchQueryName.CATEGORY]: event.categoryId,
           [SearchQueryName.ITEM]: event.item,
@@ -58,14 +58,14 @@ export class SearchService {
         }
       });
     } else if(event.categoryId && event.sortBy){
-      this.router.navigate([RouteUrl.RESULTS], { 
+      this.router.navigate([RouteUrl.SEARCH], { 
         queryParams: { 
           [SearchQueryName.CATEGORY]: event.categoryId,
           [SearchQueryName.SORT_OPTION]: event.sortBy,
         }
       });
     } else if(event.categoryId){
-      this.router.navigate([RouteUrl.RESULTS], { 
+      this.router.navigate([RouteUrl.SEARCH], { 
         queryParams: { 
           [SearchQueryName.CATEGORY]: event.categoryId,
         }
@@ -78,7 +78,7 @@ export class SearchService {
     if(event.query && event.categoryId){
 
       if(event.sortBy && event.item){
-        this.router.navigate([RouteUrl.RESULTS], { 
+        this.router.navigate([RouteUrl.SEARCH], { 
           queryParams: { 
             [SearchQueryName.QUERY]: event.query,
             [SearchQueryName.CATEGORY]: event.categoryId,
@@ -87,7 +87,7 @@ export class SearchService {
           }
         });
       } else if(event.sortBy){
-        this.router.navigate([RouteUrl.RESULTS], { 
+        this.router.navigate([RouteUrl.SEARCH], { 
           queryParams: { 
             [SearchQueryName.QUERY]: event.query,
             [SearchQueryName.CATEGORY]: event.categoryId,
@@ -95,7 +95,7 @@ export class SearchService {
           }
         });
       } else {
-        this.router.navigate([RouteUrl.RESULTS], { 
+        this.router.navigate([RouteUrl.SEARCH], { 
           queryParams: { 
             [SearchQueryName.QUERY]: event.query,
             [SearchQueryName.CATEGORY]: event.categoryId,
@@ -106,7 +106,7 @@ export class SearchService {
   }
 
   searchAll() {
-    this.router.navigate([RouteUrl.RESULTS], { 
+    this.router.navigate([RouteUrl.SEARCH], { 
       queryParams: { 
         [SearchQueryName.CATEGORY]: DefautCategory.NAME,
       }

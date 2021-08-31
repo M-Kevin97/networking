@@ -10,7 +10,7 @@
          alt="logo wyskill">
   </a>
 
-  <div *ngIf="!displaySearchBar()"
+  <div *ngIf="doNotdisplaySearchBar()"
        class="sb-section my-auto ml-lg-5 ml-md-5">
 
     <app-search-bar2 [height]="'md'">
@@ -59,8 +59,8 @@
 
         <div class="d-flex align-items-center nav-li-text"
              (click)="onNewItem()"
-             style="font-weight: 500;">
-          Partager ses compétences
+             style="font-weight: 400;">
+          Partager mon expertise
         </div>
       </li>
 
@@ -70,7 +70,7 @@
 
         <div class="d-flex align-items-center nav-li-text"
             (click)="onSignUp()"
-            style="font-weight: 500;">
+            style="font-weight: 400;">
           Rejoindre
         </div>
       </li>
@@ -132,7 +132,10 @@
             (click)="goToAuthUserPage()">Mon panier</a> -->
 
           <a ngbDropdownItem
-              (click)="goToAuthUserPage()">Mon tableau de bord</a>
+              (click)="goToManager()">Wyskill Manager</a>
+
+          <a ngbDropdownItem
+              (click)="goToSettings()">Paramètres</a>
 
           <!-- <a ngbDropdownItem 
             (click)="goToAuthUserPage()">Mes formations suivies</a> -->

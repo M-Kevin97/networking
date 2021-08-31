@@ -21,18 +21,18 @@
 </nav>
 
 <!-- Body -->
-<div class="container-fluid"
-     style="height:85vh;">
+<div class=""
+     style="min-height:85vh;">
  
   <div class="row mt-5 justify-content-center">
 
-    <div class="col-lg-2 col-md-3 col-sm-3">
+    <div class="col-lg-3 col-md-3 col-sm-3">
 
       <!-- Navigation  -->
       <app-nav-item-form></app-nav-item-form>
     </div>
 
-    <div class="col-lg-9 col-md-8 col-sm-8"> 
+    <div class="col-lg-8 col-md-8 col-sm-8"> 
 
       <div class="alert alert-success text-center item-created" 
           *ngIf="isItemCreated()">
@@ -48,9 +48,8 @@
           Votre événement à bien été créé, vous pourrez le consulter dans : 
         </span>
         <countdown #countdown 
-                  [config]="{leftTime: 3}" 
+                  [config]="{leftTime: 3, format:''}"
                   (event)="onTimerFinished($event)">
-          $!m!:$!s!
         </countdown>
       </div>
 

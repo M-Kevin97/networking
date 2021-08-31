@@ -55,7 +55,7 @@ export class HeaderUserComponent implements OnInit {
   }
 
   goToTrainingSearching() {
-    this.router.navigate([RouteUrl.RESULTS], 
+    this.router.navigate([RouteUrl.SEARCH], 
       { queryParams: 
         { 
           category: DefautCategory.ID,
@@ -65,7 +65,7 @@ export class HeaderUserComponent implements OnInit {
   }
 
   searchInstructors() {
-    this.router.navigate([RouteUrl.RESULTS], 
+    this.router.navigate([RouteUrl.SEARCH], 
       { queryParams: 
         { 
           category: DefautCategory.ID,
@@ -75,11 +75,11 @@ export class HeaderUserComponent implements OnInit {
   }
 
   /**
-   * Don't display search bar on search/RESULT page, home page 
+   * Don't display search bar on USER HOME page, home page 
    */
-  displaySearchBar(){
-    return this.router.url.includes(RouteUrl.SEARCH.substr(1)) 
-           && !this.router.url.includes(RouteUrl.RESULTS);
+   doNotdisplaySearchBar(){
+    return !(this.router.url.includes(RouteUrl.USER_HOME.substr(1)) 
+        || this.router.url.includes(RouteUrl.GET_STARTED.substr(1)));
   }
 
   goHome() {
@@ -91,6 +91,14 @@ export class HeaderUserComponent implements OnInit {
 
   goToAuthUserPage() {
     this.router.navigate([RouteUrl.USER, this.authService.authUser.id]);
+  }
+
+  goToSettings() {
+    this.router.navigate([RouteUrl.SETTINGS]);
+  }
+
+  goToManager() {
+    this.router.navigate([RouteUrl.MANAGER]);
   }
 
   onNewItem() {

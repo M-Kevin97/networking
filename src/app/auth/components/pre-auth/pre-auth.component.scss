@@ -1,0 +1,45 @@
+@import "/src/app/shared/style/buttons-style.scss";
+@import "/src/app/auth/style/auth-style.scss";
+@import '/src/app/shared/style/color.scss';
+
+.element-pre-auth {
+
+    height: 3rem;
+}
+
+.input-pre-auth {
+
+    border: 0;
+    border-radius: 500px;
+}
+
+.input-pre-auth:focus {
+
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.input-pre-auth:focus:-webkit-autofill,
+.input-pre-auth:focus:-webkit-autofill:hover,
+.input-pre-auth:focus:-webkit-autofill:focus,
+.input-pre-auth:focus:-webkit-autofill:active {
+
+   background-color: white !important;
+}
+
+.pre-auth-row {
+
+    padding-bottom: 0.8vh;
+    padding-top: 0.8vh;
+    border-radius: 500px;
+    background-color: white;
+}
+
+.input-pre-col {
+
+    margin-top: auto;
+    margin-bottom: auto;
+}

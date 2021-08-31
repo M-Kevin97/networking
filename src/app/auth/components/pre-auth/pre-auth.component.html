@@ -1,0 +1,29 @@
+<div class="pre-auth-bar">
+
+  <form [formGroup]="preAuthForm" 
+        class="pre-auth-form">
+
+    <div class="form-group pre-auth-row row justify-content-center">
+
+      <div class="form-group col-9 input-pre-col">
+
+        <input type="email" class="form-control form-control-lg input-pre-auth element-pre-auth" 
+                            formControlName = "email"                          
+                            id="email" 
+                            aria-describedby="emailHelp" 
+                            placeholder="Email">
+      </div>
+
+      <div class="form-group col-2 input-pre-col">
+    
+        <button type="submit"   
+                class="btn btn-gen element-pre-auth"
+                [disabled] = "preAuthForm.invalid"
+                (click)="onPreAuth()">
+            Commencer
+        </button>
+
+      </div>
+    </div>   
+  </form>
+</div>

@@ -9,12 +9,13 @@ import * as firebase from 'firebase/app';
 })
 export class AuthService {
 
+  emailPreAuth:string = null;
+  
   private isConnected = new Subject<Boolean>();
 
-  // authUser est l'utilisateur identifé lors de la connexion
+  // authUser est l'utilisateur identifié lors de la connexion
   private _authUser: User;
-  hasAuthResult = false;
-
+  
   public get authUser(): User {
     return this._authUser;
   }
@@ -66,7 +67,7 @@ export class AuthService {
       (resolve, reject) => {
         firebase.auth().createUserWithEmailAndPassword(mail, password).then(
           (val) => {
-            console.log('Success!', val);
+            // console.log('Success!', val);
             resolve(val);
           }).catch((error) => {
             reject(error.code);
@@ -102,6 +103,7 @@ export class AuthService {
       (resolve, reject) => {
 
         let user = firebase.auth().currentUser;
+        
         const email = user.email;
 
         var actionCodeSettings = {
@@ -127,11 +129,12 @@ export class AuthService {
 
         firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
         .then(function() {
+
           // The link was successfully sent. Inform the user.
           // Save the email locally so you don't need to ask the user for it again
           // if they open the link on the same device.
           window.localStorage.setItem('wyskillEmailForSignIn', email);
-          resolve(email);
+          resolve(user);
         })
         .catch(function(error) {
           // Some error occurred, you can inspect the code: error.code
@@ -184,6 +187,7 @@ export class AuthService {
     );
   }
 
+
   login(email:string, password:string){
         
     return firebase.auth().signInWithEmailAndPassword(email, password).then(
@@ -223,37 +227,39 @@ export class AuthService {
 
   authStateChanged(){
 
-    console.log('authStateChangeds');
-
     return new Promise(
       (resolve, reject) => {
         firebase.auth().onAuthStateChanged(
           (user) => {
+
             if(user){
-              if(user.emailVerified){
-                this.getCurrentUserDataWithId(user.uid).then(
-                  (bool) => {
-                    if(bool) {
-                      this.hasAuthResult = true;
-                      this.isAuth = bool;
-                      //this.isConnected.next(true);
-                      resolve(true);
-                    }
-                    else {
-                      this.isAuth = false;
-                      //this.isConnected.next(false);
-                      resolve(false);
-                    }
+
+              this.getCurrentUserDataWithId(user.uid).then(
+                (bool) => {
+
+                  if(bool && user.emailVerified) {
+    
+                    this.isAuth = bool;
+                    //this.isConnected.next(true);
+                    resolve(true);
                   }
-                );
-              } else {
-                this.isAuth = false;
-                //this.isConnected.next(false);
-                resolve(false);
-              }
+                  // si il vient de s'inscrire
+                  else if (bool && !user.emailVerified) {
+
+                    this.isAuth = bool;
+                    //this.isConnected.next(true);
+                    resolve(true);
+                  }
+                  else {
+                    this.isAuth = false;
+                    //this.isConnected.next(false);
+                    resolve(false);
+                  }
+                }
+              );
             } else {
+
               this.isAuth = false;
-              this.hasAuthResult = true;
               //this.isConnected.next(false);
               resolve(false);
             }
@@ -267,8 +273,10 @@ export class AuthService {
 
     return this.userService.getSingleUserFromDBWithId(id).then(
       (user:User) => {
+
         if(!user) {
           this.signOutUser();
+
           return false;
         } else {
           user.id = id;

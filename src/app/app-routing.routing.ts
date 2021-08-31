@@ -1,3 +1,4 @@
+import { UserHomeComponent } from './landing-page/user-home/user-home.component';
 import { CrmComponent } from './landing-page/crm/crm.component';
 import { CreateComponent } from './create/create.component';
 import { VisitorGuardService } from './core/guards/visitor/visitor-guard.service';
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: RouteUrl.HOME.substr(1), 
     component:  HomeComponent, 
     canActivate: [VisitorGuardService]
+  },
+  {
+    path: RouteUrl.USER_HOME.substr(1), 
+    component:  UserHomeComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: RouteUrl.MANAGER.substr(1), 

@@ -1,0 +1,50 @@
+<div id="settings">
+  <div class="row">
+    <div class="col-3">
+
+      <nav  data-toggle-icon="" 
+            data-close-icon="" 
+            data-full-width="">
+
+        <ul class="settings-menu border">
+          <li class="settings-menu-item">
+            <a  [routerLink]=""
+                (click)="goToProfileSettings()" 
+                class="settings-menu-item">
+              Profil
+            </a>
+          </li>
+          <!-- <li class="settings-menu-item">
+            <a  [routerLink]=""
+                (click)="goToConfidentiality()" 
+                class="settings-menu-item">
+              Politique de confidentialité
+            </a>
+          </li>
+          <li class="settings-menu-item">
+            <a  [routerLink]=""
+                (click)="goToGeneralTerms()" 
+                class="settings-menu-item">
+              Conditions d'utilisation générales
+            </a>
+          </li>
+          <li class="settings-menu-item">
+            <a  [routerLink]=""
+                (click)="goToBoosterTerms()" 
+                class="settings-menu-item">
+              Conditions d'utilisation du Boosteur
+            </a>
+          </li> -->
+        </ul>
+      </nav>
+
+    </div>
+    <div class="col-9">
+
+      <div class="settings-body">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</div>

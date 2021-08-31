@@ -40,6 +40,7 @@ export class LoginBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    if(this.authService.emailPreAuth) this.signInForm.patchValue({email: this.authService.emailPreAuth});
   }
 
   initForm(){
@@ -62,7 +63,7 @@ export class LoginBoxComponent implements OnInit {
     this.authService.login(email, password.toString()).then(
       (user) => {
         console.error('user login : ',user);
-        if(user) this.router.navigate([RouteUrl.SEARCH]);
+        if(user) this.router.navigate([RouteUrl.USER_HOME]);
       }
     ).catch(
       (error) => {

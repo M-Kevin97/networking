@@ -1,0 +1,145 @@
+<div class="modal-body">
+
+  <div class="alert alert-success text-center alert-profile-updated" 
+        *ngIf="isProfileUpdated">
+    <span class="profile-updated-text">
+      Votre profil a bien été mis à jour.
+    </span>
+    <countdown #countdown 
+              [config]="{leftTime: 3, format: ''}" 
+              (event)="onTimerFinished($event)">
+    </countdown>
+  </div>
+
+  <!---------------------------- Image ------------------------------>
+  <form [formGroup]="editProfileForm" role="form" 
+                               class="form-item">
+    <div class="body-section">
+
+      <!-- <h4>Photo de profil</h4>
+      <hr class="separation-line"> -->
+
+
+      <div class="user-profile-section">
+
+        <!-- <img [src]="urlImagePreview"  class="rounded-circle"
+                                      width="110" 
+                                      height="110" 
+                                      alt="Profil utilisateur Wyskill"> -->
+
+        <app-user-avatar  [photoUrl] = "!urlImagePreview && urlImagePreview === '' ? null : urlImagePreview" 
+                          [name]="user.firstname && user.lastname ? user.firstname +' '+ user.lastname : 'null'"
+                          [border]="'2px solid black'">
+        </app-user-avatar> 
+      </div>
+
+      <input type="file" class="form-control-file mt-2" 
+                              formControlName="image"
+                              id="image"
+                              accept="image/*"
+                              (change)="onPreviewImage($event)">
+    </div>
+    <!---------------------------- Information ------------------------------>
+    <div class="body-section">
+      <!-- <h4>Informations</h4> -->
+      <hr class="separation-line"> <!-- separation line -->
+      <div class="form-row align-items-center mb-3">
+        <div class="form-group col-6">
+            <input type="text" class="form-control" 
+                                [ngClass]="{ 'is-invalid': shouldShowRequiredError('firstname')}"
+                                formControlName = "firstname"
+                                id="firstname" 
+                                onkeydown="return (event.key !== '\''
+                                                && event.key !== ','
+                                                && event.key !== ';'
+                                                && event.key !== '='
+                                                && event.key !== '>'
+                                                && event.key !== '<'
+                                                && event.key !== '.'
+                                                && event.key !== ':'
+                                                && event.key !== '`'
+                                                && event.key !== '_'
+                                                && event.key !== '§')"
+                                placeholder="Prénom"
+                                required>
+        </div>
+        <div class="form-group col-6">
+            <input type="text" class="form-control"
+                                [ngClass]="{ 'is-invalid': shouldShowRequiredError('lastname')}" 
+                                formControlName = "lastname"
+                                id="lastname" 
+                                onkeydown="return (event.key !== '\''
+                                                && event.key !== ','
+                                                && event.key !== ';'
+                                                && event.key !== '='
+                                                && event.key !== '>'
+                                                && event.key !== '<'
+                                                && event.key !== '.'
+                                                && event.key !== ':'
+                                                && event.key !== '`'
+                                                && event.key !== '_'
+                                                && event.key !== '§')"
+                                placeholder="Nom"
+                                required>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <input type="text" class="form-control" 
+                              formControlName = "title"
+                              id="title"
+                              onkeydown="return (event.key !== '\''
+                                                  && event.key !== ','
+                                                  && event.key !== ';'
+                                                  && event.key !== '='
+                                                  && event.key !== '>'
+                                                  && event.key !== '<'
+                                                  && event.key !== '.'
+                                                  && event.key !== ':'
+                                                  && event.key !== '`'
+                                                  && event.key !== '_'
+                                                  && event.key !== '§')"
+                              placeholder="Titre">
+      </div>
+      <div class="form-group mb-3">
+        <textarea class="form-control" 
+                  formControlName="bio"
+                  id="bio" 
+                  rows="4"
+                  placeholder="Ma bio">
+        </textarea>
+      </div>
+      <div class="form-group mb-3">
+          <input type="email" class="form-control" 
+                              [ngClass]="{ 'is-invalid': shouldShowRequiredError('mail')}" 
+                              formControlName = "mail"
+                              id="mail" 
+                              aria-describedby="emailHelp" 
+                              placeholder="Email"
+                              required>
+      </div>
+      <!-- <div class="form-group mb-3">
+          <input type="tel" class="form-control"
+                                  [ngClass]="{'form-control-danger':isTelOk}"
+                                  formControlName="tel"
+                                  id="tel" 
+                                  aria-describedby="phoneHelp" 
+                                  pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}"
+                                  placeholder="Telephone"
+                                  required>
+      </div> -->
+    </div>
+  </form>
+</div>
+<div class="edit-user-footer">
+  
+  <!-- <button type="button" class="btn btn-light" 
+                        (click)="activeModal.close(getHeadParams())">Annuler</button>
+  <button type="button" (click)="passBack()">Enregistrer</button> -->
+
+  <button class="btn btn-light mr-5" 
+          (click)="goToUserProfile()">Annuler</button>
+
+  <button class="btn btn-gen" 
+          [disabled]="editProfileForm.invalid"
+          (click)="updateProfile()">Enregistrer</button>
+</div>
