@@ -41,7 +41,7 @@ var firebaseConfig_prod = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig_test);
+firebase.initializeApp(firebaseConfig_prod);
 // firebase.analytics();
 
 @NgModule({

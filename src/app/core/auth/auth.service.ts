@@ -110,9 +110,9 @@ export class AuthService {
           // URL you want to redirect back to. The domain (www.example.com) for this
           // URL must be whitelisted in the Firebase Console.
 
-           url: 'https://localhost:4200/auth',
+          //  url: 'https://localhost:4200/auth',
           // url: 'https://netskills.herokuapp.com/auth',
-          // url: 'https://wyskill.com/auth',
+          url: 'https://wyskill.com/auth',
 
           // This must be true.
           handleCodeInApp: true,
@@ -337,8 +337,8 @@ export class AuthService {
           // URL must be whitelisted in the Firebase Console.
 
           // url: 'https://netskills.herokuapp.com/auth',
-           url: 'https://localhost:4200/auth',
-          //  url: 'https://wyskill.com/auth',
+          //  url: 'https://localhost:4200/auth',
+           url: 'https://wyskill.com/auth',
 
           // This must be true.
           handleCodeInApp: true,
